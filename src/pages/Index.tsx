@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Bell, User } from "lucide-react";
 import { WelcomeHeader } from "@/components/WelcomeHeader";
 import { ModuleCard } from "@/components/ModuleCard";
@@ -11,6 +12,7 @@ import { mockModules, mockUserProgress, Module, Task } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [modules, setModules] = useState<Module[]>(mockModules);
   const [userProgress, setUserProgress] = useState(mockUserProgress);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -22,10 +24,15 @@ const Index = () => {
   const handleModuleClick = (module: Module) => {
     if (!module.isUnlocked) return;
     
-    toast({
-      title: `Opening ${module.title}`,
-      description: module.quote,
-    });
+    // Navigate to the module page
+    if (module.id === 1) {
+      navigate('/module/1');
+    } else {
+      toast({
+        title: `Opening ${module.title}`,
+        description: module.quote,
+      });
+    }
   };
 
   const handleTaskToggle = (taskId: string) => {
