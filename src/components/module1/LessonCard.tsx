@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, BookOpen, Mic, CheckCircle, RotateCw, Video } from 'lucide-react';
+import { Play, BookOpen, Mic, CheckCircle, RotateCw, Video, Hash, MessageSquare, Headphones } from 'lucide-react';
 import { Lesson } from '@/data/module1Data';
 
 interface LessonCardProps {
@@ -10,12 +10,16 @@ interface LessonCardProps {
   isActive?: boolean;
 }
 
-const lessonIcons = {
+const lessonIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   video: Video,
+  'video-series': Video,
   vocabulary: BookOpen,
   practice: RotateCw,
   speaking: Mic,
   review: Play,
+  sentences: MessageSquare,
+  'numbers-practice': Hash,
+  'listening-writing': Headphones,
 };
 
 export const LessonCard: React.FC<LessonCardProps> = ({ 
@@ -24,7 +28,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
   onClick,
   isActive = false 
 }) => {
-  const Icon = lessonIcons[lesson.type];
+  const Icon = lessonIcons[lesson.type] || BookOpen;
 
   return (
     <motion.button
