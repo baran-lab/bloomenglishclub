@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, BookOpen } from 'lucide-react';
+import { ChevronLeft, BookOpen, Menu, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LanguageProvider, useLanguage } from '@/components/LanguageContext';
 import { LanguageSelector } from '@/components/module1/LanguageSelector';
-import { NeighborsSection } from '@/components/module1/NeighborsSection';
 import { LessonCard } from '@/components/module1/LessonCard';
 import { VideoLesson } from '@/components/module1/VideoLesson';
 import { VocabularyLesson } from '@/components/module1/VocabularyLesson';
@@ -17,6 +16,9 @@ import { EmbeddedPractice } from '@/components/module1/EmbeddedPractice';
 import { ListeningWritingPractice } from '@/components/module1/ListeningWritingPractice';
 import { module1Lessons, Lesson, greetingPhrases } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
+import { BeeMascot, getRandomMessage } from '@/components/BeeMascot';
+import { HamburgerMenu } from '@/components/HamburgerMenu';
+import { useMicroWin } from '@/components/MicroWins';
 
 type ViewState = 'language-select' | 'lessons' | 'lesson-detail';
 
@@ -24,14 +26,19 @@ const Module1Content: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { languageInfo } = useLanguage();
+  const { showWin, MicroWinComponent } = useMicroWin();
   
   const [viewState, setViewState] = useState<ViewState>('language-select');
   const [lessons, setLessons] = useState<Lesson[]>(module1Lessons);
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [userName, setUserName] = useState(() => localStorage.getItem('englishville_user_name') || '');
+  const [showContinue, setShowContinue] = useState(false);
 
   const completedCount = lessons.filter(l => l.isCompleted).length;
   const progress = (completedCount / lessons.length) * 100;
+  const currentLessonIndex = lessons.findIndex(l => l.id === activeLesson?.id);
 
   const handleLanguageSelected = () => {
     setViewState('lessons');
@@ -44,6 +51,7 @@ const Module1Content: React.FC = () => {
   const handleLessonClick = (lesson: Lesson) => {
     setActiveLesson(lesson);
     setViewState('lesson-detail');
+    setShowContinue(false);
   };
 
   const handleLessonComplete = () => {
@@ -51,10 +59,20 @@ const Module1Content: React.FC = () => {
       setLessons(prev => prev.map(l => 
         l.id === activeLesson.id ? { ...l, isCompleted: true } : l
       ));
-      toast({
-        title: '🎉 Lesson Complete!',
-        description: `You've finished "${activeLesson.title}"`,
-      });
+      showWin(`Great job, ${userName || 'friend'}! 🎉`, userName, 'correct');
+      setShowContinue(true);
+    }
+  };
+
+  const handleContinue = () => {
+    if (currentLessonIndex < lessons.length - 1) {
+      const nextLesson = lessons[currentLessonIndex + 1];
+      setActiveLesson(nextLesson);
+      setShowContinue(false);
+    } else {
+      toast({ title: '🏆 Module Complete!', description: 'You finished all lessons!' });
+      setViewState('lessons');
+      setActiveLesson(null);
     }
   };
 
@@ -62,6 +80,7 @@ const Module1Content: React.FC = () => {
     if (viewState === 'lesson-detail') {
       setViewState('lessons');
       setActiveLesson(null);
+      setShowContinue(false);
     } else {
       navigate('/');
     }
@@ -98,23 +117,28 @@ const Module1Content: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero">
+      {MicroWinComponent}
+      <HamburgerMenu isOpen={showMenu} onClose={() => setShowMenu(false)} userName={userName} />
+      
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={handleBack}>
-              <ChevronLeft className="w-5 h-5" />
+            <Button variant="ghost" size="icon" onClick={viewState === 'lessons' ? () => setShowMenu(true) : handleBack}>
+              {viewState === 'lessons' ? <Menu className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
             </Button>
             <div>
               <h1 className="font-fredoka text-lg font-bold text-primary">Module 1: Introduce Yourself</h1>
               <p className="text-xs text-muted-foreground">{completedCount}/{lessons.length} lessons completed</p>
             </div>
           </div>
-          {viewState !== 'language-select' && (
-            <Button variant="ghost" size="sm" onClick={() => setShowSettings(!showSettings)} className="gap-2">
-              <span className="text-lg">{languageInfo.flag}</span>
-              <span className="hidden sm:inline text-sm">{languageInfo.native}</span>
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            <BeeMascot size="small" />
+            {viewState !== 'language-select' && (
+              <Button variant="ghost" size="sm" onClick={() => setShowSettings(!showSettings)} className="gap-2">
+                <span className="text-lg">{languageInfo.flag}</span>
+              </Button>
+            )}
+          </div>
         </div>
         <div className="h-1 bg-muted">
           <motion.div className="h-full bg-primary" initial={{ width: 0 }} animate={{ width: `${progress}%` }} />
@@ -150,8 +174,7 @@ const Module1Content: React.FC = () => {
           )}
 
           {viewState === 'lessons' && (
-            <motion.div key="lessons" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-8">
-              <NeighborsSection />
+            <motion.div key="lessons" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-6">
               <div className="space-y-4">
                 <h2 className="font-fredoka text-xl font-bold text-foreground flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-primary" />
@@ -167,8 +190,22 @@ const Module1Content: React.FC = () => {
           )}
 
           {viewState === 'lesson-detail' && activeLesson && (
-            <motion.div key="lesson-detail" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }}>
+            <motion.div key="lesson-detail" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} className="space-y-6">
               {renderLessonContent(activeLesson)}
+              
+              {/* Continue Button */}
+              {showContinue && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }} 
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-center pt-4"
+                >
+                  <Button size="lg" onClick={handleContinue} className="gap-2 rounded-xl bg-gradient-primary text-primary-foreground px-8">
+                    Continue
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </motion.div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
