@@ -539,6 +539,27 @@ export const marisolVideos = [
   { url: '/videos/module1/marisol-intro-7.mp4', title: 'I live at...', subtitle: 'Address' },
 ];
 
+// Rosa Introduction Video Series - "What is your name?"
+export const rosaVideos = [
+  { url: '/videos/module1/rosa-intro-1.mp4', title: 'I am your new neighbor', subtitle: 'Introduction' },
+  { url: '/videos/module1/rosa-intro-2.mp4', title: 'My name is Rosa', subtitle: 'Name' },
+  { url: '/videos/module1/rosa-intro-3.mp4', title: 'I am from the Dominican Republic', subtitle: 'Country' },
+  { url: '/videos/module1/rosa-intro-4.mp4', title: 'I am 30', subtitle: 'Age' },
+  { url: '/videos/module1/rosa-intro-5.mp4', title: 'I am a housekeeper', subtitle: 'Occupation' },
+  { url: '/videos/module1/rosa-intro-6.mp4', title: 'I work in a hotel', subtitle: 'Workplace' },
+  { url: '/videos/module1/rosa-intro-7.mp4', title: 'I am married', subtitle: 'Marital status' },
+  { url: '/videos/module1/rosa-intro-8.mp4', title: 'Nice to meet you', subtitle: 'Greeting' },
+];
+
+// Numbers 0-20
+export const numbers0to20 = numbers0to30.slice(0, 21);
+
+// Numbers 21-40  
+export const numbers21to40 = [...numbers0to30.slice(21), ...numbers31to60.slice(0, 10)];
+
+// Numbers 41-60
+export const numbers41to60 = numbers31to60.slice(10);
+
 // Practice Session Questions
 export const practiceQuestions: QuestionItem[] = [
   { id: 'q1', question: "What's your name?", translations: { arabic: 'ما اسمك؟', bengali: 'তোমার নাম কি?', korean: '이름이 뭐예요?', spanish: '¿Cómo te llamas?', turkish: 'Adın ne?' } },
@@ -549,7 +570,7 @@ export const practiceQuestions: QuestionItem[] = [
   { id: 'q6', question: 'Where do you work?', translations: { arabic: 'أين تعمل؟', bengali: 'তুমি কোথায় কাজ কর?', korean: '어디서 일해요?', spanish: '¿Dónde trabajas?', turkish: 'Nerede çalışıyorsun?' } },
 ];
 
-// Module 1 Lessons
+// Module 1 Lessons - Updated sequence
 export const module1Lessons: Lesson[] = [
   {
     id: 'lesson-1',
@@ -580,6 +601,15 @@ export const module1Lessons: Lesson[] = [
   },
   {
     id: 'lesson-4',
+    title: 'Numbers 0-20',
+    description: 'Learn to count from 0 to 20',
+    type: 'numbers-practice',
+    content: numbers0to20,
+    isCompleted: false,
+    duration: '5 min',
+  },
+  {
+    id: 'lesson-5',
     title: 'Greetings & Introductions',
     description: 'Learn common greeting phrases',
     type: 'vocabulary',
@@ -588,26 +618,16 @@ export const module1Lessons: Lesson[] = [
     duration: '6 min',
   },
   {
-    id: 'lesson-5',
-    title: 'Numbers 0-30',
-    description: 'Learn to count from 0 to 30',
-    type: 'video',
-    videoUrl: '/videos/module1/numbers-0-30.mp4',
-    content: numbers0to30,
-    isCompleted: false,
-    duration: '5 min',
-  },
-  {
-    id: 'lesson-5b',
-    title: 'Numbers 0-30 Practice',
-    description: 'Practice numbers with voice recording',
-    type: 'numbers-practice',
-    content: numbers0to30.slice(0, 15),
-    isCompleted: false,
-    duration: '5 min',
-  },
-  {
     id: 'lesson-6',
+    title: 'Numbers 21-40',
+    description: 'Continue learning numbers',
+    type: 'numbers-practice',
+    content: numbers21to40,
+    isCompleted: false,
+    duration: '5 min',
+  },
+  {
+    id: 'lesson-7',
     title: 'Jobs and Workplaces Part 1',
     description: 'Learn job vocabulary',
     type: 'vocabulary',
@@ -616,7 +636,7 @@ export const module1Lessons: Lesson[] = [
     duration: '6 min',
   },
   {
-    id: 'lesson-6b',
+    id: 'lesson-8',
     title: 'Jobs and Workplaces Part 2',
     description: 'Listen and repeat job sentences',
     type: 'sentences',
@@ -625,26 +645,25 @@ export const module1Lessons: Lesson[] = [
     duration: '8 min',
   },
   {
-    id: 'lesson-7',
-    title: 'Numbers 31-60',
-    description: 'Continue learning numbers',
-    type: 'video',
-    videoUrl: '/videos/module1/numbers-31-60.mp4',
-    content: numbers31to60,
-    isCompleted: false,
-    duration: '5 min',
-  },
-  {
-    id: 'lesson-7b',
-    title: 'Numbers 31-60 Practice',
-    description: 'Practice numbers with voice recording',
+    id: 'lesson-9',
+    title: 'Numbers 41-60',
+    description: 'Master higher numbers',
     type: 'numbers-practice',
-    content: numbers31to60.slice(0, 15),
+    content: numbers41to60,
     isCompleted: false,
     duration: '5 min',
   },
   {
-    id: 'lesson-8',
+    id: 'lesson-10',
+    title: 'What is Your Name?',
+    description: "Meet Rosa, your new neighbor",
+    type: 'video-series',
+    videos: rosaVideos,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  {
+    id: 'lesson-11',
     title: 'Speaking Practice',
     description: 'Practice speaking introduction phrases',
     type: 'speaking',
@@ -653,7 +672,7 @@ export const module1Lessons: Lesson[] = [
     duration: '10 min',
   },
   {
-    id: 'lesson-9',
+    id: 'lesson-12',
     title: 'Practice Session Part 1',
     description: 'Interactive listening exercise',
     type: 'practice',
@@ -662,7 +681,7 @@ export const module1Lessons: Lesson[] = [
     duration: '5 min',
   },
   {
-    id: 'lesson-10',
+    id: 'lesson-13',
     title: 'Practice Session Part 2',
     description: 'Listen and write your answers',
     type: 'listening-writing',
