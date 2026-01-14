@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Bell, User } from "lucide-react";
@@ -8,6 +8,7 @@ import { SkillsSection } from "@/components/SkillsSection";
 import { ProfileSidebar } from "@/components/ProfileSidebar";
 import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
+import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { mockModules, mockUserProgress, Module, Task } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,7 +17,21 @@ const Index = () => {
   const [modules, setModules] = useState<Module[]>(mockModules);
   const [userProgress, setUserProgress] = useState(mockUserProgress);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
   const { toast } = useToast();
+
+  // Show welcome screen only on first visit per session
+  useEffect(() => {
+    const hasSeenWelcome = sessionStorage.getItem('englishville_welcome_shown');
+    if (!hasSeenWelcome) {
+      setShowWelcome(true);
+    }
+  }, []);
+
+  const handleWelcomeComplete = () => {
+    setShowWelcome(false);
+    sessionStorage.setItem('englishville_welcome_shown', 'true');
+  };
 
   const currentModule = modules.find((m) => m.isUnlocked && !m.isCompleted);
   const currentTasks = currentModule?.tasks || [];
@@ -84,7 +99,17 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero">
+    <>
+      {/* Welcome Screen with Bee Mascot */}
+      {showWelcome && (
+        <WelcomeScreen
+          userName={userProgress.name}
+          onComplete={handleWelcomeComplete}
+          autoHideDelay={4000}
+        />
+      )}
+
+      <div className="min-h-screen bg-gradient-hero">
       {/* Top Navigation */}
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -176,7 +201,8 @@ const Index = () => {
         onClose={() => setIsProfileOpen(false)}
         progress={userProgress}
       />
-    </div>
+      </div>
+    </>
   );
 };
 
