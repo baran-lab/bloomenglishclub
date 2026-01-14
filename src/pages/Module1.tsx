@@ -14,6 +14,9 @@ import { NumbersPractice } from '@/components/module1/NumbersPractice';
 import { SpeakingPractice } from '@/components/module1/SpeakingPractice';
 import { EmbeddedPractice } from '@/components/module1/EmbeddedPractice';
 import { ListeningWritingPractice } from '@/components/module1/ListeningWritingPractice';
+import { FillInTheBlankPractice } from '@/components/module1/FillInTheBlankPractice';
+import { SmartAnswerPractice } from '@/components/module1/SmartAnswerPractice';
+import { InteractiveForm } from '@/components/module1/InteractiveForm';
 import { module1Lessons, Lesson, greetingPhrases } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { BeeMascot, getRandomMessage } from '@/components/BeeMascot';
@@ -110,6 +113,12 @@ const Module1Content: React.FC = () => {
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
       case 'listening-writing':
         return <ListeningWritingPractice questions={lesson.questions || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'fill-in-blank':
+        return <FillInTheBlankPractice items={lesson.fillInBlankItems || []} onComplete={handleLessonComplete} title={lesson.title} userName={userName} />;
+      case 'smart-practice':
+        return <SmartAnswerPractice questions={lesson.smartQuestions || []} onComplete={handleLessonComplete} title={lesson.title} userName={userName} />;
+      case 'interactive-form':
+        return <InteractiveForm formType={lesson.formType || 'doctor-intake'} onComplete={handleLessonComplete} userName={userName} />;
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }

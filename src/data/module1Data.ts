@@ -36,16 +36,37 @@ export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'listening-writing';
+  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form';
   videoUrl?: string;
   videos?: { url: string; title: string; subtitle?: string }[];
   content?: VocabularyItem[];
   phrases?: PhraseItem[];
   sentences?: SentenceItem[];
   questions?: QuestionItem[];
+  smartQuestions?: SmartQuestion[];
+  fillInBlankItems?: FillInBlankItem[];
+  formType?: 'doctor-intake' | 'job-application' | 'insurance';
   embedUrl?: string;
   isCompleted: boolean;
   duration?: string;
+}
+
+export interface SmartQuestion {
+  id: string;
+  question: string;
+  audioQuestion?: string;
+  translations: Record<SupportedLanguage, string>;
+  validationPattern: 'name' | 'country' | 'age' | 'marital' | 'job' | 'workplace';
+  acceptedPrefixes: string[];
+}
+
+export interface FillInBlankItem {
+  id: string;
+  sentenceBefore: string;
+  sentenceAfter: string;
+  correctAnswers: string[];
+  audioUrl?: string;
+  translations: Record<SupportedLanguage, string>;
 }
 
 export interface PhraseItem {
@@ -560,21 +581,86 @@ export const numbers21to40 = [...numbers0to30.slice(21), ...numbers31to60.slice(
 // Numbers 41-60
 export const numbers41to60 = numbers31to60.slice(10);
 
-// Practice Session Questions
-export const practiceQuestions: QuestionItem[] = [
-  { id: 'q1', question: "What's your name?", translations: { arabic: 'ما اسمك؟', bengali: 'তোমার নাম কি?', korean: '이름이 뭐예요?', spanish: '¿Cómo te llamas?', turkish: 'Adın ne?' } },
-  { id: 'q2', question: 'Where are you from?', translations: { arabic: 'من أين أنت؟', bengali: 'তুমি কোথা থেকে?', korean: '어디에서 왔어요?', spanish: '¿De dónde eres?', turkish: 'Nerelisin?' } },
-  { id: 'q3', question: 'How old are you?', translations: { arabic: 'كم عمرك؟', bengali: 'তোমার বয়স কত?', korean: '몇 살이에요?', spanish: '¿Cuántos años tienes?', turkish: 'Kaç yaşındasın?' } },
-  { id: 'q4', question: 'Are you married or single?', translations: { arabic: 'هل أنت متزوج أم أعزب؟', bengali: 'তুমি কি বিবাহিত না অবিবাহিত?', korean: '결혼했어요, 아니면 미혼이에요?', spanish: '¿Estás casado/a o soltero/a?', turkish: 'Evli misin yoksa bekar mı?' } },
-  { id: 'q5', question: 'What do you do?', translations: { arabic: 'ماذا تعمل؟', bengali: 'তুমি কি কর?', korean: '무슨 일을 해요?', spanish: '¿A qué te dedicas?', turkish: 'Ne iş yapıyorsun?' } },
-  { id: 'q6', question: 'Where do you work?', translations: { arabic: 'أين تعمل؟', bengali: 'তুমি কোথায় কাজ কর?', korean: '어디서 일해요?', spanish: '¿Dónde trabajas?', turkish: 'Nerede çalışıyorsun?' } },
+// Smart Practice Questions for Part 2
+export const smartPracticeQuestions: SmartQuestion[] = [
+  { 
+    id: 'sq1', 
+    question: "What's your name?", 
+    translations: { arabic: 'ما اسمك؟', bengali: 'তোমার নাম কি?', korean: '이름이 뭐예요?', spanish: '¿Cómo te llamas?', turkish: 'Adın ne?' },
+    validationPattern: 'name',
+    acceptedPrefixes: ['My name is', "My name's", 'I am', "I'm"]
+  },
+  { 
+    id: 'sq2', 
+    question: 'Where are you from?', 
+    translations: { arabic: 'من أين أنت؟', bengali: 'তুমি কোথা থেকে?', korean: '어디에서 왔어요?', spanish: '¿De dónde eres?', turkish: 'Nerelisin?' },
+    validationPattern: 'country',
+    acceptedPrefixes: ['I am from', "I'm from"]
+  },
+  { 
+    id: 'sq3', 
+    question: 'How old are you?', 
+    translations: { arabic: 'كم عمرك؟', bengali: 'তোমার বয়স কত?', korean: '몇 살이에요?', spanish: '¿Cuántos años tienes?', turkish: 'Kaç yaşındasın?' },
+    validationPattern: 'age',
+    acceptedPrefixes: ['I am', "I'm"]
+  },
+  { 
+    id: 'sq4', 
+    question: 'Are you married or single?', 
+    translations: { arabic: 'هل أنت متزوج أم أعزب؟', bengali: 'তুমি কি বিবাহিত না অবিবাহিত?', korean: '결혼했어요, 아니면 미혼이에요?', spanish: '¿Estás casado/a o soltero/a?', turkish: 'Evli misin yoksa bekar mı?' },
+    validationPattern: 'marital',
+    acceptedPrefixes: ['I am', "I'm"]
+  },
+  { 
+    id: 'sq5', 
+    question: 'What do you do?', 
+    translations: { arabic: 'ماذا تعمل؟', bengali: 'তুমি কি কর?', korean: '무슨 일을 해요?', spanish: '¿A qué te dedicas?', turkish: 'Ne iş yapıyorsun?' },
+    validationPattern: 'job',
+    acceptedPrefixes: ['I am a', "I'm a", 'I am an', "I'm an"]
+  },
+  { 
+    id: 'sq6', 
+    question: 'Where do you work?', 
+    translations: { arabic: 'أين تعمل؟', bengali: 'তুমি কোথায় কাজ কর?', korean: '어디서 일해요?', spanish: '¿Dónde trabajas?', turkish: 'Nerede çalışıyorsun?' },
+    validationPattern: 'workplace',
+    acceptedPrefixes: ['I work in', 'I work at', 'I work in a', 'I work at a']
+  },
+];
+
+// Let's Review Part 1 - Marisol's sentences (fill in the blank)
+export const letsReviewPart1: FillInBlankItem[] = [
+  { id: 'review1-1', sentenceBefore: 'Hi. My name', sentenceAfter: 'Marisol Rivera.', correctAnswers: ['is', "'s"], translations: { arabic: 'مرحبا. اسمي ماريسول ريفيرا.', bengali: 'হাই। আমার নাম মারিসোল রিভেরা।', korean: '안녕하세요. 제 이름은 마리솔 리베라입니다.', spanish: 'Hola. Mi nombre es Marisol Rivera.', turkish: 'Merhaba. Adım Marisol Rivera.' } },
+  { id: 'review1-2', sentenceBefore: 'I', sentenceAfter: 'from Peru.', correctAnswers: ['am', "'m"], translations: { arabic: 'أنا من بيرو.', bengali: 'আমি পেরু থেকে।', korean: '저는 페루에서 왔어요.', spanish: 'Soy de Perú.', turkish: 'Peru\'luyum.' } },
+  { id: 'review1-3', sentenceBefore: 'I', sentenceAfter: '28 years old.', correctAnswers: ['am', "'m"], translations: { arabic: 'عمري 28 سنة.', bengali: 'আমার বয়স 28 বছর।', korean: '저는 28살이에요.', spanish: 'Tengo 28 años.', turkish: '28 yaşındayım.' } },
+  { id: 'review1-4', sentenceBefore: 'I', sentenceAfter: 'single.', correctAnswers: ['am', "'m"], translations: { arabic: 'أنا أعزب.', bengali: 'আমি অবিবাহিত।', korean: '저는 미혼이에요.', spanish: 'Soy soltero/a.', turkish: 'Bekarım.' } },
+  { id: 'review1-5', sentenceBefore: 'I', sentenceAfter: 'a cat.', correctAnswers: ['have'], translations: { arabic: 'لدي قطة.', bengali: 'আমার একটা বিড়াল আছে।', korean: '저는 고양이가 있어요.', spanish: 'Tengo un gato.', turkish: 'Bir kedim var.' } },
+  { id: 'review1-6', sentenceBefore: 'I', sentenceAfter: 'a cashier.', correctAnswers: ['am', "'m"], translations: { arabic: 'أنا أمين صندوق.', bengali: 'আমি একজন ক্যাশিয়ার।', korean: '저는 계산원이에요.', spanish: 'Soy cajero/a.', turkish: 'Ben kasiyerim.' } },
+  { id: 'review1-7', sentenceBefore: 'I', sentenceAfter: 'in a supermarket.', correctAnswers: ['work'], translations: { arabic: 'أعمل في سوبرماركت.', bengali: 'আমি একটা সুপারমার্কেটে কাজ করি।', korean: '저는 슈퍼마켓에서 일해요.', spanish: 'Trabajo en un supermercado.', turkish: 'Bir süpermarkette çalışıyorum.' } },
+];
+
+// Let's Review Part 2 - Rosa's sentences (fill in the blank with questions)
+export const letsReviewPart2: FillInBlankItem[] = [
+  { id: 'review2-1', sentenceBefore: 'What', sentenceAfter: 'your name?', correctAnswers: ['is', "'s"], translations: { arabic: 'ما اسمك؟', bengali: 'তোমার নাম কি?', korean: '이름이 뭐예요?', spanish: '¿Cuál es tu nombre?', turkish: 'Adın ne?' } },
+  { id: 'review2-1b', sentenceBefore: 'My name', sentenceAfter: 'Rosa Silva.', correctAnswers: ['is', "'s"], translations: { arabic: 'اسمي روزا سيلفا.', bengali: 'আমার নাম রোজা সিলভা।', korean: '제 이름은 로사 실바입니다.', spanish: 'Mi nombre es Rosa Silva.', turkish: 'Adım Rosa Silva.' } },
+  { id: 'review2-2', sentenceBefore: 'Where', sentenceAfter: 'you from?', correctAnswers: ['are'], translations: { arabic: 'من أين أنت؟', bengali: 'তুমি কোথা থেকে?', korean: '어디에서 왔어요?', spanish: '¿De dónde eres?', turkish: 'Nerelisin?' } },
+  { id: 'review2-2b', sentenceBefore: 'I', sentenceAfter: 'from the Dominican Republic.', correctAnswers: ['am', "'m"], translations: { arabic: 'أنا من جمهورية الدومينيكان.', bengali: 'আমি ডোমিনিকান প্রজাতন্ত্র থেকে।', korean: '저는 도미니카 공화국에서 왔어요.', spanish: 'Soy de la República Dominicana.', turkish: 'Dominik Cumhuriyeti\'ndenim.' } },
+  { id: 'review2-3', sentenceBefore: 'How old', sentenceAfter: 'you?', correctAnswers: ['are'], translations: { arabic: 'كم عمرك؟', bengali: 'তোমার বয়স কত?', korean: '몇 살이에요?', spanish: '¿Cuántos años tienes?', turkish: 'Kaç yaşındasın?' } },
+  { id: 'review2-3b', sentenceBefore: 'I', sentenceAfter: '30 years old.', correctAnswers: ['am', "'m"], translations: { arabic: 'عمري 30 سنة.', bengali: 'আমার বয়স 30 বছর।', korean: '저는 30살이에요.', spanish: 'Tengo 30 años.', turkish: '30 yaşındayım.' } },
+  { id: 'review2-4', sentenceBefore: '', sentenceAfter: 'you married or single?', correctAnswers: ['Are', 'are'], translations: { arabic: 'هل أنت متزوج أم أعزب؟', bengali: 'তুমি কি বিবাহিত না অবিবাহিত?', korean: '결혼했어요, 아니면 미혼이에요?', spanish: '¿Estás casado/a o soltero/a?', turkish: 'Evli misin bekar mı?' } },
+  { id: 'review2-4b', sentenceBefore: 'I', sentenceAfter: 'married.', correctAnswers: ['am', "'m"], translations: { arabic: 'أنا متزوج.', bengali: 'আমি বিবাহিত।', korean: '저는 기혼이에요.', spanish: 'Estoy casado/a.', turkish: 'Evliyim.' } },
+  { id: 'review2-5', sentenceBefore: '', sentenceAfter: 'you have children?', correctAnswers: ['Do'], translations: { arabic: 'هل لديك أطفال؟', bengali: 'তোমার কি বাচ্চা আছে?', korean: '아이가 있으세요?', spanish: '¿Tienes hijos?', turkish: 'Çocuğun var mı?' } },
+  { id: 'review2-5b', sentenceBefore: "No, I", sentenceAfter: '.', correctAnswers: ["don't", 'do not'], translations: { arabic: 'لا، ليس لدي.', bengali: 'না, আমার নেই।', korean: '아니요, 없어요.', spanish: 'No, no tengo.', turkish: 'Hayır, yok.' } },
+  { id: 'review2-6', sentenceBefore: 'What', sentenceAfter: 'you do?', correctAnswers: ['do'], translations: { arabic: 'ماذا تعمل؟', bengali: 'তুমি কি কর?', korean: '무슨 일을 해요?', spanish: '¿Qué haces?', turkish: 'Ne iş yapıyorsun?' } },
+  { id: 'review2-6b', sentenceBefore: 'I', sentenceAfter: 'a housekeeper.', correctAnswers: ['am', "'m"], translations: { arabic: 'أنا عاملة نظافة.', bengali: 'আমি একজন গৃহপরিচারিকা।', korean: '저는 가정부예요.', spanish: 'Soy ama de llaves.', turkish: 'Ben temizlikçiyim.' } },
+  { id: 'review2-7', sentenceBefore: 'Where', sentenceAfter: 'you work?', correctAnswers: ['do'], translations: { arabic: 'أين تعمل؟', bengali: 'তুমি কোথায় কাজ কর?', korean: '어디서 일해요?', spanish: '¿Dónde trabajas?', turkish: 'Nerede çalışıyorsun?' } },
+  { id: 'review2-7b', sentenceBefore: 'I', sentenceAfter: 'in a hotel.', correctAnswers: ['work'], translations: { arabic: 'أعمل في فندق.', bengali: 'আমি একটা হোটেলে কাজ করি।', korean: '저는 호텔에서 일해요.', spanish: 'Trabajo en un hotel.', turkish: 'Bir otelde çalışıyorum.' } },
 ];
 
 // Module 1 Lessons - Updated sequence
 export const module1Lessons: Lesson[] = [
   {
     id: 'lesson-1',
-    title: 'Vocabulary 1: Basic Words',
+    title: 'Vocabulary: Basic Words',
     description: 'Learn basic introduction vocabulary',
     type: 'vocabulary',
     content: vocabulary1,
@@ -592,7 +678,7 @@ export const module1Lessons: Lesson[] = [
   },
   {
     id: 'lesson-3',
-    title: 'Vocabulary 2: Family & Neighborhood',
+    title: 'Vocabulary: Family & Neighborhood',
     description: 'Learn family and neighborhood words',
     type: 'vocabulary',
     content: vocabulary2,
@@ -683,9 +769,45 @@ export const module1Lessons: Lesson[] = [
   {
     id: 'lesson-13',
     title: 'Practice Session Part 2',
-    description: 'Listen and write your answers',
-    type: 'listening-writing',
-    questions: practiceQuestions,
+    description: 'Answer questions about yourself',
+    type: 'smart-practice',
+    smartQuestions: smartPracticeQuestions,
+    isCompleted: false,
+    duration: '10 min',
+  },
+  {
+    id: 'lesson-14',
+    title: "Let's Review Part 1",
+    description: 'Fill in the blanks with Marisol',
+    type: 'fill-in-blank',
+    fillInBlankItems: letsReviewPart1,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  {
+    id: 'lesson-15',
+    title: "Let's Review Part 2",
+    description: 'Complete Rosa\'s conversation',
+    type: 'fill-in-blank',
+    fillInBlankItems: letsReviewPart2,
+    isCompleted: false,
+    duration: '10 min',
+  },
+  {
+    id: 'lesson-16',
+    title: 'Doctor Intake Form',
+    description: 'Practice filling out a real U.S. form',
+    type: 'interactive-form',
+    formType: 'doctor-intake',
+    isCompleted: false,
+    duration: '10 min',
+  },
+  {
+    id: 'lesson-17',
+    title: 'Job Application',
+    description: 'Practice applying for a job',
+    type: 'interactive-form',
+    formType: 'job-application',
     isCompleted: false,
     duration: '10 min',
   },
