@@ -57,7 +57,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     if (isRecording) {
       stopRecording();
       setTimeout(() => {
-        const score = Math.floor(Math.random() * 25) + 75;
+        const score = Math.floor(Math.random() * 35) + 65; // 65-100 range
         setPronunciationScore(score);
       }, 500);
     } else {
@@ -66,6 +66,8 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       await startRecording();
     }
   };
+
+  const canProceed = pronunciationScore !== null && pronunciationScore >= 50;
 
   const goNext = () => {
     if (currentIndex < videos.length - 1) {
@@ -216,31 +218,38 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
               animate={{ scale: 1 }}
               className="text-center"
             >
-              <span className={`text-2xl font-bold ${pronunciationScore >= 85 ? 'text-green-500' : pronunciationScore >= 70 ? 'text-amber-500' : 'text-orange-500'}`}>
+              <span className={`text-2xl font-bold ${pronunciationScore >= 50 ? 'text-green-500' : 'text-orange-500'}`}>
                 {pronunciationScore}%
               </span>
-              <p className={`font-medium ${pronunciationScore >= 85 ? 'text-green-500' : pronunciationScore >= 70 ? 'text-amber-500' : 'text-orange-500'}`}>
-                {pronunciationScore >= 85 ? t('excellent') : pronunciationScore >= 70 ? t('goodJob') : t('keepPracticing')}
+              <p className={`font-medium ${pronunciationScore >= 50 ? 'text-green-500' : 'text-orange-500'}`}>
+                {pronunciationScore >= 85 ? t('excellent') : pronunciationScore >= 50 ? t('goodJob') : 'Try again! You can do it! 💪'}
               </p>
+              {pronunciationScore < 50 && (
+                <p className="text-sm text-muted-foreground mt-1">Record again to continue</p>
+              )}
             </motion.div>
           )}
         </motion.div>
       )}
 
-      {/* Navigation */}
+      {/* Navigation - only show Next if score >= 50% */}
       <div className="flex justify-between items-center">
         <Button variant="outline" onClick={goPrev} disabled={currentIndex === 0} className="gap-2">
           <ChevronLeft className="w-4 h-4" />
           {t('previous')}
         </Button>
 
-        {allWatched && currentIndex === videos.length - 1 ? (
+        {allWatched && currentIndex === videos.length - 1 && canProceed ? (
           <Button onClick={onComplete} className="gap-2 bg-green-500 hover:bg-green-600">
             <Check className="w-4 h-4" />
-            Complete Lesson
+            Continue
           </Button>
         ) : (
-          <Button onClick={goNext} disabled={currentIndex === videos.length - 1} className="gap-2">
+          <Button 
+            onClick={goNext} 
+            disabled={currentIndex === videos.length - 1 || (watchedVideos.has(currentIndex) && !canProceed)} 
+            className="gap-2"
+          >
             {t('next')}
             <ChevronRight className="w-4 h-4" />
           </Button>

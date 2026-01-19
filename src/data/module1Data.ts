@@ -36,7 +36,7 @@ export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form';
+  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank';
   videoUrl?: string;
   videos?: { url: string; title: string; subtitle?: string }[];
   content?: VocabularyItem[];
@@ -45,10 +45,22 @@ export interface Lesson {
   questions?: QuestionItem[];
   smartQuestions?: SmartQuestion[];
   fillInBlankItems?: FillInBlankItem[];
+  listeningFillInBlankItems?: ListeningFillInBlankItem[];
   formType?: 'doctor-intake' | 'job-application' | 'insurance';
   embedUrl?: string;
   isCompleted: boolean;
   duration?: string;
+}
+
+export interface ListeningFillInBlankItem {
+  id: string;
+  fullSentence: string;
+  sentenceBefore: string;
+  sentenceAfter: string;
+  correctAnswer: string;
+  acceptedAnswers: string[];
+  audioUrl?: string;
+  translations: Record<SupportedLanguage, string>;
 }
 
 export interface SmartQuestion {
@@ -268,20 +280,16 @@ export const vocabulary1: VocabularyItem[] = [
   { id: 'v1-work', english: 'work', pronunciation: 'werk', translations: { arabic: 'يعمل', bengali: 'কাজ করা', korean: '일하다', spanish: 'trabajar', turkish: 'çalışmak' } },
 ];
 
-// Vocabulary Set 2 - Family and Neighborhood
+// Vocabulary Set 2 - Neighborhood and Questions
 export const vocabulary2: VocabularyItem[] = [
   { id: 'v2-children', english: 'children', pronunciation: 'CHIL-dren', translations: { arabic: 'أطفال', bengali: 'বাচ্চারা', korean: '아이들', spanish: 'niños', turkish: 'çocuklar' } },
-  { id: 'v2-drive', english: 'drive', pronunciation: 'drahyv', translations: { arabic: 'يقود', bengali: 'গাড়ি চালানো', korean: '운전하다', spanish: 'conducir', turkish: 'sürmek' } },
-  { id: 'v2-family', english: 'family', pronunciation: 'FAM-uh-lee', translations: { arabic: 'عائلة', bengali: 'পরিবার', korean: '가족', spanish: 'familia', turkish: 'aile' } },
-  { id: 'v2-for', english: 'for', pronunciation: 'for', translations: { arabic: 'لأجل', bengali: 'জন্য', korean: '~을 위해', spanish: 'para', turkish: 'için' } },
-  { id: 'v2-homemaker', english: 'homemaker', pronunciation: 'HOHM-may-ker', translations: { arabic: 'ربة منزل', bengali: 'গৃহিণী', korean: '가정주부', spanish: 'ama de casa', turkish: 'ev hanımı' } },
   { id: 'v2-hotel', english: 'hotel', pronunciation: 'hoh-TEL', translations: { arabic: 'فندق', bengali: 'হোটেল', korean: '호텔', spanish: 'hotel', turkish: 'otel' } },
   { id: 'v2-housekeeper', english: 'housekeeper', pronunciation: 'HOUS-kee-per', translations: { arabic: 'عامل/ة نظافة', bengali: 'গৃহপরিচারিকা', korean: '가정부', spanish: 'ama de llaves', turkish: 'temizlikçi' } },
-  { id: 'v2-introduce', english: 'introduce', pronunciation: 'in-truh-DOOS', translations: { arabic: 'يقدم', bengali: 'পরিচয় করানো', korean: '소개하다', spanish: 'presentar', turkish: 'tanıştırmak' } },
   { id: 'v2-job', english: 'job', pronunciation: 'job', translations: { arabic: 'وظيفة', bengali: 'চাকরি', korean: '직업', spanish: 'trabajo', turkish: 'iş' } },
   { id: 'v2-neighbor', english: 'neighbor', pronunciation: 'NAY-ber', translations: { arabic: 'جار', bengali: 'প্রতিবেশী', korean: '이웃', spanish: 'vecino/a', turkish: 'komşu' } },
   { id: 'v2-neighborhood', english: 'neighborhood', pronunciation: 'NAY-ber-hood', translations: { arabic: 'حي', bengali: 'পাড়া', korean: '동네', spanish: 'vecindario', turkish: 'mahalle' } },
   { id: 'v2-new', english: 'new', pronunciation: 'noo', translations: { arabic: 'جديد', bengali: 'নতুন', korean: '새로운', spanish: 'nuevo/a', turkish: 'yeni' } },
+  { id: 'v2-what', english: 'what', pronunciation: 'wut', translations: { arabic: 'ماذا', bengali: 'কি', korean: '무엇', spanish: 'qué', turkish: 'ne' } },
   { id: 'v2-where', english: 'where', pronunciation: 'wer', translations: { arabic: 'أين', bengali: 'কোথায়', korean: '어디', spanish: 'dónde', turkish: 'nerede' } },
   { id: 'v2-with', english: 'with', pronunciation: 'with', translations: { arabic: 'مع', bengali: 'সাথে', korean: '~와 함께', spanish: 'con', turkish: 'ile' } },
 ];
@@ -549,27 +557,80 @@ export const numbers31to60: VocabularyItem[] = [
   { id: 'num-60', english: 'sixty', pronunciation: 'SIK-stee', translations: { arabic: 'ستون', bengali: 'ষাট', korean: '육십', spanish: 'sesenta', turkish: 'altmış' } },
 ];
 
-// Marisol Introduction Video Series
+// Marisol Introduction Video Series (using new uploaded videos)
 export const marisolVideos = [
-  { url: '/videos/module1/marisol-intro-1.mp4', title: 'My name is Marisol', subtitle: 'Introduction' },
-  { url: '/videos/module1/marisol-intro-2.mp4', title: 'I am from Peru', subtitle: 'Country of origin' },
-  { url: '/videos/module1/marisol-intro-3.mp4', title: 'I am a cashier', subtitle: 'Occupation' },
-  { url: '/videos/module1/marisol-intro-4.mp4', title: 'I work in a supermarket', subtitle: 'Workplace' },
-  { url: '/videos/module1/marisol-intro-5.mp4', title: 'I am single', subtitle: 'Marital status' },
-  { url: '/videos/module1/marisol-intro-6.mp4', title: 'I am 28 years old', subtitle: 'Age' },
-  { url: '/videos/module1/marisol-intro-7.mp4', title: 'I live at...', subtitle: 'Address' },
+  { url: '/videos/module1/m1-l1-s1.mp4', title: 'My name is Marisol Rivera.', subtitle: 'Introduction' },
+  { url: '/videos/module1/m1-l1-s2.mp4', title: 'I am from Peru.', subtitle: 'Country of origin' },
+  { url: '/videos/module1/m1-l1-s3.mp4', title: 'I am 28 years old.', subtitle: 'Age' },
+  { url: '/videos/module1/m1-l1-s4.mp4', title: 'I am single.', subtitle: 'Marital status' },
+  { url: '/videos/module1/m1-l1-s5.mp4', title: 'I am a cashier.', subtitle: 'Occupation' },
+  { url: '/videos/module1/m1-l1-s6.mp4', title: 'I work in a supermarket.', subtitle: 'Workplace' },
+  { url: '/videos/module1/m1-l1-s7.mp4', title: 'Nice to meet you!', subtitle: 'Greeting' },
 ];
 
 // Rosa Introduction Video Series - "What is your name?"
 export const rosaVideos = [
-  { url: '/videos/module1/rosa-intro-1.mp4', title: 'I am your new neighbor', subtitle: 'Introduction' },
-  { url: '/videos/module1/rosa-intro-2.mp4', title: 'My name is Rosa', subtitle: 'Name' },
-  { url: '/videos/module1/rosa-intro-3.mp4', title: 'I am from the Dominican Republic', subtitle: 'Country' },
-  { url: '/videos/module1/rosa-intro-4.mp4', title: 'I am 30', subtitle: 'Age' },
-  { url: '/videos/module1/rosa-intro-5.mp4', title: 'I am a housekeeper', subtitle: 'Occupation' },
-  { url: '/videos/module1/rosa-intro-6.mp4', title: 'I work in a hotel', subtitle: 'Workplace' },
-  { url: '/videos/module1/rosa-intro-7.mp4', title: 'I am married', subtitle: 'Marital status' },
-  { url: '/videos/module1/rosa-intro-8.mp4', title: 'Nice to meet you', subtitle: 'Greeting' },
+  { url: '/videos/module1/m1-l2-s1.mp4', title: 'Hello! What is your name?', subtitle: 'Greeting' },
+  { url: '/videos/module1/m1-l2-s2.mp4', title: 'My name is Rosa Silva.', subtitle: 'Name' },
+  { url: '/videos/module1/m1-l2-s3.mp4', title: 'I am from the Dominican Republic.', subtitle: 'Country' },
+];
+
+// Marisol Listening + Fill-in-Blank Exercise
+export const marisolListeningFillInBlank: ListeningFillInBlankItem[] = [
+  { 
+    id: 'mlfib-1', 
+    fullSentence: 'My name is Marisol Rivera.',
+    sentenceBefore: 'My name', 
+    sentenceAfter: 'Marisol Rivera.', 
+    correctAnswer: 'is',
+    acceptedAnswers: ['is', 'IS', 'Is', 'iS'],
+    translations: { arabic: 'اسمي ماريسول ريفيرا.', bengali: 'আমার নাম মারিসোল রিভেরা।', korean: '제 이름은 마리솔 리베라입니다.', spanish: 'Mi nombre es Marisol Rivera.', turkish: 'Adım Marisol Rivera.' } 
+  },
+  { 
+    id: 'mlfib-2', 
+    fullSentence: 'I am from Peru.',
+    sentenceBefore: 'I', 
+    sentenceAfter: 'from Peru.', 
+    correctAnswer: 'am',
+    acceptedAnswers: ['am', 'AM', 'Am', 'aM'],
+    translations: { arabic: 'أنا من بيرو.', bengali: 'আমি পেরু থেকে।', korean: '저는 페루에서 왔어요.', spanish: 'Soy de Perú.', turkish: 'Peru\'luyum.' } 
+  },
+  { 
+    id: 'mlfib-3', 
+    fullSentence: 'I am 28 years old.',
+    sentenceBefore: 'I', 
+    sentenceAfter: '28 years old.', 
+    correctAnswer: 'am',
+    acceptedAnswers: ['am', 'AM', 'Am', 'aM'],
+    translations: { arabic: 'عمري 28 سنة.', bengali: 'আমার বয়স 28 বছর।', korean: '저는 28살이에요.', spanish: 'Tengo 28 años.', turkish: '28 yaşındayım.' } 
+  },
+  { 
+    id: 'mlfib-4', 
+    fullSentence: 'I am single.',
+    sentenceBefore: 'I', 
+    sentenceAfter: 'single.', 
+    correctAnswer: 'am',
+    acceptedAnswers: ['am', 'AM', 'Am', 'aM'],
+    translations: { arabic: 'أنا أعزب.', bengali: 'আমি অবিবাহিত।', korean: '저는 미혼이에요.', spanish: 'Soy soltero/a.', turkish: 'Bekarım.' } 
+  },
+  { 
+    id: 'mlfib-5', 
+    fullSentence: 'I am a cashier.',
+    sentenceBefore: 'I', 
+    sentenceAfter: 'a cashier.', 
+    correctAnswer: 'am',
+    acceptedAnswers: ['am', 'AM', 'Am', 'aM'],
+    translations: { arabic: 'أنا أمين صندوق.', bengali: 'আমি একজন ক্যাশিয়ার।', korean: '저는 계산원이에요.', spanish: 'Soy cajero/a.', turkish: 'Ben kasiyerim.' } 
+  },
+  { 
+    id: 'mlfib-6', 
+    fullSentence: 'I work in a supermarket.',
+    sentenceBefore: 'I', 
+    sentenceAfter: 'in a supermarket.', 
+    correctAnswer: 'work',
+    acceptedAnswers: ['work', 'Work', 'WORK'],
+    translations: { arabic: 'أعمل في سوبرماركت.', bengali: 'আমি একটা সুপারমার্কেটে কাজ করি।', korean: '저는 슈퍼마켓에서 일해요.', spanish: 'Trabajo en un supermercado.', turkish: 'Bir süpermarkette çalışıyorum.' } 
+  },
 ];
 
 // Numbers 0-20
@@ -656,37 +717,45 @@ export const letsReviewPart2: FillInBlankItem[] = [
   { id: 'review2-7b', sentenceBefore: 'I', sentenceAfter: 'in a hotel.', correctAnswers: ['work'], translations: { arabic: 'أعمل في فندق.', bengali: 'আমি একটা হোটেলে কাজ করি।', korean: '저는 호텔에서 일해요.', spanish: 'Trabajo en un hotel.', turkish: 'Bir otelde çalışıyorum.' } },
 ];
 
-// Module 1 Lessons - Updated sequence
+// Module 1 Lessons - New structured sequence
 export const module1Lessons: Lesson[] = [
   {
     id: 'lesson-1',
-    title: 'Vocabulary: Basic Words',
-    description: 'Learn basic introduction vocabulary',
+    title: 'Vocabulary Part 1',
+    description: 'Learn basic introduction words',
     type: 'vocabulary',
     content: vocabulary1,
     isCompleted: false,
-    duration: '5 min',
+    duration: '8 min',
   },
   {
     id: 'lesson-2',
     title: 'My Name is Marisol',
-    description: "Watch Marisol introduce herself",
+    description: 'Watch and repeat with Marisol',
     type: 'video-series',
     videos: marisolVideos,
     isCompleted: false,
-    duration: '7 min',
+    duration: '10 min',
   },
   {
     id: 'lesson-3',
-    title: 'Vocabulary: Family & Neighborhood',
-    description: 'Learn family and neighborhood words',
-    type: 'vocabulary',
-    content: vocabulary2,
+    title: 'Listening Practice: Marisol',
+    description: 'Listen and fill in the blanks',
+    type: 'listening-fill-in-blank',
+    listeningFillInBlankItems: marisolListeningFillInBlank,
     isCompleted: false,
-    duration: '5 min',
+    duration: '8 min',
   },
   {
     id: 'lesson-4',
+    title: 'Vocabulary Part 2',
+    description: 'Learn neighborhood words',
+    type: 'vocabulary',
+    content: vocabulary2,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  {
     title: 'Numbers 0-20',
     description: 'Learn to count from 0 to 20',
     type: 'numbers-practice',

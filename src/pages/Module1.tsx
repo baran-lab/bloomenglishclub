@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, BookOpen, Menu, ArrowRight } from 'lucide-react';
@@ -17,9 +17,9 @@ import { ListeningWritingPractice } from '@/components/module1/ListeningWritingP
 import { FillInTheBlankPractice } from '@/components/module1/FillInTheBlankPractice';
 import { SmartAnswerPractice } from '@/components/module1/SmartAnswerPractice';
 import { InteractiveForm } from '@/components/module1/InteractiveForm';
+import { ListeningFillInBlank } from '@/components/module1/ListeningFillInBlank';
 import { module1Lessons, Lesson, greetingPhrases } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
-import { BeeMascot, getRandomMessage } from '@/components/BeeMascot';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
 import { useMicroWin } from '@/components/MicroWins';
 
@@ -115,6 +115,8 @@ const Module1Content: React.FC = () => {
         return <ListeningWritingPractice questions={lesson.questions || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'fill-in-blank':
         return <FillInTheBlankPractice items={lesson.fillInBlankItems || []} onComplete={handleLessonComplete} title={lesson.title} userName={userName} />;
+      case 'listening-fill-in-blank':
+        return <ListeningFillInBlank items={lesson.listeningFillInBlankItems || []} onComplete={handleLessonComplete} title={lesson.title} userName={userName} />;
       case 'smart-practice':
         return <SmartAnswerPractice questions={lesson.smartQuestions || []} onComplete={handleLessonComplete} title={lesson.title} userName={userName} />;
       case 'interactive-form':
@@ -141,7 +143,6 @@ const Module1Content: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <BeeMascot size="small" />
             {viewState !== 'language-select' && (
               <Button variant="ghost" size="sm" onClick={() => setShowSettings(!showSettings)} className="gap-2">
                 <span className="text-lg">{languageInfo.flag}</span>
