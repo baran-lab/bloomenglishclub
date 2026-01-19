@@ -294,6 +294,18 @@ export const vocabulary2: VocabularyItem[] = [
   { id: 'v2-with', english: 'with', pronunciation: 'with', translations: { arabic: 'مع', bengali: 'সাথে', korean: '~와 함께', spanish: 'con', turkish: 'ile' } },
 ];
 
+// Questions Vocabulary - What to ask people
+export const questionsVocabulary: VocabularyItem[] = [
+  { id: 'q-what-is-your-name', english: 'What is your name?', pronunciation: 'wut iz yor naym', translations: { arabic: 'ما اسمك؟', bengali: 'তোমার নাম কি?', korean: '이름이 뭐예요?', spanish: '¿Cuál es tu nombre?', turkish: 'Adın ne?' } },
+  { id: 'q-where-are-you-from', english: 'Where are you from?', pronunciation: 'wer ar yoo from', translations: { arabic: 'من أين أنت؟', bengali: 'তুমি কোথা থেকে?', korean: '어디에서 왔어요?', spanish: '¿De dónde eres?', turkish: 'Nerelisin?' } },
+  { id: 'q-how-old-are-you', english: 'How old are you?', pronunciation: 'how ohld ar yoo', translations: { arabic: 'كم عمرك؟', bengali: 'তোমার বয়স কত?', korean: '몇 살이에요?', spanish: '¿Cuántos años tienes?', turkish: 'Kaç yaşındasın?' } },
+  { id: 'q-are-you-married', english: 'Are you married or single?', pronunciation: 'ar yoo MAR-eed or SING-gul', translations: { arabic: 'هل أنت متزوج أم أعزب؟', bengali: 'তুমি কি বিবাহিত না অবিবাহিত?', korean: '결혼했어요, 아니면 미혼이에요?', spanish: '¿Estás casado/a o soltero/a?', turkish: 'Evli misin bekar mı?' } },
+  { id: 'q-do-you-have-children', english: 'Do you have children?', pronunciation: 'doo yoo hav CHIL-dren', translations: { arabic: 'هل لديك أطفال؟', bengali: 'তোমার কি বাচ্চা আছে?', korean: '아이가 있으세요?', spanish: '¿Tienes hijos?', turkish: 'Çocuğun var mı?' } },
+  { id: 'q-do-you-work', english: 'Do you work?', pronunciation: 'doo yoo werk', translations: { arabic: 'هل تعمل؟', bengali: 'তুমি কি কাজ কর?', korean: '일을 하세요?', spanish: '¿Trabajas?', turkish: 'Çalışıyor musun?' } },
+  { id: 'q-what-do-you-do', english: 'What do you do?', pronunciation: 'wut doo yoo doo', translations: { arabic: 'ماذا تعمل؟', bengali: 'তুমি কি কর?', korean: '무슨 일을 해요?', spanish: '¿A qué te dedicas?', turkish: 'Ne iş yapıyorsun?' } },
+  { id: 'q-where-do-you-work', english: 'Where do you work?', pronunciation: 'wer doo yoo werk', translations: { arabic: 'أين تعمل؟', bengali: 'তুমি কোথায় কাজ কর?', korean: '어디서 일해요?', spanish: '¿Dónde trabajas?', turkish: 'Nerede çalışıyorsun?' } },
+];
+
 // Jobs and Workplaces Vocabulary
 export const jobsVocabulary: VocabularyItem[] = [
   { id: 'job-construction-worker', english: 'construction worker', pronunciation: 'kon-STRUK-shun WER-ker', translations: { arabic: 'عامل بناء', bengali: 'নির্মাণ শ্রমিক', korean: '건설 노동자', spanish: 'trabajador de construcción', turkish: 'inşaat işçisi' } },
@@ -719,6 +731,7 @@ export const letsReviewPart2: FillInBlankItem[] = [
 
 // Module 1 Lessons - New structured sequence
 export const module1Lessons: Lesson[] = [
+  // 1. Vocabulary Part 1 - Basic intro words
   {
     id: 'lesson-1',
     title: 'Vocabulary Part 1',
@@ -728,6 +741,7 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '8 min',
   },
+  // 2. My Name is Marisol - Video series with pronunciation
   {
     id: 'lesson-2',
     title: 'My Name is Marisol',
@@ -737,6 +751,7 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
+  // 3. Listening Practice: Marisol - Fill in blanks
   {
     id: 'lesson-3',
     title: 'Listening Practice: Marisol',
@@ -746,6 +761,7 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '8 min',
   },
+  // 4. Vocabulary Part 2 - Neighborhood words
   {
     id: 'lesson-4',
     title: 'Vocabulary Part 2',
@@ -755,80 +771,59 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '8 min',
   },
+  // 5. Questions - Learn to ask questions
   {
     id: 'lesson-5',
+    title: 'Questions',
+    description: 'Learn questions to ask people',
+    type: 'vocabulary',
+    content: questionsVocabulary,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  // 6. Numbers 0-20
+  {
+    id: 'lesson-6',
     title: 'Numbers 0-20',
     description: 'Learn to count from 0 to 20',
     type: 'numbers-practice',
     content: numbers0to20,
     isCompleted: false,
-    duration: '5 min',
+    duration: '8 min',
   },
-  {
-    id: 'lesson-6',
-    title: 'Greetings & Introductions',
-    description: 'Learn common greeting phrases',
-    type: 'vocabulary',
-    phrases: greetingPhrases,
-    isCompleted: false,
-    duration: '6 min',
-  },
+  // 7. Jobs and Workplaces Part 1 - Vocabulary
   {
     id: 'lesson-7',
-    title: 'Numbers 21-40',
-    description: 'Continue learning numbers',
-    type: 'numbers-practice',
-    content: numbers21to40,
-    isCompleted: false,
-    duration: '5 min',
-  },
-  {
-    id: 'lesson-8',
     title: 'Jobs and Workplaces Part 1',
     description: 'Learn job vocabulary',
     type: 'vocabulary',
     content: jobsVocabulary,
     isCompleted: false,
-    duration: '6 min',
+    duration: '10 min',
   },
+  // 8. Jobs and Workplaces Part 2 - Sentences
   {
-    id: 'lesson-9',
+    id: 'lesson-8',
     title: 'Jobs and Workplaces Part 2',
     description: 'Listen and repeat job sentences',
     type: 'sentences',
     sentences: jobsSentences,
     isCompleted: false,
-    duration: '8 min',
-  },
-  {
-    id: 'lesson-10',
-    title: 'Numbers 41-60',
-    description: 'Master higher numbers',
-    type: 'numbers-practice',
-    content: numbers41to60,
-    isCompleted: false,
-    duration: '5 min',
-  },
-  {
-    id: 'lesson-11',
-    title: 'What is Your Name?',
-    description: "Meet Rosa, your new neighbor",
-    type: 'video-series',
-    videos: rosaVideos,
-    isCompleted: false,
-    duration: '8 min',
-  },
-  {
-    id: 'lesson-12',
-    title: 'Speaking Practice',
-    description: 'Practice speaking introduction phrases',
-    type: 'speaking',
-    phrases: greetingPhrases.slice(0, 6),
-    isCompleted: false,
     duration: '10 min',
   },
+  // 9. Numbers 21-40
   {
-    id: 'lesson-13',
+    id: 'lesson-9',
+    title: 'Numbers 21-40',
+    description: 'Continue learning numbers',
+    type: 'numbers-practice',
+    content: numbers21to40,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  // 10. Practice Session Part 1 - Embedded game
+  {
+    id: 'lesson-10',
     title: 'Practice Session Part 1',
     description: 'Interactive listening exercise',
     type: 'practice',
@@ -836,8 +831,9 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
+  // 11. Practice Session Part 2 - Answer questions
   {
-    id: 'lesson-14',
+    id: 'lesson-11',
     title: 'Practice Session Part 2',
     description: 'Answer questions about yourself',
     type: 'smart-practice',
@@ -845,8 +841,9 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
+  // Additional lessons
   {
-    id: 'lesson-15',
+    id: 'lesson-12',
     title: "Let's Review Part 1",
     description: 'Fill in the blanks with Marisol',
     type: 'fill-in-blank',
@@ -855,7 +852,7 @@ export const module1Lessons: Lesson[] = [
     duration: '8 min',
   },
   {
-    id: 'lesson-16',
+    id: 'lesson-13',
     title: "Let's Review Part 2",
     description: 'Complete Rosa\'s conversation',
     type: 'fill-in-blank',
@@ -864,7 +861,7 @@ export const module1Lessons: Lesson[] = [
     duration: '10 min',
   },
   {
-    id: 'lesson-17',
+    id: 'lesson-14',
     title: 'Doctor Intake Form',
     description: 'Practice filling out a real U.S. form',
     type: 'interactive-form',
@@ -873,7 +870,7 @@ export const module1Lessons: Lesson[] = [
     duration: '10 min',
   },
   {
-    id: 'lesson-18',
+    id: 'lesson-15',
     title: 'Job Application',
     description: 'Practice applying for a job',
     type: 'interactive-form',
