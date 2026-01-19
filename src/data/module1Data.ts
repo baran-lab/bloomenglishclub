@@ -756,6 +756,7 @@ export const module1Lessons: Lesson[] = [
     duration: '8 min',
   },
   {
+    id: 'lesson-5',
     title: 'Numbers 0-20',
     description: 'Learn to count from 0 to 20',
     type: 'numbers-practice',
@@ -764,7 +765,7 @@ export const module1Lessons: Lesson[] = [
     duration: '5 min',
   },
   {
-    id: 'lesson-5',
+    id: 'lesson-6',
     title: 'Greetings & Introductions',
     description: 'Learn common greeting phrases',
     type: 'vocabulary',
@@ -773,7 +774,7 @@ export const module1Lessons: Lesson[] = [
     duration: '6 min',
   },
   {
-    id: 'lesson-6',
+    id: 'lesson-7',
     title: 'Numbers 21-40',
     description: 'Continue learning numbers',
     type: 'numbers-practice',
@@ -782,7 +783,7 @@ export const module1Lessons: Lesson[] = [
     duration: '5 min',
   },
   {
-    id: 'lesson-7',
+    id: 'lesson-8',
     title: 'Jobs and Workplaces Part 1',
     description: 'Learn job vocabulary',
     type: 'vocabulary',
@@ -791,7 +792,7 @@ export const module1Lessons: Lesson[] = [
     duration: '6 min',
   },
   {
-    id: 'lesson-8',
+    id: 'lesson-9',
     title: 'Jobs and Workplaces Part 2',
     description: 'Listen and repeat job sentences',
     type: 'sentences',
@@ -800,7 +801,7 @@ export const module1Lessons: Lesson[] = [
     duration: '8 min',
   },
   {
-    id: 'lesson-9',
+    id: 'lesson-10',
     title: 'Numbers 41-60',
     description: 'Master higher numbers',
     type: 'numbers-practice',
@@ -809,7 +810,7 @@ export const module1Lessons: Lesson[] = [
     duration: '5 min',
   },
   {
-    id: 'lesson-10',
+    id: 'lesson-11',
     title: 'What is Your Name?',
     description: "Meet Rosa, your new neighbor",
     type: 'video-series',
@@ -818,7 +819,7 @@ export const module1Lessons: Lesson[] = [
     duration: '8 min',
   },
   {
-    id: 'lesson-11',
+    id: 'lesson-12',
     title: 'Speaking Practice',
     description: 'Practice speaking introduction phrases',
     type: 'speaking',
@@ -827,7 +828,7 @@ export const module1Lessons: Lesson[] = [
     duration: '10 min',
   },
   {
-    id: 'lesson-12',
+    id: 'lesson-13',
     title: 'Practice Session Part 1',
     description: 'Interactive listening exercise',
     type: 'practice',
@@ -836,7 +837,7 @@ export const module1Lessons: Lesson[] = [
     duration: '5 min',
   },
   {
-    id: 'lesson-13',
+    id: 'lesson-14',
     title: 'Practice Session Part 2',
     description: 'Answer questions about yourself',
     type: 'smart-practice',
@@ -845,7 +846,7 @@ export const module1Lessons: Lesson[] = [
     duration: '10 min',
   },
   {
-    id: 'lesson-14',
+    id: 'lesson-15',
     title: "Let's Review Part 1",
     description: 'Fill in the blanks with Marisol',
     type: 'fill-in-blank',
@@ -854,7 +855,7 @@ export const module1Lessons: Lesson[] = [
     duration: '8 min',
   },
   {
-    id: 'lesson-15',
+    id: 'lesson-16',
     title: "Let's Review Part 2",
     description: 'Complete Rosa\'s conversation',
     type: 'fill-in-blank',
@@ -863,7 +864,7 @@ export const module1Lessons: Lesson[] = [
     duration: '10 min',
   },
   {
-    id: 'lesson-16',
+    id: 'lesson-17',
     title: 'Doctor Intake Form',
     description: 'Practice filling out a real U.S. form',
     type: 'interactive-form',
@@ -872,7 +873,7 @@ export const module1Lessons: Lesson[] = [
     duration: '10 min',
   },
   {
-    id: 'lesson-17',
+    id: 'lesson-18',
     title: 'Job Application',
     description: 'Practice applying for a job',
     type: 'interactive-form',
