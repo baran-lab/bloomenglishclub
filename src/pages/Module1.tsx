@@ -10,7 +10,7 @@ import { VideoLesson } from '@/components/module1/VideoLesson';
 import { VocabularyLesson } from '@/components/module1/VocabularyLesson';
 import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { SentencePractice } from '@/components/module1/SentencePractice';
-import { NumbersPractice } from '@/components/module1/NumbersPractice';
+import { NumbersMatchingPractice } from '@/components/module1/NumbersMatchingPractice';
 import { SpeakingPractice } from '@/components/module1/SpeakingPractice';
 import { EmbeddedPractice } from '@/components/module1/EmbeddedPractice';
 import { ListeningWritingPractice } from '@/components/module1/ListeningWritingPractice';
@@ -113,7 +113,9 @@ const Module1Content: React.FC = () => {
       case 'sentences':
         return <SentencePractice sentences={lesson.sentences || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'numbers-practice':
-        return <NumbersPractice numbers={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
+        return <NumbersMatchingPractice numbers={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'numbers-matching':
+        return <NumbersMatchingPractice numbers={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'speaking':
         return <SpeakingPractice phrases={lesson.phrases || greetingPhrases.slice(0, 5)} onComplete={handleLessonComplete} />;
       case 'practice':

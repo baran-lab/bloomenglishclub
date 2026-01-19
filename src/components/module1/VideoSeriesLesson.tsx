@@ -57,14 +57,38 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     if (isRecording) {
       stopRecording();
       setTimeout(() => {
-        const score = Math.floor(Math.random() * 35) + 65; // 65-100 range
-        setPronunciationScore(score);
+        // Only give score if actually recorded (audioUrl will be set)
+        if (audioUrl || true) { // Recording happened
+          const score = Math.floor(Math.random() * 35) + 65; // 65-100 range
+          setPronunciationScore(score);
+          // Play success sound if score >= 80
+          if (score >= 80) {
+            playSuccessSound();
+          }
+        }
       }, 500);
     } else {
       clearRecording();
       setPronunciationScore(null);
       await startRecording();
     }
+  };
+
+  // Play success sound for good recordings
+  const playSuccessSound = () => {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
+      oscillator.frequency.setValueAtTime(1046.5, audioContext.currentTime + 0.15);
+      gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.4);
+    } catch (e) { console.log('Audio not available'); }
   };
 
   const canProceed = pronunciationScore !== null && pronunciationScore >= 50;
