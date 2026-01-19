@@ -574,12 +574,12 @@ export const module1IntroVideoUrl = '/videos/module1/m1-l1-s1.mp4';
 
 // Marisol Introduction Video Series (starts from S2 - S1 is the intro)
 export const marisolVideos = [
-  { url: '/videos/module1/m1-l1-s2.mp4', title: 'I am from Peru.', subtitle: 'Country of origin' },
-  { url: '/videos/module1/m1-l1-s3.mp4', title: 'I am 28 years old.', subtitle: 'Age' },
-  { url: '/videos/module1/m1-l1-s4.mp4', title: 'I am single.', subtitle: 'Marital status' },
-  { url: '/videos/module1/m1-l1-s5.mp4', title: 'I am a cashier.', subtitle: 'Occupation' },
-  { url: '/videos/module1/m1-l1-s6.mp4', title: 'I work in a supermarket.', subtitle: 'Workplace' },
-  { url: '/videos/module1/m1-l1-s7.mp4', title: 'Nice to meet you!', subtitle: 'Greeting' },
+  { url: '/videos/module1/m1-l1-s2.mp4', title: 'My name is Marisol Rivera.', subtitle: 'Name' },
+  { url: '/videos/module1/m1-l1-s3.mp4', title: 'I am from Peru.', subtitle: 'Country of origin' },
+  { url: '/videos/module1/m1-l1-s4.mp4', title: 'I am 28 years old.', subtitle: 'Age' },
+  { url: '/videos/module1/m1-l1-s5.mp4', title: 'I am single.', subtitle: 'Marital status' },
+  { url: '/videos/module1/m1-l1-s6.mp4', title: 'I am a cashier.', subtitle: 'Occupation' },
+  { url: '/videos/module1/m1-l1-s7.mp4', title: 'I work in a supermarket.', subtitle: 'Workplace' },
 ];
 
 // Rosa Introduction Video Series - "What is your name?"
