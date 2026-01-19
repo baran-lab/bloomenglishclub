@@ -53,23 +53,32 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     setShowPractice(true);
   };
 
+  const [recordingStartTime, setRecordingStartTime] = useState<number | null>(null);
+
   const handleRecord = async () => {
     if (isRecording) {
+      const recordingDuration = recordingStartTime ? Date.now() - recordingStartTime : 0;
       stopRecording();
+      
       setTimeout(() => {
-        // Only give score if actually recorded (audioUrl will be set)
-        if (audioUrl || true) { // Recording happened
+        // Only give score if recording lasted at least 500ms (user actually spoke)
+        if (recordingDuration >= 500) {
           const score = Math.floor(Math.random() * 35) + 65; // 65-100 range
           setPronunciationScore(score);
           // Play success sound if score >= 80
           if (score >= 80) {
             playSuccessSound();
           }
+        } else {
+          // Recording was too short - user didn't record anything meaningful
+          setPronunciationScore(null);
         }
+        setRecordingStartTime(null);
       }, 500);
     } else {
       clearRecording();
       setPronunciationScore(null);
+      setRecordingStartTime(Date.now());
       await startRecording();
     }
   };

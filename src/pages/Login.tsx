@@ -1,22 +1,113 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Building2, Mail, Lock, ArrowRight, Globe } from "lucide-react";
+import { Building2, Mail, Lock, ArrowRight, Globe, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import heroImage from "@/assets/englishville-hero.jpg";
 
+type LoginState = 'login' | 'welcome-video';
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginState, setLoginState] = useState<LoginState>('login');
+  const [videoEnded, setVideoEnded] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // For demo, just navigate to dashboard
-    navigate("/");
+    // Store login state
+    localStorage.setItem('englishville_logged_in', 'true');
+    // Show welcome video
+    setLoginState('welcome-video');
   };
+
+  const handleVideoEnd = () => {
+    setVideoEnded(true);
+  };
+
+  const handleContinueToModule = () => {
+    navigate("/module/1");
+  };
+
+  // Welcome video screen
+  if (loginState === 'welcome-video') {
+    return (
+      <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-3xl space-y-6"
+        >
+          <div className="text-center space-y-2">
+            <motion.h1
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="font-fredoka text-3xl md:text-4xl font-bold text-foreground"
+            >
+              Welcome to Englishville! 🏘️
+            </motion.h1>
+            <p className="text-muted-foreground">
+              Watch this short introduction to get started
+            </p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="relative rounded-2xl overflow-hidden bg-black shadow-2xl"
+          >
+            <video
+              src="/videos/module1/m1-l1-s1.mp4"
+              controls
+              autoPlay
+              className="w-full aspect-video"
+              onEnded={handleVideoEnd}
+            />
+          </motion.div>
+
+          <AnimatePresence>
+            {videoEnded && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex justify-center"
+              >
+                <Button
+                  size="lg"
+                  onClick={handleContinueToModule}
+                  className="gap-2 bg-gradient-primary text-primary-foreground px-8 py-6 text-lg rounded-xl shadow-glow"
+                >
+                  Start Learning
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {!videoEnded && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="flex justify-center"
+            >
+              <Button
+                variant="ghost"
+                onClick={handleContinueToModule}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                Skip intro →
+              </Button>
+            </motion.div>
+          )}
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-hero flex">
@@ -39,7 +130,7 @@ const Login = () => {
               Welcome to Englishville!
             </h2>
             <p className="text-muted-foreground">
-              Join Maria, Ahmed, Yuki, and friends as they learn everyday English in their American neighborhood. 🏘️
+              Join Marisol, Rosa, and friends as they learn everyday English in their American neighborhood. 🏘️
             </p>
           </motion.div>
         </div>
@@ -82,8 +173,9 @@ const Login = () => {
               <option value="en">English</option>
               <option value="es">Español</option>
               <option value="ar">العربية</option>
-              <option value="zh">中文</option>
-              <option value="vi">Tiếng Việt</option>
+              <option value="ko">한국어</option>
+              <option value="tr">Türkçe</option>
+              <option value="bn">বাংলা</option>
             </select>
           </motion.div>
 
