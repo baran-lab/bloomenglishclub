@@ -18,12 +18,12 @@ import { FillInTheBlankPractice } from '@/components/module1/FillInTheBlankPract
 import { SmartAnswerPractice } from '@/components/module1/SmartAnswerPractice';
 import { InteractiveForm } from '@/components/module1/InteractiveForm';
 import { ListeningFillInBlank } from '@/components/module1/ListeningFillInBlank';
-import { module1Lessons, Lesson, greetingPhrases } from '@/data/module1Data';
+import { module1Lessons, Lesson, greetingPhrases, module1IntroVideoUrl } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
 import { useMicroWin } from '@/components/MicroWins';
 
-type ViewState = 'language-select' | 'lessons' | 'lesson-detail';
+type ViewState = 'language-select' | 'intro-video' | 'lessons' | 'lesson-detail';
 
 const Module1Content: React.FC = () => {
   const navigate = useNavigate();
@@ -38,17 +38,23 @@ const Module1Content: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [userName, setUserName] = useState(() => localStorage.getItem('englishville_user_name') || '');
   const [showContinue, setShowContinue] = useState(false);
+  const [introVideoWatched, setIntroVideoWatched] = useState(false);
 
   const completedCount = lessons.filter(l => l.isCompleted).length;
   const progress = (completedCount / lessons.length) * 100;
   const currentLessonIndex = lessons.findIndex(l => l.id === activeLesson?.id);
 
   const handleLanguageSelected = () => {
-    setViewState('lessons');
+    setViewState('intro-video');
     toast({
       title: `${languageInfo.flag} ${languageInfo.english} selected`,
       description: 'Translations will be shown in your chosen language.',
     });
+  };
+
+  const handleIntroVideoComplete = () => {
+    setIntroVideoWatched(true);
+    setViewState('lessons');
   };
 
   const handleLessonClick = (lesson: Lesson) => {
@@ -84,6 +90,10 @@ const Module1Content: React.FC = () => {
       setViewState('lessons');
       setActiveLesson(null);
       setShowContinue(false);
+    } else if (viewState === 'lessons') {
+      navigate('/');
+    } else if (viewState === 'intro-video') {
+      setViewState('language-select');
     } else {
       navigate('/');
     }
@@ -178,6 +188,30 @@ const Module1Content: React.FC = () => {
                 <Button size="lg" onClick={handleLanguageSelected} className="gap-2">
                   <BookOpen className="w-5 h-5" />
                   Start Learning
+                </Button>
+              </div>
+            </motion.div>
+          )}
+
+          {viewState === 'intro-video' && (
+            <motion.div key="intro-video" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-6">
+              <div className="text-center space-y-2">
+                <h2 className="font-fredoka text-2xl font-bold text-foreground">Meet Marisol! 👋</h2>
+                <p className="text-muted-foreground">Watch Marisol introduce herself, then continue to the lessons.</p>
+              </div>
+              <div className="relative rounded-2xl overflow-hidden bg-black shadow-lg">
+                <video
+                  src={module1IntroVideoUrl}
+                  controls
+                  autoPlay
+                  className="w-full aspect-video"
+                  onEnded={handleIntroVideoComplete}
+                />
+              </div>
+              <div className="flex justify-center">
+                <Button size="lg" onClick={handleIntroVideoComplete} className="gap-2 rounded-xl">
+                  <ArrowRight className="w-5 h-5" />
+                  Continue to Lessons
                 </Button>
               </div>
             </motion.div>
