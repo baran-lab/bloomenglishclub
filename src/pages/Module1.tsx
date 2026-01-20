@@ -138,7 +138,7 @@ const Module1Content: React.FC = () => {
       case 'quiz':
         return <MultipleChoiceQuiz questions={lesson.quizQuestions || []} onComplete={handleLessonComplete} title={lesson.title} characterName={lesson.title.replace('Quiz: ', '')} />;
       case 'practice-quiz':
-        return <VideoPracticeQuiz slides={lesson.practiceQuizSlides || []} onComplete={handleLessonComplete} lessonTitle={lesson.title} />;
+        return <VideoPracticeQuiz slides={lesson.practiceQuizSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} />;
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }

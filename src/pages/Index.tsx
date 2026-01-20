@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Bell } from "lucide-react";
+import { Bell, Play, Users } from "lucide-react";
 import { WelcomeHeader } from "@/components/WelcomeHeader";
 import { ModuleCard } from "@/components/ModuleCard";
 import { SkillsSection } from "@/components/SkillsSection";
@@ -9,6 +9,10 @@ import { ProfileSidebar } from "@/components/ProfileSidebar";
 import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { playAppJingle } from "@/utils/appJingle";
+import { characters } from "@/data/module1Data";
 import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
@@ -16,7 +20,27 @@ const Index = () => {
   const [modules, setModules] = useState<Module[]>(mockModules);
   const [userProgress, setUserProgress] = useState(mockUserProgress);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [playingVideo, setPlayingVideo] = useState<string | null>(null);
   const { toast } = useToast();
+  const hasPlayedJingle = useRef(false);
+
+  // Play jingle on first load
+  useEffect(() => {
+    if (!hasPlayedJingle.current) {
+      hasPlayedJingle.current = true;
+      // Small delay to ensure page is loaded
+      setTimeout(() => {
+        playAppJingle();
+      }, 500);
+    }
+  }, []);
+
+  // Neighbor video data
+  const neighborVideos = [
+    { id: 'ahmet', name: 'Ahmet El-Masri', videoUrl: '/videos/module1/ahmet-intro.mp4', character: characters.find(c => c.id === 'ahmet')! },
+    { id: 'marisol', name: 'Marisol Rivera', videoUrl: '/videos/module1/marisol-intro.mp4', character: characters.find(c => c.id === 'marisol')! },
+    { id: 'saojin', name: 'Saojin Lee', videoUrl: '/videos/module1/saojin-intro.mp4', character: characters.find(c => c.id === 'saojin')! },
+  ];
 
   const currentModule = modules.find((m) => m.isUnlocked && !m.isCompleted);
   const currentTasks = currentModule?.tasks || [];
@@ -148,6 +172,59 @@ const Index = () => {
             <DailyTasks tasks={currentTasks} onToggle={handleTaskToggle} />
           </div>
         )}
+
+        {/* Meet Your Neighbors Section */}
+        <div className="mt-8">
+          <h2 className="font-fredoka text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+            <Users className="w-5 h-5 text-primary" />
+            Meet Your Neighbors
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {neighborVideos.map((neighbor, index) => (
+              <motion.div
+                key={neighbor.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+                  {playingVideo === neighbor.id ? (
+                    <div className="aspect-video bg-black">
+                      <video
+                        src={neighbor.videoUrl}
+                        className="w-full h-full object-contain"
+                        controls
+                        autoPlay
+                        onEnded={() => setPlayingVideo(null)}
+                      />
+                    </div>
+                  ) : (
+                    <div 
+                      className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 flex flex-col items-center justify-center relative group"
+                      onClick={() => setPlayingVideo(neighbor.id)}
+                    >
+                      <span className="text-5xl mb-2">{neighbor.character.avatar}</span>
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <div className="bg-primary text-primary-foreground rounded-full p-3">
+                          <Play className="w-6 h-6 fill-current" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div className="p-3 text-center">
+                    <h4 className="font-semibold text-foreground">{neighbor.name}</h4>
+                    <p className="text-xs text-muted-foreground">
+                      {neighbor.character.flag} {neighbor.character.job}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {neighbor.character.apartment}
+                    </p>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
 
         {/* Modules Grid */}
         <div className="mt-8">
