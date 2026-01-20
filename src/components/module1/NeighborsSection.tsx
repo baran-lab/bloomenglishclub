@@ -25,7 +25,7 @@ export const NeighborsSection: React.FC = () => {
 
       {/* Featured Neighbors with Quiz Links */}
       <div className="space-y-4">
-        <h3 className="font-fredoka text-lg font-semibold text-primary">Take a Quiz!</h3>
+        <h3 className="font-fredoka text-lg font-semibold text-primary">Meet Your Neighbors</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {featuredNeighbors.map((neighbor, index) => (
             <motion.div
@@ -47,7 +47,7 @@ export const NeighborsSection: React.FC = () => {
                 variant="outline"
               >
                 <PlayCircle className="w-4 h-4" />
-                Take Quiz
+                Meet {neighbor.name.split(' ')[0]}
               </Button>
             </motion.div>
           ))}
