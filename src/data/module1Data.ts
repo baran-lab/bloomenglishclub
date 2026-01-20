@@ -36,7 +36,7 @@ export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz';
+  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order';
   videoUrl?: string;
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean }[];
   content?: VocabularyItem[];
@@ -48,6 +48,7 @@ export interface Lesson {
   listeningFillInBlankItems?: ListeningFillInBlankItem[];
   quizQuestions?: QuizQuestion[];
   practiceQuizSlides?: VideoSlideWithQuiz[];
+  wordOrderSlides?: WordOrderSlide[];
   formType?: 'doctor-intake' | 'job-application' | 'insurance';
   embedUrl?: string;
   isCompleted: boolean;
@@ -426,13 +427,13 @@ export interface GrammarRule {
 export const grammarExplanations: GrammarRule[] = [
   {
     english: 'I am → She is / He is',
-    example: 'I am Marisol. → She is Marisol.',
+    example: 'I am from Peru. → She is from Peru.',
     translations: {
-      arabic: { rule: 'أنا → هي / هو', example: 'أنا ماريسول. → هي ماريسول.' },
-      bengali: { rule: 'আমি → সে (মহিলা/পুরুষ)', example: 'আমি মারিসল। → সে মারিসল।' },
-      korean: { rule: '나는 → 그녀는 / 그는', example: '나는 마리솔이에요. → 그녀는 마리솔이에요.' },
-      spanish: { rule: 'Yo soy → Ella es / Él es', example: 'Yo soy Marisol. → Ella es Marisol.' },
-      turkish: { rule: 'Ben → O (kadın/erkek)', example: 'Ben Marisol. → O Marisol.' }
+      arabic: { rule: 'أنا → هي / هو', example: 'أنا من بيرو. → هي من بيرو.' },
+      bengali: { rule: 'আমি → সে (মহিলা/পুরুষ)', example: 'আমি পেরু থেকে। → সে পেরু থেকে।' },
+      korean: { rule: '나는 ~이다 → 그녀는/그는 ~이다', example: '나는 페루 출신이다. → 그녀는 페루 출신이다.' },
+      spanish: { rule: 'Yo soy → Ella es / Él es', example: 'Yo soy de Perú. → Ella es de Perú.' },
+      turkish: { rule: 'Ben ~im → O ~(dır)', example: 'Ben Peru\'luyum. → O Peru\'lu.' }
     }
   },
   {
@@ -440,10 +441,21 @@ export const grammarExplanations: GrammarRule[] = [
     example: 'I have a cat. → She has a cat.',
     translations: {
       arabic: { rule: 'لدي → لديها / لديه', example: 'لدي قطة. → لديها قطة.' },
-      bengali: { rule: 'আমার আছে → তার আছে', example: 'আমার একটি বিড়াল আছে। → তার একটি বিড়াল আছে।' },
-      korean: { rule: '나는 있어요 → 그녀는 있어요', example: '나는 고양이가 있어요. → 그녀는 고양이가 있어요.' },
+      bengali: { rule: 'আমার আছে → তার আছে', example: 'আমার একটা বিড়াল আছে। → তার একটা বিড়াল আছে।' },
+      korean: { rule: '나는 ~가 있다 → 그녀는 ~가 있다', example: '나는 고양이가 있다. → 그녀는 고양이가 있다.' },
       spanish: { rule: 'Yo tengo → Ella tiene', example: 'Yo tengo un gato. → Ella tiene un gato.' },
-      turkish: { rule: 'Benim var → Onun var', example: 'Benim bir kedim var. → Onun bir kedisi var.' }
+      turkish: { rule: 'Benim ~m var → Onun ~ı var', example: 'Bir kedim var. → Onun bir kedisi var.' }
+    }
+  },
+  {
+    english: 'My name → Her name / His name',
+    example: 'My name is Marisol. → Her name is Marisol.',
+    translations: {
+      arabic: { rule: 'اسمي → اسمها / اسمه', example: 'اسمي ماريسول. → اسمها ماريسول.' },
+      bengali: { rule: 'আমার নাম → তার নাম', example: 'আমার নাম মারিসোল। → তার নাম মারিসোল।' },
+      korean: { rule: '내 이름 → 그녀의 이름', example: '내 이름은 마리솔이다. → 그녀의 이름은 마리솔이다.' },
+      spanish: { rule: 'Mi nombre → Su nombre', example: 'Mi nombre es Marisol. → Su nombre es Marisol.' },
+      turkish: { rule: 'Benim adım → Onun adı', example: 'Benim adım Marisol. → Onun adı Marisol.' }
     }
   },
   {
@@ -516,7 +528,7 @@ export const practice1Slides: VideoSlideWithQuiz[] = [
       id: 'p1-q5',
       question: 'Marisol ______ a cat.',
       options: ['have', 'has'],
-      correctAnswer: 0,
+      correctAnswer: 1,
       translations: { arabic: 'ماريسول ______ قطة.', bengali: 'মারিসল ______ একটি বিড়াল।', korean: '마리솔은 고양이가 _______.', spanish: 'Marisol ______ un gato.', turkish: 'Marisol\'un bir kedisi ______.' }
     }
   },
@@ -543,6 +555,76 @@ export const practice1Slides: VideoSlideWithQuiz[] = [
       correctAnswer: 1,
       translations: { arabic: 'أين تعمل ماريسول؟', bengali: 'মারিসল কোথায় কাজ করে?', korean: '마리솔은 어디서 일하나요?', spanish: '¿Dónde trabaja Marisol?', turkish: 'Marisol nerede çalışıyor?' }
     }
+  },
+];
+
+// Practice 2 Word Order interface
+export interface WordOrderSlide {
+  url: string;
+  title: string;
+  subtitle?: string;
+  correctSentence: string;
+  jumbledWords: string[];
+  translations: Record<SupportedLanguage, string>;
+}
+
+// Practice 2 slides - Rosa word ordering
+export const practice2Slides: WordOrderSlide[] = [
+  {
+    url: '/videos/module1/m1-l4-s1.mp4',
+    title: 'Listen to Rosa',
+    subtitle: 'Put the words in order',
+    correctSentence: 'My name is Rosa Silva.',
+    jumbledWords: ['Silva.', 'name', 'is', 'Rosa', 'My'],
+    translations: { arabic: 'اسمي روزا سيلفا.', bengali: 'আমার নাম রোজা সিলভা।', korean: '제 이름은 로사 실바입니다.', spanish: 'Mi nombre es Rosa Silva.', turkish: 'Adım Rosa Silva.' }
+  },
+  {
+    url: '/videos/module1/m1-l4-s2.mp4',
+    title: 'Listen to Rosa',
+    subtitle: 'Put the words in order',
+    correctSentence: 'I am from the Dominican Republic.',
+    jumbledWords: ['Dominican', 'am', 'the', 'from', 'I', 'Republic.'],
+    translations: { arabic: 'أنا من جمهورية الدومينيكان.', bengali: 'আমি ডোমিনিকান প্রজাতন্ত্র থেকে।', korean: '저는 도미니카 공화국에서 왔어요.', spanish: 'Soy de la República Dominicana.', turkish: 'Dominik Cumhuriyeti\'ndenim.' }
+  },
+  {
+    url: '/videos/module1/m1-l4-s3.mp4',
+    title: 'Listen to Rosa',
+    subtitle: 'Put the words in order',
+    correctSentence: 'I am 30 years old.',
+    jumbledWords: ['old.', '30', 'am', 'years', 'I'],
+    translations: { arabic: 'عمري 30 سنة.', bengali: 'আমার বয়স 30 বছর।', korean: '저는 30살이에요.', spanish: 'Tengo 30 años.', turkish: '30 yaşındayım.' }
+  },
+  {
+    url: '/videos/module1/m1-l4-s4.mp4',
+    title: 'Listen to Rosa',
+    subtitle: 'Put the words in order',
+    correctSentence: 'I am married.',
+    jumbledWords: ['married.', 'I', 'am'],
+    translations: { arabic: 'أنا متزوجة.', bengali: 'আমি বিবাহিত।', korean: '저는 기혼이에요.', spanish: 'Estoy casada.', turkish: 'Evliyim.' }
+  },
+  {
+    url: '/videos/module1/m1-l4-s5.mp4',
+    title: 'Listen to Rosa',
+    subtitle: 'Put the words in order',
+    correctSentence: 'I am a housekeeper.',
+    jumbledWords: ['housekeeper.', 'a', 'am', 'I'],
+    translations: { arabic: 'أنا عاملة نظافة.', bengali: 'আমি একজন গৃহপরিচারিকা।', korean: '저는 가정부예요.', spanish: 'Soy ama de llaves.', turkish: 'Ben temizlikçiyim.' }
+  },
+  {
+    url: '/videos/module1/m1-l4-s6.mp4',
+    title: 'Listen to Rosa',
+    subtitle: 'Put the words in order',
+    correctSentence: 'I work in a hotel.',
+    jumbledWords: ['hotel.', 'a', 'in', 'work', 'I'],
+    translations: { arabic: 'أعمل في فندق.', bengali: 'আমি একটা হোটেলে কাজ করি।', korean: '저는 호텔에서 일해요.', spanish: 'Trabajo en un hotel.', turkish: 'Bir otelde çalışıyorum.' }
+  },
+  {
+    url: '/videos/module1/m1-l4-s7.mp4',
+    title: 'Listen to Rosa',
+    subtitle: 'Put the words in order',
+    correctSentence: 'I live in apartment 3B.',
+    jumbledWords: ['3B.', 'apartment', 'in', 'live', 'I'],
+    translations: { arabic: 'أعيش في شقة 3ب.', bengali: 'আমি অ্যাপার্টমেন্ট 3B-তে থাকি।', korean: '저는 3B 아파트에 살아요.', spanish: 'Vivo en el apartamento 3B.', turkish: 'Daire 3B\'de yaşıyorum.' }
   },
 ];
 
@@ -903,42 +985,52 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
-  // 9. Meet Your Neighbor: Ahmet El-Masri
+  // 9. Practice 2 - Word Order with Rosa
   {
     id: 'lesson-9',
+    title: 'Practice 2',
+    description: 'Listen to the questions and Rosa\'s answers. Put the words in order.',
+    type: 'word-order',
+    wordOrderSlides: practice2Slides,
+    isCompleted: false,
+    duration: '10 min',
+  },
+  // 10. Meet Your Neighbor: Ahmet El-Masri
+  {
+    id: 'lesson-10',
     title: 'Meet Your Neighbor: Ahmet El-Masri',
-    description: 'Watch and repeat with Ahmet',
+    description: 'Watch Ahmet and answer the quiz',
     type: 'video-series',
     videos: ahmetNeighborVideos,
     quizQuestions: ahmetQuiz,
     isCompleted: false,
     duration: '8 min',
   },
-  // 10. Meet Your Neighbor: Marisol Rivera
+  // 11. Meet Your Neighbor: Marisol Rivera
   {
-    id: 'lesson-10',
+    id: 'lesson-11',
     title: 'Meet Your Neighbor: Marisol Rivera',
-    description: 'Watch and repeat with Marisol',
+    description: 'Watch Marisol and answer the quiz',
     type: 'video-series',
     videos: marisolNeighborVideos,
     quizQuestions: marisolQuiz,
     isCompleted: false,
     duration: '8 min',
   },
-  // 11. Meet Your Neighbor: Saojin Lee
+  // 12. Meet Your Neighbor: Saojin Lee
   {
-    id: 'lesson-11',
+    id: 'lesson-12',
     title: 'Meet Your Neighbor: Saojin Lee',
-    description: 'Watch and repeat with Saojin',
+    description: 'Watch Saojin and answer the quiz',
     type: 'video-series',
     videos: saojinNeighborVideos,
     quizQuestions: saojinQuiz,
     isCompleted: false,
     duration: '8 min',
   },
-  // 12. Let's Review Part 1 - Listening fill in the blank
+  // 13. Let's Review Part 1 - Listening fill in the blank
   {
-    id: 'lesson-12',
+    id: 'lesson-13',
     title: "Let's Review Part 1",
     description: 'Listen and fill in the blanks (Marisol)',
     type: 'listening-fill-in-blank',
@@ -946,9 +1038,9 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
-  // 13. Let's Review Part 2 - Listening fill in the blank
+  // 14. Let's Review Part 2 - Listening fill in the blank
   {
-    id: 'lesson-13',
+    id: 'lesson-14',
     title: "Let's Review Part 2",
     description: 'Listen and fill in the blanks (Rosa)',
     type: 'listening-fill-in-blank',
