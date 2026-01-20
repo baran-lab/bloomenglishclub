@@ -36,7 +36,7 @@ export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz';
+  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz';
   videoUrl?: string;
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean }[];
   content?: VocabularyItem[];
@@ -47,6 +47,7 @@ export interface Lesson {
   fillInBlankItems?: FillInBlankItem[];
   listeningFillInBlankItems?: ListeningFillInBlankItem[];
   quizQuestions?: QuizQuestion[];
+  practiceQuizSlides?: VideoSlideWithQuiz[];
   formType?: 'doctor-intake' | 'job-application' | 'insurance';
   embedUrl?: string;
   isCompleted: boolean;
@@ -407,15 +408,122 @@ export const rosaVideos = [
   { url: '/videos/module1/m1-l2-s8.mp4', title: '', subtitle: 'Listen only', listenOnly: true },
 ];
 
-// M1 L3 Videos - Meet More Neighbors (Ahmet, Marisol, Saojin)
-export const meetNeighborsVideos = [
-  { url: '/videos/module1/m1-l3-s1.mp4', title: 'Meet Ahmet El-Masri', subtitle: 'Your neighbor from Egypt' },
-  { url: '/videos/module1/m1-l3-s2.mp4', title: 'Meet Marisol Rivera', subtitle: 'Your neighbor from Peru' },
-  { url: '/videos/module1/m1-l3-s3.mp4', title: 'Meet Saojin Lee', subtitle: 'Your neighbor from Korea' },
-  { url: '/videos/module1/m1-l3-s4.mp4', title: 'Ahmet Introduction', subtitle: 'Listen and learn' },
-  { url: '/videos/module1/m1-l3-s5.mp4', title: 'Marisol Introduction', subtitle: 'Listen and learn' },
-  { url: '/videos/module1/m1-l3-s6.mp4', title: 'Saojin Introduction', subtitle: 'Listen and learn' },
-  { url: '/videos/module1/m1-l3-s7.mp4', title: 'Meet Your Neighbors', subtitle: 'Review' },
+// Practice 1 - Video slides with quiz questions (no voice recording)
+export interface VideoSlideWithQuiz {
+  url: string;
+  title: string;
+  subtitle?: string;
+  quizQuestion: QuizQuestion;
+}
+
+export const practice1Slides: VideoSlideWithQuiz[] = [
+  { 
+    url: '/videos/module1/m1-l3-s1.mp4', 
+    title: 'Listen to Marisol', 
+    subtitle: 'Listen and answer',
+    quizQuestion: {
+      id: 'p1-q1',
+      question: 'What is her name?',
+      options: ['Marisol Rivera', 'Rosa Silva'],
+      correctAnswer: 0,
+      translations: { arabic: 'ما اسمها؟', bengali: 'তার নাম কি?', korean: '그녀의 이름은 뭔가요?', spanish: '¿Cuál es su nombre?', turkish: 'Adı ne?' }
+    }
+  },
+  { 
+    url: '/videos/module1/m1-l3-s2.mp4', 
+    title: 'Listen to Rosa', 
+    subtitle: 'Listen and answer',
+    quizQuestion: {
+      id: 'p1-q2',
+      question: 'Where is Rosa from?',
+      options: ['Dominican Republic', 'Peru'],
+      correctAnswer: 0,
+      translations: { arabic: 'من أين روزا؟', bengali: 'রোজা কোথা থেকে?', korean: '로사는 어디 출신인가요?', spanish: '¿De dónde es Rosa?', turkish: 'Rosa nereli?' }
+    }
+  },
+  { 
+    url: '/videos/module1/m1-l3-s3.mp4', 
+    title: 'Listen to Marisol', 
+    subtitle: 'Listen and answer',
+    quizQuestion: {
+      id: 'p1-q3',
+      question: 'How old is Marisol?',
+      options: ['28 years old', '30 years old'],
+      correctAnswer: 0,
+      translations: { arabic: 'كم عمر ماريسول؟', bengali: 'মারিসলের বয়স কত?', korean: '마리솔은 몇 살인가요?', spanish: '¿Cuántos años tiene Marisol?', turkish: 'Marisol kaç yaşında?' }
+    }
+  },
+  { 
+    url: '/videos/module1/m1-l3-s4.mp4', 
+    title: 'Listen to Rosa', 
+    subtitle: 'Listen and answer',
+    quizQuestion: {
+      id: 'p1-q4',
+      question: 'What does Rosa do?',
+      options: ['Housekeeper', 'Cashier'],
+      correctAnswer: 0,
+      translations: { arabic: 'ماذا تعمل روزا؟', bengali: 'রোজা কি করে?', korean: '로사는 무슨 일을 하나요?', spanish: '¿Qué hace Rosa?', turkish: 'Rosa ne iş yapıyor?' }
+    }
+  },
+  { 
+    url: '/videos/module1/m1-l3-s5.mp4', 
+    title: 'Listen to Marisol', 
+    subtitle: 'Listen and answer',
+    quizQuestion: {
+      id: 'p1-q5',
+      question: 'Where does Marisol work?',
+      options: ['Supermarket', 'Hotel'],
+      correctAnswer: 0,
+      translations: { arabic: 'أين تعمل ماريسول؟', bengali: 'মারিসল কোথায় কাজ করে?', korean: '마리솔은 어디서 일하나요?', spanish: '¿Dónde trabaja Marisol?', turkish: 'Marisol nerede çalışıyor?' }
+    }
+  },
+  { 
+    url: '/videos/module1/m1-l3-s6.mp4', 
+    title: 'Listen to Rosa', 
+    subtitle: 'Listen and answer',
+    quizQuestion: {
+      id: 'p1-q6',
+      question: 'Is Rosa married or single?',
+      options: ['Married', 'Single'],
+      correctAnswer: 0,
+      translations: { arabic: 'هل روزا متزوجة أم عزباء؟', bengali: 'রোজা কি বিবাহিত না অবিবাহিত?', korean: '로사는 결혼했나요, 미혼인가요?', spanish: '¿Rosa está casada o soltera?', turkish: 'Rosa evli mi bekar mı?' }
+    }
+  },
+  { 
+    url: '/videos/module1/m1-l3-s7.mp4', 
+    title: 'Review', 
+    subtitle: 'Final question',
+    quizQuestion: {
+      id: 'p1-q7',
+      question: 'Is Marisol married or single?',
+      options: ['Single', 'Married'],
+      correctAnswer: 0,
+      translations: { arabic: 'هل ماريسول متزوجة أم عزباء؟', bengali: 'মারিসল কি বিবাহিত না অবিবাহিত?', korean: '마리솔은 결혼했나요, 미혼인가요?', spanish: '¿Marisol está casada o soltera?', turkish: 'Marisol evli mi bekar mı?' }
+    }
+  },
+];
+
+// Ahmet videos for Meet Your Neighbor lesson
+export const ahmetNeighborVideos = [
+  { url: '/videos/module1/m1-l3-s1.mp4', title: 'Hi! I am Ahmet.', subtitle: 'Introduction', listenOnly: true },
+  { url: '/videos/module1/m1-l3-s2.mp4', title: 'I am from Egypt.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l3-s3.mp4', title: 'I am 45 years old.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l3-s4.mp4', title: 'I am an Uber driver.', subtitle: 'Practice' },
+];
+
+// Marisol videos for Meet Your Neighbor lesson  
+export const marisolNeighborVideos = [
+  { url: '/videos/module1/m1-l1-s2.mp4', title: 'Hi! I am Marisol.', subtitle: 'Introduction', listenOnly: true },
+  { url: '/videos/module1/m1-l1-s3.mp4', title: 'I am from Peru.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l1-s7.mp4', title: 'I am 28 years old.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l1-s4.mp4', title: 'I am a cashier.', subtitle: 'Practice' },
+];
+
+// Saojin videos for Meet Your Neighbor lesson
+export const saojinNeighborVideos = [
+  { url: '/videos/module1/m1-l3-s5.mp4', title: 'Hi! I am Saojin.', subtitle: 'Introduction', listenOnly: true },
+  { url: '/videos/module1/m1-l3-s6.mp4', title: 'I am from Korea.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l3-s7.mp4', title: 'I am a nurse.', subtitle: 'Practice' },
 ];
 
 // Quiz interface
@@ -750,45 +858,48 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '12 min',
   },
-  // 8. Meet Your Neighbors - Video slides (M1 L3 S1-S7)
+  // 8. Practice 1 - Listen and Quiz (no voice recording)
   {
     id: 'lesson-8',
-    title: 'Meet Your Neighbors',
-    description: 'Meet Ahmet, Marisol, and Saojin',
-    type: 'video-series',
-    videos: meetNeighborsVideos,
+    title: 'Practice 1',
+    description: 'Listen to Marisol and Rosa, then answer questions',
+    type: 'practice-quiz',
+    practiceQuizSlides: practice1Slides,
     isCompleted: false,
     duration: '10 min',
   },
-  // 9. Quiz: Ahmet El-Masri
+  // 9. Meet Your Neighbor: Ahmet El-Masri
   {
     id: 'lesson-9',
-    title: 'Quiz: Ahmet El-Masri',
-    description: 'Test your knowledge about Ahmet',
-    type: 'quiz',
+    title: 'Meet Your Neighbor: Ahmet El-Masri',
+    description: 'Watch and repeat with Ahmet',
+    type: 'video-series',
+    videos: ahmetNeighborVideos,
     quizQuestions: ahmetQuiz,
     isCompleted: false,
-    duration: '3 min',
+    duration: '8 min',
   },
-  // 10. Quiz: Marisol Rivera
+  // 10. Meet Your Neighbor: Marisol Rivera
   {
     id: 'lesson-10',
-    title: 'Quiz: Marisol Rivera',
-    description: 'Test your knowledge about Marisol',
-    type: 'quiz',
+    title: 'Meet Your Neighbor: Marisol Rivera',
+    description: 'Watch and repeat with Marisol',
+    type: 'video-series',
+    videos: marisolNeighborVideos,
     quizQuestions: marisolQuiz,
     isCompleted: false,
-    duration: '3 min',
+    duration: '8 min',
   },
-  // 11. Quiz: Saojin Lee
+  // 11. Meet Your Neighbor: Saojin Lee
   {
     id: 'lesson-11',
-    title: 'Quiz: Saojin Lee',
-    description: 'Test your knowledge about Saojin',
-    type: 'quiz',
+    title: 'Meet Your Neighbor: Saojin Lee',
+    description: 'Watch and repeat with Saojin',
+    type: 'video-series',
+    videos: saojinNeighborVideos,
     quizQuestions: saojinQuiz,
     isCompleted: false,
-    duration: '3 min',
+    duration: '8 min',
   },
   // 12. Let's Review Part 1 - Listening fill in the blank
   {
