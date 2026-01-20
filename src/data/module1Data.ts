@@ -32,11 +32,19 @@ export interface VocabularyItem {
   image?: string;
 }
 
+export interface SpeakingTestSlide {
+  id: string;
+  videoUrl: string;
+  questionToAsk: string;
+  hint: string;
+  translations: Record<SupportedLanguage, { question: string; hint: string }>;
+}
+
 export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order';
+  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order' | 'speaking-test';
   videoUrl?: string;
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean }[];
   content?: VocabularyItem[];
@@ -49,6 +57,7 @@ export interface Lesson {
   quizQuestions?: QuizQuestion[];
   practiceQuizSlides?: VideoSlideWithQuiz[];
   wordOrderSlides?: WordOrderSlide[];
+  speakingTestSlides?: SpeakingTestSlide[];
   formType?: 'doctor-intake' | 'job-application' | 'insurance';
   embedUrl?: string;
   isCompleted: boolean;
@@ -903,6 +912,101 @@ export const letsReviewPart2: ListeningFillInBlankItem[] = [
   },
 ];
 
+// Test 1 - Speaking Test Slides (Ask questions to Marisol)
+export const test1Slides: SpeakingTestSlide[] = [
+  {
+    id: 'test1-s1',
+    videoUrl: '/videos/module1/m1-l5-s1.mp4',
+    questionToAsk: "What's your name?",
+    hint: 'What / name?',
+    translations: {
+      arabic: { question: 'ما اسمك؟', hint: 'ما / اسم؟' },
+      bengali: { question: 'তোমার নাম কি?', hint: 'কি / নাম?' },
+      korean: { question: '이름이 뭐예요?', hint: '무엇 / 이름?' },
+      spanish: { question: '¿Cuál es tu nombre?', hint: '¿Qué / nombre?' },
+      turkish: { question: 'Adın ne?', hint: 'Ne / isim?' },
+    },
+  },
+  {
+    id: 'test1-s2',
+    videoUrl: '/videos/module1/m1-l5-s2.mp4',
+    questionToAsk: 'Where are you from?',
+    hint: 'Where / from?',
+    translations: {
+      arabic: { question: 'من أين أنت؟', hint: 'أين / من؟' },
+      bengali: { question: 'তুমি কোথা থেকে?', hint: 'কোথায় / থেকে?' },
+      korean: { question: '어디에서 왔어요?', hint: '어디 / 에서?' },
+      spanish: { question: '¿De dónde eres?', hint: '¿Dónde / de?' },
+      turkish: { question: 'Nerelisin?', hint: 'Nerede / -den?' },
+    },
+  },
+  {
+    id: 'test1-s3',
+    videoUrl: '/videos/module1/m1-l5-s3.mp4',
+    questionToAsk: 'How old are you?',
+    hint: 'How old?',
+    translations: {
+      arabic: { question: 'كم عمرك؟', hint: 'كم عمر؟' },
+      bengali: { question: 'তোমার বয়স কত?', hint: 'কত বয়স?' },
+      korean: { question: '몇 살이에요?', hint: '몇 살?' },
+      spanish: { question: '¿Cuántos años tienes?', hint: '¿Cuántos años?' },
+      turkish: { question: 'Kaç yaşındasın?', hint: 'Kaç yaş?' },
+    },
+  },
+  {
+    id: 'test1-s4',
+    videoUrl: '/videos/module1/m1-l5-s4.mp4',
+    questionToAsk: 'Are you married or single?',
+    hint: 'married or single?',
+    translations: {
+      arabic: { question: 'هل أنت متزوجة أم عزباء؟', hint: 'متزوجة أم عزباء؟' },
+      bengali: { question: 'তুমি কি বিবাহিত না অবিবাহিত?', hint: 'বিবাহিত না অবিবাহিত?' },
+      korean: { question: '결혼했어요, 아니면 미혼이에요?', hint: '결혼 아니면 미혼?' },
+      spanish: { question: '¿Estás casada o soltera?', hint: '¿casada o soltera?' },
+      turkish: { question: 'Evli misin bekar mı?', hint: 'evli mi bekar mı?' },
+    },
+  },
+  {
+    id: 'test1-s5',
+    videoUrl: '/videos/module1/m1-l5-s5.mp4',
+    questionToAsk: 'Do you have children?',
+    hint: 'Do / children?',
+    translations: {
+      arabic: { question: 'هل لديك أطفال؟', hint: 'هل / أطفال؟' },
+      bengali: { question: 'তোমার কি বাচ্চা আছে?', hint: 'কি / বাচ্চা?' },
+      korean: { question: '아이가 있어요?', hint: '있어요 / 아이?' },
+      spanish: { question: '¿Tienes hijos?', hint: '¿Tienes / hijos?' },
+      turkish: { question: 'Çocuğun var mı?', hint: 'Var mı / çocuk?' },
+    },
+  },
+  {
+    id: 'test1-s6',
+    videoUrl: '/videos/module1/m1-l5-s6.mp4',
+    questionToAsk: 'What do you do?',
+    hint: 'What / do?',
+    translations: {
+      arabic: { question: 'ماذا تعملين؟', hint: 'ماذا / تعمل؟' },
+      bengali: { question: 'তুমি কি কর?', hint: 'কি / কর?' },
+      korean: { question: '무슨 일을 해요?', hint: '무엇 / 일?' },
+      spanish: { question: '¿Qué haces?', hint: '¿Qué / hacer?' },
+      turkish: { question: 'Ne iş yapıyorsun?', hint: 'Ne / iş?' },
+    },
+  },
+  {
+    id: 'test1-s7',
+    videoUrl: '/videos/module1/m1-l5-s7.mp4',
+    questionToAsk: 'Where do you work?',
+    hint: 'Where / work?',
+    translations: {
+      arabic: { question: 'أين تعملين؟', hint: 'أين / عمل؟' },
+      bengali: { question: 'তুমি কোথায় কাজ কর?', hint: 'কোথায় / কাজ?' },
+      korean: { question: '어디서 일해요?', hint: '어디 / 일?' },
+      spanish: { question: '¿Dónde trabajas?', hint: '¿Dónde / trabajar?' },
+      turkish: { question: 'Nerede çalışıyorsun?', hint: 'Nerede / çalış?' },
+    },
+  },
+];
+
 // Module 1 Lessons - Restructured
 export const module1Lessons: Lesson[] = [
   // 1. Vocabulary Part 1 - Basic intro words
@@ -1028,9 +1132,19 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '8 min',
   },
-  // 13. Let's Review Part 1 - Listening fill in the blank
+  // 13. Test 1 - Speaking Test with Marisol
   {
     id: 'lesson-13',
+    title: 'Test 1',
+    description: 'Ask questions to Marisol and hear her answers',
+    type: 'speaking-test',
+    speakingTestSlides: test1Slides,
+    isCompleted: false,
+    duration: '15 min',
+  },
+  // 14. Let's Review Part 1 - Listening fill in the blank
+  {
+    id: 'lesson-14',
     title: "Let's Review Part 1",
     description: 'Listen and fill in the blanks (Marisol)',
     type: 'listening-fill-in-blank',
@@ -1038,9 +1152,9 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
-  // 14. Let's Review Part 2 - Listening fill in the blank
+  // 15. Let's Review Part 2 - Listening fill in the blank
   {
-    id: 'lesson-14',
+    id: 'lesson-15',
     title: "Let's Review Part 2",
     description: 'Listen and fill in the blanks (Rosa)',
     type: 'listening-fill-in-blank',

@@ -21,6 +21,7 @@ import { ListeningFillInBlank } from '@/components/module1/ListeningFillInBlank'
 import { MultipleChoiceQuiz } from '@/components/module1/MultipleChoiceQuiz';
 import VideoPracticeQuiz from '@/components/module1/VideoPracticeQuiz';
 import WordOrderPractice from '@/components/module1/WordOrderPractice';
+import SpeakingTestPractice from '@/components/module1/SpeakingTestPractice';
 import { module1Lessons, Lesson, greetingPhrases, module1IntroVideoUrl } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -142,6 +143,8 @@ const Module1Content: React.FC = () => {
         return <VideoPracticeQuiz slides={lesson.practiceQuizSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} onBackToDashboard={() => navigate('/')} />;
       case 'word-order':
         return <WordOrderPractice slides={lesson.wordOrderSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} lessonDescription={lesson.description} onBackToDashboard={() => navigate('/')} />;
+      case 'speaking-test':
+        return <SpeakingTestPractice slides={lesson.speakingTestSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} lessonDescription={lesson.description} onBackToDashboard={() => navigate('/')} />;
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }
