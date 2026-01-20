@@ -416,6 +416,49 @@ export interface VideoSlideWithQuiz {
   quizQuestion: QuizQuestion;
 }
 
+// Grammar explanations for Practice 1
+export interface GrammarRule {
+  english: string;
+  example: string;
+  translations: Record<SupportedLanguage, { rule: string; example: string }>;
+}
+
+export const grammarExplanations: GrammarRule[] = [
+  {
+    english: 'I am → She is / He is',
+    example: 'I am Marisol. → She is Marisol.',
+    translations: {
+      arabic: { rule: 'أنا → هي / هو', example: 'أنا ماريسول. → هي ماريسول.' },
+      bengali: { rule: 'আমি → সে (মহিলা/পুরুষ)', example: 'আমি মারিসল। → সে মারিসল।' },
+      korean: { rule: '나는 → 그녀는 / 그는', example: '나는 마리솔이에요. → 그녀는 마리솔이에요.' },
+      spanish: { rule: 'Yo soy → Ella es / Él es', example: 'Yo soy Marisol. → Ella es Marisol.' },
+      turkish: { rule: 'Ben → O (kadın/erkek)', example: 'Ben Marisol. → O Marisol.' }
+    }
+  },
+  {
+    english: 'I have → She has / He has',
+    example: 'I have a cat. → She has a cat.',
+    translations: {
+      arabic: { rule: 'لدي → لديها / لديه', example: 'لدي قطة. → لديها قطة.' },
+      bengali: { rule: 'আমার আছে → তার আছে', example: 'আমার একটি বিড়াল আছে। → তার একটি বিড়াল আছে।' },
+      korean: { rule: '나는 있어요 → 그녀는 있어요', example: '나는 고양이가 있어요. → 그녀는 고양이가 있어요.' },
+      spanish: { rule: 'Yo tengo → Ella tiene', example: 'Yo tengo un gato. → Ella tiene un gato.' },
+      turkish: { rule: 'Benim var → Onun var', example: 'Benim bir kedim var. → Onun bir kedisi var.' }
+    }
+  },
+  {
+    english: 'I work → She works / He works',
+    example: 'I work in a hotel. → She works in a hotel.',
+    translations: {
+      arabic: { rule: 'أعمل → تعمل (هي) / يعمل (هو)', example: 'أعمل في فندق. → تعمل في فندق.' },
+      bengali: { rule: 'আমি কাজ করি → সে কাজ করে', example: 'আমি হোটেলে কাজ করি। → সে হোটেলে কাজ করে।' },
+      korean: { rule: '나는 일해요 → 그녀는 일해요', example: '나는 호텔에서 일해요. → 그녀는 호텔에서 일해요.' },
+      spanish: { rule: 'Yo trabajo → Ella trabaja', example: 'Yo trabajo en un hotel. → Ella trabaja en un hotel.' },
+      turkish: { rule: 'Ben çalışıyorum → O çalışıyor', example: 'Bir otelde çalışıyorum. → O bir otelde çalışıyor.' }
+    }
+  },
+];
+
 export const practice1Slides: VideoSlideWithQuiz[] = [
   { 
     url: '/videos/module1/m1-l3-s1.mp4', 
@@ -431,14 +474,14 @@ export const practice1Slides: VideoSlideWithQuiz[] = [
   },
   { 
     url: '/videos/module1/m1-l3-s2.mp4', 
-    title: 'Listen to Rosa', 
+    title: 'Listen to Marisol', 
     subtitle: 'Listen and answer',
     quizQuestion: {
       id: 'p1-q2',
-      question: 'Where is Rosa from?',
-      options: ['Dominican Republic', 'Peru'],
-      correctAnswer: 0,
-      translations: { arabic: 'من أين روزا؟', bengali: 'রোজা কোথা থেকে?', korean: '로사는 어디 출신인가요?', spanish: '¿De dónde es Rosa?', turkish: 'Rosa nereli?' }
+      question: 'Where is Marisol from?',
+      options: ['The Dominican Republic', 'Peru'],
+      correctAnswer: 1,
+      translations: { arabic: 'من أين ماريسول؟', bengali: 'মারিসল কোথা থেকে?', korean: '마리솔은 어디 출신인가요?', spanish: '¿De dónde es Marisol?', turkish: 'Marisol nereli?' }
     }
   },
   { 
@@ -455,75 +498,67 @@ export const practice1Slides: VideoSlideWithQuiz[] = [
   },
   { 
     url: '/videos/module1/m1-l3-s4.mp4', 
-    title: 'Listen to Rosa', 
+    title: 'Listen to Marisol', 
     subtitle: 'Listen and answer',
     quizQuestion: {
       id: 'p1-q4',
-      question: 'What does Rosa do?',
-      options: ['Housekeeper', 'Cashier'],
+      question: 'Is Marisol single or married?',
+      options: ['Single', 'Married'],
       correctAnswer: 0,
-      translations: { arabic: 'ماذا تعمل روزا؟', bengali: 'রোজা কি করে?', korean: '로사는 무슨 일을 하나요?', spanish: '¿Qué hace Rosa?', turkish: 'Rosa ne iş yapıyor?' }
+      translations: { arabic: 'هل ماريسول عزباء أم متزوجة؟', bengali: 'মারিসল কি অবিবাহিত না বিবাহিত?', korean: '마리솔은 미혼인가요, 결혼했나요?', spanish: '¿Marisol es soltera o casada?', turkish: 'Marisol bekar mı evli mi?' }
     }
   },
   { 
     url: '/videos/module1/m1-l3-s5.mp4', 
     title: 'Listen to Marisol', 
-    subtitle: 'Listen and answer',
+    subtitle: 'Fill in the blank',
     quizQuestion: {
       id: 'p1-q5',
-      question: 'Where does Marisol work?',
-      options: ['Supermarket', 'Hotel'],
+      question: 'Marisol ______ a cat.',
+      options: ['have', 'has'],
       correctAnswer: 0,
-      translations: { arabic: 'أين تعمل ماريسول؟', bengali: 'মারিসল কোথায় কাজ করে?', korean: '마리솔은 어디서 일하나요?', spanish: '¿Dónde trabaja Marisol?', turkish: 'Marisol nerede çalışıyor?' }
+      translations: { arabic: 'ماريسول ______ قطة.', bengali: 'মারিসল ______ একটি বিড়াল।', korean: '마리솔은 고양이가 _______.', spanish: 'Marisol ______ un gato.', turkish: 'Marisol\'un bir kedisi ______.' }
     }
   },
   { 
     url: '/videos/module1/m1-l3-s6.mp4', 
-    title: 'Listen to Rosa', 
+    title: 'Listen to Marisol', 
     subtitle: 'Listen and answer',
     quizQuestion: {
       id: 'p1-q6',
-      question: 'Is Rosa married or single?',
-      options: ['Married', 'Single'],
+      question: 'What does Marisol do?',
+      options: ['Cashier', 'Housekeeper'],
       correctAnswer: 0,
-      translations: { arabic: 'هل روزا متزوجة أم عزباء؟', bengali: 'রোজা কি বিবাহিত না অবিবাহিত?', korean: '로사는 결혼했나요, 미혼인가요?', spanish: '¿Rosa está casada o soltera?', turkish: 'Rosa evli mi bekar mı?' }
+      translations: { arabic: 'ماذا تعمل ماريسول؟', bengali: 'মারিসল কি করে?', korean: '마리솔은 무슨 일을 하나요?', spanish: '¿Qué hace Marisol?', turkish: 'Marisol ne iş yapıyor?' }
     }
   },
   { 
     url: '/videos/module1/m1-l3-s7.mp4', 
-    title: 'Review', 
-    subtitle: 'Final question',
+    title: 'Listen to Marisol', 
+    subtitle: 'Listen and answer',
     quizQuestion: {
       id: 'p1-q7',
-      question: 'Is Marisol married or single?',
-      options: ['Single', 'Married'],
-      correctAnswer: 0,
-      translations: { arabic: 'هل ماريسول متزوجة أم عزباء؟', bengali: 'মারিসল কি বিবাহিত না অবিবাহিত?', korean: '마리솔은 결혼했나요, 미혼인가요?', spanish: '¿Marisol está casada o soltera?', turkish: 'Marisol evli mi bekar mı?' }
+      question: 'Where does Marisol work?',
+      options: ['Hotel', 'Supermarket'],
+      correctAnswer: 1,
+      translations: { arabic: 'أين تعمل ماريسول؟', bengali: 'মারিসল কোথায় কাজ করে?', korean: '마리솔은 어디서 일하나요?', spanish: '¿Dónde trabaja Marisol?', turkish: 'Marisol nerede çalışıyor?' }
     }
   },
 ];
 
 // Ahmet videos for Meet Your Neighbor lesson
 export const ahmetNeighborVideos = [
-  { url: '/videos/module1/m1-l3-s1.mp4', title: 'Hi! I am Ahmet.', subtitle: 'Introduction', listenOnly: true },
-  { url: '/videos/module1/m1-l3-s2.mp4', title: 'I am from Egypt.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l3-s3.mp4', title: 'I am 45 years old.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l3-s4.mp4', title: 'I am an Uber driver.', subtitle: 'Practice' },
+  { url: '/videos/module1/ahmet-intro.mp4', title: 'Hi! I am Ahmet.', subtitle: 'Introduction', listenOnly: true },
 ];
 
 // Marisol videos for Meet Your Neighbor lesson  
 export const marisolNeighborVideos = [
-  { url: '/videos/module1/m1-l1-s2.mp4', title: 'Hi! I am Marisol.', subtitle: 'Introduction', listenOnly: true },
-  { url: '/videos/module1/m1-l1-s3.mp4', title: 'I am from Peru.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l1-s7.mp4', title: 'I am 28 years old.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l1-s4.mp4', title: 'I am a cashier.', subtitle: 'Practice' },
+  { url: '/videos/module1/marisol-intro.mp4', title: 'Hi! I am Marisol.', subtitle: 'Introduction', listenOnly: true },
 ];
 
 // Saojin videos for Meet Your Neighbor lesson
 export const saojinNeighborVideos = [
-  { url: '/videos/module1/m1-l3-s5.mp4', title: 'Hi! I am Saojin.', subtitle: 'Introduction', listenOnly: true },
-  { url: '/videos/module1/m1-l3-s6.mp4', title: 'I am from Korea.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l3-s7.mp4', title: 'I am a nurse.', subtitle: 'Practice' },
+  { url: '/videos/module1/saojin-intro.mp4', title: 'Hi! I am Saojin.', subtitle: 'Introduction', listenOnly: true },
 ];
 
 // Quiz interface
@@ -862,7 +897,7 @@ export const module1Lessons: Lesson[] = [
   {
     id: 'lesson-8',
     title: 'Practice 1',
-    description: 'Listen to Marisol and Rosa, then answer questions',
+    description: 'Listen to Marisol and answer the questions',
     type: 'practice-quiz',
     practiceQuizSlides: practice1Slides,
     isCompleted: false,
