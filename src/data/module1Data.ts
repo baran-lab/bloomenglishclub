@@ -1007,6 +1007,101 @@ export const test1Slides: SpeakingTestSlide[] = [
   },
 ];
 
+// Test 2 - Speaking Test with Rosa (using rosa-intro videos)
+export const test2Slides: SpeakingTestSlide[] = [
+  {
+    id: 'test2-s1',
+    videoUrl: '/videos/module1/rosa-intro-1.mp4',
+    questionToAsk: "What's your name?",
+    hint: 'What / name?',
+    translations: {
+      arabic: { question: 'ما اسمك؟', hint: 'ما / اسم؟' },
+      bengali: { question: 'তোমার নাম কি?', hint: 'কি / নাম?' },
+      korean: { question: '이름이 뭐예요?', hint: '무엇 / 이름?' },
+      spanish: { question: '¿Cuál es tu nombre?', hint: '¿Qué / nombre?' },
+      turkish: { question: 'Adın ne?', hint: 'Ne / isim?' },
+    },
+  },
+  {
+    id: 'test2-s2',
+    videoUrl: '/videos/module1/rosa-intro-2.mp4',
+    questionToAsk: 'Where are you from?',
+    hint: 'Where / from?',
+    translations: {
+      arabic: { question: 'من أين أنت؟', hint: 'أين / من؟' },
+      bengali: { question: 'তুমি কোথা থেকে?', hint: 'কোথায় / থেকে?' },
+      korean: { question: '어디에서 왔어요?', hint: '어디 / 에서?' },
+      spanish: { question: '¿De dónde eres?', hint: '¿Dónde / de?' },
+      turkish: { question: 'Nerelisin?', hint: 'Nerede / -den?' },
+    },
+  },
+  {
+    id: 'test2-s3',
+    videoUrl: '/videos/module1/rosa-intro-3.mp4',
+    questionToAsk: 'How old are you?',
+    hint: 'How old?',
+    translations: {
+      arabic: { question: 'كم عمرك؟', hint: 'كم عمر؟' },
+      bengali: { question: 'তোমার বয়স কত?', hint: 'কত বয়স?' },
+      korean: { question: '몇 살이에요?', hint: '몇 살?' },
+      spanish: { question: '¿Cuántos años tienes?', hint: '¿Cuántos años?' },
+      turkish: { question: 'Kaç yaşındasın?', hint: 'Kaç yaş?' },
+    },
+  },
+  {
+    id: 'test2-s4',
+    videoUrl: '/videos/module1/rosa-intro-4.mp4',
+    questionToAsk: 'Are you married or single?',
+    hint: 'married or single?',
+    translations: {
+      arabic: { question: 'هل أنت متزوجة أم عزباء؟', hint: 'متزوجة أم عزباء؟' },
+      bengali: { question: 'তুমি কি বিবাহিত না অবিবাহিত?', hint: 'বিবাহিত না অবিবাহিত?' },
+      korean: { question: '결혼했어요, 아니면 미혼이에요?', hint: '결혼 아니면 미혼?' },
+      spanish: { question: '¿Estás casada o soltera?', hint: '¿casada o soltera?' },
+      turkish: { question: 'Evli misin bekar mı?', hint: 'evli mi bekar mı?' },
+    },
+  },
+  {
+    id: 'test2-s5',
+    videoUrl: '/videos/module1/rosa-intro-5.mp4',
+    questionToAsk: 'Do you have children?',
+    hint: 'Do / children?',
+    translations: {
+      arabic: { question: 'هل لديك أطفال؟', hint: 'هل / أطفال؟' },
+      bengali: { question: 'তোমার কি বাচ্চা আছে?', hint: 'কি / বাচ্চা?' },
+      korean: { question: '아이가 있어요?', hint: '있어요 / 아이?' },
+      spanish: { question: '¿Tienes hijos?', hint: '¿Tienes / hijos?' },
+      turkish: { question: 'Çocuğun var mı?', hint: 'Var mı / çocuk?' },
+    },
+  },
+  {
+    id: 'test2-s6',
+    videoUrl: '/videos/module1/rosa-intro-6.mp4',
+    questionToAsk: 'What do you do?',
+    hint: 'What / do?',
+    translations: {
+      arabic: { question: 'ماذا تعملين؟', hint: 'ماذا / تعمل؟' },
+      bengali: { question: 'তুমি কি কর?', hint: 'কি / কর?' },
+      korean: { question: '무슨 일을 해요?', hint: '무엇 / 일?' },
+      spanish: { question: '¿Qué haces?', hint: '¿Qué / hacer?' },
+      turkish: { question: 'Ne iş yapıyorsun?', hint: 'Ne / iş?' },
+    },
+  },
+  {
+    id: 'test2-s7',
+    videoUrl: '/videos/module1/rosa-intro-7.mp4',
+    questionToAsk: 'Where do you work?',
+    hint: 'Where / work?',
+    translations: {
+      arabic: { question: 'أين تعملين؟', hint: 'أين / عمل؟' },
+      bengali: { question: 'তুমি কোথায় কাজ কর?', hint: 'কোথায় / কাজ?' },
+      korean: { question: '어디서 일해요?', hint: '어디 / 일?' },
+      spanish: { question: '¿Dónde trabajas?', hint: '¿Dónde / trabajar?' },
+      turkish: { question: 'Nerede çalışıyorsun?', hint: 'Nerede / çalış?' },
+    },
+  },
+];
+
 // Module 1 Lessons - Restructured
 export const module1Lessons: Lesson[] = [
   // 1. Vocabulary Part 1 - Basic intro words
@@ -1135,16 +1230,26 @@ export const module1Lessons: Lesson[] = [
   // 13. Test 1 - Speaking Test with Marisol
   {
     id: 'lesson-13',
-    title: 'Test 1',
+    title: 'Test 1: Marisol',
     description: 'Ask questions to Marisol and hear her answers',
     type: 'speaking-test',
     speakingTestSlides: test1Slides,
     isCompleted: false,
     duration: '15 min',
   },
-  // 14. Let's Review Part 1 - Listening fill in the blank
+  // 14. Test 2 - Speaking Test with Rosa
   {
     id: 'lesson-14',
+    title: 'Test 2: Rosa',
+    description: 'Ask questions to Rosa and hear her answers',
+    type: 'speaking-test',
+    speakingTestSlides: test2Slides,
+    isCompleted: false,
+    duration: '15 min',
+  },
+  // 15. Let's Review Part 1 - Listening fill in the blank
+  {
+    id: 'lesson-15',
     title: "Let's Review Part 1",
     description: 'Listen and fill in the blanks (Marisol)',
     type: 'listening-fill-in-blank',
@@ -1152,9 +1257,9 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
-  // 15. Let's Review Part 2 - Listening fill in the blank
+  // 16. Let's Review Part 2 - Listening fill in the blank
   {
-    id: 'lesson-15',
+    id: 'lesson-16',
     title: "Let's Review Part 2",
     description: 'Listen and fill in the blanks (Rosa)',
     type: 'listening-fill-in-blank',

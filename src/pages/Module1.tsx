@@ -22,7 +22,7 @@ import { MultipleChoiceQuiz } from '@/components/module1/MultipleChoiceQuiz';
 import VideoPracticeQuiz from '@/components/module1/VideoPracticeQuiz';
 import WordOrderPractice from '@/components/module1/WordOrderPractice';
 import SpeakingTestPractice from '@/components/module1/SpeakingTestPractice';
-import { module1Lessons, Lesson, greetingPhrases, module1IntroVideoUrl } from '@/data/module1Data';
+import { module1Lessons, Lesson, greetingPhrases, module1IntroVideoUrl, test2Slides } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
 import { useMicroWin } from '@/components/MicroWins';
@@ -144,7 +144,8 @@ const Module1Content: React.FC = () => {
       case 'word-order':
         return <WordOrderPractice slides={lesson.wordOrderSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} lessonDescription={lesson.description} onBackToDashboard={() => navigate('/')} />;
       case 'speaking-test':
-        return <SpeakingTestPractice slides={lesson.speakingTestSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} lessonDescription={lesson.description} onBackToDashboard={() => navigate('/')} />;
+        const characterName = lesson.title.includes('Rosa') ? 'Rosa' : 'Marisol';
+        return <SpeakingTestPractice slides={lesson.speakingTestSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} lessonDescription={lesson.description} onBackToDashboard={() => navigate('/')} characterName={characterName} />;
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }
