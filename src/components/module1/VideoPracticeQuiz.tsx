@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Check, X, Play, ArrowRight, Volume2, BookOpen, Lightbulb } from 'lucide-react';
+import { Check, X, Play, ArrowRight, Volume2, BookOpen, Lightbulb, Home } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/components/LanguageContext';
 import { playSuccessSound, playErrorSound, playRecordingSuccessSound } from '@/utils/soundEffects';
@@ -19,10 +19,11 @@ interface VideoPracticeQuizProps {
   slides: VideoSlideWithQuiz[];
   onComplete: () => void;
   onContinue?: () => void;
+  onBackToDashboard?: () => void;
   lessonTitle: string;
 }
 
-const VideoPracticeQuiz = ({ slides, onComplete, onContinue, lessonTitle }: VideoPracticeQuizProps) => {
+const VideoPracticeQuiz = ({ slides, onComplete, onContinue, onBackToDashboard, lessonTitle }: VideoPracticeQuizProps) => {
   const { selectedLanguage } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [hasWatched, setHasWatched] = useState(false);
@@ -111,7 +112,14 @@ const VideoPracticeQuiz = ({ slides, onComplete, onContinue, lessonTitle }: Vide
     <div className="space-y-6">
       {/* Header with tabs */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-foreground">{lessonTitle}</h3>
+        <div className="flex items-center gap-2">
+          {onBackToDashboard && (
+            <Button variant="ghost" size="icon" onClick={onBackToDashboard}>
+              <Home className="h-5 w-5" />
+            </Button>
+          )}
+          <h3 className="text-lg font-semibold text-foreground">{lessonTitle}</h3>
+        </div>
         <span className="text-sm text-muted-foreground">
           Slide {currentSlide + 1} of {slides.length}
         </span>

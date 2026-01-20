@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, BookOpen, Menu, ArrowRight } from 'lucide-react';
+import { ChevronLeft, BookOpen, Menu, ArrowRight, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LanguageProvider, useLanguage } from '@/components/LanguageContext';
 import { LanguageSelector } from '@/components/module1/LanguageSelector';
@@ -20,6 +20,7 @@ import { InteractiveForm } from '@/components/module1/InteractiveForm';
 import { ListeningFillInBlank } from '@/components/module1/ListeningFillInBlank';
 import { MultipleChoiceQuiz } from '@/components/module1/MultipleChoiceQuiz';
 import VideoPracticeQuiz from '@/components/module1/VideoPracticeQuiz';
+import WordOrderPractice from '@/components/module1/WordOrderPractice';
 import { module1Lessons, Lesson, greetingPhrases, module1IntroVideoUrl } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -106,7 +107,7 @@ const Module1Content: React.FC = () => {
       case 'video':
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
       case 'video-series':
-        return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
+        return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} quizQuestions={lesson.quizQuestions} />;
       case 'vocabulary':
         if (lesson.phrases) {
           return <VocabularyLesson vocabulary={lesson.phrases.map(p => ({ id: p.id, english: p.english, pronunciation: p.pronunciation, translations: p.translations }))} onComplete={handleLessonComplete} title={lesson.title} />;
@@ -138,7 +139,9 @@ const Module1Content: React.FC = () => {
       case 'quiz':
         return <MultipleChoiceQuiz questions={lesson.quizQuestions || []} onComplete={handleLessonComplete} title={lesson.title} characterName={lesson.title.replace('Quiz: ', '')} />;
       case 'practice-quiz':
-        return <VideoPracticeQuiz slides={lesson.practiceQuizSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} />;
+        return <VideoPracticeQuiz slides={lesson.practiceQuizSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} onBackToDashboard={() => navigate('/')} />;
+      case 'word-order':
+        return <WordOrderPractice slides={lesson.wordOrderSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} lessonDescription={lesson.description} onBackToDashboard={() => navigate('/')} />;
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }

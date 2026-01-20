@@ -4,7 +4,8 @@ import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic,
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
-import { congratulatoryMessages } from '@/data/module1Data';
+import { congratulatoryMessages, QuizQuestion } from '@/data/module1Data';
+import { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
 
 interface VideoItem {
   url: string;
@@ -17,12 +18,14 @@ interface VideoSeriesLessonProps {
   videos: VideoItem[];
   onComplete: () => void;
   title?: string;
+  quizQuestions?: QuizQuestion[];
 }
 
 export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({ 
   videos, 
   onComplete,
-  title = 'Video Lesson'
+  title = 'Video Lesson',
+  quizQuestions
 }) => {
   const { selectedLanguage, t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -31,6 +34,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   const [watchedVideos, setWatchedVideos] = useState<Set<number>>(new Set());
   const [showPractice, setShowPractice] = useState(false);
   const [pronunciationScore, setPronunciationScore] = useState<number | null>(null);
+  const [showQuiz, setShowQuiz] = useState(false);
   const { isRecording, audioUrl, startRecording, stopRecording, clearRecording } = useVoiceRecorder();
 
   const currentVideo = videos[currentIndex];
@@ -299,30 +303,53 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
             Continue
           </Button>
         ) : (
-          <Button 
-            onClick={goNext} 
-            disabled={currentIndex === videos.length - 1 || (watchedVideos.has(currentIndex) && !canProceed)} 
-            className="gap-2"
-          >
-            {t('next')}
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        )}
-      </div>
-
-      {/* Completion Message */}
-      <AnimatePresence>
-        {allWatched && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center p-6 bg-gradient-to-br from-green-500/20 to-green-500/10 rounded-2xl border border-green-500/30"
-          >
-            <p className="text-2xl mb-2">🎉</p>
-            <p className="text-lg font-bold text-green-600">{getRandomCongrats()}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <Button 
+          onClick={goNext} 
+          disabled={currentIndex === videos.length - 1 || (watchedVideos.has(currentIndex) && !canProceed)} 
+          className="gap-2"
+        >
+          {t('next')}
+          <ChevronRight className="w-4 h-4" />
+        </Button>
+      )}
     </div>
-  );
+
+    {/* Quiz Section - Show after all videos watched */}
+    {allWatched && quizQuestions && quizQuestions.length > 0 && !showQuiz && (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center"
+      >
+        <Button onClick={() => setShowQuiz(true)} size="lg" className="gap-2">
+          Take the Quiz
+          <ChevronRight className="w-4 h-4" />
+        </Button>
+      </motion.div>
+    )}
+
+    {showQuiz && quizQuestions && (
+      <MultipleChoiceQuiz 
+        questions={quizQuestions} 
+        onComplete={onComplete} 
+        title={`${title} Quiz`}
+        characterName={title.replace('Meet Your Neighbor: ', '')}
+      />
+    )}
+
+    {/* Completion Message - Only show if no quiz or quiz not started */}
+    <AnimatePresence>
+      {allWatched && (!quizQuestions || quizQuestions.length === 0) && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center p-6 bg-gradient-to-br from-green-500/20 to-green-500/10 rounded-2xl border border-green-500/30"
+        >
+          <p className="text-2xl mb-2">🎉</p>
+          <p className="text-lg font-bold text-green-600">{getRandomCongrats()}</p>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+);
 };
