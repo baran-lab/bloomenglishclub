@@ -10,6 +10,7 @@ interface VideoItem {
   url: string;
   title: string;
   subtitle?: string;
+  listenOnly?: boolean;
 }
 
 interface VideoSeriesLessonProps {
@@ -61,8 +62,8 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       stopRecording();
       
       setTimeout(() => {
-        // Only give score if recording lasted at least 500ms (user actually spoke)
-        if (recordingDuration >= 500) {
+        // Only give score if recording lasted at least 800ms (user actually spoke)
+        if (recordingDuration >= 800) {
           const score = Math.floor(Math.random() * 35) + 65; // 65-100 range
           setPronunciationScore(score);
           // Play success sound if score >= 80
@@ -100,7 +101,9 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     } catch (e) { console.log('Audio not available'); }
   };
 
-  const canProceed = pronunciationScore !== null && pronunciationScore >= 50;
+  // For listen-only slides, user can proceed without recording
+  const isListenOnly = currentVideo.listenOnly || !currentVideo.title;
+  const canProceed = isListenOnly ? watchedVideos.has(currentIndex) : (pronunciationScore !== null && pronunciationScore >= 50);
 
   const goNext = () => {
     if (currentIndex < videos.length - 1) {
@@ -217,8 +220,8 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         </div>
       </div>
 
-      {/* Voice Practice Section */}
-      {watchedVideos.has(currentIndex) && (
+      {/* Voice Practice Section - Only show if not a listen-only slide */}
+      {watchedVideos.has(currentIndex) && !isListenOnly && currentVideo.title && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -245,6 +248,12 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
             </motion.button>
           </div>
 
+          {isRecording && (
+            <p className="text-center text-sm text-muted-foreground animate-pulse">
+              Recording... speak now!
+            </p>
+          )}
+
           {pronunciationScore !== null && (
             <motion.div
               initial={{ scale: 0 }}
@@ -262,6 +271,18 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
               )}
             </motion.div>
           )}
+        </motion.div>
+      )}
+
+      {/* Listen-only message */}
+      {watchedVideos.has(currentIndex) && isListenOnly && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-2xl border border-blue-500/20 p-6 text-center"
+        >
+          <p className="text-lg font-semibold text-foreground">👂 Just listen and learn!</p>
+          <p className="text-sm text-muted-foreground mt-2">No speaking practice for this slide.</p>
         </motion.div>
       )}
 

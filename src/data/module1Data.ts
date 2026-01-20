@@ -36,9 +36,9 @@ export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank';
+  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz';
   videoUrl?: string;
-  videos?: { url: string; title: string; subtitle?: string }[];
+  videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean }[];
   content?: VocabularyItem[];
   phrases?: PhraseItem[];
   sentences?: SentenceItem[];
@@ -46,6 +46,7 @@ export interface Lesson {
   smartQuestions?: SmartQuestion[];
   fillInBlankItems?: FillInBlankItem[];
   listeningFillInBlankItems?: ListeningFillInBlankItem[];
+  quizQuestions?: QuizQuestion[];
   formType?: 'doctor-intake' | 'job-application' | 'insurance';
   embedUrl?: string;
   isCompleted: boolean;
@@ -394,16 +395,90 @@ export const marisolVideos = [
   { url: '/videos/module1/m1-l1-s7.mp4', title: 'I am 28 years old.', subtitle: 'Saying your age' },
 ];
 
-// Rosa Videos - M1 L2 S1-S8 (for pronunciation practice after Numbers 11-20)
+// Rosa Videos - M1 L2 S1-S8 - Revised: Slides 1 & 8 are listen-only, others practice answers only
 export const rosaVideos = [
-  { url: '/videos/module1/m1-l2-s1.mp4', title: 'What is your name?', subtitle: 'Question' },
-  { url: '/videos/module1/m1-l2-s2.mp4', title: 'My name is Rosa Silva.', subtitle: 'Answer' },
-  { url: '/videos/module1/m1-l2-s3.mp4', title: 'Where are you from?', subtitle: 'Question' },
-  { url: '/videos/module1/m1-l2-s4.mp4', title: 'I am from the Dominican Republic.', subtitle: 'Answer' },
-  { url: '/videos/module1/m1-l2-s5.mp4', title: 'What do you do?', subtitle: 'Question' },
-  { url: '/videos/module1/m1-l2-s6.mp4', title: 'I am a housekeeper.', subtitle: 'Answer' },
-  { url: '/videos/module1/m1-l2-s7.mp4', title: 'Where do you work?', subtitle: 'Question' },
-  { url: '/videos/module1/m1-l2-s8.mp4', title: 'I work in a hotel.', subtitle: 'Answer' },
+  { url: '/videos/module1/m1-l2-s1.mp4', title: 'Hi! I am your new neighbor.', subtitle: 'Listen only', listenOnly: true },
+  { url: '/videos/module1/m1-l2-s2.mp4', title: 'My name is Rosa Silva.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l2-s3.mp4', title: 'I am from the Dominican Republic.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l2-s4.mp4', title: 'I am 30 years old.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l2-s5.mp4', title: 'I am a housekeeper.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l2-s6.mp4', title: 'I work in a hotel.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l2-s7.mp4', title: 'I am married.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l2-s8.mp4', title: '', subtitle: 'Listen only', listenOnly: true },
+];
+
+// M1 L3 Videos - Meet More Neighbors (Ahmet, Marisol, Saojin)
+export const meetNeighborsVideos = [
+  { url: '/videos/module1/m1-l3-s1.mp4', title: 'Meet Ahmet El-Masri', subtitle: 'Your neighbor from Egypt' },
+  { url: '/videos/module1/m1-l3-s2.mp4', title: 'Meet Marisol Rivera', subtitle: 'Your neighbor from Peru' },
+  { url: '/videos/module1/m1-l3-s3.mp4', title: 'Meet Saojin Lee', subtitle: 'Your neighbor from Korea' },
+  { url: '/videos/module1/m1-l3-s4.mp4', title: 'Ahmet Introduction', subtitle: 'Listen and learn' },
+  { url: '/videos/module1/m1-l3-s5.mp4', title: 'Marisol Introduction', subtitle: 'Listen and learn' },
+  { url: '/videos/module1/m1-l3-s6.mp4', title: 'Saojin Introduction', subtitle: 'Listen and learn' },
+  { url: '/videos/module1/m1-l3-s7.mp4', title: 'Meet Your Neighbors', subtitle: 'Review' },
+];
+
+// Quiz interface
+export interface QuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  translations: Record<SupportedLanguage, string>;
+}
+
+// Quiz for Ahmet
+export const ahmetQuiz: QuizQuestion[] = [
+  {
+    id: 'ahmet-q1',
+    question: 'Where is Ahmet from?',
+    options: ['Egypt', 'Turkey'],
+    correctAnswer: 0,
+    translations: { arabic: 'من أين أحمد؟', bengali: 'আহমেদ কোথা থেকে?', korean: '아흐메드는 어디 출신인가요?', spanish: '¿De dónde es Ahmet?', turkish: 'Ahmet nereli?' }
+  },
+  {
+    id: 'ahmet-q2',
+    question: 'What does Ahmet do?',
+    options: ['Uber Driver', 'Teacher'],
+    correctAnswer: 0,
+    translations: { arabic: 'ماذا يعمل أحمد؟', bengali: 'আহমেদ কি করে?', korean: '아흐메드는 무슨 일을 하나요?', spanish: '¿Qué hace Ahmet?', turkish: 'Ahmet ne iş yapıyor?' }
+  },
+];
+
+// Quiz for Marisol
+export const marisolQuiz: QuizQuestion[] = [
+  {
+    id: 'marisol-q1',
+    question: 'Where is Marisol from?',
+    options: ['Peru', 'Mexico'],
+    correctAnswer: 0,
+    translations: { arabic: 'من أين ماريسول؟', bengali: 'মারিসল কোথা থেকে?', korean: '마리솔은 어디 출신인가요?', spanish: '¿De dónde es Marisol?', turkish: 'Marisol nereli?' }
+  },
+  {
+    id: 'marisol-q2',
+    question: 'What does Marisol do?',
+    options: ['Cashier', 'Nurse'],
+    correctAnswer: 0,
+    translations: { arabic: 'ماذا تعمل ماريسول؟', bengali: 'মারিসল কি করে?', korean: '마리솔은 무슨 일을 하나요?', spanish: '¿Qué hace Marisol?', turkish: 'Marisol ne iş yapıyor?' }
+  },
+];
+
+// Quiz for Saojin
+export const saojinQuiz: QuizQuestion[] = [
+  {
+    id: 'saojin-q1',
+    question: 'Where is Saojin from?',
+    options: ['Korea', 'Japan'],
+    correctAnswer: 0,
+    translations: { arabic: 'من أين ساوجين؟', bengali: 'সাওজিন কোথা থেকে?', korean: '사오진은 어디 출신인가요?', spanish: '¿De dónde es Saojin?', turkish: 'Saojin nereli?' }
+  },
+  {
+    id: 'saojin-q2',
+    question: 'What does Saojin do?',
+    options: ['Nurse', 'Doctor'],
+    correctAnswer: 0,
+    translations: { arabic: 'ماذا تعمل ساوجين؟', bengali: 'সাওজিন কি করে?', korean: '사오진은 무슨 일을 하나요?', spanish: '¿Qué hace Saojin?', turkish: 'Saojin ne iş yapıyor?' }
+  },
 ];
 
 // Let's Review Part 1 - Marisol's sentences (listening fill in the blank)
@@ -675,9 +750,49 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '12 min',
   },
-  // 8. Let's Review Part 1 - Listening fill in the blank
+  // 8. Meet Your Neighbors - Video slides (M1 L3 S1-S7)
   {
     id: 'lesson-8',
+    title: 'Meet Your Neighbors',
+    description: 'Meet Ahmet, Marisol, and Saojin',
+    type: 'video-series',
+    videos: meetNeighborsVideos,
+    isCompleted: false,
+    duration: '10 min',
+  },
+  // 9. Quiz: Ahmet El-Masri
+  {
+    id: 'lesson-9',
+    title: 'Quiz: Ahmet El-Masri',
+    description: 'Test your knowledge about Ahmet',
+    type: 'quiz',
+    quizQuestions: ahmetQuiz,
+    isCompleted: false,
+    duration: '3 min',
+  },
+  // 10. Quiz: Marisol Rivera
+  {
+    id: 'lesson-10',
+    title: 'Quiz: Marisol Rivera',
+    description: 'Test your knowledge about Marisol',
+    type: 'quiz',
+    quizQuestions: marisolQuiz,
+    isCompleted: false,
+    duration: '3 min',
+  },
+  // 11. Quiz: Saojin Lee
+  {
+    id: 'lesson-11',
+    title: 'Quiz: Saojin Lee',
+    description: 'Test your knowledge about Saojin',
+    type: 'quiz',
+    quizQuestions: saojinQuiz,
+    isCompleted: false,
+    duration: '3 min',
+  },
+  // 12. Let's Review Part 1 - Listening fill in the blank
+  {
+    id: 'lesson-12',
     title: "Let's Review Part 1",
     description: 'Listen and fill in the blanks (Marisol)',
     type: 'listening-fill-in-blank',
@@ -685,9 +800,9 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
-  // 9. Let's Review Part 2 - Listening fill in the blank
+  // 13. Let's Review Part 2 - Listening fill in the blank
   {
-    id: 'lesson-9',
+    id: 'lesson-13',
     title: "Let's Review Part 2",
     description: 'Listen and fill in the blanks (Rosa)',
     type: 'listening-fill-in-blank',

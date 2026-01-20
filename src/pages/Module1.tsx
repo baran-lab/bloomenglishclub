@@ -18,6 +18,7 @@ import { FillInTheBlankPractice } from '@/components/module1/FillInTheBlankPract
 import { SmartAnswerPractice } from '@/components/module1/SmartAnswerPractice';
 import { InteractiveForm } from '@/components/module1/InteractiveForm';
 import { ListeningFillInBlank } from '@/components/module1/ListeningFillInBlank';
+import { MultipleChoiceQuiz } from '@/components/module1/MultipleChoiceQuiz';
 import { module1Lessons, Lesson, greetingPhrases, module1IntroVideoUrl } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -133,6 +134,8 @@ const Module1Content: React.FC = () => {
         return <SmartAnswerPractice questions={lesson.smartQuestions || []} onComplete={handleLessonComplete} title={lesson.title} userName={userName} />;
       case 'interactive-form':
         return <InteractiveForm formType={lesson.formType || 'doctor-intake'} onComplete={handleLessonComplete} userName={userName} />;
+      case 'quiz':
+        return <MultipleChoiceQuiz questions={lesson.quizQuestions || []} onComplete={handleLessonComplete} title={lesson.title} characterName={lesson.title.replace('Quiz: ', '')} />;
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }
