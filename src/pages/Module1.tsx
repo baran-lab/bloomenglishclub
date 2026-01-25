@@ -23,6 +23,8 @@ import VideoPracticeQuiz from '@/components/module1/VideoPracticeQuiz';
 import WordOrderPractice from '@/components/module1/WordOrderPractice';
 import SpeakingTestPractice from '@/components/module1/SpeakingTestPractice';
 import NeighborVideoQuiz from '@/components/module1/NeighborVideoQuiz';
+import { PronounPractice } from '@/components/module1/PronounPractice';
+import { Module1Checklist } from '@/components/module1/Module1Checklist';
 import { module1Lessons, neighborLessons, Lesson, greetingPhrases, test2Slides } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -186,6 +188,10 @@ const Module1Content: React.FC = () => {
             onBackToDashboard={() => navigate('/')}
           />
         );
+      case 'pronoun-practice':
+        return <PronounPractice onComplete={handleLessonComplete} userName={userName} />;
+      case 'module-checklist':
+        return <Module1Checklist onComplete={handleContinue} userName={userName} />;
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }
@@ -248,29 +254,6 @@ const Module1Content: React.FC = () => {
             </motion.div>
           )}
 
-          {viewState === 'intro-video' && (
-            <motion.div key="intro-video" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-6">
-              <div className="text-center space-y-2">
-                <h2 className="font-fredoka text-2xl font-bold text-foreground">Meet Marisol! 👋</h2>
-                <p className="text-muted-foreground">Watch Marisol introduce herself, then continue to the lessons.</p>
-              </div>
-              <div className="relative rounded-2xl overflow-hidden bg-black shadow-lg">
-                <video
-                  src={module1IntroVideoUrl}
-                  controls
-                  autoPlay
-                  className="w-full aspect-video"
-                  onEnded={handleIntroVideoComplete}
-                />
-              </div>
-              <div className="flex justify-center">
-                <Button size="lg" onClick={handleIntroVideoComplete} className="gap-2 rounded-xl">
-                  <ArrowRight className="w-5 h-5" />
-                  Continue to Lessons
-                </Button>
-              </div>
-            </motion.div>
-          )}
 
           {viewState === 'lessons' && (
             <motion.div key="lessons" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-6">
