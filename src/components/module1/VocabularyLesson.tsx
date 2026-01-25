@@ -134,7 +134,6 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
             {/* English word */}
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-2">{currentWord.english}</h2>
-              <p className="text-muted-foreground italic text-lg">/{currentWord.pronunciation}/</p>
             </div>
 
             {/* Listen button */}

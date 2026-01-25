@@ -23,7 +23,7 @@ import VideoPracticeQuiz from '@/components/module1/VideoPracticeQuiz';
 import WordOrderPractice from '@/components/module1/WordOrderPractice';
 import SpeakingTestPractice from '@/components/module1/SpeakingTestPractice';
 import NeighborVideoQuiz from '@/components/module1/NeighborVideoQuiz';
-import { module1Lessons, neighborLessons, Lesson, greetingPhrases, module1IntroVideoUrl, test2Slides } from '@/data/module1Data';
+import { module1Lessons, neighborLessons, Lesson, greetingPhrases, test2Slides } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
 import { useMicroWin } from '@/components/MicroWins';
@@ -65,7 +65,8 @@ const Module1Content: React.FC = () => {
   }, [searchParams]);
 
   const handleLanguageSelected = () => {
-    setViewState('intro-video');
+    // Skip intro video, go directly to lessons
+    setViewState('lessons');
     toast({
       title: `${languageInfo.flag} ${languageInfo.english} selected`,
       description: 'Translations will be shown in your chosen language.',

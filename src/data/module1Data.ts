@@ -44,7 +44,7 @@ export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order' | 'speaking-test' | 'neighbor-video-quiz';
+  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order' | 'speaking-test' | 'neighbor-video-quiz' | 'pronoun-practice' | 'module-checklist';
   videoUrl?: string;
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean }[];
   content?: VocabularyItem[];
@@ -403,6 +403,54 @@ export const numbers11to20: VocabularyItem[] = [
   { id: 'num-18', english: 'eighteen', pronunciation: 'ay-TEEN', translations: { arabic: 'ثمانية عشر', bengali: 'আঠারো', korean: '십팔', spanish: 'dieciocho', turkish: 'on sekiz' } },
   { id: 'num-19', english: 'nineteen', pronunciation: 'nahyn-TEEN', translations: { arabic: 'تسعة عشر', bengali: 'উনিশ', korean: '십구', spanish: 'diecinueve', turkish: 'on dokuz' } },
   { id: 'num-20', english: 'twenty', pronunciation: 'TWEN-tee', translations: { arabic: 'عشرون', bengali: 'বিশ', korean: '이십', spanish: 'veinte', turkish: 'yirmi' } },
+];
+
+// Numbers 21-40
+export const numbers21to40: VocabularyItem[] = [
+  { id: 'num-21', english: 'twenty-one', pronunciation: '', translations: { arabic: 'واحد وعشرون', bengali: 'একুশ', korean: '이십일', spanish: 'veintiuno', turkish: 'yirmi bir' } },
+  { id: 'num-22', english: 'twenty-two', pronunciation: '', translations: { arabic: 'اثنان وعشرون', bengali: 'বাইশ', korean: '이십이', spanish: 'veintidós', turkish: 'yirmi iki' } },
+  { id: 'num-23', english: 'twenty-three', pronunciation: '', translations: { arabic: 'ثلاثة وعشرون', bengali: 'তেইশ', korean: '이십삼', spanish: 'veintitrés', turkish: 'yirmi üç' } },
+  { id: 'num-24', english: 'twenty-four', pronunciation: '', translations: { arabic: 'أربعة وعشرون', bengali: 'চব্বিশ', korean: '이십사', spanish: 'veinticuatro', turkish: 'yirmi dört' } },
+  { id: 'num-25', english: 'twenty-five', pronunciation: '', translations: { arabic: 'خمسة وعشرون', bengali: 'পঁচিশ', korean: '이십오', spanish: 'veinticinco', turkish: 'yirmi beş' } },
+  { id: 'num-26', english: 'twenty-six', pronunciation: '', translations: { arabic: 'ستة وعشرون', bengali: 'ছাব্বিশ', korean: '이십육', spanish: 'veintiséis', turkish: 'yirmi altı' } },
+  { id: 'num-27', english: 'twenty-seven', pronunciation: '', translations: { arabic: 'سبعة وعشرون', bengali: 'সাতাশ', korean: '이십칠', spanish: 'veintisiete', turkish: 'yirmi yedi' } },
+  { id: 'num-28', english: 'twenty-eight', pronunciation: '', translations: { arabic: 'ثمانية وعشرون', bengali: 'আটাশ', korean: '이십팔', spanish: 'veintiocho', turkish: 'yirmi sekiz' } },
+  { id: 'num-29', english: 'twenty-nine', pronunciation: '', translations: { arabic: 'تسعة وعشرون', bengali: 'ঊনত্রিশ', korean: '이십구', spanish: 'veintinueve', turkish: 'yirmi dokuz' } },
+  { id: 'num-30', english: 'thirty', pronunciation: '', translations: { arabic: 'ثلاثون', bengali: 'ত্রিশ', korean: '삼십', spanish: 'treinta', turkish: 'otuz' } },
+  { id: 'num-31', english: 'thirty-one', pronunciation: '', translations: { arabic: 'واحد وثلاثون', bengali: 'একত্রিশ', korean: '삼십일', spanish: 'treinta y uno', turkish: 'otuz bir' } },
+  { id: 'num-32', english: 'thirty-two', pronunciation: '', translations: { arabic: 'اثنان وثلاثون', bengali: 'বত্রিশ', korean: '삼십이', spanish: 'treinta y dos', turkish: 'otuz iki' } },
+  { id: 'num-33', english: 'thirty-three', pronunciation: '', translations: { arabic: 'ثلاثة وثلاثون', bengali: 'তেত্রিশ', korean: '삼십삼', spanish: 'treinta y tres', turkish: 'otuz üç' } },
+  { id: 'num-34', english: 'thirty-four', pronunciation: '', translations: { arabic: 'أربعة وثلاثون', bengali: 'চৌত্রিশ', korean: '삼십사', spanish: 'treinta y cuatro', turkish: 'otuz dört' } },
+  { id: 'num-35', english: 'thirty-five', pronunciation: '', translations: { arabic: 'خمسة وثلاثون', bengali: 'পঁয়ত্রিশ', korean: '삼십오', spanish: 'treinta y cinco', turkish: 'otuz beş' } },
+  { id: 'num-36', english: 'thirty-six', pronunciation: '', translations: { arabic: 'ستة وثلاثون', bengali: 'ছত্রিশ', korean: '삼십육', spanish: 'treinta y seis', turkish: 'otuz altı' } },
+  { id: 'num-37', english: 'thirty-seven', pronunciation: '', translations: { arabic: 'سبعة وثلاثون', bengali: 'সাঁইত্রিশ', korean: '삼십칠', spanish: 'treinta y siete', turkish: 'otuz yedi' } },
+  { id: 'num-38', english: 'thirty-eight', pronunciation: '', translations: { arabic: 'ثمانية وثلاثون', bengali: 'আটত্রিশ', korean: '삼십팔', spanish: 'treinta y ocho', turkish: 'otuz sekiz' } },
+  { id: 'num-39', english: 'thirty-nine', pronunciation: '', translations: { arabic: 'تسعة وثلاثون', bengali: 'ঊনচল্লিশ', korean: '삼십구', spanish: 'treinta y nueve', turkish: 'otuz dokuz' } },
+  { id: 'num-40', english: 'forty', pronunciation: '', translations: { arabic: 'أربعون', bengali: 'চল্লিশ', korean: '사십', spanish: 'cuarenta', turkish: 'kırk' } },
+];
+
+// Numbers 41-60
+export const numbers41to60: VocabularyItem[] = [
+  { id: 'num-41', english: 'forty-one', pronunciation: '', translations: { arabic: 'واحد وأربعون', bengali: 'একচল্লিশ', korean: '사십일', spanish: 'cuarenta y uno', turkish: 'kırk bir' } },
+  { id: 'num-42', english: 'forty-two', pronunciation: '', translations: { arabic: 'اثنان وأربعون', bengali: 'বিয়াল্লিশ', korean: '사십이', spanish: 'cuarenta y dos', turkish: 'kırk iki' } },
+  { id: 'num-43', english: 'forty-three', pronunciation: '', translations: { arabic: 'ثلاثة وأربعون', bengali: 'তেতাল্লিশ', korean: '사십삼', spanish: 'cuarenta y tres', turkish: 'kırk üç' } },
+  { id: 'num-44', english: 'forty-four', pronunciation: '', translations: { arabic: 'أربعة وأربعون', bengali: 'চুয়াল্লিশ', korean: '사십사', spanish: 'cuarenta y cuatro', turkish: 'kırk dört' } },
+  { id: 'num-45', english: 'forty-five', pronunciation: '', translations: { arabic: 'خمسة وأربعون', bengali: 'পঁয়তাল্লিশ', korean: '사십오', spanish: 'cuarenta y cinco', turkish: 'kırk beş' } },
+  { id: 'num-46', english: 'forty-six', pronunciation: '', translations: { arabic: 'ستة وأربعون', bengali: 'ছেচল্লিশ', korean: '사십육', spanish: 'cuarenta y seis', turkish: 'kırk altı' } },
+  { id: 'num-47', english: 'forty-seven', pronunciation: '', translations: { arabic: 'سبعة وأربعون', bengali: 'সাতচল্লিশ', korean: '사십칠', spanish: 'cuarenta y siete', turkish: 'kırk yedi' } },
+  { id: 'num-48', english: 'forty-eight', pronunciation: '', translations: { arabic: 'ثمانية وأربعون', bengali: 'আটচল্লিশ', korean: '사십팔', spanish: 'cuarenta y ocho', turkish: 'kırk sekiz' } },
+  { id: 'num-49', english: 'forty-nine', pronunciation: '', translations: { arabic: 'تسعة وأربعون', bengali: 'ঊনপঞ্চাশ', korean: '사십구', spanish: 'cuarenta y nueve', turkish: 'kırk dokuz' } },
+  { id: 'num-50', english: 'fifty', pronunciation: '', translations: { arabic: 'خمسون', bengali: 'পঞ্চাশ', korean: '오십', spanish: 'cincuenta', turkish: 'elli' } },
+  { id: 'num-51', english: 'fifty-one', pronunciation: '', translations: { arabic: 'واحد وخمسون', bengali: 'একান্ন', korean: '오십일', spanish: 'cincuenta y uno', turkish: 'elli bir' } },
+  { id: 'num-52', english: 'fifty-two', pronunciation: '', translations: { arabic: 'اثنان وخمسون', bengali: 'বাহান্ন', korean: '오십이', spanish: 'cincuenta y dos', turkish: 'elli iki' } },
+  { id: 'num-53', english: 'fifty-three', pronunciation: '', translations: { arabic: 'ثلاثة وخمسون', bengali: 'তিপ্পান্ন', korean: '오십삼', spanish: 'cincuenta y tres', turkish: 'elli üç' } },
+  { id: 'num-54', english: 'fifty-four', pronunciation: '', translations: { arabic: 'أربعة وخمسون', bengali: 'চুয়ান্ন', korean: '오십사', spanish: 'cincuenta y cuatro', turkish: 'elli dört' } },
+  { id: 'num-55', english: 'fifty-five', pronunciation: '', translations: { arabic: 'خمسة وخمسون', bengali: 'পঞ্চান্ন', korean: '오십오', spanish: 'cincuenta y cinco', turkish: 'elli beş' } },
+  { id: 'num-56', english: 'fifty-six', pronunciation: '', translations: { arabic: 'ستة وخمسون', bengali: 'ছাপ্পান্ন', korean: '오십육', spanish: 'cincuenta y seis', turkish: 'elli altı' } },
+  { id: 'num-57', english: 'fifty-seven', pronunciation: '', translations: { arabic: 'سبعة وخمسون', bengali: 'সাতান্ন', korean: '오십칠', spanish: 'cincuenta y siete', turkish: 'elli yedi' } },
+  { id: 'num-58', english: 'fifty-eight', pronunciation: '', translations: { arabic: 'ثمانية وخمسون', bengali: 'আটান্ন', korean: '오십팔', spanish: 'cincuenta y ocho', turkish: 'elli sekiz' } },
+  { id: 'num-59', english: 'fifty-nine', pronunciation: '', translations: { arabic: 'تسعة وخمسون', bengali: 'ঊনষাট', korean: '오십구', spanish: 'cincuenta y nueve', turkish: 'elli dokuz' } },
+  { id: 'num-60', english: 'sixty', pronunciation: '', translations: { arabic: 'ستون', bengali: 'ষাট', korean: '육십', spanish: 'sesenta', turkish: 'altmış' } },
 ];
 
 // Module 1 Intro video URL (shown after login/language selection)
@@ -1299,6 +1347,44 @@ export const module1Lessons: Lesson[] = [
     listeningFillInBlankItems: letsReviewPart2,
     isCompleted: false,
     duration: '12 min',
+  },
+  // 14. Numbers 21-40
+  {
+    id: 'lesson-17',
+    title: 'Numbers 21-40',
+    description: 'Learn numbers 21 to 40',
+    type: 'numbers-matching',
+    content: numbers21to40,
+    isCompleted: false,
+    duration: '10 min',
+  },
+  // 15. Numbers 41-60
+  {
+    id: 'lesson-18',
+    title: 'Numbers 41-60',
+    description: 'Learn numbers 41 to 60',
+    type: 'numbers-matching',
+    content: numbers41to60,
+    isCompleted: false,
+    duration: '10 min',
+  },
+  // 16. Pronoun Practice
+  {
+    id: 'lesson-19',
+    title: 'Pronoun Practice',
+    description: 'Practice I/my/he/his/she/her',
+    type: 'pronoun-practice',
+    isCompleted: false,
+    duration: '10 min',
+  },
+  // 17. Module 1 Final Checklist
+  {
+    id: 'lesson-20',
+    title: 'Module 1 Complete!',
+    description: 'Review what you learned',
+    type: 'module-checklist',
+    isCompleted: false,
+    duration: '3 min',
   },
 ];
 
