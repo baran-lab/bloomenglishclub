@@ -1102,6 +1102,61 @@ export const test2Slides: SpeakingTestSlide[] = [
   },
 ];
 
+// New Neighbor Quiz Data
+
+// Fatima Hassan - Matching Quiz
+export const fatimaMatchingData = {
+  videoUrl: '/videos/module1/fatima-hassan.mp4',
+  pairs: [
+    { id: 'first-name', question: 'First Name', answer: 'Fatima' },
+    { id: 'last-name', question: 'Last Name', answer: 'Hassan' },
+    { id: 'country', question: 'Country of Origin', answer: 'Bangladesh' },
+    { id: 'age', question: 'Age', answer: '31' },
+    { id: 'marital', question: 'Marital Status', answer: 'Divorced' },
+    { id: 'children', question: 'Children', answer: 'A son' },
+    { id: 'job', question: 'Job', answer: 'Home health aide' },
+  ],
+};
+
+// Dmitry Ivanov - Drag & Drop Quiz
+export const dmitryDragDropData = {
+  videoUrl: '/videos/module1/dmitry-ivanov.mp4',
+  sentences: [
+    { id: 'd1', textBefore: 'Hi. My name is', textAfter: '.', correctAnswer: 'Dmitry Ivanov' },
+    { id: 'd2', textBefore: "I'm from", textAfter: '.', correctAnswer: 'Russia' },
+    { id: 'd3', textBefore: 'I am', textAfter: 'years old.', correctAnswer: '23' },
+    { id: 'd4', textBefore: 'I am', textAfter: ", and I don't have children.", correctAnswer: 'single' },
+    { id: 'd5', textBefore: 'I am a', textAfter: ', and I work as a part-time', correctAnswer: 'student' },
+    { id: 'd6', textBefore: 'I work as a part-time', textAfter: '. I live in apartment 4A.', correctAnswer: 'delivery driver' },
+  ],
+  words: ['23', 'student', 'Dmitry Ivanov', 'single', 'delivery driver', 'Russia'],
+};
+
+// Rosa Silva - Multiple Choice Quiz
+export const rosaQuizData = {
+  videoUrl: '/videos/module1/rosa-silva.mp4',
+  questions: [
+    { id: 'rosa-q1', question: 'What is her name?', options: ['Rosa Silva', 'Rosa Rivera'], correctAnswer: 0, translations: { arabic: 'ما اسمها؟', bengali: 'তার নাম কি?', korean: '그녀의 이름은?', spanish: '¿Cuál es su nombre?', turkish: 'Adı ne?' } },
+    { id: 'rosa-q2', question: 'Where is Rosa from?', options: ['Dominican Republic', 'Peru'], correctAnswer: 0, translations: { arabic: 'من أين روزا؟', bengali: 'রোজা কোথা থেকে?', korean: '로사는 어디 출신?', spanish: '¿De dónde es Rosa?', turkish: 'Rosa nereli?' } },
+    { id: 'rosa-q3', question: 'How old is Rosa?', options: ['30 years old', '28 years old'], correctAnswer: 0, translations: { arabic: 'كم عمر روزا؟', bengali: 'রোজার বয়স কত?', korean: '로사는 몇 살?', spanish: '¿Cuántos años tiene Rosa?', turkish: 'Rosa kaç yaşında?' } },
+    { id: 'rosa-q4', question: 'Is Rosa married or single?', options: ['Married', 'Single'], correctAnswer: 0, translations: { arabic: 'هل روزا متزوجة أم عزباء؟', bengali: 'রোজা কি বিবাহিত না অবিবাহিত?', korean: '로사는 결혼했나요?', spanish: '¿Rosa está casada o soltera?', turkish: 'Rosa evli mi bekar mı?' } },
+    { id: 'rosa-q5', question: 'What does Rosa do?', options: ['Housekeeper', 'Cashier'], correctAnswer: 0, translations: { arabic: 'ماذا تعمل روزا؟', bengali: 'রোজা কি করে?', korean: '로사는 무슨 일을 해요?', spanish: '¿Qué hace Rosa?', turkish: 'Rosa ne iş yapıyor?' } },
+    { id: 'rosa-q6', question: 'Where does Rosa work?', options: ['Hotel', 'Supermarket'], correctAnswer: 0, translations: { arabic: 'أين تعمل روزا؟', bengali: 'রোজা কোথায় কাজ করে?', korean: '로사는 어디서 일해요?', spanish: '¿Dónde trabaja Rosa?', turkish: 'Rosa nerede çalışıyor?' } },
+  ] as QuizQuestion[],
+};
+
+// Ali Demir - Fill in Info Quiz
+export const aliInfoData = {
+  videoUrl: '/videos/module1/ali-demir.mp4',
+  fields: [
+    { id: 'first-name', label: 'First Name', correctAnswer: 'Ali', acceptedAnswers: ['Ali', 'ali'] },
+    { id: 'country', label: 'Country of Origin', correctAnswer: 'Turkey', acceptedAnswers: ['Turkey', 'Türkiye', 'turkey', 'turkiye', 'Turkiye'] },
+    { id: 'age', label: 'Age', correctAnswer: '45', acceptedAnswers: ['45', 'forty-five', 'forty five'] },
+    { id: 'marital', label: 'Marital Status', correctAnswer: 'Married', acceptedAnswers: ['Married', 'married'] },
+    { id: 'job', label: 'Job', correctAnswer: 'Electrician', acceptedAnswers: ['Electrician', 'electrician', 'Electricin', 'electricin'] },
+  ],
+};
+
 // Module 1 Lessons - Restructured
 export const module1Lessons: Lesson[] = [
   // 1. Vocabulary Part 1 - Basic intro words

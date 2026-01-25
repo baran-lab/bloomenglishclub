@@ -60,17 +60,48 @@ export const ListeningFillInBlank: React.FC<ListeningFillInBlankProps> = ({
     }
   };
 
+  // Helper to check if answer is close enough (allows one letter missing)
+  const isCloseEnough = (input: string, correct: string): boolean => {
+    if (input === correct) return true;
+    
+    // Allow one letter missing
+    if (Math.abs(input.length - correct.length) === 1) {
+      const longer = input.length > correct.length ? input : correct;
+      const shorter = input.length <= correct.length ? input : correct;
+      
+      let differences = 0;
+      let j = 0;
+      for (let i = 0; i < longer.length && j < shorter.length; i++) {
+        if (longer[i] === shorter[j]) {
+          j++;
+        } else {
+          differences++;
+        }
+      }
+      differences += (shorter.length - j);
+      
+      return differences <= 1;
+    }
+    
+    return false;
+  };
+
   const checkAnswer = () => {
     const trimmedAnswer = userAnswer.trim();
     const normalizedAnswer = trimmedAnswer.toLowerCase();
     const correctNormalized = currentItem.correctAnswer.toLowerCase();
     
-    // Check if it's an accepted variation
+    // Check if it's an accepted variation (exact match)
     const isAccepted = currentItem.acceptedAnswers.some(
       ans => ans.toLowerCase() === normalizedAnswer
     );
     
-    if (isAccepted) {
+    // Check if close enough (one letter missing - like "wok" for "work", "liv" for "live")
+    const isTypoAccepted = currentItem.acceptedAnswers.some(
+      ans => isCloseEnough(normalizedAnswer, ans.toLowerCase())
+    );
+    
+    if (isAccepted || isTypoAccepted) {
       setIsCorrect(true);
       setCompletedItems(prev => new Set([...prev, currentItem.id]));
       
@@ -90,8 +121,10 @@ export const ListeningFillInBlank: React.FC<ListeningFillInBlankProps> = ({
         oscillator.stop(audioContext.currentTime + 0.4);
       } catch (e) { console.log('Audio not available'); }
       
-      // Check if it's not the "standard" capitalization
-      if (trimmedAnswer !== currentItem.correctAnswer && 
+      // Check if it's not the "standard" answer (typo or different case)
+      if (!isAccepted && isTypoAccepted) {
+        setHasTypo(true);
+      } else if (trimmedAnswer !== currentItem.correctAnswer && 
           trimmedAnswer.toLowerCase() === correctNormalized) {
         setHasTypo(true);
       } else {
@@ -225,24 +258,18 @@ export const ListeningFillInBlank: React.FC<ListeningFillInBlankProps> = ({
                 className="space-y-3"
               >
                 <div className={`p-4 rounded-2xl text-center ${
-                  isCorrect ? 'bg-green-500/10' : 'bg-destructive/10'
+                  isCorrect ? 'bg-green-500/10' : 'bg-accent/10'
                 }`}>
                   <div className="flex items-center justify-center gap-2 mb-2">
                     {isCorrect ? (
                       <CheckCircle className="w-6 h-6 text-green-600" />
                     ) : (
-                      <XCircle className="w-6 h-6 text-destructive" />
+                      <span className="text-2xl">💪</span>
                     )}
-                    <span className={`font-semibold ${isCorrect ? 'text-green-600' : 'text-destructive'}`}>
-                      {isCorrect ? `Great job, ${userName || 'friend'}! 🎉` : `Try again, ${userName || 'friend'}!`}
+                    <span className={`font-semibold ${isCorrect ? 'text-green-600' : 'text-accent-foreground'}`}>
+                      {isCorrect ? `Great job, ${userName || 'friend'}! 🎉` : `Good try, ${userName || 'friend'}! You can do it!`}
                     </span>
                   </div>
-                  
-                  {!isCorrect && (
-                    <p className="text-sm text-muted-foreground">
-                      Hint: The answer is a form of the verb "to be" or an action word.
-                    </p>
-                  )}
                 </div>
 
                 {/* Typo explanation */}
