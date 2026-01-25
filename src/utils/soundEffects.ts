@@ -71,3 +71,7 @@ export const playRecordingSuccessSound = () => {
     console.log('Audio not available');
   }
 };
+
+// Alias functions for backward compatibility
+export const playCorrectSound = playSuccessSound;
+export const playIncorrectSound = playErrorSound;
