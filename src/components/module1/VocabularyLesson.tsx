@@ -24,9 +24,19 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
   const [pronunciationScore, setPronunciationScore] = useState<number | null>(null);
   const { isRecording, audioUrl, startRecording, stopRecording, clearRecording } = useVoiceRecorder();
 
-  const currentWord = vocabulary[currentIndex];
-  const progress = (completedWords.size / vocabulary.length) * 100;
-  const allCompleted = completedWords.size === vocabulary.length;
+  const currentWord = vocabulary?.[currentIndex];
+  const progress = vocabulary?.length > 0 ? (completedWords.size / vocabulary.length) * 100 : 0;
+  const allCompleted = vocabulary?.length > 0 && completedWords.size === vocabulary.length;
+
+  // Safety check - if no vocabulary data, show loading or empty state
+  if (!vocabulary || vocabulary.length === 0 || !currentWord) {
+    return (
+      <div className="text-center p-8">
+        <p className="text-muted-foreground">No vocabulary items available.</p>
+        <Button onClick={onComplete} className="mt-4">Continue</Button>
+      </div>
+    );
+  }
 
   const speakWord = () => {
     if ('speechSynthesis' in window) {
