@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, BookOpen, Menu, ArrowRight, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LanguageProvider, useLanguage } from '@/components/LanguageContext';
@@ -22,7 +22,8 @@ import { MultipleChoiceQuiz } from '@/components/module1/MultipleChoiceQuiz';
 import VideoPracticeQuiz from '@/components/module1/VideoPracticeQuiz';
 import WordOrderPractice from '@/components/module1/WordOrderPractice';
 import SpeakingTestPractice from '@/components/module1/SpeakingTestPractice';
-import { module1Lessons, Lesson, greetingPhrases, module1IntroVideoUrl, test2Slides } from '@/data/module1Data';
+import NeighborVideoQuiz from '@/components/module1/NeighborVideoQuiz';
+import { module1Lessons, neighborLessons, Lesson, greetingPhrases, module1IntroVideoUrl, test2Slides } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
 import { useMicroWin } from '@/components/MicroWins';
@@ -31,6 +32,7 @@ type ViewState = 'language-select' | 'intro-video' | 'lessons' | 'lesson-detail'
 
 const Module1Content: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const { languageInfo } = useLanguage();
   const { showWin, MicroWinComponent } = useMicroWin();
@@ -47,6 +49,20 @@ const Module1Content: React.FC = () => {
   const completedCount = lessons.filter(l => l.isCompleted).length;
   const progress = (completedCount / lessons.length) * 100;
   const currentLessonIndex = lessons.findIndex(l => l.id === activeLesson?.id);
+
+  // Allow deep-linking to a specific lesson/neighbor via ?lesson=<id>
+  useEffect(() => {
+    const lessonId = searchParams.get('lesson');
+    if (!lessonId) return;
+
+    const allLessons = [...module1Lessons, ...neighborLessons];
+    const target = allLessons.find(l => l.id === lessonId);
+    if (!target) return;
+
+    setActiveLesson(target);
+    setViewState('lesson-detail');
+    setShowContinue(false);
+  }, [searchParams]);
 
   const handleLanguageSelected = () => {
     setViewState('intro-video');
@@ -78,6 +94,14 @@ const Module1Content: React.FC = () => {
   };
 
   const handleContinue = () => {
+    // Neighbor lessons are not part of the Module 1 sequence.
+    if (currentLessonIndex === -1) {
+      setViewState('lessons');
+      setActiveLesson(null);
+      setShowContinue(false);
+      return;
+    }
+
     if (currentLessonIndex < lessons.length - 1) {
       const nextLesson = lessons[currentLessonIndex + 1];
       setActiveLesson(nextLesson);
@@ -146,6 +170,21 @@ const Module1Content: React.FC = () => {
       case 'speaking-test':
         const characterName = lesson.title.includes('Rosa') ? 'Rosa' : 'Marisol';
         return <SpeakingTestPractice slides={lesson.speakingTestSlides || []} onComplete={handleLessonComplete} onContinue={handleContinue} lessonTitle={lesson.title} lessonDescription={lesson.description} onBackToDashboard={() => navigate('/')} characterName={characterName} />;
+      case 'neighbor-video-quiz':
+        if (!lesson.neighborVideoQuiz) return null;
+        return (
+          <NeighborVideoQuiz
+            videoUrl={lesson.neighborVideoQuiz.videoUrl}
+            characterName={lesson.neighborVideoQuiz.characterName}
+            quizType={lesson.neighborVideoQuiz.quizType}
+            quizData={lesson.neighborVideoQuiz.quizData}
+            onComplete={() => {
+              showWin(`Great job, ${userName || 'friend'}! 🎉`, userName, 'correct');
+              setShowContinue(true);
+            }}
+            onBackToDashboard={() => navigate('/')}
+          />
+        );
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }

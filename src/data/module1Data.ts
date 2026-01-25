@@ -44,7 +44,7 @@ export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order' | 'speaking-test';
+  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order' | 'speaking-test' | 'neighbor-video-quiz';
   videoUrl?: string;
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean }[];
   content?: VocabularyItem[];
@@ -58,6 +58,18 @@ export interface Lesson {
   practiceQuizSlides?: VideoSlideWithQuiz[];
   wordOrderSlides?: WordOrderSlide[];
   speakingTestSlides?: SpeakingTestSlide[];
+  neighborVideoQuiz?: {
+    videoUrl: string;
+    characterName: string;
+    quizType: 'matching' | 'drag-drop' | 'fill-info' | 'multiple-choice';
+    quizData: {
+      matchingPairs?: { id: string; question: string; answer: string }[];
+      sentences?: { id: string; textBefore: string; textAfter: string; correctAnswer: string }[];
+      words?: string[];
+      fields?: { id: string; label: string; correctAnswer: string; acceptedAnswers?: string[] }[];
+      questions?: QuizQuestion[];
+    };
+  };
   formType?: 'doctor-intake' | 'job-application' | 'insurance';
   embedUrl?: string;
   isCompleted: boolean;
@@ -1108,8 +1120,7 @@ export const test2Slides: SpeakingTestSlide[] = [
 export const fatimaMatchingData = {
   videoUrl: '/videos/module1/fatima-hassan.mp4',
   pairs: [
-    { id: 'first-name', question: 'First Name', answer: 'Fatima' },
-    { id: 'last-name', question: 'Last Name', answer: 'Hassan' },
+    { id: 'name', question: 'First Name/Last Name', answer: 'Fatima Hassan' },
     { id: 'country', question: 'Country of Origin', answer: 'Bangladesh' },
     { id: 'age', question: 'Age', answer: '31' },
     { id: 'marital', question: 'Marital Status', answer: 'Divorced' },
@@ -1249,40 +1260,7 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
-  // 10. Meet Your Neighbor: Ahmet El-Masri
-  {
-    id: 'lesson-10',
-    title: 'Meet Your Neighbor: Ahmet El-Masri',
-    description: 'Watch Ahmet and answer the quiz',
-    type: 'video-series',
-    videos: ahmetNeighborVideos,
-    quizQuestions: ahmetQuiz,
-    isCompleted: false,
-    duration: '8 min',
-  },
-  // 11. Meet Your Neighbor: Marisol Rivera
-  {
-    id: 'lesson-11',
-    title: 'Meet Your Neighbor: Marisol Rivera',
-    description: 'Watch Marisol and answer the quiz',
-    type: 'video-series',
-    videos: marisolNeighborVideos,
-    quizQuestions: marisolQuiz,
-    isCompleted: false,
-    duration: '8 min',
-  },
-  // 12. Meet Your Neighbor: Saojin Lee
-  {
-    id: 'lesson-12',
-    title: 'Meet Your Neighbor: Saojin Lee',
-    description: 'Watch Saojin and answer the quiz',
-    type: 'video-series',
-    videos: saojinNeighborVideos,
-    quizQuestions: saojinQuiz,
-    isCompleted: false,
-    duration: '8 min',
-  },
-  // 13. Test 1 - Speaking Test with Marisol
+  // 10. Test 1 - Speaking Test with Marisol
   {
     id: 'lesson-13',
     title: 'Test 1: Marisol',
@@ -1292,7 +1270,7 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '15 min',
   },
-  // 14. Test 2 - Speaking Test with Rosa
+  // 11. Test 2 - Speaking Test with Rosa
   {
     id: 'lesson-14',
     title: 'Test 2: Rosa',
@@ -1302,7 +1280,7 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '15 min',
   },
-  // 15. Let's Review Part 1 - Listening fill in the blank
+  // 12. Let's Review Part 1 - Listening fill in the blank
   {
     id: 'lesson-15',
     title: "Let's Review Part 1",
@@ -1312,7 +1290,7 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
-  // 16. Let's Review Part 2 - Listening fill in the blank
+  // 13. Let's Review Part 2 - Listening fill in the blank
   {
     id: 'lesson-16',
     title: "Let's Review Part 2",
@@ -1321,5 +1299,105 @@ export const module1Lessons: Lesson[] = [
     listeningFillInBlankItems: letsReviewPart2,
     isCompleted: false,
     duration: '12 min',
+  },
+];
+
+// Neighbor activities are intentionally NOT part of the Module 1 lesson list.
+// They are accessible via the "Meet Your Neighbors" menu.
+export const neighborLessons: Lesson[] = [
+  {
+    id: 'neighbor-ahmet',
+    title: 'Meet Your Neighbor: Ahmet El-Masri',
+    description: 'Watch Ahmet and answer the quiz',
+    type: 'video-series',
+    videos: ahmetNeighborVideos,
+    quizQuestions: ahmetQuiz,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  {
+    id: 'neighbor-marisol',
+    title: 'Meet Your Neighbor: Marisol Rivera',
+    description: 'Watch Marisol and answer the quiz',
+    type: 'video-series',
+    videos: marisolNeighborVideos,
+    quizQuestions: marisolQuiz,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  {
+    id: 'neighbor-saojin',
+    title: 'Meet Your Neighbor: Saojin Lee',
+    description: 'Watch Saojin and answer the quiz',
+    type: 'video-series',
+    videos: saojinNeighborVideos,
+    quizQuestions: saojinQuiz,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  {
+    id: 'neighbor-fatima',
+    title: 'Meet Fatima Hassan',
+    description: 'Watch Fatima and match the information',
+    type: 'neighbor-video-quiz',
+    neighborVideoQuiz: {
+      videoUrl: fatimaMatchingData.videoUrl,
+      characterName: 'Fatima',
+      quizType: 'matching',
+      quizData: {
+        matchingPairs: fatimaMatchingData.pairs,
+      },
+    },
+    isCompleted: false,
+    duration: '6 min',
+  },
+  {
+    id: 'neighbor-dmitry',
+    title: 'Meet Dmitry Ivanov',
+    description: 'Watch Dmitry and complete the sentences',
+    type: 'neighbor-video-quiz',
+    neighborVideoQuiz: {
+      videoUrl: dmitryDragDropData.videoUrl,
+      characterName: 'Dmitry',
+      quizType: 'drag-drop',
+      quizData: {
+        sentences: dmitryDragDropData.sentences,
+        words: dmitryDragDropData.words,
+      },
+    },
+    isCompleted: false,
+    duration: '6 min',
+  },
+  {
+    id: 'neighbor-rosa',
+    title: 'Meet Rosa Silva',
+    description: 'Watch Rosa and answer the quiz',
+    type: 'neighbor-video-quiz',
+    neighborVideoQuiz: {
+      videoUrl: rosaQuizData.videoUrl,
+      characterName: 'Rosa',
+      quizType: 'multiple-choice',
+      quizData: {
+        questions: rosaQuizData.questions,
+      },
+    },
+    isCompleted: false,
+    duration: '6 min',
+  },
+  {
+    id: 'neighbor-ali',
+    title: 'Meet Ali Demir',
+    description: 'Watch Ali and fill in the missing info',
+    type: 'neighbor-video-quiz',
+    neighborVideoQuiz: {
+      videoUrl: aliInfoData.videoUrl,
+      characterName: 'Ali',
+      quizType: 'fill-info',
+      quizData: {
+        fields: aliInfoData.fields,
+      },
+    },
+    isCompleted: false,
+    duration: '6 min',
   },
 ];

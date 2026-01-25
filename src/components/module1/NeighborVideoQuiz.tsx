@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import MatchingQuiz from './MatchingQuiz';
 import DragDropQuiz from './DragDropQuiz';
 import FillInfoQuiz from './FillInfoQuiz';
+import { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
 
-export type QuizType = 'matching' | 'drag-drop' | 'fill-info';
+export type QuizType = 'matching' | 'drag-drop' | 'fill-info' | 'multiple-choice';
 
 interface NeighborVideoQuizProps {
   videoUrl: string;
@@ -20,6 +21,8 @@ interface NeighborVideoQuizProps {
     words?: string[];
     // For fill-info quiz
     fields?: { id: string; label: string; correctAnswer: string; acceptedAnswers?: string[] }[];
+    // For multiple-choice quiz
+    questions?: any[];
   };
   onComplete: () => void;
   onBackToDashboard: () => void;
@@ -77,6 +80,15 @@ export const NeighborVideoQuiz: React.FC<NeighborVideoQuizProps> = ({
             fields={quizData.fields || []}
             onComplete={handleQuizComplete}
             title={`${characterName}'s Information`}
+            characterName={characterName}
+          />
+        );
+      case 'multiple-choice':
+        return (
+          <MultipleChoiceQuiz
+            questions={(quizData.questions || []) as any}
+            onComplete={handleQuizComplete}
+            title={`Quiz: ${characterName}`}
             characterName={characterName}
           />
         );
