@@ -8,10 +8,7 @@ import { SkillsSection } from "@/components/SkillsSection";
 import { ProfileSidebar } from "@/components/ProfileSidebar";
 import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
-import { WelcomeScreen } from "@/components/WelcomeScreen";
-import { GoodbyeModal } from "@/components/GoodbyeModal";
 import { HamburgerMenu } from "@/components/HamburgerMenu";
-import { BeeMascot } from "@/components/BeeMascot";
 import { ProgressChecklist } from "@/components/ProgressChecklist";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
 import { Card } from "@/components/ui/card";
@@ -28,29 +25,20 @@ const Index = () => {
   });
   const [userProgress, setUserProgress] = useState(mockUserProgress);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(false);
-  const [showGoodbye, setShowGoodbye] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const { toast } = useToast();
   const hasPlayedJingle = useRef(false);
   const { startSession, endSession, getSessionDuration, currentSession } = useTrackingSystem();
   
   const userName = localStorage.getItem('englishville_user_name') || 'Friend';
-  const isFirstVisit = !localStorage.getItem('englishville_visited');
 
   // Find the next module the user should work on
   const nextModuleIndex = modules.findIndex((m) => m.isUnlocked && !m.isCompleted);
 
-  // Play jingle and show welcome on first load
+  // Play jingle on first load
   useEffect(() => {
     if (!hasPlayedJingle.current) {
       hasPlayedJingle.current = true;
-      
-      // Show welcome screen for first-time or returning users
-      if (isFirstVisit) {
-        localStorage.setItem('englishville_visited', 'true');
-        setShowWelcome(true);
-      }
       
       // Play jingle
       setTimeout(() => {
@@ -60,13 +48,11 @@ const Index = () => {
       // Start tracking session
       startSession();
     }
-  }, [isFirstVisit, startSession]);
+  }, [startSession]);
 
-  // Handle page unload - show goodbye
+  // Handle page unload
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      // Optionally show goodbye modal
-      // For now, just end the session
       endSession();
     };
 
@@ -84,7 +70,7 @@ const Index = () => {
     { id: 'origin', text: 'You can tell where you are from', isCompleted: modules[0]?.progress >= 40 },
     { id: 'age', text: 'You can say your age', isCompleted: modules[0]?.progress >= 50 },
     { id: 'job', text: 'You can tell people your job', isCompleted: modules[0]?.progress >= 60 },
-    { id: 'numbers', text: 'You can count to 20', isCompleted: modules[0]?.progress >= 70 },
+    { id: 'numbers', text: 'You can count to 60', isCompleted: modules[0]?.progress >= 70 },
   ];
 
   const handleModuleClick = (module: Module) => {
@@ -92,6 +78,8 @@ const Index = () => {
     
     if (module.id === 1) {
       navigate('/module/1');
+    } else if (module.id === 2) {
+      navigate('/module/2');
     } else {
       toast({
         title: `Opening ${module.title}`,
@@ -146,15 +134,7 @@ const Index = () => {
     });
   };
 
-  const handleWelcomeComplete = () => {
-    setShowWelcome(false);
-  };
-
   const handleMenuNavigate = (section: string) => {
-    if (section === 'neighbors') {
-      // Keep menu open to show neighbors
-      return;
-    }
     setShowMenu(false);
     
     // Handle navigation based on section
@@ -179,30 +159,6 @@ const Index = () => {
 
   return (
     <>
-      {/* Welcome Screen */}
-      <AnimatePresence>
-        {showWelcome && (
-          <WelcomeScreen 
-            userName={userName} 
-            onComplete={handleWelcomeComplete}
-            autoHideDelay={4000}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Goodbye Modal */}
-      <GoodbyeModal
-        isOpen={showGoodbye}
-        userName={userName}
-        sessionStats={currentSession ? {
-          lessonsCompleted: currentSession.lessonsCompleted,
-          practiceAttempts: currentSession.practiceAttempts,
-          duration: getSessionDuration(),
-        } : undefined}
-        onClose={() => setShowGoodbye(false)}
-        onStay={() => setShowGoodbye(false)}
-      />
-
       {/* Hamburger Menu */}
       <HamburgerMenu 
         isOpen={showMenu} 
@@ -276,23 +232,6 @@ const Index = () => {
         <main className="container max-w-4xl mx-auto px-4 py-6">
           <WelcomeHeader />
 
-          {/* Bee Mascot floating near next module */}
-          {nextModuleIndex >= 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="flex justify-center my-4"
-            >
-              <BeeMascot
-                size="medium"
-                message={`Ready to continue, ${userName}? 🎯`}
-                userName={userName}
-                isWaving={false}
-              />
-            </motion.div>
-          )}
-
           {/* Motivational Quote */}
           <MotivationalQuote quote={currentModule?.quote || ""} />
 
@@ -317,16 +256,6 @@ const Index = () => {
                   transition={{ delay: index * 0.1 }}
                   className="relative"
                 >
-                  {/* Bee indicator for next module */}
-                  {index === nextModuleIndex && (
-                    <motion.div
-                      animate={{ y: [0, -5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      className="absolute -top-3 -right-2 z-10 text-2xl"
-                    >
-                      🐝
-                    </motion.div>
-                  )}
                   <ModuleCard
                     module={module}
                     index={index}
