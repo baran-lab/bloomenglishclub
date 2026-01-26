@@ -15,6 +15,8 @@ import { NameRecordingPractice } from '@/components/module2/NameRecordingPractic
 import { SpellingPractice } from '@/components/module2/SpellingPractice';
 import { MonthsLesson } from '@/components/module2/MonthsLesson';
 import { MonthsOrderPractice } from '@/components/module2/MonthsOrderPractice';
+import { TelephonePractice } from '@/components/module2/TelephonePractice';
+import { DateOfBirthPractice } from '@/components/module2/DateOfBirthPractice';
 import { module2Lessons, Module2Lesson } from '@/data/module2Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -41,25 +43,19 @@ const Module2Content: React.FC = () => {
   const progress = (completedCount / lessons.length) * 100;
   const currentLessonIndex = lessons.findIndex(l => l.id === activeLesson?.id);
 
-  // Allow deep-linking to a specific lesson via ?lesson=<id>
   useEffect(() => {
     const lessonId = searchParams.get('lesson');
     if (!lessonId) return;
-
     const target = module2Lessons.find(l => l.id === lessonId);
-    if (!target) return;
-
-    setActiveLesson(target);
-    setViewState('lesson-detail');
-    setShowContinue(false);
+    if (target) {
+      setActiveLesson(target);
+      setViewState('lesson-detail');
+    }
   }, [searchParams]);
 
   const handleLanguageSelected = () => {
     setViewState('lessons');
-    toast({
-      title: `${languageInfo.flag} ${languageInfo.english} selected`,
-      description: 'Translations will be shown in your chosen language.',
-    });
+    toast({ title: `${languageInfo.flag} ${languageInfo.english} selected` });
   };
 
   const handleLessonClick = (lesson: Module2Lesson) => {
@@ -70,9 +66,7 @@ const Module2Content: React.FC = () => {
 
   const handleLessonComplete = () => {
     if (activeLesson) {
-      setLessons(prev => prev.map(l => 
-        l.id === activeLesson.id ? { ...l, isCompleted: true } : l
-      ));
+      setLessons(prev => prev.map(l => l.id === activeLesson.id ? { ...l, isCompleted: true } : l));
       showWin(`Great job, ${userName || 'friend'}! 🎉`, userName, 'correct');
       setShowContinue(true);
     }
@@ -80,11 +74,10 @@ const Module2Content: React.FC = () => {
 
   const handleContinue = () => {
     if (currentLessonIndex < lessons.length - 1) {
-      const nextLesson = lessons[currentLessonIndex + 1];
-      setActiveLesson(nextLesson);
+      setActiveLesson(lessons[currentLessonIndex + 1]);
       setShowContinue(false);
     } else {
-      toast({ title: '🏆 Module Complete!', description: 'You finished all lessons!' });
+      toast({ title: '🏆 Module Complete!' });
       setViewState('lessons');
       setActiveLesson(null);
     }
@@ -94,9 +87,6 @@ const Module2Content: React.FC = () => {
     if (viewState === 'lesson-detail') {
       setViewState('lessons');
       setActiveLesson(null);
-      setShowContinue(false);
-    } else if (viewState === 'lessons') {
-      navigate('/');
     } else {
       navigate('/');
     }
@@ -122,6 +112,10 @@ const Module2Content: React.FC = () => {
         return <MonthsLesson content={lesson.content || []} onComplete={handleLessonComplete} />;
       case 'months-order':
         return <MonthsOrderPractice months={lesson.content || []} onComplete={handleLessonComplete} />;
+      case 'telephone-practice':
+        return <TelephonePractice onComplete={handleLessonComplete} userName={userName} />;
+      case 'date-of-birth-practice':
+        return <DateOfBirthPractice onComplete={handleLessonComplete} userName={userName} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }

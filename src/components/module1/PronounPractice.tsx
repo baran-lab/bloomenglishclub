@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, ChevronRight, CheckCircle2, RotateCcw } from 'lucide-react';
+import { Volume2, ChevronRight, CheckCircle2, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
+import { useNavigate } from 'react-router-dom';
 
 interface PronounQuestion {
   id: string;
@@ -19,8 +20,8 @@ const pronounQuestions: PronounQuestion[] = [
     audioText: "What's your name?",
     sentenceBefore: 'What is',
     sentenceAfter: 'name?',
-    options: ['Your', 'His', 'Her'],
-    correctIndex: 0,
+    options: ['your', 'his', 'her'],
+    correctIndex: 0, // Answer: A - your
   },
   {
     id: 'pq-2',
@@ -28,15 +29,15 @@ const pronounQuestions: PronounQuestion[] = [
     sentenceBefore: '',
     sentenceAfter: 'name is Peter.',
     options: ['Her', 'My', 'His'],
-    correctIndex: 1,
+    correctIndex: 1, // Answer: B - My
   },
   {
     id: 'pq-3',
     audioText: 'Where is he from?',
     sentenceBefore: 'Where is',
     sentenceAfter: 'from?',
-    options: ['He', 'She', 'you'],
-    correctIndex: 1,
+    options: ['he', 'she', 'you'],
+    correctIndex: 0, // Answer: A - he
   },
   {
     id: 'pq-4',
@@ -44,47 +45,47 @@ const pronounQuestions: PronounQuestion[] = [
     sentenceBefore: '',
     sentenceAfter: 'is from Korea.',
     options: ['I', 'She', 'He'],
-    correctIndex: 2,
+    correctIndex: 2, // Answer: C - He
   },
   {
     id: 'pq-5',
     audioText: 'How old is she?',
     sentenceBefore: 'How old is',
     sentenceAfter: '?',
-    options: ['She', 'He', 'I'],
-    correctIndex: 0,
+    options: ['she', 'he', 'I'],
+    correctIndex: 0, // Answer: A - she
   },
   {
     id: 'pq-6',
     audioText: 'What is her name?',
     sentenceBefore: 'What is',
     sentenceAfter: 'name?',
-    options: ['Your', 'Her', 'His'],
-    correctIndex: 1,
+    options: ['your', 'her', 'his'],
+    correctIndex: 1, // Answer: B - her
   },
   {
     id: 'pq-7',
     audioText: 'Where do you work?',
     sentenceBefore: 'Where',
     sentenceAfter: 'you work?',
-    options: ['Do', 'Does', 'Are'],
-    correctIndex: 0,
+    options: ['do', 'does', 'are'],
+    correctIndex: 0, // Answer: A - do
   },
   {
     id: 'pq-8',
     audioText: 'I work in a supermarket.',
     sentenceBefore: 'I',
     sentenceAfter: 'in a supermarket.',
-    options: ['Work', 'works'],
-    correctIndex: 0,
+    options: ['work', 'works'],
+    correctIndex: 0, // Answer: A - work
   },
   {
     id: 'pq-9',
     audioText: "What's his name?",
     sentenceBefore: "What's",
     sentenceAfter: 'name?',
-    options: ['Your', 'Her', 'his'],
-    correctIndex: 2,
+    options: ['your', 'her', 'his'],
+    correctIndex: 2, // Answer: C - his
   },
   {
     id: 'pq-10',
@@ -92,7 +93,7 @@ const pronounQuestions: PronounQuestion[] = [
     sentenceBefore: '',
     sentenceAfter: 'name is Mark.',
     options: ['My', 'Her', 'His'],
-    correctIndex: 2,
+    correctIndex: 2, // Answer: C - His
   },
 ];
 
@@ -109,6 +110,7 @@ interface PronounPracticeProps {
 }
 
 export const PronounPractice: React.FC<PronounPracticeProps> = ({ onComplete, userName = 'friend' }) => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -164,6 +166,14 @@ export const PronounPractice: React.FC<PronounPracticeProps> = ({ onComplete, us
   if (showGrammarTable) {
     return (
       <div className="space-y-6">
+        {/* Dashboard Button */}
+        <div className="flex justify-start">
+          <Button variant="outline" size="sm" onClick={() => navigate('/')} className="gap-2">
+            <Home className="w-4 h-4" />
+            Dashboard
+          </Button>
+        </div>
+
         <div className="text-center">
           <h3 className="font-fredoka text-xl font-bold text-foreground">Grammar Summary</h3>
           <p className="text-sm text-muted-foreground mt-1">Tap any cell to hear the pronunciation</p>
@@ -237,6 +247,14 @@ export const PronounPractice: React.FC<PronounPracticeProps> = ({ onComplete, us
 
   return (
     <div className="space-y-6">
+      {/* Dashboard Button */}
+      <div className="flex justify-start">
+        <Button variant="outline" size="sm" onClick={() => navigate('/')} className="gap-2">
+          <Home className="w-4 h-4" />
+          Dashboard
+        </Button>
+      </div>
+
       {/* Header */}
       <div className="text-center">
         <h3 className="font-fredoka text-xl font-bold text-foreground">Pronoun Practice</h3>
