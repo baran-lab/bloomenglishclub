@@ -31,6 +31,7 @@ export interface UserProgress {
   listening: { current: number; total: number };
   speaking: { current: number; total: number };
   streak: number;
+  totalTimeSpent?: number; // in seconds
 }
 
 export interface Badge {
@@ -154,6 +155,7 @@ export const mockUserProgress: UserProgress = {
   listening: { current: 5, total: 30 },
   speaking: { current: 3, total: 20 },
   streak: 5,
+  totalTimeSpent: 600, // 10 minutes in seconds
 };
 
 export const characters = [

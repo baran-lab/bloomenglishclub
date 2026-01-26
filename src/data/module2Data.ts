@@ -108,46 +108,46 @@ export const ordinalNumbers16to31: VocabularyItem[] = [
 // Legacy ordinal numbers for compatibility
 export const ordinalNumbers: VocabularyItem[] = [...ordinalNumbers1to15, ...ordinalNumbers16to31.slice(4, 7)];
 
-// Heba Video Series - Part 1 (Name)
+// Heba Video Series - Part 1 (Name) - for voice practice with sentences
 export const hebaVideos = [
-  { url: '/videos/module2/heba-1.mp4', title: 'Heba 1', subtitle: 'Watch and listen' },
-  { url: '/videos/module2/heba-1b.mp4', title: 'Heba 1B', subtitle: 'Practice' },
-  { url: '/videos/module2/heba-2.mp4', title: 'Heba 2', subtitle: 'Watch and listen' },
-  { url: '/videos/module2/heba-2b.mp4', title: 'Heba 2B', subtitle: 'Practice' },
-  { url: '/videos/module2/heba-3.mp4', title: 'Heba 3', subtitle: 'Watch and listen' },
-  { url: '/videos/module2/heba-3b.mp4', title: 'Heba 3B', subtitle: 'Practice' },
-  { url: '/videos/module2/heba-4.mp4', title: 'Heba 4', subtitle: 'Watch and listen' },
-  { url: '/videos/module2/heba-4b.mp4', title: 'Heba 4B', subtitle: 'Practice' },
+  { url: '/videos/module2/heba-1.mp4', title: "What's your name?", subtitle: 'Watch and listen', sentenceToRecord: "What's your name?" },
+  { url: '/videos/module2/heba-1b.mp4', title: 'My name is...', subtitle: 'Practice', sentenceToRecord: 'My name is...' },
+  { url: '/videos/module2/heba-2.mp4', title: "What's your name?", subtitle: 'Watch and listen', sentenceToRecord: "What's your name?" },
+  { url: '/videos/module2/heba-2b.mp4', title: 'My name is...', subtitle: 'Practice', sentenceToRecord: 'My name is...' },
+  { url: '/videos/module2/heba-3.mp4', title: 'How do you spell that?', subtitle: 'Watch and listen', sentenceToRecord: 'How do you spell that?' },
+  { url: '/videos/module2/heba-3b.mp4', title: 'Spelling practice', subtitle: 'Practice' },
+  { url: '/videos/module2/heba-4.mp4', title: 'Nice to meet you', subtitle: 'Watch and listen', sentenceToRecord: 'Nice to meet you!' },
+  { url: '/videos/module2/heba-4b.mp4', title: 'Nice to meet you too', subtitle: 'Practice', sentenceToRecord: 'Nice to meet you too!' },
 ];
 
-// Heba Video Series - Date of Birth
+// Heba Video Series - Date of Birth (Heba 5-8) - Listening only, separated
 export const hebaDateOfBirthVideos = [
-  { url: '/videos/module2/heba-5.mp4', title: 'Heba 5', subtitle: 'Date of birth' },
-  { url: '/videos/module2/heba-6.mp4', title: 'Heba 6', subtitle: 'Practice' },
-  { url: '/videos/module2/heba-7.mp4', title: 'Heba 7', subtitle: 'Watch and listen' },
-  { url: '/videos/module2/heba-8.mp4', title: 'Heba 8', subtitle: 'Practice' },
+  { url: '/videos/module2/heba-5.mp4', title: 'Date of birth', subtitle: "What's your date of birth?" },
+  { url: '/videos/module2/heba-6.mp4', title: 'Practice', subtitle: 'Listen and learn' },
+  { url: '/videos/module2/heba-7.mp4', title: 'Watch and listen', subtitle: 'Date format' },
+  { url: '/videos/module2/heba-8.mp4', title: 'Practice', subtitle: 'Complete the conversation' },
 ];
 
-// Heba Video Series - Telephone Number
+// Heba Video Series - Telephone Number (Heba 9-10) - for voice practice
 export const hebaTelephoneVideos = [
-  { url: '/videos/module2/heba-9.mp4', title: 'Heba 9', subtitle: 'Telephone number' },
-  { url: '/videos/module2/heba-10.mp4', title: 'Heba 10', subtitle: 'Practice' },
+  { url: '/videos/module2/heba-9.mp4', title: "What's your telephone number?", subtitle: 'Telephone number', sentenceToRecord: "What's your telephone number?" },
+  { url: '/videos/module2/heba-10.mp4', title: 'My telephone number is...', subtitle: 'Practice', sentenceToRecord: 'My telephone number is...' },
 ];
 
-// Heba Video Series - Address (Videos 11-12: What's your address?)
+// Heba Video Series - Address (Videos 11-12) - for voice practice
 export const hebaAddressVideos = [
-  { url: '/videos/module2/heba-11.mp4', title: 'Heba 11', subtitle: "What's your address?" },
-  { url: '/videos/module2/heba-12.mp4', title: 'Heba 12', subtitle: 'Practice' },
+  { url: '/videos/module2/heba-11.mp4', title: "What's your address?", subtitle: "What's your address?", sentenceToRecord: "What's your address?" },
+  { url: '/videos/module2/heba-12.mp4', title: 'My address is...', subtitle: 'Practice', sentenceToRecord: 'My address is...' },
 ];
 
-// Heba Video Series - How to say your address (Videos 13-18)
+// Heba Video Series - How to say your address (Videos 13-18) - Listening only, auto-play
 export const hebaAddressHowToVideos = [
-  { url: '/videos/module2/heba-13.mp4', title: 'Heba 13', subtitle: 'Street address' },
-  { url: '/videos/module2/heba-14.mp4', title: 'Heba 14', subtitle: 'City and state' },
-  { url: '/videos/module2/heba-15.mp4', title: 'Heba 15', subtitle: 'Zip code' },
-  { url: '/videos/module2/heba-16.mp4', title: 'Heba 16', subtitle: 'Full address' },
-  { url: '/videos/module2/heba-17.mp4', title: 'Heba 17', subtitle: 'Practice' },
-  { url: '/videos/module2/heba-18.mp4', title: 'Heba 18', subtitle: 'Review' },
+  { url: '/videos/module2/heba-13.mp4', title: 'Street address', subtitle: 'Street number and name' },
+  { url: '/videos/module2/heba-14.mp4', title: 'City and state', subtitle: 'City and state' },
+  { url: '/videos/module2/heba-15.mp4', title: 'Zip code', subtitle: 'Zip code' },
+  { url: '/videos/module2/heba-16.mp4', title: 'Full address', subtitle: 'Putting it together' },
+  { url: '/videos/module2/heba-17.mp4', title: 'Practice', subtitle: 'Practice' },
+  { url: '/videos/module2/heba-18.mp4', title: 'Review', subtitle: 'Review' },
 ];
 
 // Spelling Practice Data
@@ -258,7 +258,7 @@ export const numbers81to100: VocabularyItem[] = [...numbers81to90, ...numbers91t
 
 // Name Recording Practice Questions
 export const nameRecordingQuestions = [
-  { id: 'name-q1', question: "What's your first name?", hint: 'Say your first name' },
+  { id: 'name-q1', question: "What's your first name?", hint: 'Answer: "My name is..."', expectedStart: 'my name is' },
   { id: 'name-q2', question: 'How do you spell that?', hint: 'Spell your name letter by letter' },
 ];
 
@@ -275,9 +275,9 @@ export interface Module2Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'alphabet' | 'vocabulary' | 'ordinal-numbers' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice' | 'address-video-series';
+  type: 'alphabet' | 'vocabulary' | 'ordinal-numbers' | 'ordinal-audio-matching' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'numbers-audio-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice' | 'address-video-series' | 'listening-lesson';
   content?: VocabularyItem[];
-  videos?: { url: string; title: string; subtitle?: string }[];
+  videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string }[];
   spellingData?: typeof spellingPracticeData;
   isCompleted: boolean;
   duration?: string;
@@ -304,16 +304,16 @@ export const module2Lessons: Module2Lesson[] = [
   {
     id: 'm2-lesson-3',
     title: 'Ordinal Numbers 1-15',
-    description: 'Learn 1st, 2nd, 3rd... up to 15th',
-    type: 'ordinal-numbers',
+    description: 'Listen and match ordinal numbers',
+    type: 'ordinal-audio-matching',
     content: ordinalNumbers1to15,
     isCompleted: false,
     duration: '10 min',
   },
   {
     id: 'm2-lesson-4',
-    title: "What's Your Name? - Heba 1 & 1B",
-    description: 'Watch Heba learn about names',
+    title: "What's Your Name? - Part 1",
+    description: 'Learn to ask and answer about names',
     type: 'video-series',
     videos: hebaVideos.slice(0, 2),
     isCompleted: false,
@@ -321,8 +321,8 @@ export const module2Lessons: Module2Lesson[] = [
   },
   {
     id: 'm2-lesson-5',
-    title: "What's Your Name? - Heba 2 & 2B",
-    description: 'Continue with Heba',
+    title: "What's Your Name? - Part 2",
+    description: 'Continue learning about names',
     type: 'video-series',
     videos: hebaVideos.slice(2, 4),
     isCompleted: false,
@@ -338,8 +338,8 @@ export const module2Lessons: Module2Lesson[] = [
   },
   {
     id: 'm2-lesson-7',
-    title: "What's Your Name? - Heba 3 & 3B",
-    description: 'Continue with Heba',
+    title: "What's Your Name? - Part 3",
+    description: 'Spelling names',
     type: 'video-series',
     videos: hebaVideos.slice(4, 6),
     isCompleted: false,
@@ -347,8 +347,8 @@ export const module2Lessons: Module2Lesson[] = [
   },
   {
     id: 'm2-lesson-8',
-    title: "What's Your Name? - Heba 4 & 4B",
-    description: 'Complete Heba\'s name lesson',
+    title: "What's Your Name? - Part 4",
+    description: 'Complete the conversation',
     type: 'video-series',
     videos: hebaVideos.slice(6, 8),
     isCompleted: false,
@@ -366,8 +366,8 @@ export const module2Lessons: Module2Lesson[] = [
   {
     id: 'm2-lesson-10',
     title: 'Numbers 61-70',
-    description: 'Learn numbers 61 to 70',
-    type: 'numbers-matching',
+    description: 'Match audio with numbers',
+    type: 'numbers-audio-matching',
     content: numbers61to70,
     isCompleted: false,
     duration: '8 min',
@@ -375,15 +375,15 @@ export const module2Lessons: Module2Lesson[] = [
   {
     id: 'm2-lesson-11',
     title: 'Numbers 71-80',
-    description: 'Learn numbers 71 to 80',
-    type: 'numbers-matching',
+    description: 'Match audio with numbers',
+    type: 'numbers-audio-matching',
     content: numbers71to80,
     isCompleted: false,
     duration: '8 min',
   },
   {
     id: 'm2-lesson-12',
-    title: "What's Your Telephone Number? - Heba 9 & 10",
+    title: "What's Your Telephone Number?",
     description: 'Learn to say telephone numbers',
     type: 'video-series',
     videos: hebaTelephoneVideos,
@@ -401,8 +401,8 @@ export const module2Lessons: Module2Lesson[] = [
   {
     id: 'm2-lesson-14',
     title: 'Ordinal Numbers 16-31',
-    description: 'Learn 16th through 31st',
-    type: 'ordinal-numbers',
+    description: 'Listen and match ordinal numbers',
+    type: 'ordinal-audio-matching',
     content: ordinalNumbers16to31,
     isCompleted: false,
     duration: '10 min',
@@ -437,8 +437,8 @@ export const module2Lessons: Module2Lesson[] = [
   {
     id: 'm2-lesson-18',
     title: 'Numbers 81-90',
-    description: 'Learn numbers 81 to 90',
-    type: 'numbers-matching',
+    description: 'Match audio with numbers',
+    type: 'numbers-audio-matching',
     content: numbers81to90,
     isCompleted: false,
     duration: '8 min',
@@ -446,17 +446,17 @@ export const module2Lessons: Module2Lesson[] = [
   {
     id: 'm2-lesson-19',
     title: 'Numbers 91-100',
-    description: 'Learn numbers 91 to 100',
-    type: 'numbers-matching',
+    description: 'Match audio with numbers',
+    type: 'numbers-audio-matching',
     content: numbers91to100,
     isCompleted: false,
     duration: '8 min',
   },
   {
     id: 'm2-lesson-20',
-    title: "What's Your Date of Birth? - Heba 5-8",
-    description: 'Learn to say your date of birth',
-    type: 'video-series',
+    title: "What's Your Date of Birth?",
+    description: 'Listen and learn about date of birth',
+    type: 'listening-lesson',
     videos: hebaDateOfBirthVideos,
     isCompleted: false,
     duration: '10 min',
@@ -471,7 +471,7 @@ export const module2Lessons: Module2Lesson[] = [
   },
   {
     id: 'm2-lesson-22',
-    title: "What's Your Address? - Heba 11 & 12",
+    title: "What's Your Address?",
     description: 'Learn to talk about your address',
     type: 'video-series',
     videos: hebaAddressVideos,
