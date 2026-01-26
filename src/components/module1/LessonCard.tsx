@@ -22,16 +22,17 @@ const lessonIcons: Record<string, React.ComponentType<{ className?: string }>> =
   'listening-writing': Headphones,
 };
 
-export const LessonCard: React.FC<LessonCardProps> = ({ 
+export const LessonCard = React.forwardRef<HTMLButtonElement, LessonCardProps>(({ 
   lesson, 
   index, 
   onClick,
   isActive = false 
-}) => {
+}, ref) => {
   const Icon = lessonIcons[lesson.type] || BookOpen;
 
   return (
     <motion.button
+      ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
@@ -84,4 +85,6 @@ export const LessonCard: React.FC<LessonCardProps> = ({
       )}
     </motion.button>
   );
-};
+});
+
+LessonCard.displayName = 'LessonCard';
