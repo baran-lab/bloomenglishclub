@@ -8,15 +8,17 @@ import { LanguageSelector } from '@/components/module1/LanguageSelector';
 import { LessonCard } from '@/components/module1/LessonCard';
 import { VocabularyLesson } from '@/components/module1/VocabularyLesson';
 import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
-import { NumbersMatchingPractice } from '@/components/module1/NumbersMatchingPractice';
 import { AlphabetLesson } from '@/components/module2/AlphabetLesson';
-import { OrdinalNumbersLesson } from '@/components/module2/OrdinalNumbersLesson';
+import { OrdinalAudioMatchingPractice } from '@/components/module2/OrdinalAudioMatchingPractice';
 import { NameRecordingPractice } from '@/components/module2/NameRecordingPractice';
 import { SpellingPractice } from '@/components/module2/SpellingPractice';
 import { MonthsLesson } from '@/components/module2/MonthsLesson';
 import { MonthsOrderPractice } from '@/components/module2/MonthsOrderPractice';
 import { TelephonePractice } from '@/components/module2/TelephonePractice';
 import { DateOfBirthPractice } from '@/components/module2/DateOfBirthPractice';
+import { NumbersAudioMatchingPractice } from '@/components/module2/NumbersAudioMatchingPractice';
+import { AddressVideoLesson } from '@/components/module2/AddressVideoLesson';
+import { HebaListeningLesson } from '@/components/module2/HebaListeningLesson';
 import { module2Lessons, Module2Lesson } from '@/data/module2Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -99,7 +101,9 @@ const Module2Content: React.FC = () => {
       case 'vocabulary':
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'ordinal-numbers':
-        return <OrdinalNumbersLesson content={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
+        return <OrdinalAudioMatchingPractice content={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'ordinal-audio-matching':
+        return <OrdinalAudioMatchingPractice content={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'video-series':
         return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'name-recording':
@@ -107,7 +111,9 @@ const Module2Content: React.FC = () => {
       case 'spelling-practice':
         return <SpellingPractice spellingData={lesson.spellingData || []} onComplete={handleLessonComplete} />;
       case 'numbers-matching':
-        return <NumbersMatchingPractice numbers={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
+        return <NumbersAudioMatchingPractice numbers={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'numbers-audio-matching':
+        return <NumbersAudioMatchingPractice numbers={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'months':
         return <MonthsLesson content={lesson.content || []} onComplete={handleLessonComplete} />;
       case 'months-order':
@@ -116,6 +122,10 @@ const Module2Content: React.FC = () => {
         return <TelephonePractice onComplete={handleLessonComplete} userName={userName} />;
       case 'date-of-birth-practice':
         return <DateOfBirthPractice onComplete={handleLessonComplete} userName={userName} />;
+      case 'address-video-series':
+        return <AddressVideoLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} userName={userName} />;
+      case 'listening-lesson':
+        return <HebaListeningLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }
@@ -180,6 +190,9 @@ const Module2Content: React.FC = () => {
 
           {viewState === 'lessons' && (
             <motion.div key="lessons" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-6">
+              <Button variant="outline" size="sm" onClick={() => navigate('/')} className="gap-2">
+                <Home className="w-4 h-4" /> Dashboard
+              </Button>
               <div className="space-y-4">
                 <h2 className="font-fredoka text-xl font-bold text-foreground flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-primary" />
@@ -191,7 +204,7 @@ const Module2Content: React.FC = () => {
                       key={lesson.id} 
                       lesson={{
                         ...lesson,
-                        type: 'vocabulary' as any, // Map module2 types to module1 compatible
+                        type: 'vocabulary' as any,
                       }} 
                       index={index} 
                       onClick={() => handleLessonClick(lesson)} 

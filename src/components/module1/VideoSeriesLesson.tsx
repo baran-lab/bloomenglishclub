@@ -1,17 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic, Square } from 'lucide-react';
+import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic, Square, Home, SkipForward, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
 import { congratulatoryMessages, QuizQuestion } from '@/data/module1Data';
 import { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
+import { useNavigate } from 'react-router-dom';
 
 interface VideoItem {
   url: string;
   title: string;
   subtitle?: string;
   listenOnly?: boolean;
+  sentenceToRecord?: string;
 }
 
 interface VideoSeriesLessonProps {
@@ -27,6 +29,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   title = 'Video Lesson',
   quizQuestions
 }) => {
+  const navigate = useNavigate();
   const { selectedLanguage, t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -35,11 +38,20 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   const [showPractice, setShowPractice] = useState(false);
   const [pronunciationScore, setPronunciationScore] = useState<number | null>(null);
   const [showQuiz, setShowQuiz] = useState(false);
+  const [showSkipWarning, setShowSkipWarning] = useState(false);
+  const [recordingStartTime, setRecordingStartTime] = useState<number | null>(null);
   const { isRecording, audioUrl, startRecording, stopRecording, clearRecording } = useVoiceRecorder();
 
   const currentVideo = videos[currentIndex];
   const progress = (watchedVideos.size / videos.length) * 100;
   const allWatched = watchedVideos.size === videos.length;
+
+  // Auto-play next video after watching
+  useEffect(() => {
+    if (videoRef.current && watchedVideos.has(currentIndex) && !showPractice) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [currentIndex]);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -58,15 +70,13 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     setShowPractice(true);
   };
 
-  const [recordingStartTime, setRecordingStartTime] = useState<number | null>(null);
-
   const handleRecord = async () => {
     if (isRecording) {
       const recordingDuration = recordingStartTime ? Date.now() - recordingStartTime : 0;
       stopRecording();
       
       setTimeout(() => {
-        // Only give score if recording lasted at least 800ms (user actually spoke)
+        // FIXED: Only give score if recording lasted at least 800ms (user actually spoke)
         if (recordingDuration >= 800) {
           const score = Math.floor(Math.random() * 35) + 65; // 65-100 range
           setPronunciationScore(score);
@@ -76,6 +86,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
           }
         } else {
           // Recording was too short - user didn't record anything meaningful
+          // Don't set any score - require them to try again
           setPronunciationScore(null);
         }
         setRecordingStartTime(null);
@@ -116,6 +127,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       setPronunciationScore(null);
       clearRecording();
       setIsPlaying(false);
+      setShowSkipWarning(false);
     }
   };
 
@@ -126,13 +138,25 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       setPronunciationScore(null);
       clearRecording();
       setIsPlaying(false);
+      setShowSkipWarning(false);
     }
+  };
+
+  // Skip voiceover with warning
+  const handleSkipVoiceover = () => {
+    setShowSkipWarning(true);
+  };
+
+  const confirmSkip = () => {
+    setShowSkipWarning(false);
+    goNext();
   };
 
   const speakPhrase = () => {
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(currentVideo.title);
+      const textToSpeak = currentVideo.sentenceToRecord || currentVideo.title;
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
       utterance.lang = 'en-US';
       utterance.rate = 0.7;
       speechSynthesis.speak(utterance);
@@ -144,8 +168,15 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     return msg.translations[selectedLanguage] || msg.english;
   };
 
+  // Get the sentence to display for recording
+  const sentenceToDisplay = currentVideo.sentenceToRecord || currentVideo.title;
+
   return (
     <div className="space-y-6">
+      <Button variant="outline" size="sm" onClick={() => navigate('/')} className="gap-2">
+        <Home className="w-4 h-4" /> Dashboard
+      </Button>
+
       {/* Header */}
       <div className="text-center">
         <h3 className="font-fredoka text-xl font-bold text-foreground">{title}</h3>
@@ -195,7 +226,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
             className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 p-4"
           >
             <Check className="w-12 h-12 text-green-400 mb-2" />
-            <p className="text-white font-semibold text-lg mb-4">{currentVideo.title}</p>
+            <p className="text-white font-semibold text-lg mb-4">{currentVideo.subtitle || 'Video Complete'}</p>
             <Button variant="secondary" onClick={() => setShowPractice(false)} className="gap-2">
               <RotateCcw className="w-4 h-4" />
               Watch Again
@@ -208,10 +239,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       <div className="bg-card rounded-xl border border-border p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h4 className="font-semibold text-foreground">{currentVideo.title}</h4>
-            {currentVideo.subtitle && (
-              <p className="text-sm text-muted-foreground">{currentVideo.subtitle}</p>
-            )}
+            <h4 className="font-semibold text-foreground">{currentVideo.subtitle || currentVideo.title}</h4>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="icon" onClick={togglePlay}>
@@ -225,7 +253,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       </div>
 
       {/* Voice Practice Section - Only show if not a listen-only slide */}
-      {watchedVideos.has(currentIndex) && !isListenOnly && currentVideo.title && (
+      {watchedVideos.has(currentIndex) && !isListenOnly && sentenceToDisplay && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -233,7 +261,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         >
           <div className="text-center">
             <p className="text-sm text-muted-foreground mb-2">Now say it yourself:</p>
-            <p className="text-xl font-bold text-foreground">"{currentVideo.title}"</p>
+            <p className="text-xl font-bold text-foreground">"{sentenceToDisplay}"</p>
           </div>
 
           <div className="flex justify-center">
@@ -275,6 +303,45 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
               )}
             </motion.div>
           )}
+
+          {/* Skip option with warning */}
+          {!canProceed && !showSkipWarning && (
+            <div className="text-center pt-2">
+              <Button variant="ghost" size="sm" onClick={handleSkipVoiceover} className="text-muted-foreground gap-2">
+                <SkipForward className="w-4 h-4" />
+                Skip practice
+              </Button>
+            </div>
+          )}
+
+          {/* Skip warning modal */}
+          {showSkipWarning && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-4 bg-amber-500/10 rounded-xl border border-amber-500/30"
+            >
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
+                    Skipping practice?
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    You won't collect enough credits to unlock items or win prizes. Are you sure?
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <Button size="sm" variant="outline" onClick={() => setShowSkipWarning(false)}>
+                      Go back
+                    </Button>
+                    <Button size="sm" variant="ghost" onClick={confirmSkip} className="text-muted-foreground">
+                      Skip anyway
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </motion.div>
       )}
 
@@ -290,7 +357,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         </motion.div>
       )}
 
-      {/* Navigation - only show Next if score >= 50% */}
+      {/* Navigation - only show Next if score >= 50% or listen-only */}
       <div className="flex justify-between items-center">
         <Button variant="outline" onClick={goPrev} disabled={currentIndex === 0} className="gap-2">
           <ChevronLeft className="w-4 h-4" />
@@ -305,7 +372,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         ) : (
         <Button 
           onClick={goNext} 
-          disabled={currentIndex === videos.length - 1 || (watchedVideos.has(currentIndex) && !canProceed)} 
+          disabled={currentIndex === videos.length - 1 || (watchedVideos.has(currentIndex) && !canProceed && !showSkipWarning)} 
           className="gap-2"
         >
           {t('next')}

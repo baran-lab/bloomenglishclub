@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, CheckCircle2, XCircle } from 'lucide-react';
+import { Volume2, CheckCircle2, XCircle, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { playCorrectSound, playIncorrectSound } from '@/utils/soundEffects';
+import { useNavigate } from 'react-router-dom';
 
 interface SpellingItem {
   id: string;
@@ -17,6 +18,7 @@ interface SpellingPracticeProps {
 }
 
 export const SpellingPractice: React.FC<SpellingPracticeProps> = ({ spellingData, onComplete }) => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -74,6 +76,10 @@ export const SpellingPractice: React.FC<SpellingPracticeProps> = ({ spellingData
 
   return (
     <div className="space-y-6">
+      <Button variant="outline" size="sm" onClick={() => navigate('/')} className="gap-2">
+        <Home className="w-4 h-4" /> Dashboard
+      </Button>
+
       <div className="text-center space-y-2">
         <h2 className="font-fredoka text-2xl font-bold text-foreground">Spelling Practice 📝</h2>
         <p className="text-muted-foreground">Listen to the spelling and pick the correct name</p>
@@ -84,7 +90,7 @@ export const SpellingPractice: React.FC<SpellingPracticeProps> = ({ spellingData
         <motion.div className="h-full bg-primary" animate={{ width: `${progress}%` }} />
       </div>
 
-      {/* Spelling Display */}
+      {/* Spelling Display - Audio only, no visible spelling */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentItem.id}
@@ -94,8 +100,8 @@ export const SpellingPractice: React.FC<SpellingPracticeProps> = ({ spellingData
           className="bg-gradient-to-br from-primary/20 to-primary/10 rounded-3xl p-8 border border-primary/30 text-center"
         >
           <div className="text-6xl mb-4">🔤</div>
-          <h3 className="text-3xl font-bold text-foreground mb-4 tracking-widest">
-            {currentItem.spelling}
+          <h3 className="text-xl font-medium text-muted-foreground mb-4">
+            Listen to the spelling
           </h3>
 
           <Button onClick={speakSpelling} className="gap-2" size="lg">
