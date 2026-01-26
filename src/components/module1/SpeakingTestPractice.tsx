@@ -7,6 +7,7 @@ import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
 import { playRecordingSuccessSound } from '@/utils/soundEffects';
 import { SupportedLanguage } from '@/data/module1Data';
+import { useNavigate } from 'react-router-dom';
 
 export interface SpeakingTestSlide {
   id: string;
@@ -44,6 +45,17 @@ const congratulatoryMessages = [
   "Wow! That was great! 🎉",
 ];
 
+// Expected correct sentences for Test 1
+const expectedSentences = [
+  "what is your name",
+  "where are you from",
+  "how old are you",
+  "are you married or single",
+  "do you have children",
+  "what do you do",
+  "where do you work",
+];
+
 const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   slides,
   onComplete,
@@ -53,6 +65,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   onBackToDashboard,
   characterName = 'Marisol',
 }) => {
+  const navigate = useNavigate();
   const { selectedLanguage, t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hasRecorded, setHasRecorded] = useState(false);
@@ -62,18 +75,15 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   const [isComplete, setIsComplete] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [recognizedText, setRecognizedText] = useState<string>('');
+  const [isListening, setIsListening] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const recognitionRef = useRef<any>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   
-  const { 
-    isRecording, 
-    audioUrl, 
-    audioBlob,
-    startRecording, 
-    stopRecording, 
-    clearRecording, 
-    error 
-  } = useVoiceRecorder();
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
 
   const currentSlide = slides[currentIndex];
   const progress = ((currentIndex + (showAnswer ? 1 : 0)) / slides.length) * 100;
@@ -83,14 +93,43 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
       recognitionRef.current.lang = 'en-US';
+      
+      recognitionRef.current.onresult = (event: any) => {
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          }
+        }
+        if (finalTranscript) {
+          setRecognizedText(prev => prev + ' ' + finalTranscript);
+        }
+      };
+      
+      recognitionRef.current.onerror = (event: any) => {
+        console.log('Speech recognition error:', event.error);
+      };
     }
   }, []);
 
-  // Calculate pronunciation score based on recognized text
-  const calculateScore = useCallback((recognized: string, expected: string): number => {
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+      }
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+    };
+  }, []);
+
+  // Calculate score based on complete sentence matching (ignore pronunciation, only sentence completeness)
+  const calculateScore = useCallback((recognized: string, slideIndex: number): number => {
     const normalizeText = (text: string) => 
       text.toLowerCase()
         .replace(/[^\w\s]/g, '')
@@ -98,103 +137,152 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
         .trim();
 
     const normalizedRecognized = normalizeText(recognized);
-    const normalizedExpected = normalizeText(expected);
-
+    
     if (!normalizedRecognized) return 0;
     
-    // Check for key words
-    const expectedWords = normalizedExpected.split(' ');
+    // Get the expected sentence for this slide
+    const expectedSentence = expectedSentences[slideIndex] || normalizeText(currentSlide.questionToAsk);
+    
+    // Check for key words - ignore pronunciation, only check if words are present
+    const expectedWords = expectedSentence.split(' ');
     const recognizedWords = normalizedRecognized.split(' ');
     
     let matchedWords = 0;
     expectedWords.forEach(word => {
-      if (recognizedWords.some(rw => rw.includes(word) || word.includes(rw))) {
+      // More lenient matching - check if word exists anywhere in recognized text
+      if (recognizedWords.some(rw => rw === word || rw.includes(word) || word.includes(rw))) {
         matchedWords++;
       }
     });
 
-    const score = Math.min(100, Math.round((matchedWords / expectedWords.length) * 100));
-    return score;
-  }, []);
+    // Calculate percentage of matched words
+    const wordMatchPercentage = (matchedWords / expectedWords.length) * 100;
+    
+    // Bonus for having all expected words (complete sentence)
+    if (matchedWords === expectedWords.length) {
+      return 100;
+    }
+    
+    // Return score based on word match percentage
+    return Math.min(100, Math.round(wordMatchPercentage));
+  }, [currentSlide]);
 
-  const handleRecord = async () => {
-    if (isRecording) {
-      stopRecording();
-      
-      // Stop speech recognition
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-      
-      setIsAnalyzing(true);
-      
-      // Wait for recording to process
-      setTimeout(() => {
-        setIsAnalyzing(false);
-        
-        // Check if we have recognized text or at least audio
-        if (audioBlob || recognizedText) {
-          setHasRecorded(true);
-          
-          // Calculate score if we have recognized text
-          let score = 0;
-          if (recognizedText) {
-            score = calculateScore(recognizedText, currentSlide.questionToAsk);
-          } else {
-            // Random encouraging score if no speech recognition
-            score = Math.floor(Math.random() * 30) + 50; // 50-80%
-          }
-          
-          setPronunciationScore(score);
-          
-          // Generate feedback based on score
-          const message = score >= 80
-            ? congratulatoryMessages[Math.floor(Math.random() * congratulatoryMessages.length)]
-            : encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)];
-          setFeedbackMessage(message);
-          
-          if (score >= 50) {
-            playRecordingSuccessSound();
-          }
-          
-          // Auto-show answer after recording
-          setTimeout(() => {
-            setShowAnswer(true);
-            if (videoRef.current) {
-              videoRef.current.play();
-            }
-          }, 1500);
-        } else {
-          setFeedbackMessage("Try speaking a bit longer! 🎤");
-        }
-      }, 800);
-    } else {
-      // Reset state
-      clearRecording();
-      setHasRecorded(false);
-      setShowAnswer(false);
-      setFeedbackMessage('');
-      setPronunciationScore(null);
+  const startRecording = async () => {
+    try {
+      // Clear previous state
       setRecognizedText('');
+      audioChunksRef.current = [];
+      
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+        setAudioUrl(null);
+      }
+
+      // Get microphone stream
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+      
+      // Setup MediaRecorder
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+      
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const url = URL.createObjectURL(audioBlob);
+        setAudioUrl(url);
+        
+        // Stop stream tracks
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach(track => track.stop());
+        }
+      };
       
       // Start recording
-      await startRecording();
+      mediaRecorder.start();
+      setIsRecording(true);
       
       // Start speech recognition
       if (recognitionRef.current) {
         try {
           recognitionRef.current.start();
-          recognitionRef.current.onresult = (event: any) => {
-            const transcript = event.results[0][0].transcript;
-            setRecognizedText(transcript);
-          };
-          recognitionRef.current.onerror = (event: any) => {
-            console.log('Speech recognition error:', event.error);
-          };
+          setIsListening(true);
         } catch (err) {
-          console.log('Speech recognition not available');
+          console.log('Speech recognition already started or not available');
         }
       }
+    } catch (err) {
+      console.error('Error accessing microphone:', err);
+    }
+  };
+
+  const stopRecording = () => {
+    // Stop MediaRecorder
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
+    }
+    
+    // Stop speech recognition
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (err) {
+        console.log('Speech recognition stop error');
+      }
+    }
+    
+    setIsRecording(false);
+    setIsListening(false);
+    setIsAnalyzing(true);
+    
+    // Analyze after a short delay to ensure recognition has finished
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setHasRecorded(true);
+      
+      // Calculate score based on recognized text
+      const finalText = recognizedText.trim();
+      let score = 0;
+      
+      if (finalText) {
+        score = calculateScore(finalText, currentIndex);
+      } else {
+        // If no speech was recognized, give a lower score
+        score = 30;
+      }
+      
+      setPronunciationScore(score);
+      
+      // Generate feedback based on score
+      const message = score >= 80
+        ? congratulatoryMessages[Math.floor(Math.random() * congratulatoryMessages.length)]
+        : encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)];
+      setFeedbackMessage(message);
+      
+      if (score >= 50) {
+        playRecordingSuccessSound();
+      }
+      
+      // Auto-show answer after recording
+      setTimeout(() => {
+        setShowAnswer(true);
+        if (videoRef.current) {
+          videoRef.current.play();
+        }
+      }, 1500);
+    }, 1000);
+  };
+
+  const handleRecord = async () => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      await startRecording();
     }
   };
 
@@ -206,7 +294,10 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   };
 
   const handleRetry = () => {
-    clearRecording();
+    if (audioUrl) {
+      URL.revokeObjectURL(audioUrl);
+    }
+    setAudioUrl(null);
     setHasRecorded(false);
     setShowAnswer(false);
     setFeedbackMessage('');
@@ -222,7 +313,10 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
       setFeedbackMessage('');
       setPronunciationScore(null);
       setRecognizedText('');
-      clearRecording();
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+      setAudioUrl(null);
     } else {
       setIsComplete(true);
       onComplete();
@@ -237,7 +331,10 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
       setFeedbackMessage('');
       setPronunciationScore(null);
       setRecognizedText('');
-      clearRecording();
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+      setAudioUrl(null);
     }
   };
 
@@ -271,7 +368,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
           You've completed {lessonTitle}! Great job practicing your speaking skills!
         </p>
         <div className="flex justify-center gap-4">
-          <Button variant="outline" onClick={onBackToDashboard} className="gap-2">
+          <Button variant="outline" onClick={() => navigate('/')} className="gap-2">
             <Home className="w-4 h-4" />
             Dashboard
           </Button>
@@ -292,7 +389,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <Button variant="ghost" size="icon" onClick={onBackToDashboard}>
+        <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
           <Home className="w-5 h-5" />
         </Button>
         <div className="text-center flex-1">
@@ -379,13 +476,6 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
               </p>
             </div>
 
-            {/* Error Message */}
-            {error && (
-              <div className="p-3 bg-destructive/10 text-destructive rounded-lg text-center">
-                {error}
-              </div>
-            )}
-
             {/* Feedback after recording (before video plays) */}
             <AnimatePresence>
               {hasRecorded && feedbackMessage && !showAnswer && (
@@ -410,7 +500,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
                   {recognizedText && (
                     <div className="text-center text-sm text-muted-foreground">
                       <span>You said: </span>
-                      <span className="font-medium text-foreground">"{recognizedText}"</span>
+                      <span className="font-medium text-foreground">"{recognizedText.trim()}"</span>
                     </div>
                   )}
 
@@ -462,9 +552,6 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
                 controls
                 autoPlay
                 className="w-full aspect-video"
-                onEnded={() => {
-                  // Optional: auto-advance after video ends
-                }}
               />
             </div>
 
@@ -482,44 +569,33 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
                   </div>
                 </div>
               )}
-
-              <div className="inline-flex items-center gap-2 px-6 py-3 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
-                <Sparkles className="w-5 h-5 text-green-600" />
-                <span className="text-lg font-semibold text-green-700 dark:text-green-400">
-                  {feedbackMessage}
-                </span>
+              
+              {/* Expected sentence */}
+              <div className="text-sm text-muted-foreground">
+                <p>Expected: <span className="font-medium text-foreground">"{currentSlide.questionToAsk}"</span></p>
               </div>
 
-              <p className="text-muted-foreground">
-                The question was: <span className="font-semibold text-foreground">"{currentSlide.questionToAsk}"</span>
-              </p>
+              {/* Navigation */}
+              <div className="flex justify-center gap-3 pt-4">
+                {audioUrl && (
+                  <Button variant="outline" size="sm" onClick={playRecording} className="gap-2">
+                    <Play className="w-4 h-4" />
+                    Your Recording
+                  </Button>
+                )}
+                <Button variant="outline" size="sm" onClick={handleRetry} className="gap-2">
+                  <RotateCcw className="w-4 h-4" />
+                  Try Again
+                </Button>
+                <Button onClick={handleNext} className="gap-2">
+                  {currentIndex < slides.length - 1 ? 'Next Question' : 'Complete'}
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
           </div>
         )}
       </motion.div>
-
-      {/* Navigation */}
-      <div className="flex justify-between items-center">
-        <Button
-          variant="outline"
-          onClick={handlePrevious}
-          disabled={currentIndex === 0}
-          className="gap-2"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          Previous
-        </Button>
-
-        {showAnswer && (
-          <Button
-            onClick={handleNext}
-            className="gap-2 bg-gradient-primary text-primary-foreground"
-          >
-            {currentIndex === slides.length - 1 ? 'Complete' : 'Next Question'}
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        )}
-      </div>
     </div>
   );
 };

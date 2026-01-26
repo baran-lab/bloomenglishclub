@@ -675,25 +675,25 @@ export const practice2Slides: WordOrderSlide[] = [
     url: '/videos/module1/m1-l4-s5.mp4',
     title: 'Listen to Rosa',
     subtitle: 'Put the words in order',
-    correctSentence: 'I am a housekeeper.',
-    jumbledWords: ['housekeeper.', 'a', 'am', 'I'],
-    translations: { arabic: 'أنا عاملة نظافة.', bengali: 'আমি একজন গৃহপরিচারিকা।', korean: '저는 가정부예요.', spanish: 'Soy ama de llaves.', turkish: 'Ben temizlikçiyim.' }
+    correctSentence: "No, I don't.",
+    jumbledWords: ["don't.", 'I', 'No,'],
+    translations: { arabic: 'لا، ليس لدي.', bengali: 'না, আমার নেই।', korean: '아니요, 없어요.', spanish: 'No, no tengo.', turkish: 'Hayır, yok.' }
   },
   {
     url: '/videos/module1/m1-l4-s6.mp4',
     title: 'Listen to Rosa',
     subtitle: 'Put the words in order',
-    correctSentence: 'I work in a hotel.',
-    jumbledWords: ['hotel.', 'a', 'in', 'work', 'I'],
-    translations: { arabic: 'أعمل في فندق.', bengali: 'আমি একটা হোটেলে কাজ করি।', korean: '저는 호텔에서 일해요.', spanish: 'Trabajo en un hotel.', turkish: 'Bir otelde çalışıyorum.' }
+    correctSentence: 'I am a housekeeper.',
+    jumbledWords: ['housekeeper.', 'a', 'am', 'I'],
+    translations: { arabic: 'أنا عاملة نظافة.', bengali: 'আমি একজন গৃহপরিচারিকা।', korean: '저는 가정부예요.', spanish: 'Soy ama de llaves.', turkish: 'Ben temizlikçiyim.' }
   },
   {
     url: '/videos/module1/m1-l4-s7.mp4',
     title: 'Listen to Rosa',
     subtitle: 'Put the words in order',
-    correctSentence: 'I live in apartment 3B.',
-    jumbledWords: ['3B.', 'apartment', 'in', 'live', 'I'],
-    translations: { arabic: 'أعيش في شقة 3ب.', bengali: 'আমি অ্যাপার্টমেন্ট 3B-তে থাকি।', korean: '저는 3B 아파트에 살아요.', spanish: 'Vivo en el apartamento 3B.', turkish: 'Daire 3B\'de yaşıyorum.' }
+    correctSentence: 'I work in a hotel.',
+    jumbledWords: ['hotel.', 'a', 'in', 'work', 'I'],
+    translations: { arabic: 'أعمل في فندق.', bengali: 'আমি একটা হোটেলে কাজ করি।', korean: '저는 호텔에서 일해요.', spanish: 'Trabajo en un hotel.', turkish: 'Bir otelde çalışıyorum.' }
   },
 ];
 

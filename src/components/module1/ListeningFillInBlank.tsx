@@ -158,7 +158,7 @@ export const ListeningFillInBlank: React.FC<ListeningFillInBlankProps> = ({
 
   const getTypoMessage = () => {
     const standardForm = currentItem.correctAnswer;
-    return `Your answer is correct! Just a tip: in English, we usually write "${standardForm}" with this capitalization.`;
+    return `Your answer is correct! Just a tip: in English, we usually write "${standardForm}"`;
   };
 
   return (
