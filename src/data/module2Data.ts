@@ -134,6 +134,22 @@ export const hebaTelephoneVideos = [
   { url: '/videos/module2/heba-10.mp4', title: 'Heba 10', subtitle: 'Practice' },
 ];
 
+// Heba Video Series - Address (Videos 11-12: What's your address?)
+export const hebaAddressVideos = [
+  { url: '/videos/module2/heba-11.mp4', title: 'Heba 11', subtitle: "What's your address?" },
+  { url: '/videos/module2/heba-12.mp4', title: 'Heba 12', subtitle: 'Practice' },
+];
+
+// Heba Video Series - How to say your address (Videos 13-18)
+export const hebaAddressHowToVideos = [
+  { url: '/videos/module2/heba-13.mp4', title: 'Heba 13', subtitle: 'Street address' },
+  { url: '/videos/module2/heba-14.mp4', title: 'Heba 14', subtitle: 'City and state' },
+  { url: '/videos/module2/heba-15.mp4', title: 'Heba 15', subtitle: 'Zip code' },
+  { url: '/videos/module2/heba-16.mp4', title: 'Heba 16', subtitle: 'Full address' },
+  { url: '/videos/module2/heba-17.mp4', title: 'Heba 17', subtitle: 'Practice' },
+  { url: '/videos/module2/heba-18.mp4', title: 'Heba 18', subtitle: 'Review' },
+];
+
 // Spelling Practice Data
 export const spellingPracticeData = [
   { 
@@ -259,7 +275,7 @@ export interface Module2Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'alphabet' | 'vocabulary' | 'ordinal-numbers' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice';
+  type: 'alphabet' | 'vocabulary' | 'ordinal-numbers' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice' | 'address-video-series';
   content?: VocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string }[];
   spellingData?: typeof spellingPracticeData;
@@ -452,5 +468,23 @@ export const module2Lessons: Module2Lesson[] = [
     type: 'date-of-birth-practice',
     isCompleted: false,
     duration: '5 min',
+  },
+  {
+    id: 'm2-lesson-22',
+    title: "What's Your Address? - Heba 11 & 12",
+    description: 'Learn to talk about your address',
+    type: 'video-series',
+    videos: hebaAddressVideos,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  {
+    id: 'm2-lesson-23',
+    title: 'How to Say Your Address',
+    description: 'Learn step-by-step how to say your full address',
+    type: 'address-video-series',
+    videos: hebaAddressHowToVideos,
+    isCompleted: false,
+    duration: '12 min',
   },
 ];
