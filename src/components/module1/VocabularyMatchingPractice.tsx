@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, XCircle, RotateCcw, Home } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCcw, Home, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VocabularyItem, SupportedLanguage } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
@@ -81,9 +81,22 @@ export const VocabularyMatchingPractice: React.FC<VocabularyMatchingPracticeProp
     } catch (e) { }
   };
 
-  const handleEnglishClick = (id: string) => {
+  // Speak English word using Web Speech API
+  const speakWord = (word: string) => {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.8;
+      speechSynthesis.speak(utterance);
+    }
+  };
+
+  const handleEnglishClick = (id: string, englishWord: string) => {
     if (matchedPairs.has(id)) return;
     setSelectedEnglish(id);
+    // Play audio when clicking on English word
+    speakWord(englishWord);
   };
 
   const handleTranslationClick = (id: string) => {
@@ -119,6 +132,9 @@ export const VocabularyMatchingPractice: React.FC<VocabularyMatchingPracticeProp
         <p className="text-sm text-muted-foreground mt-1">
           Match the English words with their translations ({currentBatch + 1}/{totalBatches})
         </p>
+        <p className="text-xs text-muted-foreground mt-1">
+          🔊 Tap English words to hear pronunciation
+        </p>
       </div>
 
       {/* Progress */}
@@ -131,15 +147,15 @@ export const VocabularyMatchingPractice: React.FC<VocabularyMatchingPracticeProp
 
       {/* Matching Area */}
       <div className="grid grid-cols-2 gap-4">
-        {/* English Column */}
+        {/* English Column - with audio */}
         <div className="space-y-2">
-          <p className="text-sm font-medium text-center text-muted-foreground">English</p>
+          <p className="text-sm font-medium text-center text-muted-foreground">English 🔊</p>
           {currentVocab.map(item => (
             <motion.button
               key={`en-${item.id}`}
-              onClick={() => handleEnglishClick(item.id)}
+              onClick={() => handleEnglishClick(item.id, item.english)}
               className={`
-                w-full p-3 rounded-xl text-left font-medium transition-all
+                w-full p-3 rounded-xl text-left font-medium transition-all flex items-center gap-2
                 ${matchedPairs.has(item.id) 
                   ? 'bg-green-500/20 text-green-700 border-2 border-green-500/50' 
                   : selectedEnglish === item.id 
@@ -151,8 +167,9 @@ export const VocabularyMatchingPractice: React.FC<VocabularyMatchingPracticeProp
               disabled={matchedPairs.has(item.id)}
               whileTap={{ scale: 0.98 }}
             >
-              {matchedPairs.has(item.id) && <CheckCircle2 className="w-4 h-4 inline mr-2 text-green-500" />}
-              {item.english}
+              {matchedPairs.has(item.id) && <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />}
+              <Volume2 className="w-4 h-4 opacity-50 flex-shrink-0" />
+              <span className="flex-1">{item.english}</span>
             </motion.button>
           ))}
         </div>

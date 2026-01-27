@@ -12,11 +12,11 @@ interface AlphabetMatchingPracticeProps {
 export const AlphabetMatchingPractice: React.FC<AlphabetMatchingPracticeProps> = ({ onComplete }) => {
   const navigate = useNavigate();
   const [currentBatch, setCurrentBatch] = useState(0);
+  const [selectedAudio, setSelectedAudio] = useState<string | null>(null);
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
-  const [selectedPhonetic, setSelectedPhonetic] = useState<string | null>(null);
   const [matchedPairs, setMatchedPairs] = useState<Set<string>>(new Set());
   const [wrongPair, setWrongPair] = useState<boolean>(false);
-  const [shuffledPhonetics, setShuffledPhonetics] = useState<typeof alphabetData>([]);
+  const [shuffledLetters, setShuffledLetters] = useState<typeof alphabetData>([]);
 
   const BATCH_SIZE = 5;
   const totalBatches = Math.ceil(alphabetData.length / BATCH_SIZE);
@@ -24,32 +24,32 @@ export const AlphabetMatchingPractice: React.FC<AlphabetMatchingPracticeProps> =
   const currentAlphabet = alphabetData.slice(startIdx, startIdx + BATCH_SIZE);
   
   useEffect(() => {
-    setShuffledPhonetics([...currentAlphabet].sort(() => Math.random() - 0.5));
+    setShuffledLetters([...currentAlphabet].sort(() => Math.random() - 0.5));
     setMatchedPairs(new Set());
+    setSelectedAudio(null);
     setSelectedLetter(null);
-    setSelectedPhonetic(null);
   }, [currentBatch]);
 
   useEffect(() => {
-    if (selectedLetter && selectedPhonetic) {
+    if (selectedAudio && selectedLetter) {
+      const audioItem = currentAlphabet.find(a => a.letter === selectedAudio);
       const letterItem = currentAlphabet.find(a => a.letter === selectedLetter);
-      const phoneticItem = currentAlphabet.find(a => a.letter === selectedPhonetic);
       
-      if (letterItem && phoneticItem && letterItem.letter === phoneticItem.letter) {
+      if (audioItem && letterItem && audioItem.letter === letterItem.letter) {
         playSuccessSound();
-        setMatchedPairs(prev => new Set([...prev, letterItem.letter]));
+        setMatchedPairs(prev => new Set([...prev, audioItem.letter]));
+        setSelectedAudio(null);
         setSelectedLetter(null);
-        setSelectedPhonetic(null);
       } else {
         setWrongPair(true);
         setTimeout(() => {
           setWrongPair(false);
+          setSelectedAudio(null);
           setSelectedLetter(null);
-          setSelectedPhonetic(null);
         }, 800);
       }
     }
-  }, [selectedLetter, selectedPhonetic]);
+  }, [selectedAudio, selectedLetter]);
 
   const playSuccessSound = () => {
     try {
@@ -77,6 +77,17 @@ export const AlphabetMatchingPractice: React.FC<AlphabetMatchingPracticeProps> =
     }
   };
 
+  const handleAudioClick = (letter: string) => {
+    if (matchedPairs.has(letter)) return;
+    setSelectedAudio(letter);
+    speakLetter(letter);
+  };
+
+  const handleLetterClick = (letter: string) => {
+    if (matchedPairs.has(letter)) return;
+    setSelectedLetter(letter);
+  };
+
   const handleNextBatch = () => {
     if (currentBatch < totalBatches - 1) {
       setCurrentBatch(prev => prev + 1);
@@ -87,9 +98,9 @@ export const AlphabetMatchingPractice: React.FC<AlphabetMatchingPracticeProps> =
 
   const resetBatch = () => {
     setMatchedPairs(new Set());
+    setSelectedAudio(null);
     setSelectedLetter(null);
-    setSelectedPhonetic(null);
-    setShuffledPhonetics([...currentAlphabet].sort(() => Math.random() - 0.5));
+    setShuffledLetters([...currentAlphabet].sort(() => Math.random() - 0.5));
   };
 
   const batchComplete = matchedPairs.size === currentAlphabet.length;
@@ -103,7 +114,7 @@ export const AlphabetMatchingPractice: React.FC<AlphabetMatchingPracticeProps> =
       <div className="text-center">
         <h3 className="font-fredoka text-xl font-bold text-foreground">Alphabet Matching 🔤</h3>
         <p className="text-sm text-muted-foreground mt-1">
-          Match the letters with their sounds ({currentBatch + 1}/{totalBatches})
+          Listen to the sound and match it with the letter ({currentBatch + 1}/{totalBatches})
         </p>
       </div>
 
@@ -115,20 +126,42 @@ export const AlphabetMatchingPractice: React.FC<AlphabetMatchingPracticeProps> =
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        {/* Letters Column */}
+        {/* Audio Column (LEFT) - Tap to hear */}
         <div className="space-y-2">
-          <p className="text-sm font-medium text-center text-muted-foreground">Letter</p>
+          <p className="text-sm font-medium text-center text-muted-foreground">🔊 Sound</p>
           {currentAlphabet.map(item => (
             <motion.button
-              key={`letter-${item.letter}`}
-              onClick={() => {
-                if (!matchedPairs.has(item.letter)) {
-                  setSelectedLetter(item.letter);
-                  speakLetter(item.letter);
-                }
-              }}
+              key={`audio-${item.letter}`}
+              onClick={() => handleAudioClick(item.letter)}
               className={`
-                w-full p-4 rounded-xl text-2xl font-bold transition-all flex items-center justify-center gap-2
+                w-full p-4 rounded-xl text-lg font-medium transition-all flex items-center justify-center gap-2
+                ${matchedPairs.has(item.letter) 
+                  ? 'bg-green-500/20 text-green-700 border-2 border-green-500/50' 
+                  : selectedAudio === item.letter 
+                    ? 'bg-primary text-primary-foreground border-2 border-primary' 
+                    : 'bg-card border-2 border-border hover:border-primary/50'
+                }
+                ${wrongPair && selectedAudio === item.letter ? 'bg-red-500/20 border-red-500' : ''}
+              `}
+              disabled={matchedPairs.has(item.letter)}
+              whileTap={{ scale: 0.98 }}
+            >
+              {matchedPairs.has(item.letter) && <CheckCircle2 className="w-5 h-5 text-green-500" />}
+              <Volume2 className="w-6 h-6" />
+              <span className="text-sm italic opacity-70">/{item.phonetic}/</span>
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Letter Column (RIGHT) */}
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-center text-muted-foreground">Letter</p>
+          {shuffledLetters.map(item => (
+            <motion.button
+              key={`letter-${item.letter}`}
+              onClick={() => handleLetterClick(item.letter)}
+              className={`
+                w-full p-4 rounded-xl text-2xl font-bold transition-all
                 ${matchedPairs.has(item.letter) 
                   ? 'bg-green-500/20 text-green-700 border-2 border-green-500/50' 
                   : selectedLetter === item.letter 
@@ -140,39 +173,8 @@ export const AlphabetMatchingPractice: React.FC<AlphabetMatchingPracticeProps> =
               disabled={matchedPairs.has(item.letter)}
               whileTap={{ scale: 0.98 }}
             >
-              {matchedPairs.has(item.letter) && <CheckCircle2 className="w-5 h-5 text-green-500" />}
-              {item.letter}
-              <Volume2 className="w-4 h-4 opacity-50" />
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Phonetic Column */}
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-center text-muted-foreground">Sound</p>
-          {shuffledPhonetics.map(item => (
-            <motion.button
-              key={`phonetic-${item.letter}`}
-              onClick={() => {
-                if (!matchedPairs.has(item.letter)) {
-                  setSelectedPhonetic(item.letter);
-                }
-              }}
-              className={`
-                w-full p-4 rounded-xl text-lg font-medium transition-all italic
-                ${matchedPairs.has(item.letter) 
-                  ? 'bg-green-500/20 text-green-700 border-2 border-green-500/50' 
-                  : selectedPhonetic === item.letter 
-                    ? 'bg-primary text-primary-foreground border-2 border-primary' 
-                    : 'bg-card border-2 border-border hover:border-primary/50'
-                }
-                ${wrongPair && selectedPhonetic === item.letter ? 'bg-red-500/20 border-red-500' : ''}
-              `}
-              disabled={matchedPairs.has(item.letter)}
-              whileTap={{ scale: 0.98 }}
-            >
               {matchedPairs.has(item.letter) && <CheckCircle2 className="w-5 h-5 inline mr-2 text-green-500" />}
-              /{item.phonetic}/
+              {item.letter}
             </motion.button>
           ))}
         </div>
