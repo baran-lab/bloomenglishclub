@@ -44,7 +44,7 @@ export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'vocabulary-matching' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order' | 'speaking-test' | 'neighbor-video-quiz' | 'pronoun-practice' | 'module-checklist';
+  type: 'video' | 'vocabulary' | 'vocabulary-matching' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order' | 'speaking-test' | 'neighbor-video-quiz' | 'pronoun-practice' | 'module-checklist' | 'saojin-neighbor' | 'dmitry-neighbor' | 'ahmed-neighbor';
   videoUrl?: string;
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean }[];
   content?: VocabularyItem[];

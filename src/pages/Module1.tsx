@@ -26,6 +26,9 @@ import SpeakingTestPractice from '@/components/module1/SpeakingTestPractice';
 import NeighborVideoQuiz from '@/components/module1/NeighborVideoQuiz';
 import { PronounPractice } from '@/components/module1/PronounPractice';
 import { Module1Checklist } from '@/components/module1/Module1Checklist';
+import { SaojinNeighborQuiz } from '@/components/module1/SaojinNeighborQuiz';
+import { DmitryNeighborQuiz } from '@/components/module1/DmitryNeighborQuiz';
+import { AhmedNeighborQuiz } from '@/components/module2/AhmedNeighborQuiz';
 import { module1Lessons, neighborLessons, Lesson, greetingPhrases } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -195,6 +198,12 @@ const Module1Content: React.FC = () => {
         return <PronounPractice onComplete={handleLessonComplete} userName={userName} />;
       case 'module-checklist':
         return <Module1Checklist onComplete={() => navigate('/module/2')} userName={userName} />;
+      case 'saojin-neighbor':
+        return <SaojinNeighborQuiz onComplete={handleLessonComplete} />;
+      case 'dmitry-neighbor':
+        return <DmitryNeighborQuiz onComplete={handleLessonComplete} />;
+      case 'ahmed-neighbor':
+        return <AhmedNeighborQuiz onComplete={handleLessonComplete} />;
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }

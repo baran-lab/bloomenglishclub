@@ -46,9 +46,16 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   const progress = (watchedVideos.size / videos.length) * 100;
   const allWatched = watchedVideos.size === videos.length;
 
-  // Auto-play next video after watching
+  // Auto-play first video when component mounts
   useEffect(() => {
-    if (videoRef.current && watchedVideos.has(currentIndex) && !showPractice) {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
+
+  // Auto-play next video after changing index
+  useEffect(() => {
+    if (videoRef.current && currentIndex > 0) {
       videoRef.current.play().catch(() => {});
     }
   }, [currentIndex]);
@@ -118,7 +125,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
 
   // For listen-only slides, user can proceed without recording
   const isListenOnly = currentVideo.listenOnly || !currentVideo.title;
-  const canProceed = isListenOnly ? watchedVideos.has(currentIndex) : (pronunciationScore !== null && pronunciationScore >= 50);
+  const hasCompletedPractice = pronunciationScore !== null && pronunciationScore >= 50;
 
   const goNext = () => {
     if (currentIndex < videos.length - 1) {
@@ -142,9 +149,13 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     }
   };
 
-  // Skip voiceover with warning
+  // Skip voiceover with warning - still allows progression but warns about credits
   const handleSkipVoiceover = () => {
-    setShowSkipWarning(true);
+    if (!isListenOnly && !hasCompletedPractice) {
+      setShowSkipWarning(true);
+    } else {
+      goNext();
+    }
   };
 
   const confirmSkip = () => {
@@ -170,6 +181,11 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
 
   // Get the sentence to display for recording
   const sentenceToDisplay = currentVideo.sentenceToRecord || currentVideo.title;
+
+  // Determine if Next button should be enabled
+  // Next is ALWAYS enabled if video is watched, but shows warning if practice not completed
+  const canProceedWithoutWarning = isListenOnly || hasCompletedPractice;
+  const videoWatched = watchedVideos.has(currentIndex);
 
   return (
     <div className="space-y-6">
@@ -203,6 +219,8 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
           onEnded={handleVideoEnd}
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
+          autoPlay
+          playsInline
         />
 
         {!isPlaying && !showPractice && (
@@ -253,7 +271,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       </div>
 
       {/* Voice Practice Section - Only show if not a listen-only slide */}
-      {watchedVideos.has(currentIndex) && !isListenOnly && sentenceToDisplay && (
+      {videoWatched && !isListenOnly && sentenceToDisplay && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -304,16 +322,6 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
             </motion.div>
           )}
 
-          {/* Skip option with warning */}
-          {!canProceed && !showSkipWarning && (
-            <div className="text-center pt-2">
-              <Button variant="ghost" size="sm" onClick={handleSkipVoiceover} className="text-muted-foreground gap-2">
-                <SkipForward className="w-4 h-4" />
-                Skip practice
-              </Button>
-            </div>
-          )}
-
           {/* Skip warning modal */}
           {showSkipWarning && (
             <motion.div
@@ -328,7 +336,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
                     Skipping practice?
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">
-                    You won't collect enough credits to unlock items or win prizes. Are you sure?
+                    You won't collect enough credits to unlock items or join the English Place Club. Are you sure?
                   </p>
                   <div className="flex gap-2 mt-3">
                     <Button size="sm" variant="outline" onClick={() => setShowSkipWarning(false)}>
@@ -346,7 +354,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       )}
 
       {/* Listen-only message */}
-      {watchedVideos.has(currentIndex) && isListenOnly && (
+      {videoWatched && isListenOnly && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -357,66 +365,66 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         </motion.div>
       )}
 
-      {/* Navigation - only show Next if score >= 50% or listen-only */}
+      {/* Navigation - Next is always enabled if video is watched, with skip warning if practice not done */}
       <div className="flex justify-between items-center">
         <Button variant="outline" onClick={goPrev} disabled={currentIndex === 0} className="gap-2">
           <ChevronLeft className="w-4 h-4" />
           {t('previous')}
         </Button>
 
-        {allWatched && currentIndex === videos.length - 1 && canProceed ? (
+        {allWatched && currentIndex === videos.length - 1 ? (
           <Button onClick={onComplete} className="gap-2 bg-green-500 hover:bg-green-600">
             <Check className="w-4 h-4" />
             Continue
           </Button>
         ) : (
-        <Button 
-          onClick={goNext} 
-          disabled={currentIndex === videos.length - 1 || (watchedVideos.has(currentIndex) && !canProceed && !showSkipWarning)} 
-          className="gap-2"
-        >
-          {t('next')}
-          <ChevronRight className="w-4 h-4" />
-        </Button>
-      )}
-    </div>
+          <Button 
+            onClick={handleSkipVoiceover} 
+            disabled={currentIndex === videos.length - 1 || !videoWatched} 
+            className="gap-2"
+          >
+            {t('next')}
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        )}
+      </div>
 
-    {/* Quiz Section - Show after all videos watched */}
-    {allWatched && quizQuestions && quizQuestions.length > 0 && !showQuiz && (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center"
-      >
-        <Button onClick={() => setShowQuiz(true)} size="lg" className="gap-2">
-          Take the Quiz
-          <ChevronRight className="w-4 h-4" />
-        </Button>
-      </motion.div>
-    )}
-
-    {showQuiz && quizQuestions && (
-      <MultipleChoiceQuiz 
-        questions={quizQuestions} 
-        onComplete={onComplete} 
-        title={`${title} Quiz`}
-        characterName={title.replace('Meet Your Neighbor: ', '')}
-      />
-    )}
-
-    {/* Completion Message - Only show if no quiz or quiz not started */}
-    <AnimatePresence>
-      {allWatched && (!quizQuestions || quizQuestions.length === 0) && (
+      {/* Quiz Section - Show after all videos watched */}
+      {allWatched && quizQuestions && quizQuestions.length > 0 && !showQuiz && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-6 bg-gradient-to-br from-green-500/20 to-green-500/10 rounded-2xl border border-green-500/30"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
         >
-          <p className="text-2xl mb-2">🎉</p>
-          <p className="text-lg font-bold text-green-600">{getRandomCongrats()}</p>
+          <Button onClick={() => setShowQuiz(true)} size="lg" className="gap-2">
+            Take the Quiz
+            <ChevronRight className="w-4 h-4" />
+          </Button>
         </motion.div>
       )}
-    </AnimatePresence>
-  </div>
-);
+
+      {showQuiz && quizQuestions && (
+        <MultipleChoiceQuiz 
+          questions={quizQuestions} 
+          onComplete={onComplete} 
+          title={`${title} Quiz`}
+          characterName={title.replace('Meet Your Neighbor: ', '')}
+        />
+      )}
+
+      {/* Completion Message - Only show if no quiz or quiz not started */}
+      <AnimatePresence>
+        {allWatched && (!quizQuestions || quizQuestions.length === 0) && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center p-6 bg-gradient-to-br from-green-500/20 to-green-500/10 rounded-2xl border border-green-500/30"
+          >
+            <p className="text-2xl mb-2">🎉</p>
+            <p className="text-lg font-bold text-green-600">{getRandomCongrats()}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Users, Settings, BarChart2, BookOpen, Heart, Share2, ChevronDown, ChevronUp, Play } from 'lucide-react';
+import { X, Users, Settings, BarChart2, BookOpen, Heart, Share2, ChevronDown, ChevronUp, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { characters } from '@/data/module1Data';
@@ -13,15 +13,19 @@ interface HamburgerMenuProps {
 }
 
 // Map character names to their lesson IDs in Module 1
-const neighborLessons: Record<string, { lessonId: string; name: string }> = {
-  'marisol': { lessonId: 'lesson-3', name: 'Marisol Rivera' },
-  'rosa': { lessonId: 'lesson-4', name: 'Rosa Silva' },
-  'ahmet': { lessonId: 'neighbor-ahmet', name: 'Ahmet El-Masri' },
+// Removed Heba, updated Marisol/Rosa to direct to Module 1
+const neighborLessons: Record<string, { lessonId: string; name: string; directToModule?: boolean }> = {
+  'marisol': { lessonId: 'lesson-3', name: 'Marisol Rivera', directToModule: true },
+  'rosa': { lessonId: 'lesson-4', name: 'Rosa Silva', directToModule: true },
+  'ahmet': { lessonId: 'neighbor-ahmed', name: 'Ahmed El-Masri' },
   'saojin': { lessonId: 'neighbor-saojin', name: 'Saojin Lee' },
-  'fatima': { lessonId: 'neighbor-fatima', name: 'Fatima Hassan' },
   'dmitry': { lessonId: 'neighbor-dmitry', name: 'Dmitry Ivanov' },
-  'ali': { lessonId: 'neighbor-ali', name: 'Ali Demir' },
 };
+
+// Filter out characters not in the menu
+const displayCharacters = characters.filter(c => 
+  ['marisol', 'rosa', 'ahmet', 'saojin', 'dmitry'].includes(c.id.toLowerCase())
+);
 
 export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   isOpen,
@@ -39,11 +43,17 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     { id: 'achievements', label: 'Achievements', icon: Heart },
     { id: 'share', label: 'Share Progress', icon: Share2 },
     { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'admin', label: 'Admin Facility', icon: Shield },
   ];
 
   const handleItemClick = (itemId: string, expandable?: boolean) => {
     if (itemId === 'neighbors' && expandable) {
       setIsNeighborsExpanded(!isNeighborsExpanded);
+      return;
+    }
+    if (itemId === 'admin') {
+      navigate('/admin');
+      onClose();
       return;
     }
     onNavigate?.(itemId);
@@ -53,7 +63,12 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   const handleNeighborClick = (characterKey: string) => {
     const lesson = neighborLessons[characterKey.toLowerCase()];
     if (lesson) {
-      navigate(`/module/1?lesson=${lesson.lessonId}`);
+      if (lesson.directToModule) {
+        // Marisol and Rosa direct to Module 1
+        navigate('/module/1');
+      } else {
+        navigate(`/module/1?lesson=${lesson.lessonId}`);
+      }
       onClose();
     }
   };
@@ -127,7 +142,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
                       )}
                     </motion.button>
 
-                    {/* Expandable Neighbors List */}
+                    {/* Expandable Neighbors List - No videos, just names */}
                     <AnimatePresence>
                       {isNeighbors && isNeighborsExpanded && (
                         <motion.div
@@ -138,9 +153,11 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
                           className="overflow-hidden"
                         >
                           <div className="pl-6 pr-2 py-2 space-y-1">
-                            {characters.map((character) => {
-                              const firstName = character.name.split(' ')[0].toLowerCase();
-                              const hasLesson = neighborLessons[firstName];
+                            {displayCharacters.map((character) => {
+                              const firstName = character.id.toLowerCase();
+                              const lesson = neighborLessons[firstName];
+                              
+                              if (!lesson) return null;
                               
                               return (
                                 <motion.button
@@ -161,9 +178,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
                                       {character.job} • Apt {character.apartment}
                                     </p>
                                   </div>
-                                  {hasLesson && (
-                                    <Play className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                                  )}
+                                  {/* No play button for Marisol/Rosa since they go to Module 1 */}
                                 </motion.button>
                               );
                             })}
