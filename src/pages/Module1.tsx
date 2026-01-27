@@ -8,6 +8,7 @@ import { LanguageSelector } from '@/components/module1/LanguageSelector';
 import { LessonCard } from '@/components/module1/LessonCard';
 import { VideoLesson } from '@/components/module1/VideoLesson';
 import { VocabularyLesson } from '@/components/module1/VocabularyLesson';
+import { VocabularyMatchingPractice } from '@/components/module1/VocabularyMatchingPractice';
 import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { SentencePractice } from '@/components/module1/SentencePractice';
 import { NumbersMatchingPractice } from '@/components/module1/NumbersMatchingPractice';
@@ -25,7 +26,7 @@ import SpeakingTestPractice from '@/components/module1/SpeakingTestPractice';
 import NeighborVideoQuiz from '@/components/module1/NeighborVideoQuiz';
 import { PronounPractice } from '@/components/module1/PronounPractice';
 import { Module1Checklist } from '@/components/module1/Module1Checklist';
-import { module1Lessons, neighborLessons, Lesson, greetingPhrases, test2Slides } from '@/data/module1Data';
+import { module1Lessons, neighborLessons, Lesson, greetingPhrases } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
 import { useMicroWin } from '@/components/MicroWins';
@@ -141,6 +142,8 @@ const Module1Content: React.FC = () => {
           return <VocabularyLesson vocabulary={lesson.phrases.map(p => ({ id: p.id, english: p.english, pronunciation: p.pronunciation, translations: p.translations }))} onComplete={handleLessonComplete} title={lesson.title} />;
         }
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'vocabulary-matching':
+        return <VocabularyMatchingPractice vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'sentences':
         return <SentencePractice sentences={lesson.sentences || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'numbers-practice':
@@ -191,7 +194,7 @@ const Module1Content: React.FC = () => {
       case 'pronoun-practice':
         return <PronounPractice onComplete={handleLessonComplete} userName={userName} />;
       case 'module-checklist':
-        return <Module1Checklist onComplete={handleContinue} userName={userName} />;
+        return <Module1Checklist onComplete={() => navigate('/module/2')} userName={userName} />;
       default:
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }
@@ -257,6 +260,9 @@ const Module1Content: React.FC = () => {
 
           {viewState === 'lessons' && (
             <motion.div key="lessons" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-6">
+              <Button variant="outline" size="sm" onClick={() => navigate('/')} className="gap-2">
+                <Home className="w-4 h-4" /> Dashboard
+              </Button>
               <div className="space-y-4">
                 <h2 className="font-fredoka text-xl font-bold text-foreground flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-primary" />
@@ -280,8 +286,12 @@ const Module1Content: React.FC = () => {
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }} 
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex justify-center pt-4"
+                  className="flex justify-center gap-3 pt-4"
                 >
+                  <Button variant="outline" onClick={() => navigate('/')} className="gap-2">
+                    <Home className="w-4 h-4" />
+                    Dashboard
+                  </Button>
                   <Button size="lg" onClick={handleContinue} className="gap-2 rounded-xl bg-gradient-primary text-primary-foreground px-8">
                     Continue
                     <ArrowRight className="w-5 h-5" />

@@ -7,8 +7,10 @@ import { LanguageProvider, useLanguage } from '@/components/LanguageContext';
 import { LanguageSelector } from '@/components/module1/LanguageSelector';
 import { LessonCard } from '@/components/module1/LessonCard';
 import { VocabularyLesson } from '@/components/module1/VocabularyLesson';
+import { VocabularyMatchingPractice } from '@/components/module1/VocabularyMatchingPractice';
 import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { AlphabetLesson } from '@/components/module2/AlphabetLesson';
+import { AlphabetMatchingPractice } from '@/components/module2/AlphabetMatchingPractice';
 import { OrdinalAudioMatchingPractice } from '@/components/module2/OrdinalAudioMatchingPractice';
 import { NameRecordingPractice } from '@/components/module2/NameRecordingPractice';
 import { SpellingPractice } from '@/components/module2/SpellingPractice';
@@ -19,6 +21,7 @@ import { DateOfBirthPractice } from '@/components/module2/DateOfBirthPractice';
 import { NumbersAudioMatchingPractice } from '@/components/module2/NumbersAudioMatchingPractice';
 import { AddressVideoLesson } from '@/components/module2/AddressVideoLesson';
 import { HebaListeningLesson } from '@/components/module2/HebaListeningLesson';
+import { AhmedNeighborQuiz } from '@/components/module2/AhmedNeighborQuiz';
 import { module2Lessons, Module2Lesson } from '@/data/module2Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -98,10 +101,13 @@ const Module2Content: React.FC = () => {
     switch (lesson.type) {
       case 'alphabet':
         return <AlphabetLesson onComplete={handleLessonComplete} />;
+      case 'alphabet-matching':
+        return <AlphabetMatchingPractice onComplete={handleLessonComplete} />;
       case 'vocabulary':
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'vocabulary-matching':
+        return <VocabularyMatchingPractice vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'ordinal-numbers':
-        return <OrdinalAudioMatchingPractice content={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'ordinal-audio-matching':
         return <OrdinalAudioMatchingPractice content={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'video-series':
@@ -111,7 +117,6 @@ const Module2Content: React.FC = () => {
       case 'spelling-practice':
         return <SpellingPractice spellingData={lesson.spellingData || []} onComplete={handleLessonComplete} />;
       case 'numbers-matching':
-        return <NumbersAudioMatchingPractice numbers={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'numbers-audio-matching':
         return <NumbersAudioMatchingPractice numbers={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'months':
@@ -126,6 +131,8 @@ const Module2Content: React.FC = () => {
         return <AddressVideoLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} userName={userName} />;
       case 'listening-lesson':
         return <HebaListeningLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'ahmed-neighbor':
+        return <AhmedNeighborQuiz onComplete={handleLessonComplete} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }
@@ -223,8 +230,12 @@ const Module2Content: React.FC = () => {
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }} 
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex justify-center pt-4"
+                  className="flex justify-center gap-3 pt-4"
                 >
+                  <Button variant="outline" onClick={() => navigate('/')} className="gap-2">
+                    <Home className="w-4 h-4" />
+                    Dashboard
+                  </Button>
                   <Button size="lg" onClick={handleContinue} className="gap-2 rounded-xl bg-gradient-primary text-primary-foreground px-8">
                     Continue
                     <ArrowRight className="w-5 h-5" />

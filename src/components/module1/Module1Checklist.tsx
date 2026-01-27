@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Circle, MessageCircle, ArrowRight } from 'lucide-react';
+import { CheckCircle2, MessageCircle, ArrowRight, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface ChecklistItem {
   id: string;
@@ -29,6 +30,8 @@ export const Module1Checklist: React.FC<Module1ChecklistProps> = ({
   onComplete, 
   userName = 'friend' 
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -89,8 +92,12 @@ export const Module1Checklist: React.FC<Module1ChecklistProps> = ({
         </p>
       </motion.div>
 
-      {/* Continue button */}
-      <div className="flex justify-center">
+      {/* Action buttons */}
+      <div className="flex justify-center gap-3">
+        <Button variant="outline" onClick={() => navigate('/')} className="gap-2">
+          <Home className="w-5 h-5" />
+          Dashboard
+        </Button>
         <Button onClick={onComplete} size="lg" className="gap-2">
           Continue to Module 2
           <ArrowRight className="w-5 h-5" />
