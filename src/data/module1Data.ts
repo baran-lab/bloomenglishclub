@@ -44,7 +44,7 @@ export interface Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'video' | 'vocabulary' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order' | 'speaking-test' | 'neighbor-video-quiz' | 'pronoun-practice' | 'module-checklist';
+  type: 'video' | 'vocabulary' | 'vocabulary-matching' | 'practice' | 'speaking' | 'review' | 'video-series' | 'sentences' | 'numbers-practice' | 'numbers-matching' | 'listening-writing' | 'fill-in-blank' | 'smart-practice' | 'interactive-form' | 'listening-fill-in-blank' | 'quiz' | 'practice-quiz' | 'word-order' | 'speaking-test' | 'neighbor-video-quiz' | 'pronoun-practice' | 'module-checklist';
   videoUrl?: string;
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean }[];
   content?: VocabularyItem[];
@@ -1228,6 +1228,16 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '8 min',
   },
+  // 1b. Vocabulary Part 1 - Matching Practice
+  {
+    id: 'lesson-1b',
+    title: 'Vocabulary Part 1 - Matching',
+    description: 'Match English words with translations',
+    type: 'vocabulary-matching',
+    content: vocabulary1,
+    isCompleted: false,
+    duration: '6 min',
+  },
   // 2. My Name is Marisol - Video series with pronunciation
   {
     id: 'lesson-2',
@@ -1248,6 +1258,16 @@ export const module1Lessons: Lesson[] = [
     isCompleted: false,
     duration: '8 min',
   },
+  // 3b. Vocabulary Part 2 - Matching Practice
+  {
+    id: 'lesson-3b',
+    title: 'Vocabulary Part 2 - Matching',
+    description: 'Match English words with translations',
+    type: 'vocabulary-matching',
+    content: vocabulary2,
+    isCompleted: false,
+    duration: '6 min',
+  },
   // 4. Questions - Learn to ask questions
   {
     id: 'lesson-4',
@@ -1257,6 +1277,16 @@ export const module1Lessons: Lesson[] = [
     content: questionsVocabulary,
     isCompleted: false,
     duration: '8 min',
+  },
+  // 4b. Questions - Matching Practice
+  {
+    id: 'lesson-4b',
+    title: 'Questions - Matching',
+    description: 'Match question words with translations',
+    type: 'vocabulary-matching',
+    content: questionsVocabulary,
+    isCompleted: false,
+    duration: '6 min',
   },
   // 5. Numbers 0-10 (matching exercise)
   {
@@ -1315,16 +1345,6 @@ export const module1Lessons: Lesson[] = [
     description: 'Ask questions to Marisol and hear her answers',
     type: 'speaking-test',
     speakingTestSlides: test1Slides,
-    isCompleted: false,
-    duration: '15 min',
-  },
-  // 11. Test 2 - Speaking Test with Rosa
-  {
-    id: 'lesson-14',
-    title: 'Test 2: Rosa',
-    description: 'Ask questions to Rosa and hear her answers',
-    type: 'speaking-test',
-    speakingTestSlides: test2Slides,
     isCompleted: false,
     duration: '15 min',
   },

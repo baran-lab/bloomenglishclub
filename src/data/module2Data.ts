@@ -66,8 +66,8 @@ export const module2Vocabulary2: VocabularyItem[] = [
   { id: 'm2v2-zip-code', english: 'zip code', pronunciation: '', translations: { arabic: 'الرمز البريدي', bengali: 'জিপ কোড', korean: '우편번호', spanish: 'código postal', turkish: 'posta kodu' } },
 ];
 
-// Ordinal Numbers 1-15
-export const ordinalNumbers1to15: VocabularyItem[] = [
+// Ordinal Numbers 1-7
+export const ordinalNumbers1to7: VocabularyItem[] = [
   { id: 'ord-1', english: '1st - First', pronunciation: '', translations: { arabic: 'الأول', bengali: 'প্রথম', korean: '첫 번째', spanish: 'Primero', turkish: 'Birinci' } },
   { id: 'ord-2', english: '2nd - Second', pronunciation: '', translations: { arabic: 'الثاني', bengali: 'দ্বিতীয়', korean: '두 번째', spanish: 'Segundo', turkish: 'İkinci' } },
   { id: 'ord-3', english: '3rd - Third', pronunciation: '', translations: { arabic: 'الثالث', bengali: 'তৃতীয়', korean: '세 번째', spanish: 'Tercero', turkish: 'Üçüncü' } },
@@ -75,6 +75,10 @@ export const ordinalNumbers1to15: VocabularyItem[] = [
   { id: 'ord-5', english: '5th - Fifth', pronunciation: '', translations: { arabic: 'الخامس', bengali: 'পঞ্চম', korean: '다섯 번째', spanish: 'Quinto', turkish: 'Beşinci' } },
   { id: 'ord-6', english: '6th - Sixth', pronunciation: '', translations: { arabic: 'السادس', bengali: 'ষষ্ঠ', korean: '여섯 번째', spanish: 'Sexto', turkish: 'Altıncı' } },
   { id: 'ord-7', english: '7th - Seventh', pronunciation: '', translations: { arabic: 'السابع', bengali: 'সপ্তম', korean: '일곱 번째', spanish: 'Séptimo', turkish: 'Yedinci' } },
+];
+
+// Ordinal Numbers 8-15
+export const ordinalNumbers8to15: VocabularyItem[] = [
   { id: 'ord-8', english: '8th - Eighth', pronunciation: '', translations: { arabic: 'الثامن', bengali: 'অষ্টম', korean: '여덟 번째', spanish: 'Octavo', turkish: 'Sekizinci' } },
   { id: 'ord-9', english: '9th - Ninth', pronunciation: '', translations: { arabic: 'التاسع', bengali: 'নবম', korean: '아홉 번째', spanish: 'Noveno', turkish: 'Dokuzuncu' } },
   { id: 'ord-10', english: '10th - Tenth', pronunciation: '', translations: { arabic: 'العاشر', bengali: 'দশম', korean: '열 번째', spanish: 'Décimo', turkish: 'Onuncu' } },
@@ -85,8 +89,8 @@ export const ordinalNumbers1to15: VocabularyItem[] = [
   { id: 'ord-15', english: '15th - Fifteenth', pronunciation: '', translations: { arabic: 'الخامس عشر', bengali: 'পঞ্চদশ', korean: '열다섯 번째', spanish: 'Decimoquinto', turkish: 'On beşinci' } },
 ];
 
-// Ordinal Numbers 16-31
-export const ordinalNumbers16to31: VocabularyItem[] = [
+// Ordinal Numbers 16-22
+export const ordinalNumbers16to22: VocabularyItem[] = [
   { id: 'ord-16', english: '16th - Sixteenth', pronunciation: '', translations: { arabic: 'السادس عشر', bengali: 'ষোড়শ', korean: '열여섯 번째', spanish: 'Decimosexto', turkish: 'On altıncı' } },
   { id: 'ord-17', english: '17th - Seventeenth', pronunciation: '', translations: { arabic: 'السابع عشر', bengali: 'সপ্তদশ', korean: '열일곱 번째', spanish: 'Decimoséptimo', turkish: 'On yedinci' } },
   { id: 'ord-18', english: '18th - Eighteenth', pronunciation: '', translations: { arabic: 'الثامن عشر', bengali: 'অষ্টাদশ', korean: '열여덟 번째', spanish: 'Decimoctavo', turkish: 'On sekizinci' } },
@@ -94,6 +98,10 @@ export const ordinalNumbers16to31: VocabularyItem[] = [
   { id: 'ord-20', english: '20th - Twentieth', pronunciation: '', translations: { arabic: 'العشرون', bengali: 'বিংশ', korean: '스무 번째', spanish: 'Vigésimo', turkish: 'Yirminci' } },
   { id: 'ord-21', english: '21st - Twenty-first', pronunciation: '', translations: { arabic: 'الحادي والعشرون', bengali: 'একুশতম', korean: '스물한 번째', spanish: 'Vigésimo primero', turkish: 'Yirmi birinci' } },
   { id: 'ord-22', english: '22nd - Twenty-second', pronunciation: '', translations: { arabic: 'الثاني والعشرون', bengali: 'বাইশতম', korean: '스물두 번째', spanish: 'Vigésimo segundo', turkish: 'Yirmi ikinci' } },
+];
+
+// Ordinal Numbers 23-31
+export const ordinalNumbers23to31: VocabularyItem[] = [
   { id: 'ord-23', english: '23rd - Twenty-third', pronunciation: '', translations: { arabic: 'الثالث والعشرون', bengali: 'তেইশতম', korean: '스물세 번째', spanish: 'Vigésimo tercero', turkish: 'Yirmi üçüncü' } },
   { id: 'ord-24', english: '24th - Twenty-fourth', pronunciation: '', translations: { arabic: 'الرابع والعشرون', bengali: 'চব্বিশতম', korean: '스물네 번째', spanish: 'Vigésimo cuarto', turkish: 'Yirmi dördüncü' } },
   { id: 'ord-25', english: '25th - Twenty-fifth', pronunciation: '', translations: { arabic: 'الخامس والعشرون', bengali: 'পঁচিশতম', korean: '스물다섯 번째', spanish: 'Vigésimo quinto', turkish: 'Yirmi beşinci' } },
@@ -106,48 +114,50 @@ export const ordinalNumbers16to31: VocabularyItem[] = [
 ];
 
 // Legacy ordinal numbers for compatibility
-export const ordinalNumbers: VocabularyItem[] = [...ordinalNumbers1to15, ...ordinalNumbers16to31.slice(4, 7)];
+export const ordinalNumbers1to15: VocabularyItem[] = [...ordinalNumbers1to7, ...ordinalNumbers8to15];
+export const ordinalNumbers16to31: VocabularyItem[] = [...ordinalNumbers16to22, ...ordinalNumbers23to31];
+export const ordinalNumbers: VocabularyItem[] = [...ordinalNumbers1to15, ...ordinalNumbers16to31];
 
-// Heba Video Series - Part 1 (Name) - for voice practice with sentences
+// Heba Video Series - Part 1 (First Name) - Updated sentences
 export const hebaVideos = [
-  { url: '/videos/module2/heba-1.mp4', title: "What's your name?", subtitle: 'Watch and listen', sentenceToRecord: "What's your name?" },
-  { url: '/videos/module2/heba-1b.mp4', title: 'My name is...', subtitle: 'Practice', sentenceToRecord: 'My name is...' },
-  { url: '/videos/module2/heba-2.mp4', title: "What's your name?", subtitle: 'Watch and listen', sentenceToRecord: "What's your name?" },
-  { url: '/videos/module2/heba-2b.mp4', title: 'My name is...', subtitle: 'Practice', sentenceToRecord: 'My name is...' },
-  { url: '/videos/module2/heba-3.mp4', title: 'How do you spell that?', subtitle: 'Watch and listen', sentenceToRecord: 'How do you spell that?' },
-  { url: '/videos/module2/heba-3b.mp4', title: 'Spelling practice', subtitle: 'Practice' },
-  { url: '/videos/module2/heba-4.mp4', title: 'Nice to meet you', subtitle: 'Watch and listen', sentenceToRecord: 'Nice to meet you!' },
-  { url: '/videos/module2/heba-4b.mp4', title: 'Nice to meet you too', subtitle: 'Practice', sentenceToRecord: 'Nice to meet you too!' },
+  { url: '/videos/module2/heba-1.mp4', title: "What's your first name?", subtitle: 'Watch and listen', sentenceToRecord: "What's your first name?" },
+  { url: '/videos/module2/heba-1b.mp4', title: 'My first name is _____', subtitle: 'Practice', sentenceToRecord: 'My first name is _____' },
+  { url: '/videos/module2/heba-2.mp4', title: 'How do you spell that?', subtitle: 'Watch and listen', sentenceToRecord: 'How do you spell that?' },
+  { url: '/videos/module2/heba-2b.mp4', title: 'H-E-B-A', subtitle: 'Practice', sentenceToRecord: 'H-E-B-A' },
+  { url: '/videos/module2/heba-3.mp4', title: "What's your last name?", subtitle: 'Watch and listen', sentenceToRecord: "What's your last name?" },
+  { url: '/videos/module2/heba-3b.mp4', title: 'My last name is El-Masri', subtitle: 'Practice', sentenceToRecord: 'My last name is El-Masri' },
+  { url: '/videos/module2/heba-4.mp4', title: 'Can you spell that, please?', subtitle: 'Watch and listen', sentenceToRecord: 'Can you spell that, please?' },
+  { url: '/videos/module2/heba-4b.mp4', title: 'E-L-M-A-S-R-I', subtitle: 'Practice', sentenceToRecord: 'E-L-M-A-S-R-I' },
 ];
 
 // Heba Video Series - Date of Birth (Heba 5-8) - Listening only, separated
 export const hebaDateOfBirthVideos = [
-  { url: '/videos/module2/heba-5.mp4', title: 'Date of birth', subtitle: "What's your date of birth?" },
-  { url: '/videos/module2/heba-6.mp4', title: 'Practice', subtitle: 'Listen and learn' },
-  { url: '/videos/module2/heba-7.mp4', title: 'Watch and listen', subtitle: 'Date format' },
-  { url: '/videos/module2/heba-8.mp4', title: 'Practice', subtitle: 'Complete the conversation' },
+  { url: '/videos/module2/heba-5.mp4', title: 'Date of birth', subtitle: "What's your date of birth?", listenOnly: true },
+  { url: '/videos/module2/heba-6.mp4', title: 'Practice', subtitle: 'Listen and learn', listenOnly: true },
+  { url: '/videos/module2/heba-7.mp4', title: 'Watch and listen', subtitle: 'Date format', listenOnly: true },
+  { url: '/videos/module2/heba-8.mp4', title: 'Practice', subtitle: 'Complete the conversation', listenOnly: true },
 ];
 
-// Heba Video Series - Telephone Number (Heba 9-10) - for voice practice
+// Heba Video Series - Telephone Number - Updated with new video
 export const hebaTelephoneVideos = [
   { url: '/videos/module2/heba-9.mp4', title: "What's your telephone number?", subtitle: 'Telephone number', sentenceToRecord: "What's your telephone number?" },
-  { url: '/videos/module2/heba-10.mp4', title: 'My telephone number is...', subtitle: 'Practice', sentenceToRecord: 'My telephone number is...' },
+  { url: '/videos/module2/heba-tel-no.mp4', title: 'My telephone number is...', subtitle: 'Practice', sentenceToRecord: 'My telephone number is...' },
 ];
 
-// Heba Video Series - Address (Videos 11-12) - for voice practice
+// Heba Video Series - Address (Videos 11-12) - Video 2 is listen only
 export const hebaAddressVideos = [
   { url: '/videos/module2/heba-11.mp4', title: "What's your address?", subtitle: "What's your address?", sentenceToRecord: "What's your address?" },
-  { url: '/videos/module2/heba-12.mp4', title: 'My address is...', subtitle: 'Practice', sentenceToRecord: 'My address is...' },
+  { url: '/videos/module2/heba-12.mp4', title: 'My address is...', subtitle: 'Listen only', listenOnly: true },
 ];
 
-// Heba Video Series - How to say your address (Videos 13-18) - Listening only, auto-play
+// Heba Video Series - How to say your address (Videos 13-18) - Listening only, auto-play, with translations
 export const hebaAddressHowToVideos = [
-  { url: '/videos/module2/heba-13.mp4', title: 'Street address', subtitle: 'Street number and name' },
-  { url: '/videos/module2/heba-14.mp4', title: 'City and state', subtitle: 'City and state' },
-  { url: '/videos/module2/heba-15.mp4', title: 'Zip code', subtitle: 'Zip code' },
-  { url: '/videos/module2/heba-16.mp4', title: 'Full address', subtitle: 'Putting it together' },
-  { url: '/videos/module2/heba-17.mp4', title: 'Practice', subtitle: 'Practice' },
-  { url: '/videos/module2/heba-18.mp4', title: 'Review', subtitle: 'Review' },
+  { url: '/videos/module2/heba-13.mp4', title: 'Street address', subtitle: 'Street number and name', listenOnly: true },
+  { url: '/videos/module2/heba-14.mp4', title: 'City and state', subtitle: 'City and state', listenOnly: true },
+  { url: '/videos/module2/heba-15.mp4', title: 'Zip code', subtitle: 'Zip code', listenOnly: true },
+  { url: '/videos/module2/heba-16.mp4', title: 'Full address', subtitle: 'Putting it together', listenOnly: true },
+  { url: '/videos/module2/heba-17.mp4', title: 'Practice', subtitle: 'Practice', listenOnly: true },
+  { url: '/videos/module2/heba-18.mp4', title: 'Review', subtitle: 'Review', listenOnly: true, showTranslation: true },
 ];
 
 // Spelling Practice Data
@@ -256,9 +266,9 @@ export const numbers91to100: VocabularyItem[] = [
 // Combined 81-100 for legacy
 export const numbers81to100: VocabularyItem[] = [...numbers81to90, ...numbers91to100];
 
-// Name Recording Practice Questions
+// Name Recording Practice Questions - Updated
 export const nameRecordingQuestions = [
-  { id: 'name-q1', question: "What's your first name?", hint: 'Answer: "My name is..."', expectedStart: 'my name is' },
+  { id: 'name-q1', question: "What's your first name?", hint: 'Answer: "My first name is ..."', expectedStart: 'my first name is' },
   { id: 'name-q2', question: 'How do you spell that?', hint: 'Spell your name letter by letter' },
 ];
 
@@ -275,9 +285,9 @@ export interface Module2Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'alphabet' | 'vocabulary' | 'ordinal-numbers' | 'ordinal-audio-matching' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'numbers-audio-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice' | 'address-video-series' | 'listening-lesson';
+  type: 'alphabet' | 'alphabet-matching' | 'vocabulary' | 'vocabulary-matching' | 'ordinal-numbers' | 'ordinal-audio-matching' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'numbers-audio-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice' | 'address-video-series' | 'listening-lesson' | 'ahmed-neighbor';
   content?: VocabularyItem[];
-  videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string }[];
+  videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
   spellingData?: typeof spellingPracticeData;
   isCompleted: boolean;
   duration?: string;
@@ -293,6 +303,14 @@ export const module2Lessons: Module2Lesson[] = [
     duration: '10 min',
   },
   {
+    id: 'm2-lesson-1b',
+    title: 'Alphabet Practice',
+    description: 'Match letters with their sounds',
+    type: 'alphabet-matching',
+    isCompleted: false,
+    duration: '8 min',
+  },
+  {
     id: 'm2-lesson-2',
     title: 'Vocabulary 1',
     description: 'Learn words for dates and personal information',
@@ -302,18 +320,36 @@ export const module2Lessons: Module2Lesson[] = [
     duration: '8 min',
   },
   {
-    id: 'm2-lesson-3',
-    title: 'Ordinal Numbers 1-15',
+    id: 'm2-lesson-2b',
+    title: 'Vocabulary 1 - Matching',
+    description: 'Match English words with translations',
+    type: 'vocabulary-matching',
+    content: module2Vocabulary,
+    isCompleted: false,
+    duration: '6 min',
+  },
+  {
+    id: 'm2-lesson-3a',
+    title: 'Ordinal Numbers 1-7',
     description: 'Listen and match ordinal numbers',
     type: 'ordinal-audio-matching',
-    content: ordinalNumbers1to15,
+    content: ordinalNumbers1to7,
     isCompleted: false,
-    duration: '10 min',
+    duration: '8 min',
+  },
+  {
+    id: 'm2-lesson-3b',
+    title: 'Ordinal Numbers 8-15',
+    description: 'Listen and match ordinal numbers',
+    type: 'ordinal-audio-matching',
+    content: ordinalNumbers8to15,
+    isCompleted: false,
+    duration: '8 min',
   },
   {
     id: 'm2-lesson-4',
     title: "What's Your Name? - Part 1",
-    description: 'Learn to ask and answer about names',
+    description: 'Learn to ask and answer about first names',
     type: 'video-series',
     videos: hebaVideos.slice(0, 2),
     isCompleted: false,
@@ -322,7 +358,7 @@ export const module2Lessons: Module2Lesson[] = [
   {
     id: 'm2-lesson-5',
     title: "What's Your Name? - Part 2",
-    description: 'Continue learning about names',
+    description: 'Learn to spell your name',
     type: 'video-series',
     videos: hebaVideos.slice(2, 4),
     isCompleted: false,
@@ -339,7 +375,7 @@ export const module2Lessons: Module2Lesson[] = [
   {
     id: 'm2-lesson-7',
     title: "What's Your Name? - Part 3",
-    description: 'Spelling names',
+    description: 'Learn about last names',
     type: 'video-series',
     videos: hebaVideos.slice(4, 6),
     isCompleted: false,
@@ -348,7 +384,7 @@ export const module2Lessons: Module2Lesson[] = [
   {
     id: 'm2-lesson-8',
     title: "What's Your Name? - Part 4",
-    description: 'Complete the conversation',
+    description: 'Spelling last names',
     type: 'video-series',
     videos: hebaVideos.slice(6, 8),
     isCompleted: false,
@@ -399,13 +435,22 @@ export const module2Lessons: Module2Lesson[] = [
     duration: '5 min',
   },
   {
-    id: 'm2-lesson-14',
-    title: 'Ordinal Numbers 16-31',
+    id: 'm2-lesson-14a',
+    title: 'Ordinal Numbers 16-22',
     description: 'Listen and match ordinal numbers',
     type: 'ordinal-audio-matching',
-    content: ordinalNumbers16to31,
+    content: ordinalNumbers16to22,
     isCompleted: false,
-    duration: '10 min',
+    duration: '8 min',
+  },
+  {
+    id: 'm2-lesson-14b',
+    title: 'Ordinal Numbers 23-31',
+    description: 'Listen and match ordinal numbers',
+    type: 'ordinal-audio-matching',
+    content: ordinalNumbers23to31,
+    isCompleted: false,
+    duration: '8 min',
   },
   {
     id: 'm2-lesson-15',
@@ -433,6 +478,15 @@ export const module2Lessons: Module2Lesson[] = [
     content: module2Vocabulary2,
     isCompleted: false,
     duration: '8 min',
+  },
+  {
+    id: 'm2-lesson-17b',
+    title: 'Vocabulary 2 - Matching',
+    description: 'Match English words with translations',
+    type: 'vocabulary-matching',
+    content: module2Vocabulary2,
+    isCompleted: false,
+    duration: '6 min',
   },
   {
     id: 'm2-lesson-18',
@@ -486,5 +540,13 @@ export const module2Lessons: Module2Lesson[] = [
     videos: hebaAddressHowToVideos,
     isCompleted: false,
     duration: '12 min',
+  },
+  {
+    id: 'm2-lesson-24',
+    title: 'Meet Ahmed El-Masri',
+    description: 'Watch videos and answer questions about Ahmed',
+    type: 'ahmed-neighbor',
+    isCompleted: false,
+    duration: '10 min',
   },
 ];

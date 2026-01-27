@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mic, Square, Play, RotateCcw, Volume2, Home, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -27,10 +27,37 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
   const [hasRecorded, setHasRecorded] = useState(false);
   const [showPractice, setShowPractice] = useState(false);
   const [recordingStartTime, setRecordingStartTime] = useState<number | null>(null);
+  const [recognizedNumber, setRecognizedNumber] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const recognitionRef = useRef<any>(null);
 
   const translations = telephoneTranslations[selectedLanguage] || telephoneTranslations.spanish;
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
+      recognitionRef.current.lang = 'en-US';
+
+      recognitionRef.current.onresult = (event: any) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        setRecognizedNumber(transcript);
+      };
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, []);
 
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
@@ -45,6 +72,7 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
   const startRecording = async () => {
     try {
       audioChunksRef.current = [];
+      setRecognizedNumber(null);
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
@@ -67,6 +95,11 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
       
       mediaRecorder.start();
       setIsRecording(true);
+
+      // Start speech recognition
+      if (recognitionRef.current) {
+        recognitionRef.current.start();
+      }
     } catch (err) {
       console.error('Microphone error:', err);
     }
@@ -76,6 +109,9 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
+    }
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
     }
   };
 
@@ -171,11 +207,25 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
 
           {hasRecorded && (
             <div className="space-y-4">
+              {/* Show recognized number */}
+              {recognizedNumber && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl text-center"
+                >
+                  <p className="text-sm text-muted-foreground">You said:</p>
+                  <p className="text-xl font-mono font-bold text-blue-700 dark:text-blue-400 mt-1">
+                    {recognizedNumber}
+                  </p>
+                </motion.div>
+              )}
+
               <div className="flex justify-center gap-3">
                 <Button variant="outline" onClick={playRecording} className="gap-2">
                   <Play className="w-4 h-4" /> Play Recording
                 </Button>
-                <Button variant="outline" onClick={() => { setHasRecorded(false); setAudioUrl(null); }} className="gap-2">
+                <Button variant="outline" onClick={() => { setHasRecorded(false); setAudioUrl(null); setRecognizedNumber(null); }} className="gap-2">
                   <RotateCcw className="w-4 h-4" /> Try Again
                 </Button>
               </div>
