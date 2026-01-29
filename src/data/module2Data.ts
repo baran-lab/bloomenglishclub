@@ -285,7 +285,7 @@ export interface Module2Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'alphabet' | 'alphabet-matching' | 'vocabulary' | 'vocabulary-matching' | 'ordinal-numbers' | 'ordinal-audio-matching' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'numbers-audio-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice' | 'address-video-series' | 'listening-lesson' | 'ahmed-neighbor';
+  type: 'alphabet' | 'alphabet-matching' | 'vocabulary' | 'vocabulary-matching' | 'ordinal-numbers' | 'ordinal-audio-matching' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'numbers-audio-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice' | 'address-video-series' | 'listening-lesson' | 'address-word-order';
   content?: VocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
   spellingData?: typeof spellingPracticeData;
@@ -543,10 +543,10 @@ export const module2Lessons: Module2Lesson[] = [
   },
   {
     id: 'm2-lesson-24',
-    title: 'Meet Ahmed El-Masri',
-    description: 'Watch videos and answer questions about Ahmed',
-    type: 'ahmed-neighbor',
+    title: 'Address Word Order Practice',
+    description: "Put Heba's address in the correct order",
+    type: 'address-word-order',
     isCompleted: false,
-    duration: '10 min',
+    duration: '5 min',
   },
 ];

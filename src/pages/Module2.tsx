@@ -21,7 +21,7 @@ import { DateOfBirthPractice } from '@/components/module2/DateOfBirthPractice';
 import { NumbersAudioMatchingPractice } from '@/components/module2/NumbersAudioMatchingPractice';
 import { AddressVideoLesson } from '@/components/module2/AddressVideoLesson';
 import { HebaListeningLesson } from '@/components/module2/HebaListeningLesson';
-import { AhmedNeighborQuiz } from '@/components/module2/AhmedNeighborQuiz';
+import { AddressWordOrderPractice } from '@/components/module2/AddressWordOrderPractice';
 import { module2Lessons, Module2Lesson } from '@/data/module2Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -131,8 +131,8 @@ const Module2Content: React.FC = () => {
         return <AddressVideoLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} userName={userName} />;
       case 'listening-lesson':
         return <HebaListeningLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
-      case 'ahmed-neighbor':
-        return <AhmedNeighborQuiz onComplete={handleLessonComplete} />;
+      case 'address-word-order':
+        return <AddressWordOrderPractice onComplete={handleLessonComplete} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }

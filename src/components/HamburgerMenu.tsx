@@ -13,18 +13,19 @@ interface HamburgerMenuProps {
 }
 
 // Map character names to their lesson IDs in Module 1
-// Removed Heba, updated Marisol/Rosa to direct to Module 1
+// Marisol/Rosa direct to their neighbor quizzes, others to specialized quizzes
 const neighborLessons: Record<string, { lessonId: string; name: string; directToModule?: boolean }> = {
-  'marisol': { lessonId: 'lesson-3', name: 'Marisol Rivera', directToModule: true },
-  'rosa': { lessonId: 'lesson-4', name: 'Rosa Silva', directToModule: true },
+  'marisol': { lessonId: 'neighbor-marisol-quiz', name: 'Marisol Rivera' },
+  'rosa': { lessonId: 'neighbor-rosa-quiz', name: 'Rosa Silva' },
   'ahmet': { lessonId: 'neighbor-ahmed', name: 'Ahmed El-Masri' },
   'saojin': { lessonId: 'neighbor-saojin', name: 'Saojin Lee' },
   'dmitry': { lessonId: 'neighbor-dmitry', name: 'Dmitry Ivanov' },
+  'fatima': { lessonId: 'neighbor-fatima', name: 'Fatima Hassan' },
 };
 
 // Filter out characters not in the menu
 const displayCharacters = characters.filter(c => 
-  ['marisol', 'rosa', 'ahmet', 'saojin', 'dmitry'].includes(c.id.toLowerCase())
+  ['marisol', 'rosa', 'ahmet', 'saojin', 'dmitry', 'fatima'].includes(c.id.toLowerCase())
 );
 
 export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
@@ -63,12 +64,8 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   const handleNeighborClick = (characterKey: string) => {
     const lesson = neighborLessons[characterKey.toLowerCase()];
     if (lesson) {
-      if (lesson.directToModule) {
-        // Marisol and Rosa direct to Module 1
-        navigate('/module/1');
-      } else {
-        navigate(`/module/1?lesson=${lesson.lessonId}`);
-      }
+      // All neighbors now use specific lesson routes
+      navigate(`/module/1?lesson=${lesson.lessonId}`);
       onClose();
     }
   };
