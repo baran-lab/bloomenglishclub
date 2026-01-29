@@ -29,6 +29,9 @@ import { Module1Checklist } from '@/components/module1/Module1Checklist';
 import { SaojinNeighborQuiz } from '@/components/module1/SaojinNeighborQuiz';
 import { DmitryNeighborQuiz } from '@/components/module1/DmitryNeighborQuiz';
 import { AhmedNeighborQuiz } from '@/components/module2/AhmedNeighborQuiz';
+import { FatimaNeighborQuiz } from '@/components/module1/FatimaNeighborQuiz';
+import { MarisolNeighborQuiz } from '@/components/module1/MarisotNeighborQuiz';
+import { RosaNeighborQuiz } from '@/components/module1/RosaNeighborQuiz';
 import { module1Lessons, neighborLessons, Lesson, greetingPhrases } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -57,9 +60,25 @@ const Module1Content: React.FC = () => {
   const currentLessonIndex = lessons.findIndex(l => l.id === activeLesson?.id);
 
   // Allow deep-linking to a specific lesson/neighbor via ?lesson=<id>
+  // Also handle special neighbor quiz routes
   useEffect(() => {
     const lessonId = searchParams.get('lesson');
     if (!lessonId) return;
+
+    // Handle special neighbor quiz routes that aren't in the data
+    const specialNeighborQuizzes = ['neighbor-marisol-quiz', 'neighbor-rosa-quiz', 'neighbor-fatima'];
+    if (specialNeighborQuizzes.includes(lessonId)) {
+      setActiveLesson({ 
+        id: lessonId, 
+        title: lessonId.replace('neighbor-', '').replace('-quiz', ''), 
+        description: '', 
+        type: lessonId as any, 
+        isCompleted: false 
+      });
+      setViewState('lesson-detail');
+      setShowContinue(false);
+      return;
+    }
 
     const allLessons = [...module1Lessons, ...neighborLessons];
     const target = allLessons.find(l => l.id === lessonId);
@@ -205,6 +224,16 @@ const Module1Content: React.FC = () => {
       case 'ahmed-neighbor':
         return <AhmedNeighborQuiz onComplete={handleLessonComplete} />;
       default:
+        // Handle special neighbor quiz routes
+        if (lesson.id === 'neighbor-marisol-quiz') {
+          return <MarisolNeighborQuiz onComplete={handleLessonComplete} />;
+        }
+        if (lesson.id === 'neighbor-rosa-quiz') {
+          return <RosaNeighborQuiz onComplete={handleLessonComplete} />;
+        }
+        if (lesson.id === 'neighbor-fatima') {
+          return <FatimaNeighborQuiz onComplete={handleLessonComplete} />;
+        }
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }
   };

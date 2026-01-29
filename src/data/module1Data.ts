@@ -300,7 +300,7 @@ export const vocabulary1: VocabularyItem[] = [
   { id: 'v1-from', english: 'from', pronunciation: 'from', translations: { arabic: 'من', bengali: 'থেকে', korean: '~에서', spanish: 'de', turkish: '-den/-dan' } },
   { id: 'v1-have', english: 'have', pronunciation: 'hav', translations: { arabic: 'لديه/لديها', bengali: 'আছে', korean: '가지다', spanish: 'tener', turkish: 'sahip olmak' } },
   { id: 'v1-in', english: 'in', pronunciation: 'in', translations: { arabic: 'في', bengali: 'মধ্যে', korean: '~안에', spanish: 'en', turkish: '-de/-da' } },
-  { id: 'v1-live', english: 'live', pronunciation: 'liv', translations: { arabic: 'يعيش', bengali: 'বাস করা', korean: '살다', spanish: 'vivir', turkish: 'yaşamak' } },
+  { id: 'v1-live', english: 'live (verb)', pronunciation: 'LIV (rhymes with give)', translations: { arabic: 'يعيش', bengali: 'বাস করা', korean: '살다', spanish: 'vivir', turkish: 'yaşamak' } },
   { id: 'v1-married', english: 'married', pronunciation: 'MAR-eed', translations: { arabic: 'متزوج/متزوجة', bengali: 'বিবাহিত', korean: '결혼한', spanish: 'casado/a', turkish: 'evli' } },
   { id: 'v1-single', english: 'single', pronunciation: 'SING-gul', translations: { arabic: 'أعزب/عزباء', bengali: 'অবিবাহিত', korean: '미혼', spanish: 'soltero/a', turkish: 'bekar' } },
   { id: 'v1-supermarket', english: 'supermarket', pronunciation: 'SOO-per-mar-kit', translations: { arabic: 'سوبرماركت', bengali: 'সুপারমার্কেট', korean: '슈퍼마켓', spanish: 'supermercado', turkish: 'süpermarket' } },

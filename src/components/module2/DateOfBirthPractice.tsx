@@ -88,6 +88,30 @@ export const DateOfBirthPractice: React.FC<DateOfBirthPracticeProps> = ({ onComp
       </div>
 
       <div className="bg-card rounded-2xl border p-6 space-y-6">
+        {/* Language Use Explanation - shown above the practice */}
+        <div className="p-4 bg-blue-500/10 rounded-xl border border-blue-500/20">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+              <span className="text-lg">📅</span>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-blue-700 dark:text-blue-400">
+                🗣️ Language Use: How to Say Your Date of Birth
+              </p>
+              <div className="text-xs text-muted-foreground mt-2 space-y-1">
+                <p>✅ <strong>Correct:</strong> "January <em>fifteenth</em>, nineteen ninety"</p>
+                <p>❌ <strong>Incorrect:</strong> "January fifteen, nineteen ninety"</p>
+                <p className="mt-2">Always use ordinal numbers for the day:</p>
+                <ul className="list-disc list-inside pl-2">
+                  <li>1st = first, 2nd = second, 3rd = third</li>
+                  <li>4th = fourth, 5th = fifth, etc.</li>
+                  <li>21st = twenty-first, 22nd = twenty-second, etc.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Instruction */}
         <div className="p-4 bg-amber-500/10 rounded-xl">
           <div className="flex items-start gap-3">

@@ -187,7 +187,8 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
 
           <div className="text-center p-4 bg-muted/50 rounded-xl">
             <p className="text-sm text-muted-foreground mb-2">Say your telephone number:</p>
-            <p className="font-medium text-foreground">"My telephone number is..."</p>
+            <p className="font-medium text-foreground text-lg font-mono">212 555 0182</p>
+            <p className="text-xs text-muted-foreground mt-1">(Practice saying: "two-one-two, five-five-five, oh-one-eight-two")</p>
           </div>
 
           <div className="flex flex-col items-center gap-4">
