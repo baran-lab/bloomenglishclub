@@ -28,7 +28,7 @@ import { PronounPractice } from '@/components/module1/PronounPractice';
 import { Module1Checklist } from '@/components/module1/Module1Checklist';
 import { SaojinNeighborQuiz } from '@/components/module1/SaojinNeighborQuiz';
 import { DmitryNeighborQuiz } from '@/components/module1/DmitryNeighborQuiz';
-import { AhmedNeighborQuiz } from '@/components/module2/AhmedNeighborQuiz';
+import { AhmedNeighborQuiz } from '@/components/module1/AhmedNeighborQuiz';
 import { FatimaNeighborQuiz } from '@/components/module1/FatimaNeighborQuiz';
 import { MarisolNeighborQuiz } from '@/components/module1/MarisotNeighborQuiz';
 import { RosaNeighborQuiz } from '@/components/module1/RosaNeighborQuiz';

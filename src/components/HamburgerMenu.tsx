@@ -17,7 +17,7 @@ interface HamburgerMenuProps {
 const neighborLessons: Record<string, { lessonId: string; name: string; directToModule?: boolean }> = {
   'marisol': { lessonId: 'neighbor-marisol-quiz', name: 'Marisol Rivera' },
   'rosa': { lessonId: 'neighbor-rosa-quiz', name: 'Rosa Silva' },
-  'ahmet': { lessonId: 'neighbor-ahmed', name: 'Ahmed El-Masri' },
+  'ahmet': { lessonId: 'neighbor-ahmed', name: 'Ahmet El-Masri' },
   'saojin': { lessonId: 'neighbor-saojin', name: 'Saojin Lee' },
   'dmitry': { lessonId: 'neighbor-dmitry', name: 'Dmitry Ivanov' },
   'fatima': { lessonId: 'neighbor-fatima', name: 'Fatima Hassan' },
