@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Building2, Mail, Lock, ArrowRight, Globe, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -238,12 +238,12 @@ const Login = () => {
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
                 New to Englishville?{" "}
-                <button
-                  type="button"
+                <Link
+                  to="/signup"
                   className="text-primary font-semibold hover:underline"
                 >
                   Create an account
-                </button>
+                </Link>
               </p>
             </div>
           </motion.form>

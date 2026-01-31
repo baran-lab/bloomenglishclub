@@ -1,8 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Star, Flame, Trophy, Award, BookOpen, Mic, Target } from "lucide-react";
+import { X, Star, Flame, Trophy, Award, BookOpen, Mic, Target, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserProgress } from "@/data/mockData";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileSidebarProps {
   isOpen: boolean;
@@ -19,6 +21,15 @@ const badgeIcons: Record<string, React.ComponentType<any>> = {
 };
 
 export function ProfileSidebar({ isOpen, onClose, progress }: ProfileSidebarProps) {
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    localStorage.removeItem('englishville_logged_in');
+    localStorage.removeItem('englishville_user_name');
+    navigate('/login');
+    onClose();
+  };
+
   const stats = [
     { label: "Modules", current: progress.modulesCompleted, total: progress.totalModules, color: "bg-primary" },
     { label: "Vocabulary", current: progress.vocabulary.current, total: progress.vocabulary.total, color: "bg-module-2" },
@@ -164,6 +175,23 @@ export function ProfileSidebar({ isOpen, onClose, progress }: ProfileSidebarProp
                     );
                   })}
                 </div>
+              </motion.div>
+
+              {/* Log Out Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mt-6"
+              >
+                <Button
+                  variant="outline"
+                  className="w-full gap-2"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-4 h-4" />
+                  Log Out
+                </Button>
               </motion.div>
             </div>
           </motion.div>
