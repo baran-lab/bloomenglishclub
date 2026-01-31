@@ -10,6 +10,7 @@ import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
 import { HamburgerMenu } from "@/components/HamburgerMenu";
 import { ProgressChecklist } from "@/components/ProgressChecklist";
+import { HabitTracker } from "@/components/habits/HabitTracker";
 import { JoinClubCard } from "@/components/JoinClubCard";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
 import { Card } from "@/components/ui/card";
@@ -277,6 +278,11 @@ const Index = () => {
                 </motion.div>
               ))}
             </div>
+          </div>
+
+          {/* Habit Tracker */}
+          <div className="mt-8">
+            <HabitTracker />
           </div>
 
           {/* Progress Checklist */}

@@ -14,7 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      habit_entries: {
+        Row: {
+          created_at: string
+          dropdown_value: string | null
+          entry_date: string
+          habit_id: string
+          id: string
+          is_completed: boolean | null
+          range_value: number | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          dropdown_value?: string | null
+          entry_date?: string
+          habit_id: string
+          id?: string
+          is_completed?: boolean | null
+          range_value?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          dropdown_value?: string | null
+          entry_date?: string
+          habit_id?: string
+          id?: string
+          is_completed?: boolean | null
+          range_value?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "habit_entries_habit_id_fkey"
+            columns: ["habit_id"]
+            isOneToOne: false
+            referencedRelation: "habits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      habits: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          dropdown_options: string[] | null
+          habit_type: string
+          id: string
+          name: string
+          range_max: number | null
+          range_min: number | null
+          range_unit: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          dropdown_options?: string[] | null
+          habit_type?: string
+          id?: string
+          name: string
+          range_max?: number | null
+          range_min?: number | null
+          range_unit?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          dropdown_options?: string[] | null
+          habit_type?: string
+          id?: string
+          name?: string
+          range_max?: number | null
+          range_min?: number | null
+          range_unit?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
