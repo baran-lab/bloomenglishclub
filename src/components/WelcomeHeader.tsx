@@ -15,10 +15,10 @@ export function WelcomeHeader() {
         </div>
         <div>
           <h1 className="font-fredoka text-3xl font-bold text-foreground">
-            Englishville
+            RealTalkEnglish
           </h1>
           <p className="text-muted-foreground text-sm">
-            Your English learning neighborhood
+            Learn everyday English through real conversations
           </p>
         </div>
       </div>

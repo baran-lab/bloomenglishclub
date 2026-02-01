@@ -95,7 +95,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
             <div className="bg-gradient-primary p-6 pt-8">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-fredoka text-xl font-bold text-primary-foreground">
-                  Englishville
+                  RealTalkEnglish
                 </h2>
                 <Button
                   variant="ghost"
@@ -191,7 +191,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
             {/* Version info */}
             <div className="p-4 border-t border-border mt-4">
               <p className="text-xs text-muted-foreground text-center">
-                Englishville v1.0 • Made with 💛
+                RealTalkEnglish v1.0 • Made with 💛
               </p>
             </div>
           </motion.div>
