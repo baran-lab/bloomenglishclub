@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -13,15 +14,42 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
+  // Check if user is already logged in
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        navigate('/');
+      }
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        navigate('/');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Passwords don't match",
@@ -42,16 +70,64 @@ const Signup = () => {
 
     setIsLoading(true);
 
-    // For now, simulate signup (will integrate with Supabase auth later)
-    setTimeout(() => {
-      localStorage.setItem('englishville_user_name', formData.name);
-      toast({
-        title: "Welcome to Englishville! 🎉",
-        description: "Your account has been created successfully.",
+    try {
+      const redirectUrl = `${window.location.origin}/`;
+      
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          emailRedirectTo: redirectUrl,
+        },
       });
-      navigate('/');
+
+      if (error) {
+        // Handle specific error cases
+        if (error.message.includes('User already registered')) {
+          toast({
+            title: "Account exists",
+            description: "An account with this email already exists. Please sign in instead.",
+            variant: "destructive",
+          });
+        } else if (error.message.includes('Invalid email')) {
+          toast({
+            title: "Invalid email",
+            description: "Please enter a valid email address.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Signup failed",
+            description: error.message,
+            variant: "destructive",
+          });
+        }
+        return;
+      }
+
+      if (data.user && !data.session) {
+        // Email confirmation required
+        toast({
+          title: "Check your email! 📧",
+          description: "We've sent you a confirmation link. Please check your inbox.",
+        });
+      } else if (data.session) {
+        // Auto-confirmed (if enabled)
+        toast({
+          title: "Welcome to Englishville! 🎉",
+          description: "Your account has been created successfully.",
+        });
+        navigate('/');
+      }
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -87,23 +163,6 @@ const Signup = () => {
           className="bg-card rounded-2xl shadow-card p-6 sm:p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Name Field */}
-            <div className="space-y-2">
-              <Label htmlFor="name">Your Name</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Enter your name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="pl-10 h-12"
-                  required
-                />
-              </div>
-            </div>
-
             {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email">Email Address</Label>
@@ -129,7 +188,7 @@ const Signup = () => {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Create a password"
+                  placeholder="Create a password (min 6 chars)"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   className="pl-10 pr-10 h-12"

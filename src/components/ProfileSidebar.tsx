@@ -23,9 +23,9 @@ const badgeIcons: Record<string, React.ComponentType<any>> = {
 export function ProfileSidebar({ isOpen, onClose, progress }: ProfileSidebarProps) {
   const navigate = useNavigate();
   
-  const handleLogout = () => {
-    localStorage.removeItem('englishville_logged_in');
-    localStorage.removeItem('englishville_user_name');
+  const handleLogout = async () => {
+    const { supabase } = await import('@/integrations/supabase/client');
+    await supabase.auth.signOut();
     navigate('/login');
     onClose();
   };
