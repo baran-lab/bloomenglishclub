@@ -129,12 +129,12 @@ const Login = () => {
           className="w-full max-w-3xl space-y-6"
         >
           <div className="text-center space-y-2">
-            <motion.h1
+              <motion.h1
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               className="font-fredoka text-3xl md:text-4xl font-bold text-foreground"
             >
-              Welcome to Englishville! 🏘️
+              Welcome to RealTalkEnglish! 🏘️
             </motion.h1>
             <p className="text-muted-foreground">
               Watch this short introduction to get started
@@ -202,7 +202,7 @@ const Login = () => {
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img
           src={heroImage}
-          alt="Englishville - A welcoming neighborhood"
+          alt="RealTalkEnglish - A welcoming neighborhood"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-transparent" />
@@ -214,10 +214,10 @@ const Login = () => {
             className="bg-card/90 backdrop-blur-sm rounded-2xl p-6 max-w-md shadow-card"
           >
             <h2 className="font-fredoka text-2xl font-bold text-foreground mb-2">
-              Welcome to Englishville!
+              Welcome to RealTalkEnglish!
             </h2>
             <p className="text-muted-foreground">
-              Join Marisol, Rosa, and friends as they learn everyday English in their American neighborhood. 🏘️
+              Learn everyday English through real conversations with your neighbors. 🏘️
             </p>
           </motion.div>
         </div>
@@ -241,7 +241,7 @@ const Login = () => {
               <Building2 className="w-10 h-10 text-primary-foreground" />
             </motion.div>
             <h1 className="font-fredoka text-3xl font-bold text-foreground">
-              Englishville
+              RealTalkEnglish
             </h1>
             <p className="text-muted-foreground mt-1">
               Learn English for everyday life
@@ -337,7 +337,7 @@ const Login = () => {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
-                New to Englishville?{" "}
+                New to RealTalkEnglish?{" "}
                 <Link
                   to="/signup"
                   className="text-primary font-semibold hover:underline"

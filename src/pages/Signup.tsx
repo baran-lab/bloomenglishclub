@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -68,6 +69,15 @@ const Signup = () => {
       return;
     }
 
+    if (!formData.fullName.trim()) {
+      toast({
+        title: "Full name required",
+        description: "Please enter your full name.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -78,6 +88,9 @@ const Signup = () => {
         password: formData.password,
         options: {
           emailRedirectTo: redirectUrl,
+          data: {
+            full_name: formData.fullName.trim(),
+          },
         },
       });
 
@@ -114,7 +127,7 @@ const Signup = () => {
       } else if (data.session) {
         // Auto-confirmed (if enabled)
         toast({
-          title: "Welcome to Englishville! 🎉",
+          title: "Welcome to RealTalkEnglish! 🎉",
           description: "Your account has been created successfully.",
         });
         navigate('/');
@@ -148,7 +161,7 @@ const Signup = () => {
             <span className="text-3xl">🐝</span>
           </motion.div>
           <h1 className="font-fredoka text-3xl font-bold text-foreground">
-            Join Englishville
+            Join RealTalkEnglish
           </h1>
           <p className="text-muted-foreground mt-2">
             Create your account and start learning!
@@ -163,6 +176,23 @@ const Signup = () => {
           className="bg-card rounded-2xl shadow-card p-6 sm:p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Full Name Field */}
+            <div className="space-y-2">
+              <Label htmlFor="fullName">Full Name</Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Input
+                  id="fullName"
+                  type="text"
+                  placeholder="Your full name"
+                  value={formData.fullName}
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  className="pl-10 h-12"
+                  required
+                />
+              </div>
+            </div>
+
             {/* Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email">Email Address</Label>
