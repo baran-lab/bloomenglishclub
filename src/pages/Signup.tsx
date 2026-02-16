@@ -118,13 +118,17 @@ const Signup = () => {
         return;
       }
 
-      if (data.user && !data.session) {
-        // Email confirmation required
+      // Check for fake/duplicate signup (Supabase returns user with empty identities)
+      if (data.user && data.user.identities && data.user.identities.length === 0) {
         toast({
-          title: "Check your email! 📧",
-          description: "We've sent you a confirmation link. Please check your inbox.",
+          title: "Account already exists",
+          description: "An account with this email already exists. Please sign in instead.",
+          variant: "destructive",
         });
-      } else if (data.session) {
+        return;
+      }
+
+      if (data.session) {
         // Auto-confirmed (if enabled)
         toast({
           title: "Welcome to RealTalkEnglish! 🎉",
