@@ -174,17 +174,6 @@ export const AddressVideoLesson: React.FC<AddressVideoLessonProps> = ({
               <h4 className="font-fredoka text-lg font-bold text-foreground mb-2">
                 Now say your address! 🏠
               </h4>
-              <p className="text-sm text-muted-foreground mb-4">
-                Follow this order:
-              </p>
-              <div className="p-4 bg-muted rounded-xl text-left">
-                <p className="font-medium text-foreground">
-                  📍 Number, Street, Apartment (optional), City, State, Zip Code
-                </p>
-                <p className="text-sm text-muted-foreground mt-2 italic">
-                  Example: "123 Main Street, Apartment 4B, Chicago, Illinois, 60601"
-                </p>
-              </div>
             </div>
 
             <div className="flex flex-col items-center gap-4">

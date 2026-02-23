@@ -22,6 +22,7 @@ import { NumbersAudioMatchingPractice } from '@/components/module2/NumbersAudioM
 import { AddressVideoLesson } from '@/components/module2/AddressVideoLesson';
 import { HebaListeningLesson } from '@/components/module2/HebaListeningLesson';
 import { AddressWordOrderPractice } from '@/components/module2/AddressWordOrderPractice';
+import { Module2Checklist } from '@/components/module2/Module2Checklist';
 import { module2Lessons, Module2Lesson } from '@/data/module2Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -133,6 +134,8 @@ const Module2Content: React.FC = () => {
         return <HebaListeningLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'address-word-order':
         return <AddressWordOrderPractice onComplete={handleLessonComplete} />;
+      case 'module-complete':
+        return <Module2Checklist onComplete={handleLessonComplete} userName={userName || 'friend'} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }
