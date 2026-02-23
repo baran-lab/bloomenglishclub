@@ -11,7 +11,7 @@ interface FatimaNeighborQuizProps {
 const fatimaVideos = [
   { url: '/videos/module1/fatima-1.mp4', question: 'What is her first name?', options: ['Fatima', 'Heba'], correctAnswer: 0 },
   { url: '/videos/module1/fatima-2.mp4', question: 'Where is she from?', options: ['Egypt', 'Bangladesh'], correctAnswer: 1 },
-  { url: '/videos/module1/fatima-3.mp4', question: 'How old is she?', options: ['31', '28'], correctAnswer: 0 },
+  { url: '/videos/module1/fatima-3.mp4', question: 'How old is she?', options: ['32', '28'], correctAnswer: 0 },
   { url: '/videos/module1/fatima-4.mp4', question: 'Is she married or single?', options: ['Married', 'Divorced'], correctAnswer: 1 },
   { url: '/videos/module1/fatima-5.mp4', question: 'What does she do?', options: ['Home Health Aide', 'Housekeeper'], correctAnswer: 0 },
   { url: '/videos/module1/fatima-6.mp4', question: 'Where does she live?', options: ['Apartment 2B', 'Apartment 3A'], correctAnswer: 0 },

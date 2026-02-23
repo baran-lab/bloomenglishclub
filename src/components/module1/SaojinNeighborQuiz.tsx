@@ -9,11 +9,11 @@ interface SaojinNeighborQuizProps {
 }
 
 const saojinVideos = [
-  { url: '/videos/module1/saojin-1.mp4', question: 'What is her first name?', options: ['Saojin', 'Minjoo'], correct: 0 },
-  { url: '/videos/module1/saojin-2.mp4', question: 'Where is she from?', options: ['Korea', 'Japan'], correct: 0 },
-  { url: '/videos/module1/saojin-3.mp4', question: 'How old is she?', options: ['32', '28'], correct: 0 },
-  { url: '/videos/module1/saojin-4.mp4', question: 'Is she married or single?', options: ['Single', 'Married'], correct: 0 },
-  { url: '/videos/module1/saojin-5.mp4', question: 'What does she do?', options: ['Nurse', 'Doctor'], correct: 0 },
+  { url: '/videos/module1/myn-saojin.mp4', question: 'What is her first name?', options: ['Saojin', 'Minjoo'], correct: 0 },
+  { url: '/videos/module1/myn-saojin.mp4', question: 'Where is she from?', options: ['Korea', 'Japan'], correct: 0 },
+  { url: '/videos/module1/myn-saojin.mp4', question: 'How old is she?', options: ['32', '28'], correct: 0 },
+  { url: '/videos/module1/myn-saojin.mp4', question: 'Is she married or single?', options: ['Single', 'Married'], correct: 0 },
+  { url: '/videos/module1/myn-saojin.mp4', question: 'What does she do?', options: ['Nurse', 'Doctor'], correct: 0 },
 ];
 
 export const SaojinNeighborQuiz: React.FC<SaojinNeighborQuizProps> = ({ onComplete }) => {

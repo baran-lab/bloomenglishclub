@@ -9,12 +9,12 @@ interface AhmedNeighborQuizProps {
 }
 
 const ahmedVideos = [
-  { url: '/videos/module1/ahmed-1.mp4', question: 'What is his first name?', options: ['Ahmet', 'Ahmed'], correct: 0 },
-  { url: '/videos/module1/ahmed-2.mp4', question: 'Where is he from?', options: ['Egypt', 'Morocco'], correct: 0 },
-  { url: '/videos/module1/ahmed-3.mp4', question: 'How old is he?', options: ['35', '40'], correct: 0 },
-  { url: '/videos/module1/ahmed-4.mp4', question: 'Is he married or single?', options: ['Married', 'Single'], correct: 0 },
-  { url: '/videos/module1/ahmed-5.mp4', question: 'What does he do?', options: ['Taxi Driver', 'Bus Driver'], correct: 0 },
-  { url: '/videos/module1/ahmed-6.mp4', question: 'Where does he live?', options: ['Apartment 3A', 'Apartment 2B'], correct: 0 },
+  { url: '/videos/module1/myn-ahmed-1.mp4', question: 'What is his first name?', options: ['Ahmet', 'Ahmed'], correct: 0 },
+  { url: '/videos/module1/myn-ahmed-2.mp4', question: 'Where is he from?', options: ['Egypt', 'Morocco'], correct: 0 },
+  { url: '/videos/module1/myn-ahmed-3.mp4', question: 'How old is he?', options: ['35', '40'], correct: 0 },
+  { url: '/videos/module1/myn-ahmed-4.mp4', question: 'Is he married or single?', options: ['Married', 'Single'], correct: 0 },
+  { url: '/videos/module1/myn-ahmed-5.mp4', question: 'What does he do?', options: ['Taxi Driver', 'Bus Driver'], correct: 0 },
+  { url: '/videos/module1/myn-ahmed-6.mp4', question: 'Where does he live?', options: ['Apartment 3A', 'Apartment 2B'], correct: 0 },
 ];
 
 export const AhmedNeighborQuiz: React.FC<AhmedNeighborQuizProps> = ({ onComplete }) => {

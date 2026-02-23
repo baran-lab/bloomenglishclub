@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Check, Home, Mic, Square, Play, RotateCcw } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, Home, Mic, Square, Play, RotateCcw, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +17,16 @@ interface AddressVideoLessonProps {
   userName?: string;
 }
 
+// Address component labels for validation
+const ADDRESS_PARTS = [
+  { id: 'number', label: 'Number', required: true },
+  { id: 'street', label: 'Street Name', required: true },
+  { id: 'apartment', label: 'Apartment (optional)', required: false },
+  { id: 'city', label: 'City', required: true },
+  { id: 'state', label: 'State', required: true },
+  { id: 'zip', label: 'Zip Code', required: true },
+];
+
 export const AddressVideoLesson: React.FC<AddressVideoLessonProps> = ({ 
   videos, 
   onComplete,
@@ -31,6 +41,9 @@ export const AddressVideoLesson: React.FC<AddressVideoLessonProps> = ({
   const [isRecording, setIsRecording] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [hasRecorded, setHasRecorded] = useState(false);
+  const [addressParts, setAddressParts] = useState<Record<string, string>>({});
+  const [addressFeedback, setAddressFeedback] = useState<string | null>(null);
+  const [addressValid, setAddressValid] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
@@ -71,7 +84,33 @@ export const AddressVideoLesson: React.FC<AddressVideoLessonProps> = ({
     }
   };
 
+  const handleAddressPartChange = (partId: string, value: string) => {
+    setAddressParts(prev => ({ ...prev, [partId]: value }));
+    setAddressFeedback(null);
+  };
+
+  const validateAddress = () => {
+    const missing: string[] = [];
+    ADDRESS_PARTS.forEach(part => {
+      if (part.required && (!addressParts[part.id] || addressParts[part.id].trim() === '')) {
+        missing.push(part.label);
+      }
+    });
+    
+    if (missing.length > 0) {
+      setAddressFeedback(`Please add: ${missing.join(', ')}`);
+      setAddressValid(false);
+      return false;
+    }
+    
+    setAddressFeedback(null);
+    setAddressValid(true);
+    return true;
+  };
+
   const startRecording = async () => {
+    if (!validateAddress()) return;
+    
     try {
       audioChunksRef.current = [];
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -105,6 +144,18 @@ export const AddressVideoLesson: React.FC<AddressVideoLessonProps> = ({
 
   const playRecording = () => {
     if (audioUrl) new Audio(audioUrl).play();
+  };
+
+  // Build the full address string for display
+  const getFullAddress = () => {
+    const parts: string[] = [];
+    if (addressParts.number) parts.push(addressParts.number);
+    if (addressParts.street) parts.push(addressParts.street);
+    if (addressParts.apartment) parts.push(addressParts.apartment);
+    if (addressParts.city) parts.push(addressParts.city);
+    if (addressParts.state) parts.push(addressParts.state);
+    if (addressParts.zip) parts.push(addressParts.zip);
+    return parts.join(', ');
   };
 
   return (
@@ -174,7 +225,52 @@ export const AddressVideoLesson: React.FC<AddressVideoLessonProps> = ({
               <h4 className="font-fredoka text-lg font-bold text-foreground mb-2">
                 Now say your address! 🏠
               </h4>
+              <p className="text-sm text-muted-foreground">
+                Fill in each part of your address, then record yourself saying it.
+              </p>
             </div>
+
+            {/* Address Parts Form */}
+            <div className="space-y-3">
+              {ADDRESS_PARTS.map((part) => (
+                <div key={part.id} className="flex items-center gap-3">
+                  <label className="text-sm font-medium text-foreground w-32 flex-shrink-0">
+                    {part.label}
+                  </label>
+                  <input
+                    type="text"
+                    value={addressParts[part.id] || ''}
+                    onChange={(e) => handleAddressPartChange(part.id, e.target.value)}
+                    placeholder={part.required ? 'Required' : 'Optional'}
+                    className="flex-1 px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Address feedback */}
+            {addressFeedback && (
+              <motion.div
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center gap-2 p-3 bg-amber-500/10 rounded-xl"
+              >
+                <AlertCircle className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                <p className="text-sm text-amber-700 dark:text-amber-400">{addressFeedback}</p>
+              </motion.div>
+            )}
+
+            {/* Show composed address */}
+            {addressValid && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="p-3 bg-muted rounded-xl text-center"
+              >
+                <p className="text-xs text-muted-foreground mb-1">Your address:</p>
+                <p className="font-medium text-foreground text-sm">{getFullAddress()}</p>
+              </motion.div>
+            )}
 
             <div className="flex flex-col items-center gap-4">
               <motion.button
