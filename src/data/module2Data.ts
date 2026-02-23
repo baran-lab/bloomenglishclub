@@ -144,20 +144,20 @@ export const hebaTelephoneVideos = [
   { url: '/videos/module2/heba-tel-no.mp4', title: 'My telephone number is...', subtitle: 'Practice', sentenceToRecord: 'My telephone number is...' },
 ];
 
-// Heba Video Series - Address (Videos 11-12) - Video 2 is listen only
+// Heba Video Series - Address (Videos 11-12) - Video 2 replaced with M2 Heba Address
 export const hebaAddressVideos = [
   { url: '/videos/module2/heba-11.mp4', title: "What's your address?", subtitle: "What's your address?", sentenceToRecord: "What's your address?" },
-  { url: '/videos/module2/heba-12.mp4', title: 'My address is...', subtitle: 'Listen only', listenOnly: true },
+  { url: '/videos/module2/m2-heba-address.mp4', title: 'My address is...', subtitle: 'Listen and learn', listenOnly: true },
 ];
 
-// Heba Video Series - How to say your address (Videos 13-18) - Listening only, auto-play, with translations
+// Heba Video Series - How to say your address - Updated with new M2 Heba videos
 export const hebaAddressHowToVideos = [
-  { url: '/videos/module2/heba-13.mp4', title: 'Street address', subtitle: 'Street number and name', listenOnly: true },
-  { url: '/videos/module2/heba-14.mp4', title: 'City and state', subtitle: 'City and state', listenOnly: true },
-  { url: '/videos/module2/heba-15.mp4', title: 'Zip code', subtitle: 'Zip code', listenOnly: true },
-  { url: '/videos/module2/heba-16.mp4', title: 'Full address', subtitle: 'Putting it together', listenOnly: true },
-  { url: '/videos/module2/heba-17.mp4', title: 'Practice', subtitle: 'Practice', listenOnly: true },
-  { url: '/videos/module2/heba-18.mp4', title: 'Review', subtitle: 'Review', listenOnly: true, showTranslation: true },
+  { url: '/videos/module2/heba-13.mp4', title: 'I live at...', subtitle: 'Note: "live" (verb) rhymes with "give"', listenOnly: true },
+  { url: '/videos/module2/m2-heba-street.mp4', title: 'Street', subtitle: 'Street number and name', listenOnly: true },
+  { url: '/videos/module2/m2-heba-apartment.mp4', title: 'Apartment', subtitle: 'Apartment number', listenOnly: true },
+  { url: '/videos/module2/m2-heba-city.mp4', title: 'City', subtitle: 'City name', listenOnly: true },
+  { url: '/videos/module2/m2-heba-state.mp4', title: 'State', subtitle: 'State name', listenOnly: true },
+  { url: '/videos/module2/m2-heba-zip-code.mp4', title: 'Zip Code', subtitle: 'Note: "live" (verb) rhymes with "give", not "five"', listenOnly: true },
 ];
 
 // Spelling Practice Data
@@ -285,7 +285,7 @@ export interface Module2Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'alphabet' | 'alphabet-matching' | 'vocabulary' | 'vocabulary-matching' | 'ordinal-numbers' | 'ordinal-audio-matching' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'numbers-audio-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice' | 'address-video-series' | 'listening-lesson' | 'address-word-order';
+  type: 'alphabet' | 'alphabet-matching' | 'vocabulary' | 'vocabulary-matching' | 'ordinal-numbers' | 'ordinal-audio-matching' | 'video-series' | 'name-recording' | 'spelling-practice' | 'numbers-matching' | 'numbers-audio-matching' | 'months' | 'months-order' | 'telephone-practice' | 'date-of-birth-practice' | 'address-video-series' | 'listening-lesson' | 'address-word-order' | 'module-complete';
   content?: VocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
   spellingData?: typeof spellingPracticeData;
@@ -548,5 +548,13 @@ export const module2Lessons: Module2Lesson[] = [
     type: 'address-word-order',
     isCompleted: false,
     duration: '5 min',
+  },
+  {
+    id: 'm2-lesson-25',
+    title: 'Module 2 Complete!',
+    description: 'Review everything you learned in Module 2',
+    type: 'module-complete',
+    isCompleted: false,
+    duration: '2 min',
   },
 ];
