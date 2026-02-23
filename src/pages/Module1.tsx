@@ -66,7 +66,7 @@ const Module1Content: React.FC = () => {
     if (!lessonId) return;
 
     // Handle special neighbor quiz routes that aren't in the data
-    const specialNeighborQuizzes = ['neighbor-marisol-quiz', 'neighbor-rosa-quiz', 'neighbor-fatima'];
+    const specialNeighborQuizzes = ['neighbor-marisol-quiz', 'neighbor-rosa-quiz', 'neighbor-fatima', 'neighbor-ahmed'];
     if (specialNeighborQuizzes.includes(lessonId)) {
       setActiveLesson({ 
         id: lessonId, 
@@ -233,6 +233,9 @@ const Module1Content: React.FC = () => {
         }
         if (lesson.id === 'neighbor-fatima') {
           return <FatimaNeighborQuiz onComplete={handleLessonComplete} />;
+        }
+        if (lesson.id === 'neighbor-ahmed') {
+          return <AhmedNeighborQuiz onComplete={handleLessonComplete} />;
         }
         return <VideoLesson lesson={lesson} onComplete={handleLessonComplete} onNext={() => setViewState('lessons')} />;
     }

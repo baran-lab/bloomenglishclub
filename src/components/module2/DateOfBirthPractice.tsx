@@ -3,14 +3,100 @@ import { motion } from 'framer-motion';
 import { Mic, Square, Play, RotateCcw, Volume2, Home, ChevronRight, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '@/components/LanguageContext';
 
 interface DateOfBirthPracticeProps {
   onComplete: () => void;
   userName?: string;
 }
 
+const dobTranslations: Record<string, Record<string, string>> = {
+  arabic: {
+    title: 'تدريب على تاريخ الميلاد',
+    subtitle: 'قل تاريخ ميلادك باستخدام الأعداد الترتيبية لليوم',
+    languageUse: '🗣️ كيف تقول تاريخ ميلادك',
+    correct: '✅ صحيح:',
+    incorrect: '❌ خطأ:',
+    useOrdinal: 'استخدم دائمًا الأعداد الترتيبية لليوم',
+    sayYourDob: 'قل تاريخ ميلادك:',
+    prompt: '"إنه ……."',
+    tapToRecord: 'اضغط للتسجيل',
+    tapToStop: 'اضغط للإيقاف',
+    tooShort: 'التسجيل قصير جدًا. حاول مرة أخرى.',
+    greatJob: 'أحسنت!',
+    listenCheck: 'استمع لتسجيلك للتأكد.',
+    continue: 'متابعة',
+  },
+  bengali: {
+    title: 'জন্ম তারিখ অনুশীলন',
+    subtitle: 'দিনের জন্য ক্রমবাচক সংখ্যা ব্যবহার করে আপনার জন্ম তারিখ বলুন',
+    languageUse: '🗣️ কিভাবে আপনার জন্ম তারিখ বলবেন',
+    correct: '✅ সঠিক:',
+    incorrect: '❌ ভুল:',
+    useOrdinal: 'সবসময় দিনের জন্য ক্রমবাচক সংখ্যা ব্যবহার করুন',
+    sayYourDob: 'আপনার জন্ম তারিখ বলুন:',
+    prompt: '"এটা ……."',
+    tapToRecord: 'রেকর্ড করতে ট্যাপ করুন',
+    tapToStop: 'থামাতে ট্যাপ করুন',
+    tooShort: 'রেকর্ডিং খুব ছোট। আবার চেষ্টা করুন।',
+    greatJob: 'দারুণ!',
+    listenCheck: 'আপনার রেকর্ডিং শুনুন।',
+    continue: 'পরবর্তী',
+  },
+  korean: {
+    title: '생년월일 연습',
+    subtitle: '서수를 사용하여 생년월일을 말하세요',
+    languageUse: '🗣️ 생년월일 말하는 법',
+    correct: '✅ 맞음:',
+    incorrect: '❌ 틀림:',
+    useOrdinal: '항상 날짜에 서수를 사용하세요',
+    sayYourDob: '생년월일을 말하세요:',
+    prompt: '"그것은 ……."',
+    tapToRecord: '녹음하려면 탭하세요',
+    tapToStop: '중지하려면 탭하세요',
+    tooShort: '녹음이 너무 짧습니다. 다시 시도하세요.',
+    greatJob: '잘했어요!',
+    listenCheck: '녹음을 들어보세요.',
+    continue: '계속',
+  },
+  spanish: {
+    title: 'Práctica de Fecha de Nacimiento',
+    subtitle: 'Di tu fecha de nacimiento usando números ordinales para el día',
+    languageUse: '🗣️ Cómo decir tu fecha de nacimiento',
+    correct: '✅ Correcto:',
+    incorrect: '❌ Incorrecto:',
+    useOrdinal: 'Siempre usa números ordinales para el día',
+    sayYourDob: 'Di tu fecha de nacimiento:',
+    prompt: '"Es ……."',
+    tapToRecord: 'Toca para grabar',
+    tapToStop: 'Toca para detener',
+    tooShort: 'Grabación muy corta. Intenta de nuevo.',
+    greatJob: '¡Buen trabajo!',
+    listenCheck: 'Escucha tu grabación.',
+    continue: 'Continuar',
+  },
+  turkish: {
+    title: 'Doğum Tarihi Pratiği',
+    subtitle: 'Gün için sıra sayılarını kullanarak doğum tarihinizi söyleyin',
+    languageUse: '🗣️ Doğum tarihinizi nasıl söylersiniz',
+    correct: '✅ Doğru:',
+    incorrect: '❌ Yanlış:',
+    useOrdinal: 'Gün için her zaman sıra sayılarını kullanın',
+    sayYourDob: 'Doğum tarihinizi söyleyin:',
+    prompt: '"O ……."',
+    tapToRecord: 'Kaydetmek için dokunun',
+    tapToStop: 'Durdurmak için dokunun',
+    tooShort: 'Kayıt çok kısa. Tekrar deneyin.',
+    greatJob: 'Harika!',
+    listenCheck: 'Kaydınızı dinleyin.',
+    continue: 'Devam',
+  },
+};
+
 export const DateOfBirthPractice: React.FC<DateOfBirthPracticeProps> = ({ onComplete, userName = 'friend' }) => {
   const navigate = useNavigate();
+  const { selectedLanguage } = useLanguage();
+  const t = dobTranslations[selectedLanguage] || dobTranslations.spanish;
   const [isRecording, setIsRecording] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [hasRecorded, setHasRecorded] = useState(false);
@@ -46,7 +132,7 @@ export const DateOfBirthPractice: React.FC<DateOfBirthPracticeProps> = ({ onComp
         
         // Check if recording was long enough
         if (recordingDuration < 800) {
-          setFeedback("Recording too short. Please try again and say your complete date of birth.");
+          setFeedback(t.tooShort);
           setHasRecorded(false);
         } else {
           const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
@@ -84,7 +170,7 @@ export const DateOfBirthPractice: React.FC<DateOfBirthPracticeProps> = ({ onComp
 
       <div className="text-center">
         <h3 className="font-fredoka text-xl font-bold">Date of Birth Practice</h3>
-        <p className="text-sm text-muted-foreground mt-1">Say your date of birth using ordinal numbers for the day</p>
+        <p className="text-sm text-muted-foreground mt-1">{t.subtitle}</p>
       </div>
 
       <div className="bg-card rounded-2xl border p-6 space-y-6">
@@ -96,12 +182,12 @@ export const DateOfBirthPractice: React.FC<DateOfBirthPracticeProps> = ({ onComp
             </div>
             <div>
               <p className="text-sm font-semibold text-blue-700 dark:text-blue-400">
-                🗣️ Language Use: How to Say Your Date of Birth
+                {t.languageUse}
               </p>
               <div className="text-xs text-muted-foreground mt-2 space-y-1">
-                <p>✅ <strong>Correct:</strong> "January <em>fifteenth</em>, nineteen ninety"</p>
-                <p>❌ <strong>Incorrect:</strong> "January fifteen, nineteen ninety"</p>
-                <p className="mt-2">Always use ordinal numbers for the day:</p>
+                <p>{t.correct} "January <em>fifteenth</em>, nineteen ninety"</p>
+                <p>{t.incorrect} "January fifteen, nineteen ninety"</p>
+                <p className="mt-2">{t.useOrdinal}:</p>
                 <ul className="list-disc list-inside pl-2">
                   <li>1st = first, 2nd = second, 3rd = third</li>
                   <li>4th = fourth, 5th = fifth, etc.</li>
@@ -134,8 +220,8 @@ export const DateOfBirthPractice: React.FC<DateOfBirthPracticeProps> = ({ onComp
         </div>
 
         <div className="text-center p-4 bg-muted/50 rounded-xl">
-          <p className="text-sm text-muted-foreground mb-2">Say your date of birth:</p>
-          <p className="font-medium text-foreground">"My date of birth is..."</p>
+          <p className="text-sm text-muted-foreground mb-2">{t.sayYourDob}</p>
+          <p className="font-medium text-foreground">"It's ……."</p>
         </div>
 
         <div className="flex flex-col items-center gap-4">
@@ -149,7 +235,7 @@ export const DateOfBirthPractice: React.FC<DateOfBirthPracticeProps> = ({ onComp
             {isRecording ? <Square className="w-8 h-8" /> : <Mic className="w-8 h-8" />}
           </motion.button>
           <p className="text-sm text-muted-foreground">
-            {isRecording ? 'Tap to stop' : 'Tap to record'}
+            {isRecording ? t.tapToStop : t.tapToRecord}
           </p>
         </div>
 
@@ -174,13 +260,13 @@ export const DateOfBirthPractice: React.FC<DateOfBirthPracticeProps> = ({ onComp
               </Button>
             </div>
             <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl text-center">
-              <p className="text-green-700 dark:text-green-400 font-medium">Great job, {userName}! 🎉</p>
+              <p className="text-green-700 dark:text-green-400 font-medium">{t.greatJob} {userName}! 🎉</p>
               <p className="text-sm text-muted-foreground mt-1">
-                Listen to your recording to check you used ordinal numbers correctly.
+                {t.listenCheck}
               </p>
             </div>
             <Button onClick={onComplete} className="w-full gap-2">
-              Continue <ChevronRight className="w-4 h-4" />
+              {t.continue} <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
         )}

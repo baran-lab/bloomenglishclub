@@ -26,8 +26,8 @@ export const VocabularyMatchingPractice: React.FC<VocabularyMatchingPracticeProp
   const [wrongPair, setWrongPair] = useState<boolean>(false);
   const [shuffledTranslations, setShuffledTranslations] = useState<VocabularyItem[]>([]);
 
-  // Batch size of 5 words at a time
-  const BATCH_SIZE = 5;
+  // Batch size of 6-7 words at a time (two sections instead of three)
+  const BATCH_SIZE = Math.ceil(vocabulary.length / 2);
   const totalBatches = Math.ceil(vocabulary.length / BATCH_SIZE);
   const startIdx = currentBatch * BATCH_SIZE;
   const currentVocab = vocabulary.slice(startIdx, startIdx + BATCH_SIZE);

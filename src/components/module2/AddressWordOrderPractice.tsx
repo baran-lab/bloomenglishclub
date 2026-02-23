@@ -88,9 +88,9 @@ export const AddressWordOrderPractice: React.FC<AddressWordOrderPracticeProps> =
       </Button>
 
       <div className="text-center">
-        <h3 className="font-fredoka text-xl font-bold text-foreground">Put the Words in Order</h3>
+        <h3 className="font-fredoka text-xl font-bold text-foreground">Arrange the Address</h3>
         <p className="text-sm text-muted-foreground mt-1">
-          Arrange Heba's address in the correct order
+          Arrange the address in the correct order
         </p>
       </div>
 
