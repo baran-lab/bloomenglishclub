@@ -38,27 +38,27 @@ export const module3Vocabulary3: VocabularyItem[] = [
 
 // Where is the ...? Videos
 export const whereIsTheVideos = [
-  { url: '/videos/module3/m3-on.mp4', title: 'On', subtitle: 'On', sentenceToRecord: 'On' },
-  { url: '/videos/module3/m3-next-to.mp4', title: 'Next to', subtitle: 'Next to', sentenceToRecord: 'Next to' },
-  { url: '/videos/module3/m3-on-the-corner-of.mp4', title: 'On the corner of', subtitle: 'On the corner of', sentenceToRecord: 'On the corner of' },
-  { url: '/videos/module3/m3-between.mp4', title: 'Between', subtitle: 'Between', sentenceToRecord: 'Between' },
-  { url: '/videos/module3/m3-in-front-of.mp4', title: 'In front of', subtitle: 'In front of', sentenceToRecord: 'In front of' },
-  { url: '/videos/module3/m3-behind.mp4', title: 'Behind', subtitle: 'Behind', sentenceToRecord: 'Behind' },
-  { url: '/videos/module3/m3-across-from.mp4', title: 'Across from', subtitle: 'Across from', sentenceToRecord: 'Across from' },
-  { url: '/videos/module3/m3-near.mp4', title: 'Near', subtitle: 'Near', sentenceToRecord: 'Near' },
+  { url: '/videos/module3/m3-on-the.mp4', title: 'On the', subtitle: 'On the', sentenceToRecord: 'On the' },
+  { url: '/videos/module3/m3-next-to-the.mp4', title: 'Next to the', subtitle: 'Next to the', sentenceToRecord: 'Next to the' },
+  { url: '/videos/module3/m3-on-the-corner.mp4', title: 'On the corner of the', subtitle: 'On the corner of the', sentenceToRecord: 'On the corner of the' },
+  { url: '/videos/module3/m3-between-the.mp4', title: 'Between the', subtitle: 'Between the', sentenceToRecord: 'Between the' },
+  { url: '/videos/module3/m3-in-front-of-the.mp4', title: 'In front of the', subtitle: 'In front of the', sentenceToRecord: 'In front of the' },
+  { url: '/videos/module3/m3-across-from-the.mp4', title: 'Across from the', subtitle: 'Across from the', sentenceToRecord: 'Across from the' },
+  { url: '/videos/module3/m3-behind-the.mp4', title: 'Behind the', subtitle: 'Behind the', sentenceToRecord: 'Behind the' },
+  { url: '/videos/module3/m3-near-the.mp4', title: 'Near the', subtitle: 'Near the', sentenceToRecord: 'Near the' },
 ];
 
 // Ali's Neighborhood Videos (Lesson 6)
 export const aliNeighborhoodVideos = [
   { url: '/videos/module3/m3-ali-1.mp4', title: 'Ali\'s Neighborhood', subtitle: 'Listen to Ali describe his neighborhood', listenOnly: true },
-  { url: '/videos/module3/m3-on-1.mp4', title: 'On', subtitle: 'On', sentenceToRecord: 'On' },
-  { url: '/videos/module3/m3-next-to-2.mp4', title: 'Next to', subtitle: 'Next to', sentenceToRecord: 'Next to' },
-  { url: '/videos/module3/m3-on-the-corner-of-3.mp4', title: 'On the corner of', subtitle: 'On the corner of', sentenceToRecord: 'On the corner of' },
-  { url: '/videos/module3/m3-between-4.mp4', title: 'Between', subtitle: 'Between', sentenceToRecord: 'Between' },
-  { url: '/videos/module3/m3-across-from-5.mp4', title: 'Across from', subtitle: 'Across from', sentenceToRecord: 'Across from' },
-  { url: '/videos/module3/m3-behind-6.mp4', title: 'Behind', subtitle: 'Behind', sentenceToRecord: 'Behind' },
-  { url: '/videos/module3/m3-in-front-of-7.mp4', title: 'In front of', subtitle: 'In front of', sentenceToRecord: 'In front of' },
-  { url: '/videos/module3/m3-near-8.mp4', title: 'Near', subtitle: 'Near', sentenceToRecord: 'Near' },
+  { url: '/videos/module3/m3-on-1.mp4', title: 'On', subtitle: 'The gym is on Main Street.', sentenceToRecord: 'The gym is on Main Street.' },
+  { url: '/videos/module3/m3-next-to-2.mp4', title: 'Next to', subtitle: 'The coffee shop is next to the pharmacy.', sentenceToRecord: 'The coffee shop is next to the pharmacy.' },
+  { url: '/videos/module3/m3-on-the-corner-of-3.mp4', title: 'On the corner of', subtitle: 'The hospital is on the corner of Main Street and First Avenue.', sentenceToRecord: 'The hospital is on the corner of Main Street and First Avenue.' },
+  { url: '/videos/module3/m3-between-4.mp4', title: 'Between', subtitle: 'The park is between the hospital and the school.', sentenceToRecord: 'The park is between the hospital and the school.' },
+  { url: '/videos/module3/m3-across-from-5.mp4', title: 'Across from', subtitle: 'The bus stop is across from the park.', sentenceToRecord: 'The bus stop is across from the park.' },
+  { url: '/videos/module3/m3-behind-6.mp4', title: 'Behind', subtitle: 'The parking lot is behind the gym.', sentenceToRecord: 'The parking lot is behind the gym.' },
+  { url: '/videos/module3/m3-in-front-of-7.mp4', title: 'In front of', subtitle: 'The bench is in front of the coffee shop.', sentenceToRecord: 'The bench is in front of the coffee shop.' },
+  { url: '/videos/module3/m3-near-8.mp4', title: 'Near', subtitle: 'The pharmacy is near the hospital.', sentenceToRecord: 'The pharmacy is near the hospital.' },
 ];
 
 // Module 3 Lesson interface
