@@ -93,6 +93,8 @@ const Module3Content: React.FC = () => {
         return <VocabularyMatchingPractice vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'video-series':
         return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'listening-quiz':
+        return <ListeningChoiceQuiz questions={lesson.listeningQuestions || []} onComplete={handleLessonComplete} title={lesson.title} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }
