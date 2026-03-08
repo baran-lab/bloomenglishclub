@@ -230,4 +230,13 @@ export const module3Lessons: Module3Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
+  {
+    id: 'm3-lesson-9',
+    title: 'Where is the…? Practice 1',
+    description: 'Listen and choose the sentence you hear',
+    type: 'listening-quiz',
+    listeningQuestions: whereIsThePractice1,
+    isCompleted: false,
+    duration: '10 min',
+  },
 ];
