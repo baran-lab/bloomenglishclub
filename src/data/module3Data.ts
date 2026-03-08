@@ -210,16 +210,6 @@ export interface Module3Lesson {
   isCompleted: boolean;
   duration?: string;
 }
-  id: string;
-  title: string;
-  description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz';
-  content?: VocabularyItem[];
-  videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
-  listeningQuestions?: ListeningQuizQuestion[];
-  isCompleted: boolean;
-  duration?: string;
-}
 
 // Module 3 Lessons
 export const module3Lessons: Module3Lesson[] = [
