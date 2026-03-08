@@ -61,14 +61,97 @@ export const aliNeighborhoodVideos = [
   { url: '/videos/module3/m3-near-8.mp4', title: 'Near', subtitle: 'The pharmacy is near the hospital.', sentenceToRecord: 'The pharmacy is near the hospital.' },
 ];
 
+// Where is the...? Practice 1 - Listening Quiz
+export interface ListeningQuizQuestion {
+  videoUrl: string;
+  correctAnswer: string;
+  options: string[];
+}
+
+export const whereIsThePractice1: ListeningQuizQuestion[] = [
+  {
+    videoUrl: '/videos/module3/m3-p1.mp4',
+    correctAnswer: 'The apartment building is ON Bliss Avenue.',
+    options: [
+      'The pharmacy is BETWEEN the bus stop and the grocery store.',
+      'The apartment building is ON Bliss Avenue.',
+      'The mailbox is IN FRONT OF the park.',
+    ],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p2.mp4',
+    correctAnswer: 'The grocery store is NEXT TO the apartment building.',
+    options: [
+      'The grocery store is NEXT TO the apartment building.',
+      'The pharmacy is BETWEEN the bus stop and the grocery store.',
+      'The mailbox is IN FRONT OF the park.',
+    ],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p3.mp4',
+    correctAnswer: 'The bus stop is ON THE CORNER OF Bliss Avenue and Main Street.',
+    options: [
+      'The museum is ACROSS FROM the grocery store.',
+      'The bus stop is ON THE CORNER OF Bliss Avenue and Main Street.',
+      'The school is BEHIND the bus stop.',
+    ],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p4.mp4',
+    correctAnswer: 'The pharmacy is BETWEEN the bus stop and the grocery store.',
+    options: [
+      'The school is BEHIND the bus stop.',
+      'The museum is ACROSS FROM the grocery store.',
+      'The pharmacy is BETWEEN the bus stop and the grocery store.',
+    ],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p5.mp4',
+    correctAnswer: 'The museum is ACROSS FROM the grocery store.',
+    options: [
+      'The museum is ACROSS FROM the grocery store.',
+      'The bus stop is ON THE CORNER OF Bliss Avenue and Main Street.',
+      'The parking lot is NEAR the school.',
+    ],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p6.mp4',
+    correctAnswer: 'The school is BEHIND the bus stop.',
+    options: [
+      'The apartment building is ON Bliss Avenue.',
+      'The bus stop is ON THE CORNER OF Bliss Avenue and Main Street.',
+      'The school is BEHIND the bus stop.',
+    ],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p7.mp4',
+    correctAnswer: 'The mailbox is IN FRONT OF the park.',
+    options: [
+      'The school is BEHIND the bus stop.',
+      'The mailbox is IN FRONT OF the park.',
+      'The museum is ACROSS FROM the grocery store.',
+    ],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p8.mp4',
+    correctAnswer: 'The parking lot is NEAR the school.',
+    options: [
+      'The pharmacy is BETWEEN the bus stop and the grocery store.',
+      'The museum is ACROSS FROM the grocery store.',
+      'The parking lot is NEAR the school.',
+    ],
+  },
+];
+
 // Module 3 Lesson interface
 export interface Module3Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'video-series';
+  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz';
   content?: VocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
+  listeningQuestions?: ListeningQuizQuestion[];
   isCompleted: boolean;
   duration?: string;
 }
@@ -146,5 +229,14 @@ export const module3Lessons: Module3Lesson[] = [
     content: module3Vocabulary3,
     isCompleted: false,
     duration: '5 min',
+  },
+  {
+    id: 'm3-lesson-9',
+    title: 'Where is the…? Practice 1',
+    description: 'Listen and choose the sentence you hear',
+    type: 'listening-quiz',
+    listeningQuestions: whereIsThePractice1,
+    isCompleted: false,
+    duration: '10 min',
   },
 ];
