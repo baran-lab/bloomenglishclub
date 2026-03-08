@@ -10,6 +10,7 @@ import { VocabularyLesson } from '@/components/module1/VocabularyLesson';
 import { VocabularyMatchingPractice } from '@/components/module1/VocabularyMatchingPractice';
 import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { ListeningChoiceQuiz } from '@/components/module3/ListeningChoiceQuiz';
+import { VideoFillInBlankQuiz } from '@/components/module3/VideoFillInBlankQuiz';
 import { module3Lessons, Module3Lesson } from '@/data/module3Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -95,6 +96,8 @@ const Module3Content: React.FC = () => {
         return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'listening-quiz':
         return <ListeningChoiceQuiz questions={lesson.listeningQuestions || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'video-fill-in-blank':
+        return <VideoFillInBlankQuiz questions={lesson.fillInBlankQuestions || []} onComplete={handleLessonComplete} title={lesson.title} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }
