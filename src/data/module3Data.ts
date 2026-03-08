@@ -143,8 +143,73 @@ export const whereIsThePractice1: ListeningQuizQuestion[] = [
   },
 ];
 
+// Where is the...? Practice 2 - Fill in the blank
+export interface VideoFillInBlankItem {
+  videoUrl: string;
+  question: string;
+  sentenceBefore: string;
+  sentenceAfter: string;
+  correctAnswers: string[];
+}
+
+export const whereIsThePractice2: VideoFillInBlankItem[] = [
+  {
+    videoUrl: '/videos/module3/m3-p1a.mp4',
+    question: 'Where is the restaurant?',
+    sentenceBefore: "It's",
+    sentenceAfter: 'Bliss Avenue.',
+    correctAnswers: ['on', 'ON', 'On', 'oN'],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p1b.mp4',
+    question: 'Where is the park?',
+    sentenceBefore: "It's",
+    sentenceAfter: 'Bliss Avenue and Main Street.',
+    correctAnswers: ['on the corner of', 'On The Corner Of', 'ON THE CORNER OF'],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p1c.mp4',
+    question: 'Where is the library?',
+    sentenceBefore: "It's",
+    sentenceAfter: 'the school and the restaurant.',
+    correctAnswers: ['between', 'Between', 'BETWEEN'],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p1d.mp4',
+    question: 'Where is the gym?',
+    sentenceBefore: "It's",
+    sentenceAfter: 'the apartment building.',
+    correctAnswers: ['across from', 'Across From', 'ACROSS FROM', 'Across from'],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p1e.mp4',
+    question: 'Where is the bench?',
+    sentenceBefore: "It's",
+    sentenceAfter: 'the grocery.',
+    correctAnswers: ['in front of', 'In Front Of', 'IN FRONT OF', 'In front of'],
+  },
+  {
+    videoUrl: '/videos/module3/m3-p1f.mp4',
+    question: 'Where is the bank?',
+    sentenceBefore: "It's",
+    sentenceAfter: 'the community center.',
+    correctAnswers: ['next to', 'Next To', 'NEXT TO', 'Next to'],
+  },
+];
+
 // Module 3 Lesson interface
 export interface Module3Lesson {
+  id: string;
+  title: string;
+  description: string;
+  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz' | 'video-fill-in-blank';
+  content?: VocabularyItem[];
+  videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
+  listeningQuestions?: ListeningQuizQuestion[];
+  fillInBlankQuestions?: VideoFillInBlankItem[];
+  isCompleted: boolean;
+  duration?: string;
+}
   id: string;
   title: string;
   description: string;
