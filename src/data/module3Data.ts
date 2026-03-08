@@ -294,4 +294,13 @@ export const module3Lessons: Module3Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
+  {
+    id: 'm3-lesson-10',
+    title: 'Where is the…? Practice 2',
+    description: 'Listen and write the correct preposition',
+    type: 'video-fill-in-blank',
+    fillInBlankQuestions: whereIsThePractice2,
+    isCompleted: false,
+    duration: '10 min',
+  },
 ];
