@@ -280,14 +280,14 @@ export const practice3Items: Practice3Item[] = [
   {
     type: 'read-along',
     readAlong: {
-      videoUrl: '/videos/module3/m3-p3d.mp4',
+      videoUrl: '/videos/module3/m3-d1.mp4',
       sentence: 'Turn right on Main Street. Go straight ahead. It\'s between the playground and the fire station.',
     },
   },
   {
     type: 'read-along',
     readAlong: {
-      videoUrl: '/videos/module3/m3-p3e.mp4',
+      videoUrl: '/videos/module3/m3-e1.mp4',
       sentence: 'Go straight on Main Street. It\'s on your right, next to the parking lot.',
     },
   },
