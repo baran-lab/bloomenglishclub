@@ -12,6 +12,7 @@ import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { ListeningChoiceQuiz } from '@/components/module3/ListeningChoiceQuiz';
 import { VideoFillInBlankQuiz } from '@/components/module3/VideoFillInBlankQuiz';
 import { DirectionsOrderQuiz } from '@/components/module3/DirectionsOrderQuiz';
+import { Module3Checklist } from '@/components/module3/Module3Checklist';
 import { Practice3Quiz } from '@/components/module3/Practice3Quiz';
 import { TravelPracticeQuiz } from '@/components/module3/TravelPracticeQuiz';
 import { module3Lessons, Module3Lesson } from '@/data/module3Data';
@@ -117,6 +118,8 @@ const Module3Content: React.FC = () => {
             mode={mode}
           />
         );
+      case 'module-complete':
+        return <Module3Checklist onComplete={handleLessonComplete} userName={userName || 'friend'} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }

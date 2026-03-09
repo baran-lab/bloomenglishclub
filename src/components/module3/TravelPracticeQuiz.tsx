@@ -134,19 +134,57 @@ const WordOrderMode: React.FC<{
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
+  const [audioPlayed, setAudioPlayed] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const { selectedLanguage } = useLanguage();
 
   const sentence = sentences[currentIndex];
   const correctWords = sentence.text.replace(/[?.!,]$/g, '').split(' ');
 
   useEffect(() => {
-    const words = sentence.text.replace(/[?.!,]/g, '').split(' ');
-    setAvailableWords(shuffleArray(words));
     setSelectedWords([]);
     setShowResult(false);
     setIsCorrect(false);
     setShowTranslation(false);
+    setAudioPlayed(false);
+    setIsPlayingAudio(false);
+    // Auto-play audio when sentence loads
+    if (sentence.audioUrl) {
+      const timer = setTimeout(() => {
+        playAudio();
+      }, 400);
+      return () => clearTimeout(timer);
+    } else {
+      // No audio, show words immediately
+      const words = sentence.text.replace(/[?.!,]/g, '').split(' ');
+      setAvailableWords(shuffleArray(words));
+      setAudioPlayed(true);
+    }
   }, [currentIndex]);
+
+  const playAudio = () => {
+    if (audioRef.current && sentence.audioUrl) {
+      setIsPlayingAudio(true);
+      audioRef.current.src = sentence.audioUrl;
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {
+        setIsPlayingAudio(false);
+        const words = sentence.text.replace(/[?.!,]/g, '').split(' ');
+        setAvailableWords(shuffleArray(words));
+        setAudioPlayed(true);
+      });
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlayingAudio(false);
+    if (!audioPlayed) {
+      setAudioPlayed(true);
+      const words = sentence.text.replace(/[?.!,]/g, '').split(' ');
+      setAvailableWords(shuffleArray(words));
+    }
+  };
 
   const handleWordClick = (word: string, idx: number) => {
     if (showResult) return;
@@ -198,6 +236,8 @@ const WordOrderMode: React.FC<{
 
   return (
     <div className="space-y-6">
+      <audio ref={audioRef} onEnded={handleAudioEnded} />
+      
       {/* Progress */}
       <div className="flex gap-1">
         {sentences.map((_, i) => (
@@ -214,97 +254,129 @@ const WordOrderMode: React.FC<{
       </p>
 
       <Card className="p-6 space-y-4">
-        <h4 className="text-lg font-medium">Put the words in the correct order:</h4>
-
-        {/* Selected words */}
-        <div className="min-h-14 p-4 bg-muted/50 rounded-lg border-2 border-dashed border-border flex flex-wrap gap-2">
-          {selectedWords.length === 0 ? (
-            <span className="text-muted-foreground text-sm">Tap words below to build the sentence…</span>
-          ) : (
-            selectedWords.map((word, i) => (
-              <motion.button
-                key={`sel-${i}`}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                onClick={() => handleSelectedClick(word, i)}
-                disabled={showResult}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  showResult
-                    ? isCorrect
-                      ? 'bg-green-500 text-white'
-                      : 'bg-red-500 text-white'
-                    : 'bg-primary text-primary-foreground hover:bg-primary/90'
-                }`}
+        {/* Audio play section */}
+        {!audioPlayed ? (
+          <div className="text-center space-y-4">
+            <h4 className="text-lg font-medium">Listen to the sentence:</h4>
+            <motion.div
+              animate={isPlayingAudio ? { scale: [1, 1.1, 1] } : {}}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={playAudio}
+                disabled={isPlayingAudio}
+                className="gap-2 text-lg px-8 py-6"
               >
-                {word}
-              </motion.button>
-            ))
-          )}
-        </div>
-
-        {/* Available words */}
-        <div className="flex flex-wrap gap-2">
-          {availableWords.map((word, i) => (
-            <motion.button
-              key={`avail-${i}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              onClick={() => handleWordClick(word, i)}
-              disabled={showResult}
-              className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors"
-            >
-              {word}
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Translation toggle */}
-        <button
-          onClick={() => setShowTranslation(v => !v)}
-          className="text-xs text-muted-foreground underline"
-        >
-          {showTranslation ? 'Hide' : 'Show'} translation
-        </button>
-        <AnimatePresence>
-          {showTranslation && (
-            <motion.p
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="text-sm italic text-muted-foreground"
-            >
-              {sentence.translations[selectedLanguage as keyof typeof sentence.translations] || sentence.translations.spanish}
-            </motion.p>
-          )}
-        </AnimatePresence>
-
-        {/* Actions */}
-        {!showResult ? (
-          <Button onClick={handleCheck} disabled={selectedWords.length === 0} className="w-full">
-            Check Answer
-          </Button>
-        ) : isCorrect ? (
-          <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
-            <p className="text-green-700 dark:text-green-300 font-medium flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5" />
-              Correct! "{sentence.text}" {currentIndex < sentences.length - 1 && 'Moving to next…'}
-            </p>
+                <Volume2 className={`w-6 h-6 ${isPlayingAudio ? 'text-primary animate-pulse' : ''}`} />
+                {isPlayingAudio ? 'Playing…' : 'Play Audio'}
+              </Button>
+            </motion.div>
+            <p className="text-sm text-muted-foreground">Listen carefully, then arrange the words</p>
           </div>
         ) : (
-          <div className="space-y-3">
-            <div className="p-4 bg-red-50 dark:bg-red-950 rounded-lg border border-red-200 dark:border-red-800">
-              <p className="text-red-700 dark:text-red-300 font-medium flex items-center gap-2">
-                <XCircle className="h-5 w-5" />
-                The correct sentence is: "{sentence.text}"
-              </p>
+          <>
+            <div className="flex items-center justify-between">
+              <h4 className="text-lg font-medium">Put the words in the correct order:</h4>
+              {sentence.audioUrl && (
+                <Button variant="ghost" size="sm" onClick={playAudio} className="gap-1">
+                  <Volume2 className="w-4 h-4" /> Replay
+                </Button>
+              )}
             </div>
-            <Button onClick={handleRetry} variant="outline" className="w-full gap-2">
-              <RotateCcw className="h-4 w-4" /> Try Again
-            </Button>
-            <Button onClick={handleNext} variant="ghost" className="w-full text-muted-foreground">
-              Skip
-            </Button>
-          </div>
+
+            {/* Selected words */}
+            <div className="min-h-14 p-4 bg-muted/50 rounded-lg border-2 border-dashed border-border flex flex-wrap gap-2">
+              {selectedWords.length === 0 ? (
+                <span className="text-muted-foreground text-sm">Tap words below to build the sentence…</span>
+              ) : (
+                selectedWords.map((word, i) => (
+                  <motion.button
+                    key={`sel-${i}`}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    onClick={() => handleSelectedClick(word, i)}
+                    disabled={showResult}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      showResult
+                        ? isCorrect
+                          ? 'bg-green-500 text-white'
+                          : 'bg-red-500 text-white'
+                        : 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    }`}
+                  >
+                    {word}
+                  </motion.button>
+                ))
+              )}
+            </div>
+
+            {/* Available words */}
+            <div className="flex flex-wrap gap-2">
+              {availableWords.map((word, i) => (
+                <motion.button
+                  key={`avail-${i}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  onClick={() => handleWordClick(word, i)}
+                  disabled={showResult}
+                  className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors"
+                >
+                  {word}
+                </motion.button>
+              ))}
+            </div>
+
+            {/* Translation toggle */}
+            <button
+              onClick={() => setShowTranslation(v => !v)}
+              className="text-xs text-muted-foreground underline"
+            >
+              {showTranslation ? 'Hide' : 'Show'} translation
+            </button>
+            <AnimatePresence>
+              {showTranslation && (
+                <motion.p
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="text-sm italic text-muted-foreground"
+                >
+                  {sentence.translations[selectedLanguage as keyof typeof sentence.translations] || sentence.translations.spanish}
+                </motion.p>
+              )}
+            </AnimatePresence>
+
+            {/* Actions */}
+            {!showResult ? (
+              <Button onClick={handleCheck} disabled={selectedWords.length === 0} className="w-full">
+                Check Answer
+              </Button>
+            ) : isCorrect ? (
+              <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
+                <p className="text-green-700 dark:text-green-300 font-medium flex items-center gap-2">
+                  <CheckCircle2 className="h-5 w-5" />
+                  Correct! "{sentence.text}" {currentIndex < sentences.length - 1 && 'Moving to next…'}
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <div className="p-4 bg-red-50 dark:bg-red-950 rounded-lg border border-red-200 dark:border-red-800">
+                  <p className="text-red-700 dark:text-red-300 font-medium flex items-center gap-2">
+                    <XCircle className="h-5 w-5" />
+                    The correct sentence is: "{sentence.text}"
+                  </p>
+                </div>
+                <Button onClick={handleRetry} variant="outline" className="w-full gap-2">
+                  <RotateCcw className="h-4 w-4" /> Try Again
+                </Button>
+                <Button onClick={handleNext} variant="ghost" className="w-full text-muted-foreground">
+                  Skip
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </Card>
     </div>

@@ -297,6 +297,7 @@ export const practice3Items: Practice3Item[] = [
 export interface TravelSentence {
   id: string;
   text: string;
+  audioUrl?: string;
   translations: { arabic: string; bengali: string; korean: string; spanish: string; turkish: string };
 }
 
@@ -304,6 +305,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-1',
     text: 'Excuse me, which bus goes to New York?',
+    audioUrl: '/audio/module3/m3-sunny-1.mp3',
     translations: {
       arabic: 'عفواً، أي حافلة تذهب إلى نيويورك؟',
       bengali: 'মাফ করবেন, কোন বাসটি নিউ ইয়র্ক যায়?',
@@ -315,6 +317,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-2',
     text: 'Bus 158 goes to New York.',
+    audioUrl: '/audio/module3/m3-ali-1.mp3',
     translations: {
       arabic: 'الحافلة 158 تذهب إلى نيويورك.',
       bengali: '১৫৮ নম্বর বাসটি নিউ ইয়র্ক যায়।',
@@ -326,6 +329,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-3',
     text: 'Does it stop at Port Authority?',
+    audioUrl: '/audio/module3/m3-sunny-2.mp3',
     translations: {
       arabic: 'هل يتوقف في بورت أوثوريتي؟',
       bengali: 'এটা কি পোর্ট অথরিটিতে থামে?',
@@ -337,6 +341,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-4',
     text: 'Yes, it does.',
+    audioUrl: '/audio/module3/m3-ali-2.mp3',
     translations: {
       arabic: 'نعم، يتوقف.',
       bengali: 'হ্যাঁ, থামে।',
@@ -348,6 +353,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-5',
     text: 'How much is the ticket?',
+    audioUrl: '/audio/module3/m3-sunny-3.mp3',
     translations: {
       arabic: 'كم سعر التذكرة؟',
       bengali: 'টিকিটের দাম কত?',
@@ -359,6 +365,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-6',
     text: 'One-way adult is $7.10.',
+    audioUrl: '/audio/module3/m3-ali-3.mp3',
     translations: {
       arabic: 'تذكرة ذهاب للبالغين بـ 7.10 دولار.',
       bengali: 'একমুখী প্রাপ্তবয়স্ক টিকিট $৭.১০।',
@@ -374,7 +381,7 @@ export interface Module3Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz' | 'video-fill-in-blank' | 'directions-order' | 'practice-3' | 'travel-practice';
+  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz' | 'video-fill-in-blank' | 'directions-order' | 'practice-3' | 'travel-practice' | 'module-complete';
   content?: VocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
   listeningQuestions?: ListeningQuizQuestion[];
@@ -534,5 +541,13 @@ export const module3Lessons: Module3Lesson[] = [
     travelSentences: travelAroundTownSentences,
     isCompleted: false,
     duration: '12 min',
+  },
+  {
+    id: 'm3-lesson-17',
+    title: 'Module 3 Complete!',
+    description: 'Review what you\'ve learned in Module 3',
+    type: 'module-complete',
+    isCompleted: false,
+    duration: '2 min',
   },
 ];
