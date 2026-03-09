@@ -353,6 +353,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-5',
     text: 'How much is the ticket?',
+    audioUrl: '/audio/module3/m3-sunny-3.mp3',
     translations: {
       arabic: 'كم سعر التذكرة؟',
       bengali: 'টিকিটের দাম কত?',
