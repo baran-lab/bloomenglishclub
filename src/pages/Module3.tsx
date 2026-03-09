@@ -12,6 +12,7 @@ import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { ListeningChoiceQuiz } from '@/components/module3/ListeningChoiceQuiz';
 import { VideoFillInBlankQuiz } from '@/components/module3/VideoFillInBlankQuiz';
 import { DirectionsOrderQuiz } from '@/components/module3/DirectionsOrderQuiz';
+import { Practice3Quiz } from '@/components/module3/Practice3Quiz';
 import { module3Lessons, Module3Lesson } from '@/data/module3Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
