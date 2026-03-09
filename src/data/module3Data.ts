@@ -208,13 +208,26 @@ export const whereIsThePractice2: VideoFillInBlankItem[] = [
 export const excuseMeVideos = [
   { url: '/videos/module3/m3-pharmacy.mp4', title: 'Pharmacy', listenOnly: true },
   { url: '/videos/module3/m3-pharmacy-q.mp4', title: 'Pharmacy – Question', sentenceToRecord: 'Excuse me, is there a pharmacy near here?' },
-  { url: '/videos/module3/m3-pharmacy-a.mp4', title: 'Pharmacy – Answer', sentenceToRecord: 'Yes, there is a pharmacy on Main Street.' },
+  { url: '/videos/module3/m3-pharmacy-a.mp4', title: 'Pharmacy – Answer', sentenceToRecord: 'Yes. It\'s ON Bliss Avenue, NEXT TO the bus stop.' },
   { url: '/videos/module3/m3-park.mp4', title: 'Park', listenOnly: true },
   { url: '/videos/module3/m3-park-q.mp4', title: 'Park – Question', sentenceToRecord: 'Excuse me, is there a park near here?' },
-  { url: '/videos/module3/m3-park-a.mp4', title: 'Park – Answer', sentenceToRecord: 'Yes, there is a park on Bliss Avenue.' },
+  { url: '/videos/module3/m3-park-a.mp4', title: 'Park – Answer', sentenceToRecord: 'Yes. It\'s BETWEEN the coffee shop and the hospital.' },
   { url: '/videos/module3/m3-playground.mp4', title: 'Playground', listenOnly: true },
   { url: '/videos/module3/m3-playground-q.mp4', title: 'Playground – Question', sentenceToRecord: 'Excuse me, is there a playground near here?' },
-  { url: '/videos/module3/m3-playground-a.mp4', title: 'Playground – Answer', sentenceToRecord: 'Yes, there is a playground next to the park.' },
+  { url: '/videos/module3/m3-playground-a.mp4', title: 'Playground – Answer', sentenceToRecord: 'Yes. It\'s ACROSS FROM the school.' },
+  { url: '/videos/module3/m3-hospital.mp4', title: 'Hospital', listenOnly: true },
+  { url: '/videos/module3/m3-hospital-q.mp4', title: 'Hospital – Question', sentenceToRecord: 'Excuse me, is there a hospital near here?' },
+  { url: '/videos/module3/m3-hospital-a.mp4', title: 'Hospital – Answer', sentenceToRecord: 'Yes. It\'s ON THE CORNER OF Main Street and Bliss Avenue.' },
+];
+
+// How can I get to the ...? Videos
+export const howCanIGetToVideos = [
+  { url: '/videos/module3/m3-go-straight-ahead.mp4', title: 'Go straight ahead', sentenceToRecord: 'Go straight ahead.' },
+  { url: '/videos/module3/m3-go-two-blocks.mp4', title: 'Go two blocks', sentenceToRecord: 'Go two blocks.' },
+  { url: '/videos/module3/m3-cross-grand-avenue.mp4', title: 'Cross Grand Avenue', sentenceToRecord: 'Cross Grand Avenue.' },
+  { url: '/videos/module3/m3-go-to-main-street.mp4', title: 'Go to Main Street', sentenceToRecord: 'Go to Main Street.' },
+  { url: '/videos/module3/m3-turn-left-on-main-street.mp4', title: 'Turn left on Main Street', sentenceToRecord: 'Turn left on Main Street.' },
+  { url: '/videos/module3/m3-turn-right-on-main-street.mp4', title: 'Turn right on Main Street', sentenceToRecord: 'Turn right on Main Street.' },
 ];
 
 // Module 3 Lesson interface
