@@ -305,6 +305,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-1',
     text: 'Excuse me, which bus goes to New York?',
+    audioUrl: '/audio/module3/m3-sunny-1.mp3',
     translations: {
       arabic: 'عفواً، أي حافلة تذهب إلى نيويورك؟',
       bengali: 'মাফ করবেন, কোন বাসটি নিউ ইয়র্ক যায়?',
