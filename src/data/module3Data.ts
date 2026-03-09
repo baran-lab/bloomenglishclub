@@ -365,6 +365,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-6',
     text: 'One-way adult is $7.10.',
+    audioUrl: '/audio/module3/m3-ali-3.mp3',
     translations: {
       arabic: 'تذكرة ذهاب للبالغين بـ 7.10 دولار.',
       bengali: 'একমুখী প্রাপ্তবয়স্ক টিকিট $৭.১০।',
