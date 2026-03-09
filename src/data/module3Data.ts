@@ -371,4 +371,13 @@ export const module3Lessons: Module3Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
+  {
+    id: 'm3-lesson-13',
+    title: 'Directions',
+    description: 'Listen to directions and put them in the correct order',
+    type: 'directions-order',
+    directionSteps: directionsOrderSteps,
+    isCompleted: false,
+    duration: '10 min',
+  },
 ];
