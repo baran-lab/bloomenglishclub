@@ -239,11 +239,11 @@ export interface DirectionStepData {
 
 export const directionsOrderSteps: DirectionStepData[] = [
   { id: 'dir-1', videoUrl: '/videos/module3/m3-go-straight-ahead.mp4', text: 'Go straight ahead.' },
-  { id: 'dir-2', videoUrl: '/videos/module3/m3-go-two-blocks.mp4', text: 'Go one block.' },
-  { id: 'dir-3', videoUrl: '/videos/module3/m3-cross-grand-avenue.mp4', text: 'Cross Main Street.' },
-  { id: 'dir-4', videoUrl: '/videos/module3/m3-go-to-main-street.mp4', text: 'Go to Howard Place.' },
+  { id: 'dir-2', videoUrl: '/videos/module3/m3-go-one-block.mp4', text: 'Go one block.' },
+  { id: 'dir-3', videoUrl: '/videos/module3/m3-cross-main-street.mp4', text: 'Cross Main Street.' },
+  { id: 'dir-4', videoUrl: '/videos/module3/m3-go-to-howard-place.mp4', text: 'Go to Howard Place.' },
   { id: 'dir-5', videoUrl: '/videos/module3/m3-turn-left-on-main-street.mp4', text: 'Turn left on Main Street.' },
-  { id: 'dir-6', videoUrl: '/videos/module3/m3-turn-right-on-main-street.mp4', text: 'Turn right on Howard Place.' },
+  { id: 'dir-6', videoUrl: '/videos/module3/m3-turn-right-on-howard-place.mp4', text: 'Turn right on Howard Place.' },
 ];
 
 // Module 3 Lesson interface
