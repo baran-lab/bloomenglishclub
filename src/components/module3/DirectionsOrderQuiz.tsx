@@ -255,7 +255,7 @@ export const DirectionsOrderQuiz: React.FC<DirectionsOrderQuizProps> = ({ steps,
       </AnimatePresence>
 
       {!hasWatched && (
-        <Card className="p-6 text-center max-w-lg mx-auto">
+        <Card className="p-6 text-center">
           <Play className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
           <p className="text-muted-foreground">Watch the video above, then put the words in order.</p>
         </Card>

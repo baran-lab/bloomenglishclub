@@ -352,7 +352,7 @@ const ReadAlongExercise: React.FC<{
       )}
 
       {!hasWatched && (
-        <Card className="p-6 text-center max-w-lg mx-auto">
+        <Card className="p-6 text-center">
           <Play className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
           <p className="text-muted-foreground">Listen to the video, then read the directions aloud.</p>
         </Card>
