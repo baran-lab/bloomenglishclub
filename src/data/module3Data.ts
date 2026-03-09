@@ -297,6 +297,7 @@ export const practice3Items: Practice3Item[] = [
 export interface TravelSentence {
   id: string;
   text: string;
+  audioUrl?: string;
   translations: { arabic: string; bengali: string; korean: string; spanish: string; turkish: string };
 }
 
