@@ -312,7 +312,7 @@ const ReadAlongExercise: React.FC<{
 
       {hasWatched && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <Card className="p-6 max-w-lg mx-auto space-y-4">
+          <Card className="p-6 space-y-4">
             <h4 className="text-lg font-medium">Read the directions aloud:</h4>
             
             <div className="bg-muted/30 p-4 rounded-lg">
