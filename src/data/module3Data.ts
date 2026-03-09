@@ -230,16 +230,33 @@ export const howCanIGetToVideos = [
   { url: '/videos/module3/m3-turn-right-on-main-street.mp4', title: 'Turn right on Main Street', sentenceToRecord: 'Turn right on Main Street.' },
 ];
 
+// Directions ordering data
+export interface DirectionStepData {
+  id: string;
+  videoUrl: string;
+  text: string;
+}
+
+export const directionsOrderSteps: DirectionStepData[] = [
+  { id: 'dir-1', videoUrl: '/videos/module3/m3-go-straight-ahead.mp4', text: 'Go straight ahead.' },
+  { id: 'dir-2', videoUrl: '/videos/module3/m3-go-two-blocks.mp4', text: 'Go one block.' },
+  { id: 'dir-3', videoUrl: '/videos/module3/m3-cross-grand-avenue.mp4', text: 'Cross Main Street.' },
+  { id: 'dir-4', videoUrl: '/videos/module3/m3-go-to-main-street.mp4', text: 'Go to Howard Place.' },
+  { id: 'dir-5', videoUrl: '/videos/module3/m3-turn-left-on-main-street.mp4', text: 'Turn left on Main Street.' },
+  { id: 'dir-6', videoUrl: '/videos/module3/m3-turn-right-on-main-street.mp4', text: 'Turn right on Howard Place.' },
+];
+
 // Module 3 Lesson interface
 export interface Module3Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz' | 'video-fill-in-blank';
+  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz' | 'video-fill-in-blank' | 'directions-order';
   content?: VocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
   listeningQuestions?: ListeningQuizQuestion[];
   fillInBlankQuestions?: VideoFillInBlankItem[];
+  directionSteps?: DirectionStepData[];
   isCompleted: boolean;
   duration?: string;
 }
@@ -351,6 +368,15 @@ export const module3Lessons: Module3Lesson[] = [
     description: 'Listen and repeat direction phrases',
     type: 'video-series',
     videos: howCanIGetToVideos,
+    isCompleted: false,
+    duration: '10 min',
+  },
+  {
+    id: 'm3-lesson-13',
+    title: 'Directions',
+    description: 'Listen to directions and put them in the correct order',
+    type: 'directions-order',
+    directionSteps: directionsOrderSteps,
     isCompleted: false,
     duration: '10 min',
   },
