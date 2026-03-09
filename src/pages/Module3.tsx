@@ -11,6 +11,7 @@ import { VocabularyMatchingPractice } from '@/components/module1/VocabularyMatch
 import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { ListeningChoiceQuiz } from '@/components/module3/ListeningChoiceQuiz';
 import { VideoFillInBlankQuiz } from '@/components/module3/VideoFillInBlankQuiz';
+import { DirectionsOrderQuiz } from '@/components/module3/DirectionsOrderQuiz';
 import { module3Lessons, Module3Lesson } from '@/data/module3Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
