@@ -546,7 +546,7 @@ export const module3Lessons: Module3Lesson[] = [
     id: 'm3-lesson-17',
     title: 'Module 3 Complete!',
     description: 'Review what you\'ve learned in Module 3',
-    type: 'module-complete' as any,
+    type: 'module-complete',
     isCompleted: false,
     duration: '2 min',
   },
