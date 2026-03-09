@@ -293,18 +293,96 @@ export const practice3Items: Practice3Item[] = [
   },
 ];
 
+// Travel Around Town conversation sentences
+export interface TravelSentence {
+  id: string;
+  text: string;
+  translations: { arabic: string; bengali: string; korean: string; spanish: string; turkish: string };
+}
+
+export const travelAroundTownSentences: TravelSentence[] = [
+  {
+    id: 'travel-1',
+    text: 'Excuse me, which bus goes to New York?',
+    translations: {
+      arabic: 'عفواً، أي حافلة تذهب إلى نيويورك؟',
+      bengali: 'মাফ করবেন, কোন বাসটি নিউ ইয়র্ক যায়?',
+      korean: '실례합니다, 어떤 버스가 뉴욕으로 가나요?',
+      spanish: 'Perdón, ¿qué autobús va a Nueva York?',
+      turkish: 'Affedersiniz, hangi otobüs New York\'a gidiyor?',
+    },
+  },
+  {
+    id: 'travel-2',
+    text: 'Bus 158 goes to New York.',
+    translations: {
+      arabic: 'الحافلة 158 تذهب إلى نيويورك.',
+      bengali: '১৫৮ নম্বর বাসটি নিউ ইয়র্ক যায়।',
+      korean: '158번 버스가 뉴욕으로 갑니다.',
+      spanish: 'El autobús 158 va a Nueva York.',
+      turkish: '158 numaralı otobüs New York\'a gidiyor.',
+    },
+  },
+  {
+    id: 'travel-3',
+    text: 'Does it stop at Port Authority?',
+    translations: {
+      arabic: 'هل يتوقف في بورت أوثوريتي؟',
+      bengali: 'এটা কি পোর্ট অথরিটিতে থামে?',
+      korean: '포트 어소리티에 정차하나요?',
+      spanish: '¿Para en Port Authority?',
+      turkish: 'Port Authority\'de duruyor mu?',
+    },
+  },
+  {
+    id: 'travel-4',
+    text: 'Yes, it does.',
+    translations: {
+      arabic: 'نعم، يتوقف.',
+      bengali: 'হ্যাঁ, থামে।',
+      korean: '네, 그렇습니다.',
+      spanish: 'Sí, para.',
+      turkish: 'Evet, duruyor.',
+    },
+  },
+  {
+    id: 'travel-5',
+    text: 'How much is the ticket?',
+    translations: {
+      arabic: 'كم سعر التذكرة؟',
+      bengali: 'টিকিটের দাম কত?',
+      korean: '티켓은 얼마인가요?',
+      spanish: '¿Cuánto cuesta el boleto?',
+      turkish: 'Bilet ne kadar?',
+    },
+  },
+  {
+    id: 'travel-6',
+    text: 'One-way adult is $7.10.',
+    translations: {
+      arabic: 'تذكرة ذهاب للبالغين بـ 7.10 دولار.',
+      bengali: 'একমুখী প্রাপ্তবয়স্ক টিকিট $৭.১০।',
+      korean: '편도 성인 요금은 $7.10입니다.',
+      spanish: 'El boleto de adulto de ida cuesta $7.10.',
+      turkish: 'Tek yön yetişkin bileti $7.10.',
+    },
+  },
+];
+
 // Module 3 Lesson interface
 export interface Module3Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz' | 'video-fill-in-blank' | 'directions-order' | 'practice-3';
+  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz' | 'video-fill-in-blank' | 'directions-order' | 'practice-3' | 'travel-practice';
   content?: VocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
   listeningQuestions?: ListeningQuizQuestion[];
   fillInBlankQuestions?: VideoFillInBlankItem[];
   directionSteps?: DirectionStepData[];
   practice3Items?: Practice3Item[];
+  travelSentences?: TravelSentence[];
+  travelVideoUrl?: string;
   isCompleted: boolean;
   duration?: string;
 }
@@ -440,12 +518,21 @@ export const module3Lessons: Module3Lesson[] = [
   {
     id: 'm3-lesson-15',
     title: 'Travel Around Town',
-    description: 'Listen to the conversation and repeat',
-    type: 'video-series',
-    videos: [
-      { url: '/videos/module3/m3-travel-around-town.mp4', title: 'Travel Around Town', sentenceToRecord: 'Listen and repeat the conversation.', listenOnly: false },
-    ],
+    description: 'Listen to the conversation and repeat each sentence',
+    type: 'travel-practice',
+    travelVideoUrl: '/videos/module3/m3-travel-around-town.mp4',
+    travelSentences: travelAroundTownSentences,
     isCompleted: false,
     duration: '10 min',
+  },
+  {
+    id: 'm3-lesson-16',
+    title: 'Travel Around Town Practice',
+    description: 'Listen one sentence at a time and put the words in the correct order',
+    type: 'travel-practice',
+    travelVideoUrl: '/videos/module3/m3-travel-around-town.mp4',
+    travelSentences: travelAroundTownSentences,
+    isCompleted: false,
+    duration: '12 min',
   },
 ];
