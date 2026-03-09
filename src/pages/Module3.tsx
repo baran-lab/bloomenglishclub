@@ -102,6 +102,8 @@ const Module3Content: React.FC = () => {
         return <VideoFillInBlankQuiz questions={lesson.fillInBlankQuestions || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'directions-order':
         return <DirectionsOrderQuiz steps={lesson.directionSteps || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'practice-3':
+        return <Practice3Quiz items={lesson.practice3Items || []} onComplete={handleLessonComplete} title={lesson.title} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }
