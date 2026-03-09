@@ -118,6 +118,8 @@ const Module3Content: React.FC = () => {
             mode={mode}
           />
         );
+      case 'module-complete':
+        return <Module3Checklist onComplete={handleLessonComplete} userName={userName || 'friend'} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }
