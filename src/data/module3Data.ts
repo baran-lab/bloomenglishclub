@@ -518,12 +518,21 @@ export const module3Lessons: Module3Lesson[] = [
   {
     id: 'm3-lesson-15',
     title: 'Travel Around Town',
-    description: 'Listen to the conversation and repeat',
-    type: 'video-series',
-    videos: [
-      { url: '/videos/module3/m3-travel-around-town.mp4', title: 'Travel Around Town', sentenceToRecord: 'Listen and repeat the conversation.', listenOnly: false },
-    ],
+    description: 'Listen to the conversation and repeat each sentence',
+    type: 'travel-practice',
+    travelVideoUrl: '/videos/module3/m3-travel-around-town.mp4',
+    travelSentences: travelAroundTownSentences,
     isCompleted: false,
     duration: '10 min',
+  },
+  {
+    id: 'm3-lesson-16',
+    title: 'Travel Around Town Practice',
+    description: 'Listen one sentence at a time and put the words in the correct order',
+    type: 'travel-practice',
+    travelVideoUrl: '/videos/module3/m3-travel-around-town.mp4',
+    travelSentences: travelAroundTownSentences,
+    isCompleted: false,
+    duration: '12 min',
   },
 ];
