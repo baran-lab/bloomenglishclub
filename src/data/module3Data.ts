@@ -329,6 +329,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-3',
     text: 'Does it stop at Port Authority?',
+    audioUrl: '/audio/module3/m3-sunny-2.mp3',
     translations: {
       arabic: 'هل يتوقف في بورت أوثوريتي؟',
       bengali: 'এটা কি পোর্ট অথরিটিতে থামে?',
