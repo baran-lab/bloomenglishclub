@@ -139,7 +139,7 @@ const FillBlankExercise: React.FC<{
   return (
     <div className="space-y-4">
       {/* Video */}
-      <Card className="overflow-hidden max-w-lg mx-auto">
+      <Card className="overflow-hidden">
         <div className="relative aspect-video bg-black">
           <video
             ref={videoRef}
