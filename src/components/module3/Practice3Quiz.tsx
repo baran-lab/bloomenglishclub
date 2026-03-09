@@ -139,7 +139,7 @@ const FillBlankExercise: React.FC<{
   return (
     <div className="space-y-4">
       {/* Video */}
-      <Card className="overflow-hidden max-w-lg mx-auto">
+      <Card className="overflow-hidden">
         <div className="relative aspect-video bg-black">
           <video
             ref={videoRef}
@@ -170,7 +170,7 @@ const FillBlankExercise: React.FC<{
 
       {hasWatched && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <Card className="p-6 max-w-lg mx-auto space-y-4">
+          <Card className="p-6 space-y-4">
             <h4 className="text-lg font-medium">Drag the words to complete the sentence:</h4>
             
             <div className="bg-muted/30 p-4 rounded-lg">{renderSentence()}</div>
@@ -222,7 +222,7 @@ const FillBlankExercise: React.FC<{
       )}
 
       {!hasWatched && (
-        <Card className="p-6 text-center max-w-lg mx-auto">
+        <Card className="p-6 text-center">
           <Play className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
           <p className="text-muted-foreground">Listen to the video, then fill in the blanks.</p>
         </Card>
@@ -281,7 +281,7 @@ const ReadAlongExercise: React.FC<{
 
   return (
     <div className="space-y-4">
-      <Card className="overflow-hidden max-w-lg mx-auto">
+      <Card className="overflow-hidden">
         <div className="relative aspect-video bg-black">
           <video
             ref={videoRef}
@@ -312,7 +312,7 @@ const ReadAlongExercise: React.FC<{
 
       {hasWatched && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <Card className="p-6 max-w-lg mx-auto space-y-4">
+          <Card className="p-6 space-y-4">
             <h4 className="text-lg font-medium">Read the directions aloud:</h4>
             
             <div className="bg-muted/30 p-4 rounded-lg">
@@ -352,7 +352,7 @@ const ReadAlongExercise: React.FC<{
       )}
 
       {!hasWatched && (
-        <Card className="p-6 text-center max-w-lg mx-auto">
+        <Card className="p-6 text-center">
           <Play className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
           <p className="text-muted-foreground">Listen to the video, then read the directions aloud.</p>
         </Card>
