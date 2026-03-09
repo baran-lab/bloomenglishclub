@@ -343,6 +343,15 @@ export const module3Lessons: Module3Lesson[] = [
     type: 'video-series',
     videos: excuseMeVideos,
     isCompleted: false,
-    duration: '12 min',
+    duration: '15 min',
+  },
+  {
+    id: 'm3-lesson-12',
+    title: 'How can I get to the …?',
+    description: 'Listen and repeat direction phrases',
+    type: 'video-series',
+    videos: howCanIGetToVideos,
+    isCompleted: false,
+    duration: '10 min',
   },
 ];
