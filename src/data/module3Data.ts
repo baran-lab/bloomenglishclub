@@ -38,27 +38,27 @@ export const module3Vocabulary3: VocabularyItem[] = [
 
 // Where is the ...? Videos (no subtitles)
 export const whereIsTheVideos = [
-  { url: '/videos/module3/m3-on-the.mp4', title: 'On the', sentenceToRecord: 'On the' },
-  { url: '/videos/module3/m3-next-to-the.mp4', title: 'Next to the', sentenceToRecord: 'Next to the' },
-  { url: '/videos/module3/m3-on-the-corner.mp4', title: 'On the corner of the', sentenceToRecord: 'On the corner of the' },
-  { url: '/videos/module3/m3-between-the.mp4', title: 'Between the', sentenceToRecord: 'Between the' },
-  { url: '/videos/module3/m3-in-front-of-the.mp4', title: 'In front of the', sentenceToRecord: 'In front of the' },
-  { url: '/videos/module3/m3-across-from-the.mp4', title: 'Across from the', sentenceToRecord: 'Across from the' },
-  { url: '/videos/module3/m3-behind-the.mp4', title: 'Behind the', sentenceToRecord: 'Behind the' },
-  { url: '/videos/module3/m3-near-the.mp4', title: 'Near the', sentenceToRecord: 'Near the' },
+  { url: '/videos/module3/m3-on-the.mp4', title: 'On', sentenceToRecord: 'On' },
+  { url: '/videos/module3/m3-next-to-the.mp4', title: 'Next to', sentenceToRecord: 'Next to' },
+  { url: '/videos/module3/m3-on-the-corner.mp4', title: 'On the corner of', sentenceToRecord: 'On the corner of' },
+  { url: '/videos/module3/m3-between-the.mp4', title: 'Between', sentenceToRecord: 'Between' },
+  { url: '/videos/module3/m3-in-front-of-the.mp4', title: 'In front of', sentenceToRecord: 'In front of' },
+  { url: '/videos/module3/m3-across-from-the.mp4', title: 'Across from', sentenceToRecord: 'Across from' },
+  { url: '/videos/module3/m3-behind-the.mp4', title: 'Behind', sentenceToRecord: 'Behind' },
+  { url: '/videos/module3/m3-near-the.mp4', title: 'Near', sentenceToRecord: 'Near' },
 ];
 
 // Ali's Neighborhood Videos (no subtitles)
 export const aliNeighborhoodVideos = [
   { url: '/videos/module3/m3-ali-1.mp4', title: 'Ali\'s Neighborhood', listenOnly: true },
-  { url: '/videos/module3/m3-on-1.mp4', title: 'On', sentenceToRecord: 'The gym is on Main Street.' },
-  { url: '/videos/module3/m3-next-to-2.mp4', title: 'Next to', sentenceToRecord: 'The coffee shop is next to the pharmacy.' },
-  { url: '/videos/module3/m3-on-the-corner-of-3.mp4', title: 'On the corner of', sentenceToRecord: 'The hospital is on the corner of Main Street and First Avenue.' },
-  { url: '/videos/module3/m3-between-4.mp4', title: 'Between', sentenceToRecord: 'The park is between the hospital and the school.' },
-  { url: '/videos/module3/m3-across-from-5.mp4', title: 'Across from', sentenceToRecord: 'The bus stop is across from the park.' },
-  { url: '/videos/module3/m3-behind-6.mp4', title: 'Behind', sentenceToRecord: 'The parking lot is behind the gym.' },
-  { url: '/videos/module3/m3-in-front-of-7.mp4', title: 'In front of', sentenceToRecord: 'The bench is in front of the coffee shop.' },
-  { url: '/videos/module3/m3-near-8.mp4', title: 'Near', sentenceToRecord: 'The pharmacy is near the hospital.' },
+  { url: '/videos/module3/m3-on-1.mp4', title: 'On', sentenceToRecord: 'The apartment building is ON Bliss Avenue.' },
+  { url: '/videos/module3/m3-next-to-2.mp4', title: 'Next to', sentenceToRecord: 'The grocery store is NEXT TO the apartment building.' },
+  { url: '/videos/module3/m3-on-the-corner-of-3.mp4', title: 'On the corner of', sentenceToRecord: 'The bus stop is ON THE CORNER OF Bliss Avenue and Main Street.' },
+  { url: '/videos/module3/m3-between-4.mp4', title: 'Between', sentenceToRecord: 'The pharmacy is BETWEEN the bus stop and the grocery store.' },
+  { url: '/videos/module3/m3-across-from-5.mp4', title: 'Across from', sentenceToRecord: 'The museum is ACROSS FROM the grocery store.' },
+  { url: '/videos/module3/m3-behind-6.mp4', title: 'Behind', sentenceToRecord: 'The school is BEHIND the bus stop.' },
+  { url: '/videos/module3/m3-in-front-of-7.mp4', title: 'In front of', sentenceToRecord: 'The mailbox is IN FRONT OF the park.' },
+  { url: '/videos/module3/m3-near-8.mp4', title: 'Near', sentenceToRecord: 'The parking lot is NEAR the school.' },
 ];
 
 // Where is the...? Practice 1 - Listening Quiz
