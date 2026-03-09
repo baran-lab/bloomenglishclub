@@ -246,17 +246,65 @@ export const directionsOrderSteps: DirectionStepData[] = [
   { id: 'dir-6', videoUrl: '/videos/module3/m3-turn-right-on-howard-place.mp4', text: 'Turn right on Howard Place.' },
 ];
 
+// Practice 3 data
+import { Practice3Item } from '@/components/module3/Practice3Quiz';
+
+export const practice3Items: Practice3Item[] = [
+  {
+    type: 'fill-blank',
+    fillBlank: {
+      videoUrl: '/videos/module3/m3-p3a.mp4',
+      words: ['corner', 'Cross', 'Go'],
+      sentenceParts: ['_____ to Bliss Avenue. _____ Main Street. It\'s on the _____ of Bliss Avenue and Main Street.'],
+      correctAnswers: ['Go', 'Cross', 'corner'],
+    },
+  },
+  {
+    type: 'fill-blank',
+    fillBlank: {
+      videoUrl: '/videos/module3/m3-p3b.mp4',
+      words: ['Go', 'next', 'on', 'Turn'],
+      sentenceParts: ['_____ two blocks. _____ right on Howard Place. It\'s _____ your right, _____ to the gym.'],
+      correctAnswers: ['Go', 'Turn', 'on', 'next'],
+    },
+  },
+  {
+    type: 'fill-blank',
+    fillBlank: {
+      videoUrl: '/videos/module3/m3-p3c.mp4',
+      words: ['between', 'Cross', 'Go', 'on'],
+      sentenceParts: ['_____ straight ahead. _____ Main Street. It\'s _____ your right, _____ the hospital and the coffee shop.'],
+      correctAnswers: ['Go', 'Cross', 'on', 'between'],
+    },
+  },
+  {
+    type: 'read-along',
+    readAlong: {
+      videoUrl: '/videos/module3/m3-p3d.mp4',
+      sentence: 'Turn right on Main Street. Go straight ahead. It\'s between the playground and the fire station.',
+    },
+  },
+  {
+    type: 'read-along',
+    readAlong: {
+      videoUrl: '/videos/module3/m3-p3e.mp4',
+      sentence: 'Go straight on Main Street. It\'s on your right, next to the parking lot.',
+    },
+  },
+];
+
 // Module 3 Lesson interface
 export interface Module3Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz' | 'video-fill-in-blank' | 'directions-order';
+  type: 'vocabulary' | 'vocabulary-matching' | 'video-series' | 'listening-quiz' | 'video-fill-in-blank' | 'directions-order' | 'practice-3';
   content?: VocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; sentenceToRecord?: string; listenOnly?: boolean; showTranslation?: boolean }[];
   listeningQuestions?: ListeningQuizQuestion[];
   fillInBlankQuestions?: VideoFillInBlankItem[];
   directionSteps?: DirectionStepData[];
+  practice3Items?: Practice3Item[];
   isCompleted: boolean;
   duration?: string;
 }
@@ -374,10 +422,19 @@ export const module3Lessons: Module3Lesson[] = [
   {
     id: 'm3-lesson-13',
     title: 'Directions',
-    description: 'Listen to directions and put them in the correct order',
+    description: 'Listen and put the words in the correct order',
     type: 'directions-order',
     directionSteps: directionsOrderSteps,
     isCompleted: false,
     duration: '10 min',
+  },
+  {
+    id: 'm3-lesson-14',
+    title: 'Where is the…? Practice 3',
+    description: 'Listen to directions and complete the sentences',
+    type: 'practice-3',
+    practice3Items: practice3Items,
+    isCompleted: false,
+    duration: '12 min',
   },
 ];

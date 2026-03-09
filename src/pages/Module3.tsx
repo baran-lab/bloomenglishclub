@@ -12,6 +12,7 @@ import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { ListeningChoiceQuiz } from '@/components/module3/ListeningChoiceQuiz';
 import { VideoFillInBlankQuiz } from '@/components/module3/VideoFillInBlankQuiz';
 import { DirectionsOrderQuiz } from '@/components/module3/DirectionsOrderQuiz';
+import { Practice3Quiz } from '@/components/module3/Practice3Quiz';
 import { module3Lessons, Module3Lesson } from '@/data/module3Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -101,6 +102,8 @@ const Module3Content: React.FC = () => {
         return <VideoFillInBlankQuiz questions={lesson.fillInBlankQuestions || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'directions-order':
         return <DirectionsOrderQuiz steps={lesson.directionSteps || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'practice-3':
+        return <Practice3Quiz items={lesson.practice3Items || []} onComplete={handleLessonComplete} title={lesson.title} />;
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }
