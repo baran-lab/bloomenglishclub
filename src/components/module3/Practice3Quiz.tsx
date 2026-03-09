@@ -170,7 +170,7 @@ const FillBlankExercise: React.FC<{
 
       {hasWatched && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <Card className="p-6 max-w-lg mx-auto space-y-4">
+          <Card className="p-6 space-y-4">
             <h4 className="text-lg font-medium">Drag the words to complete the sentence:</h4>
             
             <div className="bg-muted/30 p-4 rounded-lg">{renderSentence()}</div>
