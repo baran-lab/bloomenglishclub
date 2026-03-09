@@ -437,4 +437,15 @@ export const module3Lessons: Module3Lesson[] = [
     isCompleted: false,
     duration: '12 min',
   },
+  {
+    id: 'm3-lesson-15',
+    title: 'Travel Around Town',
+    description: 'Listen to the conversation and repeat',
+    type: 'video-series',
+    videos: [
+      { url: '/videos/module3/m3-travel-around-town.mp4', title: 'Travel Around Town', sentenceToRecord: 'Listen and repeat the conversation.', listenOnly: false },
+    ],
+    isCompleted: false,
+    duration: '10 min',
+  },
 ];

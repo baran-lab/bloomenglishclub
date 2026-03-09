@@ -111,7 +111,22 @@ export const DirectionsOrderQuiz: React.FC<DirectionsOrderQuizProps> = ({ steps,
 
   useEffect(() => {
     if (showResult && isCorrect) {
-      const timer = setTimeout(handleNext, 1500);
+      // Auto-play the video after correct answer, then advance
+      const timer = setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = 0;
+          videoRef.current.play();
+          setVideoPlaying(true);
+          // After video ends, advance to next
+          const onEnded = () => {
+            videoRef.current?.removeEventListener('ended', onEnded);
+            handleNext();
+          };
+          videoRef.current.addEventListener('ended', onEnded);
+        } else {
+          handleNext();
+        }
+      }, 1000);
       return () => clearTimeout(timer);
     }
   }, [showResult, isCorrect]);
