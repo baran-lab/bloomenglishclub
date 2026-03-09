@@ -341,6 +341,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-4',
     text: 'Yes, it does.',
+    audioUrl: '/audio/module3/m3-ali-2.mp3',
     translations: {
       arabic: 'نعم، يتوقف.',
       bengali: 'হ্যাঁ, থামে।',
