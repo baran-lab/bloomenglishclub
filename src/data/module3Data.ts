@@ -317,6 +317,7 @@ export const travelAroundTownSentences: TravelSentence[] = [
   {
     id: 'travel-2',
     text: 'Bus 158 goes to New York.',
+    audioUrl: '/audio/module3/m3-ali-1.mp3',
     translations: {
       arabic: 'الحافلة 158 تذهب إلى نيويورك.',
       bengali: '১৫৮ নম্বর বাসটি নিউ ইয়র্ক যায়।',
