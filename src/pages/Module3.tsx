@@ -105,6 +105,18 @@ const Module3Content: React.FC = () => {
         return <DirectionsOrderQuiz steps={lesson.directionSteps || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'practice-3':
         return <Practice3Quiz items={lesson.practice3Items || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'travel-practice':
+        // Lesson 15 = listen-repeat, Lesson 16 = word-order
+        const mode = lesson.id === 'm3-lesson-15' ? 'listen-repeat' : 'word-order';
+        return (
+          <TravelPracticeQuiz
+            travelVideoUrl={lesson.travelVideoUrl || ''}
+            sentences={lesson.travelSentences || []}
+            onComplete={handleLessonComplete}
+            title={lesson.title}
+            mode={mode}
+          />
+        );
       default:
         return <VocabularyLesson vocabulary={lesson.content || []} onComplete={handleLessonComplete} title={lesson.title} />;
     }
