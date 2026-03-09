@@ -36,29 +36,29 @@ export const module3Vocabulary3: VocabularyItem[] = [
   { id: 'm3-town', english: 'Town', pronunciation: 'town', translations: { arabic: 'بلدة', bengali: 'শহর', korean: '마을', spanish: 'Pueblo', turkish: 'Kasaba' } },
 ];
 
-// Where is the ...? Videos
+// Where is the ...? Videos (no subtitles)
 export const whereIsTheVideos = [
-  { url: '/videos/module3/m3-on-the.mp4', title: 'On the', subtitle: 'On the', sentenceToRecord: 'On the' },
-  { url: '/videos/module3/m3-next-to-the.mp4', title: 'Next to the', subtitle: 'Next to the', sentenceToRecord: 'Next to the' },
-  { url: '/videos/module3/m3-on-the-corner.mp4', title: 'On the corner of the', subtitle: 'On the corner of the', sentenceToRecord: 'On the corner of the' },
-  { url: '/videos/module3/m3-between-the.mp4', title: 'Between the', subtitle: 'Between the', sentenceToRecord: 'Between the' },
-  { url: '/videos/module3/m3-in-front-of-the.mp4', title: 'In front of the', subtitle: 'In front of the', sentenceToRecord: 'In front of the' },
-  { url: '/videos/module3/m3-across-from-the.mp4', title: 'Across from the', subtitle: 'Across from the', sentenceToRecord: 'Across from the' },
-  { url: '/videos/module3/m3-behind-the.mp4', title: 'Behind the', subtitle: 'Behind the', sentenceToRecord: 'Behind the' },
-  { url: '/videos/module3/m3-near-the.mp4', title: 'Near the', subtitle: 'Near the', sentenceToRecord: 'Near the' },
+  { url: '/videos/module3/m3-on-the.mp4', title: 'On the', sentenceToRecord: 'On the' },
+  { url: '/videos/module3/m3-next-to-the.mp4', title: 'Next to the', sentenceToRecord: 'Next to the' },
+  { url: '/videos/module3/m3-on-the-corner.mp4', title: 'On the corner of the', sentenceToRecord: 'On the corner of the' },
+  { url: '/videos/module3/m3-between-the.mp4', title: 'Between the', sentenceToRecord: 'Between the' },
+  { url: '/videos/module3/m3-in-front-of-the.mp4', title: 'In front of the', sentenceToRecord: 'In front of the' },
+  { url: '/videos/module3/m3-across-from-the.mp4', title: 'Across from the', sentenceToRecord: 'Across from the' },
+  { url: '/videos/module3/m3-behind-the.mp4', title: 'Behind the', sentenceToRecord: 'Behind the' },
+  { url: '/videos/module3/m3-near-the.mp4', title: 'Near the', sentenceToRecord: 'Near the' },
 ];
 
-// Ali's Neighborhood Videos (Lesson 6)
+// Ali's Neighborhood Videos (no subtitles)
 export const aliNeighborhoodVideos = [
-  { url: '/videos/module3/m3-ali-1.mp4', title: 'Ali\'s Neighborhood', subtitle: 'Listen to Ali describe his neighborhood', listenOnly: true },
-  { url: '/videos/module3/m3-on-1.mp4', title: 'On', subtitle: 'The gym is on Main Street.', sentenceToRecord: 'The gym is on Main Street.' },
-  { url: '/videos/module3/m3-next-to-2.mp4', title: 'Next to', subtitle: 'The coffee shop is next to the pharmacy.', sentenceToRecord: 'The coffee shop is next to the pharmacy.' },
-  { url: '/videos/module3/m3-on-the-corner-of-3.mp4', title: 'On the corner of', subtitle: 'The hospital is on the corner of Main Street and First Avenue.', sentenceToRecord: 'The hospital is on the corner of Main Street and First Avenue.' },
-  { url: '/videos/module3/m3-between-4.mp4', title: 'Between', subtitle: 'The park is between the hospital and the school.', sentenceToRecord: 'The park is between the hospital and the school.' },
-  { url: '/videos/module3/m3-across-from-5.mp4', title: 'Across from', subtitle: 'The bus stop is across from the park.', sentenceToRecord: 'The bus stop is across from the park.' },
-  { url: '/videos/module3/m3-behind-6.mp4', title: 'Behind', subtitle: 'The parking lot is behind the gym.', sentenceToRecord: 'The parking lot is behind the gym.' },
-  { url: '/videos/module3/m3-in-front-of-7.mp4', title: 'In front of', subtitle: 'The bench is in front of the coffee shop.', sentenceToRecord: 'The bench is in front of the coffee shop.' },
-  { url: '/videos/module3/m3-near-8.mp4', title: 'Near', subtitle: 'The pharmacy is near the hospital.', sentenceToRecord: 'The pharmacy is near the hospital.' },
+  { url: '/videos/module3/m3-ali-1.mp4', title: 'Ali\'s Neighborhood', listenOnly: true },
+  { url: '/videos/module3/m3-on-1.mp4', title: 'On', sentenceToRecord: 'The gym is on Main Street.' },
+  { url: '/videos/module3/m3-next-to-2.mp4', title: 'Next to', sentenceToRecord: 'The coffee shop is next to the pharmacy.' },
+  { url: '/videos/module3/m3-on-the-corner-of-3.mp4', title: 'On the corner of', sentenceToRecord: 'The hospital is on the corner of Main Street and First Avenue.' },
+  { url: '/videos/module3/m3-between-4.mp4', title: 'Between', sentenceToRecord: 'The park is between the hospital and the school.' },
+  { url: '/videos/module3/m3-across-from-5.mp4', title: 'Across from', sentenceToRecord: 'The bus stop is across from the park.' },
+  { url: '/videos/module3/m3-behind-6.mp4', title: 'Behind', sentenceToRecord: 'The parking lot is behind the gym.' },
+  { url: '/videos/module3/m3-in-front-of-7.mp4', title: 'In front of', sentenceToRecord: 'The bench is in front of the coffee shop.' },
+  { url: '/videos/module3/m3-near-8.mp4', title: 'Near', sentenceToRecord: 'The pharmacy is near the hospital.' },
 ];
 
 // Where is the...? Practice 1 - Listening Quiz
@@ -143,13 +143,14 @@ export const whereIsThePractice1: ListeningQuizQuestion[] = [
   },
 ];
 
-// Where is the...? Practice 2 - Fill in the blank
+// Where is the...? Practice 2 - Drag and drop preposition
 export interface VideoFillInBlankItem {
   videoUrl: string;
   question: string;
   sentenceBefore: string;
   sentenceAfter: string;
   correctAnswers: string[];
+  options: string[];
 }
 
 export const whereIsThePractice2: VideoFillInBlankItem[] = [
@@ -158,43 +159,62 @@ export const whereIsThePractice2: VideoFillInBlankItem[] = [
     question: 'Where is the restaurant?',
     sentenceBefore: "It's",
     sentenceAfter: 'Bliss Avenue.',
-    correctAnswers: ['on', 'ON', 'On', 'oN'],
+    correctAnswers: ['on'],
+    options: ['on', 'next to', 'between'],
   },
   {
     videoUrl: '/videos/module3/m3-p1b.mp4',
     question: 'Where is the park?',
     sentenceBefore: "It's",
     sentenceAfter: 'Bliss Avenue and Main Street.',
-    correctAnswers: ['on the corner of', 'On The Corner Of', 'ON THE CORNER OF'],
+    correctAnswers: ['on the corner of'],
+    options: ['on the corner of', 'across from', 'near'],
   },
   {
     videoUrl: '/videos/module3/m3-p1c.mp4',
     question: 'Where is the library?',
     sentenceBefore: "It's",
     sentenceAfter: 'the school and the restaurant.',
-    correctAnswers: ['between', 'Between', 'BETWEEN'],
+    correctAnswers: ['between'],
+    options: ['behind', 'between', 'in front of'],
   },
   {
     videoUrl: '/videos/module3/m3-p1d.mp4',
     question: 'Where is the gym?',
     sentenceBefore: "It's",
     sentenceAfter: 'the apartment building.',
-    correctAnswers: ['across from', 'Across From', 'ACROSS FROM', 'Across from'],
+    correctAnswers: ['across from'],
+    options: ['next to', 'across from', 'near'],
   },
   {
     videoUrl: '/videos/module3/m3-p1e.mp4',
     question: 'Where is the bench?',
     sentenceBefore: "It's",
     sentenceAfter: 'the grocery.',
-    correctAnswers: ['in front of', 'In Front Of', 'IN FRONT OF', 'In front of'],
+    correctAnswers: ['in front of'],
+    options: ['in front of', 'behind', 'on'],
   },
   {
     videoUrl: '/videos/module3/m3-p1f.mp4',
     question: 'Where is the bank?',
     sentenceBefore: "It's",
     sentenceAfter: 'the community center.',
-    correctAnswers: ['next to', 'Next To', 'NEXT TO', 'Next to'],
+    correctAnswers: ['next to'],
+    options: ['between', 'next to', 'on the corner of'],
   },
+];
+
+// Excuse me! Is there a ...? Videos
+export const excuseMeVideos = [
+  { url: '/videos/module3/m3-pharmacy.mp4', title: 'Pharmacy', listenOnly: true },
+  { url: '/videos/module3/m3-pharmacy-q.mp4', title: 'Pharmacy – Question', sentenceToRecord: 'Excuse me, is there a pharmacy near here?' },
+  { url: '/videos/module3/m3-pharmacy-a.mp4', title: 'Pharmacy – Answer', sentenceToRecord: 'Yes, there is a pharmacy on Main Street.' },
+  { url: '/videos/module3/m3-park.mp4', title: 'Park', listenOnly: true },
+  { url: '/videos/module3/m3-park-q.mp4', title: 'Park – Question', sentenceToRecord: 'Excuse me, is there a park near here?' },
+  { url: '/videos/module3/m3-park-a.mp4', title: 'Park – Answer', sentenceToRecord: 'Yes, there is a park on Bliss Avenue.' },
+  { url: '/videos/module3/m3-playground.mp4', title: 'Playground', listenOnly: true },
+  { url: '/videos/module3/m3-playground-q.mp4', title: 'Playground – Question', sentenceToRecord: 'Excuse me, is there a playground near here?' },
+  { url: '/videos/module3/m3-playground-a.mp4', title: 'Playground – Answer', sentenceToRecord: 'Yes, there is a playground next to the park.' },
 ];
 
 // Module 3 Lesson interface
@@ -297,10 +317,19 @@ export const module3Lessons: Module3Lesson[] = [
   {
     id: 'm3-lesson-10',
     title: 'Where is the…? Practice 2',
-    description: 'Listen and write the correct preposition',
+    description: 'Listen and drag the correct preposition',
     type: 'video-fill-in-blank',
     fillInBlankQuestions: whereIsThePractice2,
     isCompleted: false,
     duration: '10 min',
+  },
+  {
+    id: 'm3-lesson-11',
+    title: 'Excuse me! Is there a …?',
+    description: 'Listen to questions and answers, then repeat them',
+    type: 'video-series',
+    videos: excuseMeVideos,
+    isCompleted: false,
+    duration: '12 min',
   },
 ];

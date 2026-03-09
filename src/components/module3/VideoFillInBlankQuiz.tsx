@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, CheckCircle2, XCircle, ArrowRight, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { playCorrectSound, playIncorrectSound } from '@/utils/soundEffects';
 
 export interface VideoFillInBlankQuestion {
@@ -11,6 +10,7 @@ export interface VideoFillInBlankQuestion {
   sentenceBefore: string;
   sentenceAfter: string;
   correctAnswers: string[];
+  options: string[];
 }
 
 interface VideoFillInBlankQuizProps {
@@ -21,7 +21,7 @@ interface VideoFillInBlankQuizProps {
 
 export const VideoFillInBlankQuiz: React.FC<VideoFillInBlankQuizProps> = ({ questions, onComplete, title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answer, setAnswer] = useState('');
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
@@ -31,7 +31,7 @@ export const VideoFillInBlankQuiz: React.FC<VideoFillInBlankQuizProps> = ({ ques
   const current = questions[currentIndex];
 
   useEffect(() => {
-    setAnswer('');
+    setSelectedAnswer(null);
     setIsCorrect(null);
     setSubmitted(false);
     if (videoRef.current) {
@@ -40,10 +40,15 @@ export const VideoFillInBlankQuiz: React.FC<VideoFillInBlankQuizProps> = ({ ques
     }
   }, [currentIndex]);
 
-  const handleSubmit = () => {
-    if (!answer.trim() || submitted) return;
+  const handleOptionSelect = (option: string) => {
+    if (submitted) return;
+    setSelectedAnswer(option);
+  };
+
+  const handleDrop = () => {
+    if (!selectedAnswer || submitted) return;
     setSubmitted(true);
-    const normalizedAnswer = answer.trim().toLowerCase();
+    const normalizedAnswer = selectedAnswer.trim().toLowerCase();
     const correct = current.correctAnswers.some(a => a.toLowerCase() === normalizedAnswer);
     setIsCorrect(correct);
     if (correct) {
@@ -64,15 +69,12 @@ export const VideoFillInBlankQuiz: React.FC<VideoFillInBlankQuizProps> = ({ ques
   };
 
   const handleReplay = () => {
+    setSelectedAnswer(null);
+    setIsCorrect(null);
+    setSubmitted(false);
     if (videoRef.current) {
       videoRef.current.currentTime = 0;
       videoRef.current.play().catch(() => {});
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !submitted) {
-      handleSubmit();
     }
   };
 
@@ -94,7 +96,7 @@ export const VideoFillInBlankQuiz: React.FC<VideoFillInBlankQuizProps> = ({ ques
       {title && (
         <div className="text-center">
           <h2 className="font-fredoka text-xl font-bold text-foreground">{title}</h2>
-          <p className="text-sm text-muted-foreground mt-1">Listen and write the correct preposition</p>
+          <p className="text-sm text-muted-foreground mt-1">Listen and drag the correct preposition</p>
         </div>
       )}
 
@@ -123,12 +125,7 @@ export const VideoFillInBlankQuiz: React.FC<VideoFillInBlankQuizProps> = ({ ques
         </button>
       </div>
 
-      <div className="flex items-center gap-2 justify-center text-muted-foreground">
-        <Volume2 className="w-4 h-4" />
-        <span className="text-sm">{current.question}</span>
-      </div>
-
-      {/* Fill in the blank */}
+      {/* Fill in the blank sentence */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
@@ -139,29 +136,42 @@ export const VideoFillInBlankQuiz: React.FC<VideoFillInBlankQuizProps> = ({ ques
           <div className="bg-card rounded-xl border-2 border-border p-6 space-y-4">
             <div className="flex flex-wrap items-center gap-2 text-lg font-medium text-foreground justify-center">
               <span>{current.sentenceBefore}</span>
-              <Input
-                value={answer}
-                onChange={e => setAnswer(e.target.value)}
-                onKeyDown={handleKeyDown}
-                disabled={submitted}
-                placeholder="___________"
-                className={`w-48 text-center text-lg font-semibold border-2 ${
+              <button
+                onClick={handleDrop}
+                disabled={!selectedAnswer || submitted}
+                className={`min-w-[140px] px-4 py-2 rounded-lg border-2 border-dashed text-center font-semibold transition-all ${
                   submitted
                     ? isCorrect
-                      ? 'border-green-500 bg-green-50 dark:bg-green-950/30'
-                      : 'border-red-500 bg-red-50 dark:bg-red-950/30'
-                    : 'border-primary/30'
+                      ? 'border-green-500 bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-300'
+                      : 'border-red-500 bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-300'
+                    : selectedAnswer
+                      ? 'border-primary bg-primary/10 text-primary cursor-pointer'
+                      : 'border-muted-foreground/30 text-muted-foreground'
                 }`}
-                autoFocus
-              />
+              >
+                {submitted ? (isCorrect ? selectedAnswer : current.correctAnswers[0]) : selectedAnswer || '___________'}
+              </button>
               <span>{current.sentenceAfter}</span>
             </div>
 
+            {/* Drag options */}
             {!submitted && (
-              <div className="flex justify-center">
-                <Button onClick={handleSubmit} disabled={!answer.trim()} className="gap-2 rounded-xl">
-                  Check Answer
-                </Button>
+              <div className="flex flex-wrap gap-3 justify-center pt-2">
+                {current.options.map((option) => (
+                  <motion.button
+                    key={option}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleOptionSelect(option)}
+                    className={`px-5 py-2.5 rounded-xl font-semibold text-sm border-2 transition-all ${
+                      selectedAnswer === option
+                        ? 'border-primary bg-primary text-primary-foreground shadow-md'
+                        : 'border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/5'
+                    }`}
+                  >
+                    {option}
+                  </motion.button>
+                ))}
               </div>
             )}
           </div>
