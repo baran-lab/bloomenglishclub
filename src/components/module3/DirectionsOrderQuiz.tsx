@@ -48,6 +48,14 @@ export const DirectionsOrderQuiz: React.FC<DirectionsOrderQuizProps> = ({ steps,
       setIsCorrect(false);
       setHasWatched(false);
       setVideoPlaying(false);
+      // Auto-play video on step load
+      if (videoRef.current) {
+        videoRef.current.load();
+        setTimeout(() => {
+          videoRef.current?.play().catch(() => {});
+          setVideoPlaying(true);
+        }, 300);
+      }
     }
   }, [currentStep]);
 
