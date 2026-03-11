@@ -48,10 +48,21 @@ const FillBlankExercise: React.FC<{
   const handlePlayVideo = () => {
     if (videoRef.current) {
       videoRef.current.currentTime = 0;
-      videoRef.current.play();
+      videoRef.current.play().catch(() => {});
       setVideoPlaying(true);
     }
   };
+
+  // Auto-play video on mount
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      setTimeout(() => {
+        videoRef.current?.play().catch(() => {});
+        setVideoPlaying(true);
+      }, 300);
+    }
+  }, []);
 
   const handleVideoEnd = () => {
     setVideoPlaying(false);
