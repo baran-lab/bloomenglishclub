@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, CheckCircle2, XCircle, ArrowRight, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { playCorrectSound, playIncorrectSound } from '@/utils/soundEffects';
 
 export interface ListeningQuestion {
@@ -95,21 +96,23 @@ export const ListeningChoiceQuiz: React.FC<ListeningChoiceQuizProps> = ({ questi
       </div>
 
       {/* Video player */}
-      <div className="relative rounded-2xl overflow-hidden bg-black aspect-video max-w-2xl mx-auto">
-        <video
-          ref={videoRef}
-          src={current.videoUrl}
-          className="w-full h-full object-contain"
-          playsInline
-          autoPlay
-        />
-        <button
-          onClick={handleReplay}
-          className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm rounded-full p-2 hover:bg-background transition-colors"
-        >
-          <RotateCcw className="w-5 h-5 text-foreground" />
-        </button>
-      </div>
+      <Card className="overflow-hidden">
+        <div className="relative aspect-video bg-black">
+          <video
+            ref={videoRef}
+            src={current.videoUrl}
+            className="w-full h-full object-contain"
+            playsInline
+            autoPlay
+          />
+          <button
+            onClick={handleReplay}
+            className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm rounded-full p-2 hover:bg-background transition-colors"
+          >
+            <RotateCcw className="w-5 h-5 text-foreground" />
+          </button>
+        </div>
+      </Card>
 
       <div className="flex items-center gap-2 justify-center text-muted-foreground">
         <Volume2 className="w-4 h-4" />
