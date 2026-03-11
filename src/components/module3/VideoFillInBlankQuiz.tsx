@@ -109,7 +109,8 @@ export const VideoFillInBlankQuiz: React.FC<VideoFillInBlankQuizProps> = ({ ques
       </div>
 
       {/* Video player */}
-      <div className="relative rounded-2xl overflow-hidden bg-black aspect-video max-w-2xl mx-auto">
+      <Card className="overflow-hidden">
+        <div className="relative aspect-video bg-black">
         <video
           ref={videoRef}
           src={current.videoUrl}
