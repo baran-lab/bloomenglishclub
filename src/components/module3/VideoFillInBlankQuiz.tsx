@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, CheckCircle2, XCircle, ArrowRight, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { playCorrectSound, playIncorrectSound } from '@/utils/soundEffects';
 
 export interface VideoFillInBlankQuestion {
