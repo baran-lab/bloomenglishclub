@@ -97,20 +97,21 @@ export const ListeningChoiceQuiz: React.FC<ListeningChoiceQuizProps> = ({ questi
       {/* Video player */}
       <Card className="overflow-hidden">
         <div className="relative aspect-video bg-black">
-        <video
-          ref={videoRef}
-          src={current.videoUrl}
-          className="w-full h-full object-contain"
-          playsInline
-          autoPlay
-        />
-        <button
-          onClick={handleReplay}
-          className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm rounded-full p-2 hover:bg-background transition-colors"
-        >
-          <RotateCcw className="w-5 h-5 text-foreground" />
-        </button>
-      </div>
+          <video
+            ref={videoRef}
+            src={current.videoUrl}
+            className="w-full h-full object-contain"
+            playsInline
+            autoPlay
+          />
+          <button
+            onClick={handleReplay}
+            className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm rounded-full p-2 hover:bg-background transition-colors"
+          >
+            <RotateCcw className="w-5 h-5 text-foreground" />
+          </button>
+        </div>
+      </Card>
 
       <div className="flex items-center gap-2 justify-center text-muted-foreground">
         <Volume2 className="w-4 h-4" />
