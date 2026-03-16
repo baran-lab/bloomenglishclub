@@ -4,7 +4,7 @@ import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic,
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
-import { congratulatoryMessages, QuizQuestion, SupportedLanguage, UITranslations } from '@/data/module1Data';
+import { congratulatoryMessages, QuizQuestion, SupportedLanguage } from '@/data/module1Data';
 import { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
 import { useNavigate } from 'react-router-dom';
 
