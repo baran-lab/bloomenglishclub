@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic, Square, Home, SkipForward, AlertTriangle } from 'lucide-react';
+import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic, Square, Home, SkipForward, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
-import { congratulatoryMessages, QuizQuestion } from '@/data/module1Data';
+import { congratulatoryMessages, QuizQuestion, SupportedLanguage, UITranslations } from '@/data/module1Data';
 import { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ interface VideoItem {
   subtitle?: string;
   listenOnly?: boolean;
   sentenceToRecord?: string;
+  translations?: Record<SupportedLanguage, string>;
 }
 
 interface VideoSeriesLessonProps {
@@ -40,11 +41,36 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   const [showQuiz, setShowQuiz] = useState(false);
   const [showSkipWarning, setShowSkipWarning] = useState(false);
   const [recordingStartTime, setRecordingStartTime] = useState<number | null>(null);
+  const [activatedWords, setActivatedWords] = useState<Set<number>>(new Set());
+  const [recognizedText, setRecognizedText] = useState('');
+  const [showTranslation, setShowTranslation] = useState(false);
+  const recognitionRef = useRef<any>(null);
   const { isRecording, audioUrl, startRecording, stopRecording, clearRecording } = useVoiceRecorder();
 
   const currentVideo = videos[currentIndex];
   const progress = (watchedVideos.size / videos.length) * 100;
   const allWatched = watchedVideos.size === videos.length;
+
+  // Initialize speech recognition
+  useEffect(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
+      recognitionRef.current.lang = 'en-US';
+      
+      recognitionRef.current.onresult = (event: any) => {
+        let transcript = '';
+        for (let i = 0; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        setRecognizedText(transcript);
+      };
+      
+      recognitionRef.current.onerror = () => {};
+    }
+  }, []);
 
   // Auto-play first video when component mounts
   useEffect(() => {
@@ -59,6 +85,27 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       videoRef.current.play().catch(() => {});
     }
   }, [currentIndex]);
+
+  // Update word activation when recognized text changes
+  useEffect(() => {
+    if (recognizedText && isRecording) {
+      const sentenceText = currentVideo.sentenceToRecord || currentVideo.title;
+      if (sentenceText) {
+        const wordParts = sentenceText.replace(/[?.!,]/g, '').split(/\s+/);
+        const normalizedRecognized = recognizedText.toLowerCase().replace(/[?.!,]/g, '');
+        const recognizedWords = normalizedRecognized.split(/\s+/);
+        
+        const activated = new Set<number>();
+        wordParts.forEach((word, idx) => {
+          const normalizedWord = word.toLowerCase();
+          if (recognizedWords.some(rw => rw === normalizedWord || rw.includes(normalizedWord) || normalizedWord.includes(rw))) {
+            activated.add(idx);
+          }
+        });
+        setActivatedWords(activated);
+      }
+    }
+  }, [recognizedText, isRecording, currentVideo]);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -82,18 +129,42 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       const recordingDuration = recordingStartTime ? Date.now() - recordingStartTime : 0;
       stopRecording();
       
+      // Stop speech recognition
+      if (recognitionRef.current) {
+        try { recognitionRef.current.stop(); } catch (e) {}
+      }
+      
       setTimeout(() => {
-        // FIXED: Only give score if recording lasted at least 800ms (user actually spoke)
         if (recordingDuration >= 800) {
-          const score = Math.floor(Math.random() * 35) + 65; // 65-100 range
-          setPronunciationScore(score);
-          // Play success sound if score >= 80
-          if (score >= 80) {
+          // Final word activation check
+          const sentenceText = currentVideo.sentenceToRecord || currentVideo.title;
+          if (sentenceText) {
+            const wordParts = sentenceText.replace(/[?.!,]/g, '').split(/\s+/);
+            const normalizedRecognized = recognizedText.toLowerCase().replace(/[?.!,]/g, '');
+            const recognizedWords = normalizedRecognized.split(/\s+/);
+            
+            const activated = new Set<number>();
+            wordParts.forEach((word, idx) => {
+              const normalizedWord = word.toLowerCase();
+              if (recognizedWords.some(rw => rw === normalizedWord || rw.includes(normalizedWord) || normalizedWord.includes(rw))) {
+                activated.add(idx);
+              }
+            });
+            setActivatedWords(activated);
+            
+            const matchedCount = activated.size;
+            const totalWords = wordParts.length;
+            const score = Math.round((matchedCount / totalWords) * 100);
+            setPronunciationScore(Math.max(score, 50));
+          } else {
+            const score = Math.floor(Math.random() * 35) + 65;
+            setPronunciationScore(score);
+          }
+          
+          if (pronunciationScore && pronunciationScore >= 80) {
             playSuccessSound();
           }
         } else {
-          // Recording was too short - user didn't record anything meaningful
-          // Don't set any score - require them to try again
           setPronunciationScore(null);
         }
         setRecordingStartTime(null);
@@ -101,12 +172,18 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     } else {
       clearRecording();
       setPronunciationScore(null);
+      setRecognizedText('');
+      setActivatedWords(new Set());
       setRecordingStartTime(Date.now());
       await startRecording();
+      
+      // Start speech recognition
+      if (recognitionRef.current) {
+        try { recognitionRef.current.start(); } catch (e) {}
+      }
     }
   };
 
-  // Play success sound for good recordings
   const playSuccessSound = () => {
     try {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -123,7 +200,6 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     } catch (e) { console.log('Audio not available'); }
   };
 
-  // For listen-only slides, user can proceed without recording
   const isListenOnly = currentVideo.listenOnly || !currentVideo.title;
   const hasCompletedPractice = pronunciationScore !== null && pronunciationScore >= 50;
 
@@ -135,6 +211,9 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       clearRecording();
       setIsPlaying(false);
       setShowSkipWarning(false);
+      setActivatedWords(new Set());
+      setRecognizedText('');
+      setShowTranslation(false);
     }
   };
 
@@ -146,10 +225,12 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       clearRecording();
       setIsPlaying(false);
       setShowSkipWarning(false);
+      setActivatedWords(new Set());
+      setRecognizedText('');
+      setShowTranslation(false);
     }
   };
 
-  // Skip voiceover with warning - still allows progression but warns about credits
   const handleSkipVoiceover = () => {
     if (!isListenOnly && !hasCompletedPractice) {
       setShowSkipWarning(true);
@@ -179,13 +260,19 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
     return msg.translations[selectedLanguage] || msg.english;
   };
 
-  // Get the sentence to display for recording
   const sentenceToDisplay = currentVideo.sentenceToRecord || currentVideo.title;
-
-  // Determine if Next button should be enabled
-  // Next is ALWAYS enabled if video is watched, but shows warning if practice not completed
+  const wordParts = sentenceToDisplay ? sentenceToDisplay.replace(/[?.!,]/g, '').split(/\s+/) : [];
+  
   const canProceedWithoutWarning = isListenOnly || hasCompletedPractice;
   const videoWatched = watchedVideos.has(currentIndex);
+
+  // Get translation for current sentence
+  const getTranslation = () => {
+    if (currentVideo.translations) {
+      return currentVideo.translations[selectedLanguage as SupportedLanguage];
+    }
+    return null;
+  };
 
   return (
     <div className="space-y-6">
@@ -268,9 +355,42 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
             </Button>
           </div>
         </div>
+
+        {/* Translation toggle */}
+        {!isListenOnly && sentenceToDisplay && (
+          <div className="mt-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowTranslation(!showTranslation)}
+              className="gap-2 text-muted-foreground"
+            >
+              {showTranslation ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {showTranslation ? t('hideTranslation') : t('showTranslation')}
+            </Button>
+            
+            <AnimatePresence>
+              {showTranslation && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mt-2 p-3 bg-muted/50 rounded-xl"
+                >
+                  <p 
+                    className="text-lg font-medium text-foreground"
+                    dir={selectedLanguage === 'arabic' ? 'rtl' : 'ltr'}
+                  >
+                    {getTranslation() || sentenceToDisplay}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
 
-      {/* Voice Practice Section - Only show if not a listen-only slide */}
+      {/* Voice Practice Section with Word Activation */}
       {videoWatched && !isListenOnly && sentenceToDisplay && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -279,7 +399,21 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         >
           <div className="text-center">
             <p className="text-sm text-muted-foreground mb-2">Now say it yourself:</p>
-            <p className="text-xl font-bold text-foreground">"{sentenceToDisplay}"</p>
+            {/* Word-by-word activation display */}
+            <p className="text-xl font-bold flex flex-wrap justify-center gap-1.5">
+              {wordParts.map((word, idx) => (
+                <span
+                  key={idx}
+                  className={`transition-all duration-300 px-1 py-0.5 rounded ${
+                    activatedWords.has(idx)
+                      ? 'text-green-600 bg-green-100 dark:bg-green-900/30 scale-110'
+                      : 'text-foreground'
+                  }`}
+                >
+                  {word}
+                </span>
+              ))}
+            </p>
           </div>
 
           <div className="flex justify-center">
@@ -365,7 +499,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         </motion.div>
       )}
 
-      {/* Navigation - Next is always enabled if video is watched, with skip warning if practice not done */}
+      {/* Navigation */}
       <div className="flex justify-between items-center">
         <Button variant="outline" onClick={goPrev} disabled={currentIndex === 0} className="gap-2">
           <ChevronLeft className="w-4 h-4" />
@@ -389,7 +523,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         )}
       </div>
 
-      {/* Quiz Section - Show after all videos watched */}
+      {/* Quiz Section */}
       {allWatched && quizQuestions && quizQuestions.length > 0 && !showQuiz && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -412,7 +546,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         />
       )}
 
-      {/* Completion Message - Only show if no quiz or quiz not started */}
+      {/* Completion Message */}
       <AnimatePresence>
         {allWatched && (!quizQuestions || quizQuestions.length === 0) && (
           <motion.div

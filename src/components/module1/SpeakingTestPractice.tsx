@@ -28,32 +28,13 @@ interface SpeakingTestPracticeProps {
 }
 
 const encouragingMessages = [
-  "Great effort! 🌟",
+  "Great effort! Keep going! 🌟",
   "You're doing amazing! 💪",
-  "Keep it up! 🎉",
-  "Nice try! Practice makes perfect! ✨",
-  "Wonderful attempt! 🌈",
+  "Nice job! Let's hear the next one! 🎉",
+  "Wonderful! You're making great progress! ✨",
+  "Well done! On to the next question! 🌈",
   "You're getting better! 🚀",
-  "Good job trying! 👏",
-];
-
-const congratulatoryMessages = [
-  "Perfect! You nailed it! 🎯",
-  "Excellent pronunciation! 🌟",
-  "Amazing job! You're a natural! 💫",
-  "Outstanding! Keep shining! ⭐",
-  "Wow! That was great! 🎉",
-];
-
-// Expected correct sentences for Test 1
-const expectedSentences = [
-  "what is your name",
-  "where are you from",
-  "how old are you",
-  "are you married or single",
-  "do you have children",
-  "what do you do",
-  "where do you work",
+  "Good job! 👏",
 ];
 
 const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
@@ -69,14 +50,12 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   const { selectedLanguage, t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hasRecorded, setHasRecorded] = useState(false);
-  const [showAnswer, setShowAnswer] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<string>('');
-  const [pronunciationScore, setPronunciationScore] = useState<number | null>(null);
   const [isComplete, setIsComplete] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [recognizedText, setRecognizedText] = useState<string>('');
   const [isListening, setIsListening] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [autoAdvanceTimer, setAutoAdvanceTimer] = useState<number | null>(null);
   const recognitionRef = useRef<any>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -86,7 +65,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   const [isRecording, setIsRecording] = useState(false);
 
   const currentSlide = slides[currentIndex];
-  const progress = ((currentIndex + (showAnswer ? 1 : 0)) / slides.length) * 100;
+  const progress = ((currentIndex + (hasRecorded ? 1 : 0)) / slides.length) * 100;
 
   // Initialize speech recognition
   useEffect(() => {
@@ -110,9 +89,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
         }
       };
       
-      recognitionRef.current.onerror = (event: any) => {
-        console.log('Speech recognition error:', event.error);
-      };
+      recognitionRef.current.onerror = () => {};
     }
   }, []);
 
@@ -125,51 +102,14 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
       if (audioUrl) {
         URL.revokeObjectURL(audioUrl);
       }
+      if (autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+      }
     };
   }, []);
 
-  // Calculate score based on complete sentence matching (ignore pronunciation, only sentence completeness)
-  const calculateScore = useCallback((recognized: string, slideIndex: number): number => {
-    const normalizeText = (text: string) => 
-      text.toLowerCase()
-        .replace(/[^\w\s]/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-
-    const normalizedRecognized = normalizeText(recognized);
-    
-    if (!normalizedRecognized) return 0;
-    
-    // Get the expected sentence for this slide
-    const expectedSentence = expectedSentences[slideIndex] || normalizeText(currentSlide.questionToAsk);
-    
-    // Check for key words - ignore pronunciation, only check if words are present
-    const expectedWords = expectedSentence.split(' ');
-    const recognizedWords = normalizedRecognized.split(' ');
-    
-    let matchedWords = 0;
-    expectedWords.forEach(word => {
-      // More lenient matching - check if word exists anywhere in recognized text
-      if (recognizedWords.some(rw => rw === word || rw.includes(word) || word.includes(rw))) {
-        matchedWords++;
-      }
-    });
-
-    // Calculate percentage of matched words
-    const wordMatchPercentage = (matchedWords / expectedWords.length) * 100;
-    
-    // Bonus for having all expected words (complete sentence)
-    if (matchedWords === expectedWords.length) {
-      return 100;
-    }
-    
-    // Return score based on word match percentage
-    return Math.min(100, Math.round(wordMatchPercentage));
-  }, [currentSlide]);
-
   const startRecording = async () => {
     try {
-      // Clear previous state
       setRecognizedText('');
       audioChunksRef.current = [];
       
@@ -178,11 +118,9 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
         setAudioUrl(null);
       }
 
-      // Get microphone stream
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
       
-      // Setup MediaRecorder
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       
@@ -197,17 +135,14 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
         const url = URL.createObjectURL(audioBlob);
         setAudioUrl(url);
         
-        // Stop stream tracks
         if (streamRef.current) {
           streamRef.current.getTracks().forEach(track => track.stop());
         }
       };
       
-      // Start recording
       mediaRecorder.start();
       setIsRecording(true);
       
-      // Start speech recognition
       if (recognitionRef.current) {
         try {
           recognitionRef.current.start();
@@ -222,66 +157,65 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   };
 
   const stopRecording = () => {
-    // Stop MediaRecorder
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
     }
     
-    // Stop speech recognition
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
-      } catch (err) {
-        console.log('Speech recognition stop error');
-      }
+      } catch (err) {}
     }
     
     setIsRecording(false);
     setIsListening(false);
     setIsAnalyzing(true);
     
-    // Analyze after a short delay to ensure recognition has finished
+    // Analyze and provide feedback, then auto-advance
     setTimeout(() => {
       setIsAnalyzing(false);
       setHasRecorded(true);
       
-      // Calculate score based on recognized text
-      const finalText = recognizedText.trim();
-      let score = 0;
-      
-      if (finalText) {
-        score = calculateScore(finalText, currentIndex);
-      } else {
-        // If no speech was recognized, give a lower score
-        score = 30;
-      }
-      
-      setPronunciationScore(score);
-      
-      // Generate feedback based on score
-      const message = score >= 80
-        ? congratulatoryMessages[Math.floor(Math.random() * congratulatoryMessages.length)]
-        : encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)];
+      // Generate encouraging feedback (no score, no right/wrong)
+      const message = encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)];
       setFeedbackMessage(message);
       
-      if (score >= 50) {
-        playRecordingSuccessSound();
-      }
+      playRecordingSuccessSound();
       
-      // Auto-show answer after recording
-      setTimeout(() => {
-        setShowAnswer(true);
-        if (videoRef.current) {
-          videoRef.current.play();
-        }
-      }, 1500);
+      // Auto-advance to next slide after showing feedback briefly
+      const timer = window.setTimeout(() => {
+        handleAutoNext();
+      }, 2500);
+      setAutoAdvanceTimer(timer);
     }, 1000);
+  };
+
+  const handleAutoNext = () => {
+    if (currentIndex < slides.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+      setHasRecorded(false);
+      setFeedbackMessage('');
+      setRecognizedText('');
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+      setAudioUrl(null);
+      setAutoAdvanceTimer(null);
+    } else {
+      setIsComplete(true);
+      onComplete();
+    }
   };
 
   const handleRecord = async () => {
     if (isRecording) {
       stopRecording();
     } else {
+      // Clear any pending auto-advance
+      if (autoAdvanceTimer) {
+        clearTimeout(autoAdvanceTimer);
+        setAutoAdvanceTimer(null);
+      }
       await startRecording();
     }
   };
@@ -293,25 +227,15 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     }
   };
 
-  const handleRetry = () => {
-    if (audioUrl) {
-      URL.revokeObjectURL(audioUrl);
-    }
-    setAudioUrl(null);
-    setHasRecorded(false);
-    setShowAnswer(false);
-    setFeedbackMessage('');
-    setPronunciationScore(null);
-    setRecognizedText('');
-  };
-
   const handleNext = () => {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      setAutoAdvanceTimer(null);
+    }
     if (currentIndex < slides.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setHasRecorded(false);
-      setShowAnswer(false);
       setFeedbackMessage('');
-      setPronunciationScore(null);
       setRecognizedText('');
       if (audioUrl) {
         URL.revokeObjectURL(audioUrl);
@@ -324,12 +248,14 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   };
 
   const handlePrevious = () => {
+    if (autoAdvanceTimer) {
+      clearTimeout(autoAdvanceTimer);
+      setAutoAdvanceTimer(null);
+    }
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setHasRecorded(false);
-      setShowAnswer(false);
       setFeedbackMessage('');
-      setPronunciationScore(null);
       setRecognizedText('');
       if (audioUrl) {
         URL.revokeObjectURL(audioUrl);
@@ -342,13 +268,6 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   const getTranslation = () => {
     const lang = selectedLanguage as SupportedLanguage;
     return currentSlide.translations[lang] || { question: currentSlide.questionToAsk, hint: currentSlide.hint };
-  };
-
-  // Get score color
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 50) return 'text-amber-600';
-    return 'text-orange-600';
   };
 
   if (isComplete) {
@@ -415,187 +334,125 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
         animate={{ opacity: 1, x: 0 }}
         className="bg-card rounded-2xl border border-border overflow-hidden"
       >
-        {/* Before Recording / Recording Phase */}
-        {!showAnswer && (
-          <div className="p-6 space-y-6">
-            {/* Task Instruction */}
-            <div className="text-center space-y-3">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
-                <Mic className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-primary">Ask {characterName}:</span>
-              </div>
-              
-              {/* Show ONLY the hint, not the full question */}
-              <div className="mt-4">
-                <div className="inline-block px-8 py-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border-2 border-amber-300 dark:border-amber-700">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <Lightbulb className="w-5 h-5 text-amber-600" />
-                    <span className="text-sm font-medium text-amber-700 dark:text-amber-400">Hint</span>
-                  </div>
-                  <p className="text-2xl font-bold text-amber-700 dark:text-amber-400">
-                    {currentSlide.hint}
-                  </p>
-                  <p className="text-sm text-amber-600 dark:text-amber-500 mt-2">
-                    {translation.hint}
-                  </p>
+        <div className="p-6 space-y-6">
+          {/* Task Instruction */}
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
+              <Mic className="w-5 h-5 text-primary" />
+              <span className="text-sm font-medium text-primary">Ask {characterName}:</span>
+            </div>
+            
+            {/* Show ONLY the hint */}
+            <div className="mt-4">
+              <div className="inline-block px-8 py-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border-2 border-amber-300 dark:border-amber-700">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Lightbulb className="w-5 h-5 text-amber-600" />
+                  <span className="text-sm font-medium text-amber-700 dark:text-amber-400">Hint</span>
                 </div>
+                <p className="text-2xl font-bold text-amber-700 dark:text-amber-400">
+                  {currentSlide.hint}
+                </p>
+                <p className="text-sm text-amber-600 dark:text-amber-500 mt-2">
+                  {translation.hint}
+                </p>
               </div>
             </div>
-
-            {/* Recording Button */}
-            <div className="flex flex-col items-center gap-4">
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                onClick={handleRecord}
-                disabled={isAnalyzing}
-                className={`
-                  w-24 h-24 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg
-                  ${isAnalyzing 
-                    ? 'bg-muted text-muted-foreground cursor-wait'
-                    : isRecording 
-                      ? 'bg-destructive text-destructive-foreground animate-pulse' 
-                      : 'bg-gradient-primary text-primary-foreground hover:scale-105'
-                  }
-                `}
-              >
-                {isAnalyzing ? (
-                  <div className="w-8 h-8 border-4 border-muted-foreground border-t-transparent rounded-full animate-spin" />
-                ) : isRecording ? (
-                  <Square className="w-10 h-10" />
-                ) : (
-                  <Mic className="w-10 h-10" />
-                )}
-              </motion.button>
-              <p className="text-sm text-muted-foreground">
-                {isAnalyzing 
-                  ? 'Analyzing your speech...' 
-                  : isRecording 
-                    ? 'Tap to stop recording' 
-                    : 'Tap to record your question'
-                }
-              </p>
-            </div>
-
-            {/* Feedback after recording (before video plays) */}
-            <AnimatePresence>
-              {hasRecorded && feedbackMessage && !showAnswer && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="space-y-4"
-                >
-                  {/* Score Display */}
-                  {pronunciationScore !== null && (
-                    <div className="flex justify-center">
-                      <div className="flex items-center gap-2 px-4 py-2 bg-muted rounded-full">
-                        <Star className={`w-5 h-5 ${getScoreColor(pronunciationScore)}`} />
-                        <span className={`font-bold ${getScoreColor(pronunciationScore)}`}>
-                          {pronunciationScore}%
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Recognized Text */}
-                  {recognizedText && (
-                    <div className="text-center text-sm text-muted-foreground">
-                      <span>You said: </span>
-                      <span className="font-medium text-foreground">"{recognizedText.trim()}"</span>
-                    </div>
-                  )}
-
-                  {/* Feedback Message */}
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="text-center"
-                  >
-                    <div className="inline-flex items-center gap-2 px-6 py-3 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
-                      <CheckCircle2 className="w-5 h-5 text-green-600" />
-                      <span className="text-lg font-semibold text-green-700 dark:text-green-400">
-                        {feedbackMessage}
-                      </span>
-                    </div>
-                  </motion.div>
-
-                  {/* Playback and retry */}
-                  <div className="flex justify-center gap-3">
-                    {audioUrl && (
-                      <Button variant="outline" size="sm" onClick={playRecording} className="gap-2">
-                        <Play className="w-4 h-4" />
-                        Play Recording
-                      </Button>
-                    )}
-                    <Button variant="outline" size="sm" onClick={handleRetry} className="gap-2">
-                      <RotateCcw className="w-4 h-4" />
-                      Try Again
-                    </Button>
-                  </div>
-
-                  <p className="text-sm text-muted-foreground text-center">
-                    Hear {characterName}'s answer...
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
-        )}
 
-        {/* Answer Section - Video plays after recording */}
-        {showAnswer && (
-          <div className="space-y-4">
-            {/* Video */}
-            <div className="relative bg-black">
-              <video
-                ref={videoRef}
-                src={currentSlide.videoUrl}
-                controls
-                autoPlay
-                className="w-full aspect-video"
-              />
-            </div>
+          {/* Recording Button */}
+          <div className="flex flex-col items-center gap-4">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={handleRecord}
+              disabled={isAnalyzing}
+              className={`
+                w-24 h-24 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg
+                ${isAnalyzing 
+                  ? 'bg-muted text-muted-foreground cursor-wait'
+                  : isRecording 
+                    ? 'bg-destructive text-destructive-foreground animate-pulse' 
+                    : 'bg-gradient-primary text-primary-foreground hover:scale-105'
+                }
+              `}
+            >
+              {isAnalyzing ? (
+                <div className="w-8 h-8 border-4 border-muted-foreground border-t-transparent rounded-full animate-spin" />
+              ) : isRecording ? (
+                <Square className="w-10 h-10" />
+              ) : (
+                <Mic className="w-10 h-10" />
+              )}
+            </motion.button>
+            <p className="text-sm text-muted-foreground">
+              {isAnalyzing 
+                ? 'Analyzing your speech...' 
+                : isRecording 
+                  ? 'Tap to stop recording' 
+                  : 'Tap to record your question'
+              }
+            </p>
+          </div>
 
-            {/* Success Message */}
-            <div className="p-6 text-center space-y-4">
-              {pronunciationScore !== null && (
-                <div className="flex justify-center gap-4 items-center">
-                  <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${
-                    pronunciationScore >= 80 ? 'bg-green-100 dark:bg-green-900/30' : 'bg-amber-100 dark:bg-amber-900/30'
-                  }`}>
-                    <Star className={`w-5 h-5 ${getScoreColor(pronunciationScore)}`} />
-                    <span className={`font-bold ${getScoreColor(pronunciationScore)}`}>
-                      Your score: {pronunciationScore}%
+          {/* Feedback after recording - show transcript and encouraging message */}
+          <AnimatePresence>
+            {hasRecorded && feedbackMessage && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-4"
+              >
+                {/* What the user said */}
+                {recognizedText && (
+                  <div className="text-center p-3 bg-muted/50 rounded-xl">
+                    <span className="text-sm text-muted-foreground">You said: </span>
+                    <span className="font-medium text-foreground">"{recognizedText.trim()}"</span>
+                  </div>
+                )}
+
+                {/* Encouraging Feedback - no right/wrong indication */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="text-center"
+                >
+                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 rounded-xl border border-primary/20">
+                    <CheckCircle2 className="w-5 h-5 text-primary" />
+                    <span className="text-lg font-semibold text-primary">
+                      {feedbackMessage}
                     </span>
                   </div>
-                </div>
-              )}
-              
-              {/* Expected sentence */}
-              <div className="text-sm text-muted-foreground">
-                <p>Expected: <span className="font-medium text-foreground">"{currentSlide.questionToAsk}"</span></p>
-              </div>
+                </motion.div>
 
-              {/* Navigation */}
-              <div className="flex justify-center gap-3 pt-4">
+                {/* Playback */}
                 {audioUrl && (
-                  <Button variant="outline" size="sm" onClick={playRecording} className="gap-2">
-                    <Play className="w-4 h-4" />
-                    Your Recording
-                  </Button>
+                  <div className="flex justify-center">
+                    <Button variant="outline" size="sm" onClick={playRecording} className="gap-2">
+                      <Play className="w-4 h-4" />
+                      Play Recording
+                    </Button>
+                  </div>
                 )}
-                <Button variant="outline" size="sm" onClick={handleRetry} className="gap-2">
-                  <RotateCcw className="w-4 h-4" />
-                  Try Again
-                </Button>
-                <Button onClick={handleNext} className="gap-2">
-                  {currentIndex < slides.length - 1 ? 'Next Question' : 'Complete'}
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
+
+                <p className="text-sm text-muted-foreground text-center animate-pulse">
+                  Moving to next question...
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </motion.div>
+
+      {/* Navigation */}
+      <div className="flex justify-between items-center">
+        <Button variant="outline" onClick={handlePrevious} disabled={currentIndex === 0} className="gap-2">
+          <ChevronLeft className="w-4 h-4" />
+          Previous
+        </Button>
+        <Button onClick={handleNext} className="gap-2">
+          {currentIndex < slides.length - 1 ? 'Next Question' : 'Complete'}
+          <ChevronRight className="w-4 h-4" />
+        </Button>
+      </div>
     </div>
   );
 };
