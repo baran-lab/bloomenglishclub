@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, ChevronLeft, ChevronRight, Eye, EyeOff, CheckCircle2, Mic, Square, Play, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -22,13 +22,39 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
   const [completedWords, setCompletedWords] = useState<Set<string>>(new Set());
   const [showTranslation, setShowTranslation] = useState(false);
   const [pronunciationScore, setPronunciationScore] = useState<number | null>(null);
+  const [activatedWords, setActivatedWords] = useState<Set<number>>(new Set());
+  const [feedbackMessage, setFeedbackMessage] = useState<string>('');
   const { isRecording, audioUrl, startRecording, stopRecording, clearRecording } = useVoiceRecorder();
+  const recognitionRef = useRef<any>(null);
+  const [recognizedText, setRecognizedText] = useState('');
+  const recordingStartTimeRef = useRef<number | null>(null);
 
   const currentWord = vocabulary?.[currentIndex];
   const progress = vocabulary?.length > 0 ? (completedWords.size / vocabulary.length) * 100 : 0;
   const allCompleted = vocabulary?.length > 0 && completedWords.size === vocabulary.length;
 
-  // Safety check - if no vocabulary data, show loading or empty state
+  // Initialize speech recognition
+  useEffect(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
+      recognitionRef.current.lang = 'en-US';
+      
+      recognitionRef.current.onresult = (event: any) => {
+        let transcript = '';
+        for (let i = 0; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        setRecognizedText(transcript);
+      };
+      
+      recognitionRef.current.onerror = () => {};
+    }
+  }, []);
+
+  // Safety check
   if (!vocabulary || vocabulary.length === 0 || !currentWord) {
     return (
       <div className="text-center p-8">
@@ -48,20 +74,98 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
     }
   };
 
+  // Auto-play vocabulary when word changes
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      speakWord();
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
+
+  // Word activation: check which words in the phrase were recognized
+  const getWordParts = () => {
+    return currentWord.english.replace(/[?.!,]/g, '').split(/\s+/);
+  };
+
+  const checkWordActivation = useCallback((recognized: string) => {
+    const normalizedRecognized = recognized.toLowerCase().replace(/[?.!,]/g, '');
+    const recognizedWords = normalizedRecognized.split(/\s+/);
+    const wordParts = currentWord.english.replace(/[?.!,]/g, '').split(/\s+/);
+    
+    const activated = new Set<number>();
+    wordParts.forEach((word, idx) => {
+      const normalizedWord = word.toLowerCase();
+      if (recognizedWords.some(rw => rw === normalizedWord || rw.includes(normalizedWord) || normalizedWord.includes(rw))) {
+        activated.add(idx);
+      }
+    });
+    setActivatedWords(activated);
+    return activated;
+  }, [currentWord]);
+
   const handleRecord = async () => {
     if (isRecording) {
       stopRecording();
+      
+      // Stop speech recognition
+      if (recognitionRef.current) {
+        try { recognitionRef.current.stop(); } catch (e) {}
+      }
+      
+      const recordingDuration = recordingStartTimeRef.current ? Date.now() - recordingStartTimeRef.current : 0;
+      recordingStartTimeRef.current = null;
+      
       setTimeout(() => {
-        const score = Math.floor(Math.random() * 30) + 70;
-        setPronunciationScore(score);
-        if (score >= 70) {
+        if (recordingDuration < 800) {
+          setPronunciationScore(null);
+          setFeedbackMessage('');
+          return;
+        }
+        
+        const normalized = recognizedText.toLowerCase().replace(/[?.!,]/g, '').trim();
+        const wordParts = currentWord.english.replace(/[?.!,]/g, '').toLowerCase().split(/\s+/);
+        const recognizedWords = normalized.split(/\s+/);
+        
+        // Check word activation
+        const activated = checkWordActivation(recognizedText);
+        
+        // Check completeness
+        const allWordsPresent = wordParts.every(word => 
+          recognizedWords.some(rw => rw === word || rw.includes(word) || word.includes(rw))
+        );
+        
+        if (allWordsPresent) {
+          const score = Math.floor(Math.random() * 15) + 85; // 85-100
+          setPronunciationScore(score);
+          setFeedbackMessage('');
+          setCompletedWords(prev => new Set([...prev, currentWord.id]));
+        } else {
+          // Incomplete - grade at 70% with encouraging comment
+          setPronunciationScore(70);
+          const encouragements = [
+            "Almost there! Try saying the complete word. 💪",
+            "Good effort! Make sure to say the full word. 🌟",
+            "You're close! Try to pronounce all parts clearly. ✨",
+            "Nice try! Listen again and repeat the whole word. 🎯",
+          ];
+          setFeedbackMessage(encouragements[Math.floor(Math.random() * encouragements.length)]);
           setCompletedWords(prev => new Set([...prev, currentWord.id]));
         }
-      }, 500);
+      }, 800);
     } else {
       clearRecording();
       setPronunciationScore(null);
+      setFeedbackMessage('');
+      setRecognizedText('');
+      setActivatedWords(new Set());
+      recordingStartTimeRef.current = Date.now();
       await startRecording();
+      
+      // Start speech recognition
+      if (recognitionRef.current) {
+        try { recognitionRef.current.start(); } catch (e) {}
+      }
     }
   };
 
@@ -77,6 +181,9 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
       setCurrentIndex(prev => prev + 1);
       setShowTranslation(false);
       setPronunciationScore(null);
+      setFeedbackMessage('');
+      setRecognizedText('');
+      setActivatedWords(new Set());
       clearRecording();
     }
   };
@@ -86,6 +193,9 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
       setCurrentIndex(prev => prev - 1);
       setShowTranslation(false);
       setPronunciationScore(null);
+      setFeedbackMessage('');
+      setRecognizedText('');
+      setActivatedWords(new Set());
       clearRecording();
     }
   };
@@ -100,6 +210,9 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
     if (score >= 70) return 'text-amber-500';
     return 'text-orange-500';
   };
+
+  const wordParts = getWordParts();
+  const isMultiWord = wordParts.length > 1;
 
   return (
     <div className="space-y-6">
@@ -141,9 +254,30 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
           className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-6 border border-primary/20"
         >
           <div className="text-center space-y-4">
-            {/* English word */}
+            {/* English word with word activation */}
             <div>
-              <h2 className="text-3xl font-bold text-foreground mb-2">{currentWord.english}</h2>
+              {isMultiWord ? (
+                <h2 className="text-3xl font-bold text-foreground mb-2 flex flex-wrap justify-center gap-2">
+                  {wordParts.map((word, idx) => (
+                    <span
+                      key={idx}
+                      className={`transition-all duration-300 px-1 rounded ${
+                        activatedWords.has(idx)
+                          ? 'text-green-600 bg-green-100 dark:bg-green-900/30 scale-110'
+                          : ''
+                      }`}
+                    >
+                      {word}
+                    </span>
+                  ))}
+                </h2>
+              ) : (
+                <h2 className={`text-3xl font-bold mb-2 transition-all duration-300 ${
+                  activatedWords.has(0) ? 'text-green-600' : 'text-foreground'
+                }`}>
+                  {currentWord.english}
+                </h2>
+              )}
             </div>
 
             {/* Listen button */}
@@ -231,7 +365,7 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
                 <Play className="w-4 h-4" />
                 {t('playRecording')}
               </Button>
-              <Button variant="outline" size="sm" onClick={() => { clearRecording(); setPronunciationScore(null); }} className="gap-2">
+              <Button variant="outline" size="sm" onClick={() => { clearRecording(); setPronunciationScore(null); setFeedbackMessage(''); setActivatedWords(new Set()); setRecognizedText(''); }} className="gap-2">
                 <RotateCcw className="w-4 h-4" />
                 {t('tryAgain')}
               </Button>
@@ -241,7 +375,7 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="text-center"
+                className="text-center space-y-1"
               >
                 <span className={`text-2xl font-bold ${getScoreColor(pronunciationScore)}`}>
                   {pronunciationScore}%
@@ -249,26 +383,29 @@ export const VocabularyLesson: React.FC<VocabularyLessonProps> = ({
                 <p className={`font-medium ${getScoreColor(pronunciationScore)}`}>
                   {pronunciationScore >= 85 ? t('excellent') : pronunciationScore >= 70 ? t('goodJob') : t('keepPracticing')}
                 </p>
+                {feedbackMessage && (
+                  <p className="text-sm text-amber-600 dark:text-amber-400 mt-1">{feedbackMessage}</p>
+                )}
               </motion.div>
             )}
           </motion.div>
         )}
       </div>
 
-      {/* Navigation */}
+      {/* Navigation - always enabled */}
       <div className="flex justify-between items-center">
         <Button variant="outline" onClick={goPrev} disabled={currentIndex === 0} className="gap-2">
           <ChevronLeft className="w-4 h-4" />
           {t('previous')}
         </Button>
 
-        {allCompleted && currentIndex === vocabulary.length - 1 ? (
+        {currentIndex === vocabulary.length - 1 ? (
           <Button onClick={onComplete} className="gap-2 bg-green-500 hover:bg-green-600">
             <CheckCircle2 className="w-4 h-4" />
             {t('lessonComplete')}
           </Button>
         ) : (
-          <Button onClick={goNext} disabled={currentIndex === vocabulary.length - 1} className="gap-2">
+          <Button onClick={goNext} className="gap-2">
             {t('next')}
             <ChevronRight className="w-4 h-4" />
           </Button>

@@ -300,7 +300,7 @@ export const vocabulary1: VocabularyItem[] = [
   { id: 'v1-from', english: 'from', pronunciation: 'from', translations: { arabic: 'من', bengali: 'থেকে', korean: '~에서', spanish: 'de', turkish: '-den/-dan' } },
   { id: 'v1-have', english: 'have', pronunciation: 'hav', translations: { arabic: 'لديه/لديها', bengali: 'আছে', korean: '가지다', spanish: 'tener', turkish: 'sahip olmak' } },
   { id: 'v1-in', english: 'in', pronunciation: 'in', translations: { arabic: 'في', bengali: 'মধ্যে', korean: '~안에', spanish: 'en', turkish: '-de/-da' } },
-  { id: 'v1-live', english: 'live (verb)', pronunciation: 'LIV (rhymes with give)', translations: { arabic: 'يعيش', bengali: 'বাস করা', korean: '살다', spanish: 'vivir', turkish: 'yaşamak' } },
+  
   { id: 'v1-married', english: 'married', pronunciation: 'MAR-eed', translations: { arabic: 'متزوج/متزوجة', bengali: 'বিবাহিত', korean: '결혼한', spanish: 'casado/a', turkish: 'evli' } },
   { id: 'v1-single', english: 'single', pronunciation: 'SING-gul', translations: { arabic: 'أعزب/عزباء', bengali: 'অবিবাহিত', korean: '미혼', spanish: 'soltero/a', turkish: 'bekar' } },
   { id: 'v1-supermarket', english: 'supermarket', pronunciation: 'SOO-per-mar-kit', translations: { arabic: 'سوبرماركت', bengali: 'সুপারমার্কেট', korean: '슈퍼마켓', spanish: 'supermercado', turkish: 'süpermarket' } },
@@ -458,23 +458,23 @@ export const module1IntroVideoUrl = '/videos/module1/m1-l1-s1.mp4';
 
 // Marisol Videos - Reordered: My name, From Peru, Cashier, Supermarket, Single, 28 years old
 export const marisolVideos = [
-  { url: '/videos/module1/m1-l1-s2.mp4', title: 'My name is Marisol Rivera.', subtitle: 'Introducing yourself' },
-  { url: '/videos/module1/m1-l1-s3.mp4', title: 'I am from Peru.', subtitle: 'Telling where you are from' },
-  { url: '/videos/module1/m1-l1-s4.mp4', title: 'I am a cashier.', subtitle: 'Saying your job' },
-  { url: '/videos/module1/m1-l1-s5.mp4', title: 'I work in a supermarket.', subtitle: 'Saying where you work' },
-  { url: '/videos/module1/m1-l1-s6.mp4', title: 'I am single.', subtitle: 'Telling your marital status' },
-  { url: '/videos/module1/m1-l1-s7.mp4', title: 'I am 28 years old.', subtitle: 'Saying your age' },
+  { url: '/videos/module1/m1-l1-s2.mp4', title: 'My name is Marisol Rivera.', subtitle: 'Introducing yourself', translations: { arabic: 'اسمي ماريسول ريفيرا.', bengali: 'আমার নাম মারিসোল রিভেরা।', korean: '제 이름은 마리솔 리베라입니다.', spanish: 'Mi nombre es Marisol Rivera.', turkish: 'Adım Marisol Rivera.' } },
+  { url: '/videos/module1/m1-l1-s3.mp4', title: 'I am from Peru.', subtitle: 'Telling where you are from', translations: { arabic: 'أنا من بيرو.', bengali: 'আমি পেরু থেকে।', korean: '저는 페루 출신이에요.', spanish: 'Soy de Perú.', turkish: 'Peru\'luyum.' } },
+  { url: '/videos/module1/m1-l1-s4.mp4', title: 'I am a cashier.', subtitle: 'Saying your job', translations: { arabic: 'أنا أمين صندوق.', bengali: 'আমি একজন ক্যাশিয়ার।', korean: '저는 계산원이에요.', spanish: 'Soy cajera.', turkish: 'Ben kasiyerim.' } },
+  { url: '/videos/module1/m1-l1-s5.mp4', title: 'I work in a supermarket.', subtitle: 'Saying where you work', translations: { arabic: 'أعمل في سوبرماركت.', bengali: 'আমি সুপারমার্কেটে কাজ করি।', korean: '저는 슈퍼마켓에서 일해요.', spanish: 'Trabajo en un supermercado.', turkish: 'Süpermarkette çalışıyorum.' } },
+  { url: '/videos/module1/m1-l1-s6.mp4', title: 'I am single.', subtitle: 'Telling your marital status', translations: { arabic: 'أنا أعزب/عزباء.', bengali: 'আমি অবিবাহিত।', korean: '저는 미혼이에요.', spanish: 'Soy soltera.', turkish: 'Bekarım.' } },
+  { url: '/videos/module1/m1-l1-s7.mp4', title: 'I am 28 years old.', subtitle: 'Saying your age', translations: { arabic: 'عمري 28 سنة.', bengali: 'আমার বয়স 28 বছর।', korean: '저는 28살이에요.', spanish: 'Tengo 28 años.', turkish: '28 yaşındayım.' } },
 ];
 
 // Rosa Videos - M1 L2 S1-S8 - Revised: Slides 1 & 8 are listen-only, others practice answers only
 export const rosaVideos = [
   { url: '/videos/module1/m1-l2-s1.mp4', title: 'Hi! I am your new neighbor.', subtitle: 'Listen only', listenOnly: true },
-  { url: '/videos/module1/m1-l2-s2.mp4', title: 'My name is Rosa Silva.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l2-s3.mp4', title: 'I am from the Dominican Republic.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l2-s4.mp4', title: 'I am 30 years old.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l2-s5.mp4', title: 'I am a housekeeper.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l2-s6.mp4', title: 'I work in a hotel.', subtitle: 'Practice' },
-  { url: '/videos/module1/m1-l2-s7.mp4', title: 'I am married.', subtitle: 'Practice' },
+  { url: '/videos/module1/m1-l2-s2.mp4', title: 'My name is Rosa Silva.', subtitle: 'Practice', translations: { arabic: 'اسمي روزا سيلفا.', bengali: 'আমার নাম রোজা সিলভা।', korean: '제 이름은 로사 실바입니다.', spanish: 'Mi nombre es Rosa Silva.', turkish: 'Adım Rosa Silva.' } },
+  { url: '/videos/module1/m1-l2-s3.mp4', title: 'I am from the Dominican Republic.', subtitle: 'Practice', translations: { arabic: 'أنا من جمهورية الدومينيكان.', bengali: 'আমি ডোমিনিকান প্রজাতন্ত্র থেকে।', korean: '저는 도미니카 공화국에서 왔어요.', spanish: 'Soy de la República Dominicana.', turkish: 'Dominik Cumhuriyeti\'ndenim.' } },
+  { url: '/videos/module1/m1-l2-s4.mp4', title: 'I am 30 years old.', subtitle: 'Practice', translations: { arabic: 'عمري 30 سنة.', bengali: 'আমার বয়স 30 বছর।', korean: '저는 30살이에요.', spanish: 'Tengo 30 años.', turkish: '30 yaşındayım.' } },
+  { url: '/videos/module1/m1-l2-s5.mp4', title: 'I am a housekeeper.', subtitle: 'Practice', translations: { arabic: 'أنا عاملة نظافة.', bengali: 'আমি একজন গৃহপরিচারিকা।', korean: '저는 가정부예요.', spanish: 'Soy ama de llaves.', turkish: 'Temizlikçiyim.' } },
+  { url: '/videos/module1/m1-l2-s6.mp4', title: 'I work in a hotel.', subtitle: 'Practice', translations: { arabic: 'أعمل في فندق.', bengali: 'আমি হোটেলে কাজ করি।', korean: '저는 호텔에서 일해요.', spanish: 'Trabajo en un hotel.', turkish: 'Otelde çalışıyorum.' } },
+  { url: '/videos/module1/m1-l2-s7.mp4', title: 'I am married.', subtitle: 'Practice', translations: { arabic: 'أنا متزوجة.', bengali: 'আমি বিবাহিত।', korean: '저는 기혼이에요.', spanish: 'Estoy casada.', turkish: 'Evliyim.' } },
   { url: '/videos/module1/m1-l2-s8.mp4', title: '', subtitle: 'Listen only', listenOnly: true },
 ];
 
