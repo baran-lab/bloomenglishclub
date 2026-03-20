@@ -28,6 +28,7 @@ const App = () => (
           <Route path="/module/1" element={<Module1 />} />
           <Route path="/module/2" element={<Module2 />} />
           <Route path="/module/3" element={<Module3 />} />
+          <Route path="/module/5" element={<Module5 />} />
           <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
