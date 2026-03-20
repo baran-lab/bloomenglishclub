@@ -133,7 +133,7 @@ export const module5VisualVocab2: VisualVocabularyItem[] = [
   { id: 'vv2-packages-meat', phrase: 'three packages of meat', emoji: '🥩🥩🥩' },
   { id: 'vv2-loaves-bread', phrase: 'two loaves of bread', emoji: '🍞🍞' },
   { id: 'vv2-bags-flour', phrase: 'two bags of flour', emoji: '🌾🌾' },
-  { id: 'vv2-bags-sugar', phrase: 'two bags of sugar', emoji: '🏷️🏷️' },
+  { id: 'vv2-bags-sugar', phrase: 'two bags of sugar', emoji: '🫙🫙' },
   { id: 'vv2-packages-cheese', phrase: 'two packages of cheese', emoji: '🧀🧀' },
 ];
 
