@@ -256,13 +256,13 @@ export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-4 p-6 bg-green-50 rounded-xl border border-green-200"
+            className="text-center space-y-4 p-6 bg-accent rounded-xl border border-border"
           >
             <div className="text-4xl">🎉</div>
-            <h3 className="font-fredoka text-xl font-bold text-green-700">
+            <h3 className="font-fredoka text-xl font-bold text-primary">
               All grocery items matched!
             </h3>
-            <p className="text-green-600">Great job learning the grocery items!</p>
+            <p className="text-muted-foreground">Great job learning the grocery items!</p>
             <Button onClick={onComplete} className="gap-2">
               Continue <ArrowRight className="w-4 h-4" />
             </Button>
