@@ -115,7 +115,7 @@ export const module5VisualVocab1: VisualVocabularyItem[] = [
   { id: 'vv1-package-meat', phrase: 'a package of meat', emoji: '🥩' },
   { id: 'vv1-loaf-bread', phrase: 'a loaf of bread', emoji: '🍞' },
   { id: 'vv1-bag-flour', phrase: 'a bag of flour', emoji: '🌾' },
-  { id: 'vv1-bag-sugar', phrase: 'a bag of sugar', emoji: '🏷️' },
+  { id: 'vv1-bag-sugar', phrase: 'a bag of sugar', emoji: '🫙' },
   { id: 'vv1-package-cheese', phrase: 'a package of cheese', emoji: '🧀' },
   { id: 'vv1-bag-rice', phrase: 'a bag of rice', emoji: '🍚' },
   { id: 'vv1-box-tea', phrase: 'a box of tea', emoji: '🍵' },
