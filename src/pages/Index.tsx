@@ -87,6 +87,8 @@ const Index = () => {
       navigate('/module/2');
     } else if (module.id === 3) {
       navigate('/module/3');
+    } else if (module.id === 5) {
+      navigate('/module/5');
     } else {
       toast({
         title: `Opening ${module.title}`,
