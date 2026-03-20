@@ -340,54 +340,23 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         )}
       </div>
 
-      {/* Video Info */}
+      {/* Video Info - minimal, no subtitle prompts */}
       <div className="bg-card rounded-xl border border-border p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h4 className="font-semibold text-foreground">{currentVideo.subtitle || currentVideo.title}</h4>
+            <h4 className="font-semibold text-foreground">{currentVideo.title}</h4>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="icon" onClick={togglePlay}>
               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
             </Button>
-            <Button variant="outline" size="icon" onClick={speakPhrase}>
-              <Volume2 className="w-4 h-4" />
-            </Button>
+            {!isListenOnly && sentenceToDisplay && (
+              <Button variant="outline" size="icon" onClick={speakPhrase}>
+                <Volume2 className="w-4 h-4" />
+              </Button>
+            )}
           </div>
         </div>
-
-        {/* Translation toggle */}
-        {!isListenOnly && sentenceToDisplay && (
-          <div className="mt-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowTranslation(!showTranslation)}
-              className="gap-2 text-muted-foreground"
-            >
-              {showTranslation ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              {showTranslation ? t('hideTranslation') : t('showTranslation')}
-            </Button>
-            
-            <AnimatePresence>
-              {showTranslation && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="mt-2 p-3 bg-muted/50 rounded-xl"
-                >
-                  <p 
-                    className="text-lg font-medium text-foreground"
-                    dir={selectedLanguage === 'arabic' ? 'rtl' : 'ltr'}
-                  >
-                    {getTranslation() || sentenceToDisplay}
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        )}
       </div>
 
       {/* Voice Practice Section with Word Activation */}

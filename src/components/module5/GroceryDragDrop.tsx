@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, RotateCcw, ArrowRight, Home, GripVertical } from 'lucide-react';
+import { CheckCircle2, RotateCcw, ArrowRight, Home, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { groceryItemsCorrectOrder } from '@/data/module5Data';
 import { useNavigate } from 'react-router-dom';
+import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
 
 interface GroceryDragDropProps {
   onComplete: () => void;
@@ -19,18 +20,14 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
-const playCorrectSound = () => {
-  try {
-    const ctx = new AudioContext();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.frequency.value = 800;
-    gain.gain.value = 0.1;
-    osc.start();
-    osc.stop(ctx.currentTime + 0.15);
-  } catch {}
+const speakWord = (word: string) => {
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.8;
+    speechSynthesis.speak(utterance);
+  }
 };
 
 export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) => {
@@ -42,18 +39,17 @@ export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) 
     shuffleArray(groceryItemsCorrectOrder.map(g => g.name))
   );
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
-  const [isChecked, setIsChecked] = useState(false);
   const [correctSlots, setCorrectSlots] = useState<Set<number>>(new Set());
   const [wrongSlots, setWrongSlots] = useState<Set<number>>(new Set());
   const [isComplete, setIsComplete] = useState(false);
+  const [lastFeedback, setLastFeedback] = useState<{ idx: number; correct: boolean } | null>(null);
 
   const handleWordClick = (word: string) => {
-    if (isChecked) return;
     setSelectedWord(prev => prev === word ? null : word);
   };
 
   const handleSlotClick = (index: number) => {
-    if (isChecked) return;
+    if (correctSlots.has(index)) return;
 
     // If slot already has a word, put it back
     if (userSlots[index] !== null) {
@@ -64,70 +60,88 @@ export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) 
         n[index] = null;
         return n;
       });
+      setWrongSlots(prev => {
+        const n = new Set(prev);
+        n.delete(index);
+        return n;
+      });
       return;
     }
 
-    // Place selected word
+    // Place selected word and check immediately
     if (selectedWord) {
-      setUserSlots(prev => {
-        const n = [...prev];
-        n[index] = selectedWord;
-        return n;
-      });
-      setAvailableWords(prev => prev.filter(w => w !== selectedWord));
-      setSelectedWord(null);
-    }
-  };
-
-  const handleCheck = () => {
-    const correct = new Set<number>();
-    const wrong = new Set<number>();
-    userSlots.forEach((word, idx) => {
-      if (word === null) return;
-      if (word.toLowerCase() === correctOrder[idx]) {
-        correct.add(idx);
+      const isCorrect = selectedWord.toLowerCase() === correctOrder[index];
+      
+      if (isCorrect) {
+        setUserSlots(prev => {
+          const n = [...prev];
+          n[index] = selectedWord;
+          return n;
+        });
+        setAvailableWords(prev => prev.filter(w => w !== selectedWord));
+        setCorrectSlots(prev => {
+          const n = new Set(prev);
+          n.add(index);
+          return n;
+        });
+        playSuccessSound();
+        speakWord(selectedWord);
+        setLastFeedback({ idx: index, correct: true });
+        
+        // Check if all done
+        const newCorrectCount = correctSlots.size + 1;
+        if (newCorrectCount === 24) {
+          setIsComplete(true);
+        }
       } else {
-        wrong.add(idx);
+        // Wrong placement - show briefly then return
+        setUserSlots(prev => {
+          const n = [...prev];
+          n[index] = selectedWord;
+          return n;
+        });
+        setAvailableWords(prev => prev.filter(w => w !== selectedWord));
+        setWrongSlots(prev => {
+          const n = new Set(prev);
+          n.add(index);
+          return n;
+        });
+        playErrorSound();
+        setLastFeedback({ idx: index, correct: false });
+        
+        // Return the word after a short delay
+        const wordToReturn = selectedWord;
+        setTimeout(() => {
+          setUserSlots(prev => {
+            const n = [...prev];
+            if (n[index] === wordToReturn) {
+              n[index] = null;
+            }
+            return n;
+          });
+          setWrongSlots(prev => {
+            const n = new Set(prev);
+            n.delete(index);
+            return n;
+          });
+          setAvailableWords(prev => [...prev, wordToReturn]);
+        }, 800);
       }
-    });
-    setCorrectSlots(correct);
-    setWrongSlots(wrong);
-    setIsChecked(true);
-
-    if (correct.size === 24) {
-      playCorrectSound();
-      setIsComplete(true);
+      
+      setSelectedWord(null);
+      setTimeout(() => setLastFeedback(null), 1200);
     }
-  };
-
-  const handleRetry = () => {
-    // Put wrong answers back into available
-    const returnWords: string[] = [];
-    const newSlots = [...userSlots];
-    wrongSlots.forEach(idx => {
-      if (newSlots[idx]) {
-        returnWords.push(newSlots[idx]!);
-        newSlots[idx] = null;
-      }
-    });
-    setUserSlots(newSlots);
-    setAvailableWords(prev => shuffleArray([...prev, ...returnWords]));
-    setCorrectSlots(new Set());
-    setWrongSlots(new Set());
-    setIsChecked(false);
   };
 
   const handleReset = () => {
     setUserSlots(Array(24).fill(null));
     setAvailableWords(shuffleArray(groceryItemsCorrectOrder.map(g => g.name)));
     setSelectedWord(null);
-    setIsChecked(false);
     setCorrectSlots(new Set());
     setWrongSlots(new Set());
     setIsComplete(false);
+    setLastFeedback(null);
   };
-
-  const filledCount = userSlots.filter(s => s !== null).length;
 
   return (
     <div className="space-y-6">
@@ -135,22 +149,13 @@ export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) 
         <Button variant="outline" size="sm" onClick={() => navigate('/')} className="gap-2">
           <Home className="w-4 h-4" /> Dashboard
         </Button>
-        <span className="text-sm text-muted-foreground">{filledCount}/24 placed</span>
+        <span className="text-sm text-muted-foreground">{correctSlots.size}/24 matched</span>
       </div>
 
       <div className="text-center space-y-2">
         <h2 className="font-fredoka text-2xl font-bold text-foreground">🛒 Grocery Items</h2>
-        <p className="text-muted-foreground text-sm">Look at the image and drag the correct names to match each item.</p>
+        <p className="text-muted-foreground text-sm">Tap a word, then tap the matching item to place it.</p>
       </div>
-
-      {/* Reference image */}
-      <Card className="overflow-hidden">
-        <img
-          src="/images/module5/grocery-items.jpg"
-          alt="Grocery items reference"
-          className="w-full h-auto"
-        />
-      </Card>
 
       {/* Progress bar */}
       <div className="h-2 bg-muted rounded-full overflow-hidden">
@@ -160,10 +165,10 @@ export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) 
         />
       </div>
 
-      {/* Drop slots grid */}
+      {/* Drop slots grid with emoji visuals */}
       <div className="space-y-2">
         <h3 className="font-fredoka text-lg font-semibold text-foreground">
-          Place the names in the correct order:
+          Match the names to the items:
         </h3>
         <div className="grid grid-cols-4 gap-2">
           {userSlots.map((word, idx) => {
@@ -175,25 +180,27 @@ export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) 
               <motion.button
                 key={idx}
                 onClick={() => handleSlotClick(idx)}
-                className={`relative flex flex-col items-center justify-center p-2 rounded-lg border-2 border-dashed min-h-[70px] text-xs font-medium transition-all ${
+                className={`relative flex flex-col items-center justify-center p-2 rounded-lg border-2 min-h-[80px] text-xs font-medium transition-all ${
                   isCorrectSlot
-                    ? 'border-green-500 bg-green-50 text-green-700'
+                    ? 'border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700'
                     : isWrongSlot
-                    ? 'border-red-500 bg-red-50 text-red-700'
+                    ? 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 animate-shake'
                     : word
                     ? 'border-primary bg-primary/10 text-primary'
                     : selectedWord
-                    ? 'border-primary/50 bg-primary/5 cursor-pointer hover:bg-primary/10'
-                    : 'border-muted-foreground/30 bg-muted/30 text-muted-foreground'
+                    ? 'border-primary/50 bg-primary/5 cursor-pointer hover:bg-primary/10 border-dashed'
+                    : 'border-muted-foreground/30 bg-muted/30 text-muted-foreground border-dashed'
                 }`}
-                whileHover={!isChecked ? { scale: 1.02 } : {}}
-                whileTap={!isChecked ? { scale: 0.98 } : {}}
+                whileHover={!isCorrectSlot ? { scale: 1.02 } : {}}
+                whileTap={!isCorrectSlot ? { scale: 0.98 } : {}}
               >
-                <span className="text-lg mb-0.5">{correctItem.emoji}</span>
-                {word ? (
+                <span className="text-2xl mb-0.5">{correctItem.emoji}</span>
+                {isCorrectSlot && word ? (
+                  <span className="text-center leading-tight font-semibold">{word}</span>
+                ) : word ? (
                   <span className="text-center leading-tight">{word}</span>
                 ) : (
-                  <span className="text-muted-foreground/50 text-[10px]">#{idx + 1}</span>
+                  <span className="text-muted-foreground/50 text-[10px]">?</span>
                 )}
                 {isCorrectSlot && (
                   <CheckCircle2 className="absolute top-0.5 right-0.5 w-3.5 h-3.5 text-green-600" />
@@ -208,7 +215,7 @@ export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) 
       {availableWords.length > 0 && (
         <div className="space-y-2">
           <h3 className="font-fredoka text-lg font-semibold text-foreground">
-            Available words: <span className="text-sm text-muted-foreground font-normal">(tap a word, then tap a slot)</span>
+            Available words: <span className="text-sm text-muted-foreground font-normal">(tap a word, then tap an item)</span>
           </h3>
           <div className="flex flex-wrap gap-2">
             {availableWords.map((word) => (
@@ -235,19 +242,6 @@ export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) 
         <Button variant="outline" onClick={handleReset} className="gap-2">
           <RotateCcw className="w-4 h-4" /> Reset
         </Button>
-        {!isChecked ? (
-          <Button
-            onClick={handleCheck}
-            disabled={filledCount < 24}
-            className="gap-2"
-          >
-            Check Answers
-          </Button>
-        ) : !isComplete ? (
-          <Button onClick={handleRetry} className="gap-2">
-            Try Again
-          </Button>
-        ) : null}
       </div>
 
       {/* Completion */}
