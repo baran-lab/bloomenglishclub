@@ -57,7 +57,7 @@ export const groceryItemsCorrectOrder: GroceryItem[] = [
   { id: 'gi-pineapples', name: 'Pineapples', emoji: '🍍🍍', category: 'how-many' },
   { id: 'gi-bananas', name: 'Bananas', emoji: '🍌🍌', category: 'how-many' },
   { id: 'gi-tea', name: 'Tea', emoji: '🍵', category: 'how-much' },
-  { id: 'gi-sugar', name: 'Sugar', emoji: '🍬', category: 'how-much' },
+  { id: 'gi-sugar', name: 'Sugar', emoji: '🏷️', category: 'how-much' },
   { id: 'gi-soda', name: 'Soda', emoji: '🥤', category: 'how-much' },
   { id: 'gi-cheese', name: 'Cheese', emoji: '🧀', category: 'how-much' },
 ];
@@ -68,6 +68,21 @@ export const groceryItemsAlphabetical: string[] = [
   'eggs', 'green peppers', 'juice', 'meat', 'milk', 'onions', 'oranges',
   'pies', 'pineapples', 'potatoes', 'rice', 'salt', 'soda', 'sugar',
   'tea', 'tomatoes', 'water',
+];
+
+// How much? How many? Practice - Sentence ordering exercises
+export interface SentenceOrderData {
+  correctSentence: string;
+  jumbledWords: string[];
+}
+
+export const howMuchManySentences: SentenceOrderData[] = [
+  { correctSentence: 'How many tomatoes do you need?', jumbledWords: ['need?', 'How', 'do', 'tomatoes', 'many', 'you'] },
+  { correctSentence: 'How much sugar do you need?', jumbledWords: ['you', 'much', 'How', 'need?', 'sugar', 'do'] },
+  { correctSentence: 'How many onions do you need?', jumbledWords: ['do', 'onions', 'How', 'you', 'many', 'need?'] },
+  { correctSentence: 'How much coffee do you need?', jumbledWords: ['coffee', 'How', 'need?', 'much', 'you', 'do'] },
+  { correctSentence: 'How many apples do you need?', jumbledWords: ['many', 'you', 'apples', 'How', 'do', 'need?'] },
+  { correctSentence: 'How much salt do you need?', jumbledWords: ['do', 'salt', 'need?', 'How', 'much', 'you'] },
 ];
 
 // Vocabulary Set 3 - Containers & Measurements
@@ -84,6 +99,42 @@ export const module5Vocabulary3: VocabularyItem[] = [
   { id: 'm5v3-package', english: 'package', pronunciation: 'PAK-ij', translations: { arabic: 'حزمة', bengali: 'প্যাকেজ', korean: '패키지', spanish: 'paquete', turkish: 'paket' } },
   { id: 'm5v3-slice', english: 'slice', pronunciation: 'slahs', translations: { arabic: 'شريحة', bengali: 'টুকরা', korean: '조각', spanish: 'rebanada', turkish: 'dilim' } },
   { id: 'm5v3-tablespoon', english: 'tablespoon', pronunciation: 'TAY-bul-spoon', translations: { arabic: 'ملعقة كبيرة', bengali: 'টেবিল চামচ', korean: '큰 숟가락', spanish: 'cucharada', turkish: 'yemek kaşığı' } },
+];
+
+// Visual Vocabulary - Grocery Shopping with Containers (Singular - PDF1)
+export interface VisualVocabularyItem {
+  id: string;
+  phrase: string;
+  emoji: string;
+}
+
+export const module5VisualVocab1: VisualVocabularyItem[] = [
+  { id: 'vv1-can-soda', phrase: 'a can of soda', emoji: '🥫' },
+  { id: 'vv1-carton-juice', phrase: 'a carton of juice', emoji: '🧃' },
+  { id: 'vv1-gallon-milk', phrase: 'a gallon of milk', emoji: '🥛' },
+  { id: 'vv1-package-meat', phrase: 'a package of meat', emoji: '🥩' },
+  { id: 'vv1-loaf-bread', phrase: 'a loaf of bread', emoji: '🍞' },
+  { id: 'vv1-bag-flour', phrase: 'a bag of flour', emoji: '🌾' },
+  { id: 'vv1-bag-sugar', phrase: 'a bag of sugar', emoji: '🏷️' },
+  { id: 'vv1-package-cheese', phrase: 'a package of cheese', emoji: '🧀' },
+  { id: 'vv1-bag-rice', phrase: 'a bag of rice', emoji: '🍚' },
+  { id: 'vv1-box-tea', phrase: 'a box of tea', emoji: '🍵' },
+  { id: 'vv1-bottle-water', phrase: 'a bottle of water', emoji: '💧' },
+];
+
+// Visual Vocabulary - Grocery Shopping with Containers (Plural - PDF2)
+export const module5VisualVocab2: VisualVocabularyItem[] = [
+  { id: 'vv2-bags-rice', phrase: 'two bags of rice', emoji: '🍚🍚' },
+  { id: 'vv2-boxes-tea', phrase: 'three boxes of tea', emoji: '🍵🍵🍵' },
+  { id: 'vv2-bottles-water', phrase: 'four bottles of water', emoji: '💧💧💧💧' },
+  { id: 'vv2-cans-soda', phrase: 'three cans of soda', emoji: '🥫🥫🥫' },
+  { id: 'vv2-cartons-juice', phrase: 'two cartons of juice', emoji: '🧃🧃' },
+  { id: 'vv2-gallons-milk', phrase: 'two gallons of milk', emoji: '🥛🥛' },
+  { id: 'vv2-packages-meat', phrase: 'three packages of meat', emoji: '🥩🥩🥩' },
+  { id: 'vv2-loaves-bread', phrase: 'two loaves of bread', emoji: '🍞🍞' },
+  { id: 'vv2-bags-flour', phrase: 'two bags of flour', emoji: '🌾🌾' },
+  { id: 'vv2-bags-sugar', phrase: 'two bags of sugar', emoji: '🏷️🏷️' },
+  { id: 'vv2-packages-cheese', phrase: 'two packages of cheese', emoji: '🧀🧀' },
 ];
 
 // Fatima's Vegetable Omelet videos
@@ -117,15 +168,17 @@ export interface Module5Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series';
+  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'visual-vocabulary' | 'visual-matching';
   content?: VocabularyItem[];
+  visualContent?: VisualVocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string }[];
   isCompleted: boolean;
   duration?: string;
 }
 
-// Module 5 Lessons
+// Module 5 Lessons - Full ordered list
 export const module5Lessons: Module5Lesson[] = [
+  // 1
   {
     id: 'm5-vocab-1',
     title: 'Vocabulary Part 1',
@@ -135,6 +188,7 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
+  // 2
   {
     id: 'm5-vocab-match-1',
     title: 'Vocabulary Matching 1',
@@ -144,6 +198,7 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
+  // 3
   {
     id: 'm5-vocab-2',
     title: 'Vocabulary Part 2',
@@ -153,6 +208,7 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
+  // 4
   {
     id: 'm5-vocab-match-2',
     title: 'Vocabulary Matching 2',
@@ -162,6 +218,7 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
+  // 5
   {
     id: 'm5-grocery-items',
     title: 'Grocery Items',
@@ -170,6 +227,25 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
+  // 6
+  {
+    id: 'm5-how-much-many',
+    title: 'How much? How many?',
+    description: 'Sort grocery items into countable and uncountable',
+    type: 'how-much-many',
+    isCompleted: false,
+    duration: '8 min',
+  },
+  // 7
+  {
+    id: 'm5-how-much-many-practice',
+    title: 'How much? How many? Practice',
+    description: 'Listen and put words in the correct order',
+    type: 'sentence-order',
+    isCompleted: false,
+    duration: '5 min',
+  },
+  // 8
   {
     id: 'm5-vocab-3',
     title: 'Vocabulary Part 3',
@@ -179,6 +255,7 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
+  // 9
   {
     id: 'm5-vocab-match-3',
     title: 'Vocabulary Matching 3',
@@ -188,6 +265,47 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
+  // 10
+  {
+    id: 'm5-visual-vocab-1',
+    title: 'Grocery Shopping Vocabulary',
+    description: 'Learn container + food phrases with visuals',
+    type: 'visual-vocabulary',
+    visualContent: module5VisualVocab1,
+    isCompleted: false,
+    duration: '5 min',
+  },
+  // 11
+  {
+    id: 'm5-visual-match-1',
+    title: 'Grocery Shopping Matching',
+    description: 'Match visuals with vocabulary phrases',
+    type: 'visual-matching',
+    visualContent: module5VisualVocab1,
+    isCompleted: false,
+    duration: '5 min',
+  },
+  // 12
+  {
+    id: 'm5-visual-vocab-2',
+    title: 'Grocery Shopping Vocabulary 2',
+    description: 'Learn plural container phrases with visuals',
+    type: 'visual-vocabulary',
+    visualContent: module5VisualVocab2,
+    isCompleted: false,
+    duration: '5 min',
+  },
+  // 13
+  {
+    id: 'm5-visual-match-2',
+    title: 'Grocery Shopping Matching 2',
+    description: 'Match plural visuals with vocabulary phrases',
+    type: 'visual-matching',
+    visualContent: module5VisualVocab2,
+    isCompleted: false,
+    duration: '5 min',
+  },
+  // 14
   {
     id: 'm5-vegetable-omelet',
     title: 'Vegetable Omelet',
@@ -197,6 +315,7 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
+  // 15
   {
     id: 'm5-vocab-4',
     title: 'Vocabulary Part 4',
@@ -206,6 +325,7 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
+  // 16
   {
     id: 'm5-vocab-match-4',
     title: 'Vocabulary Matching 4',
