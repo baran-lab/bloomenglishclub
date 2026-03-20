@@ -57,7 +57,7 @@ export const groceryItemsCorrectOrder: GroceryItem[] = [
   { id: 'gi-pineapples', name: 'Pineapples', emoji: '🍍🍍', category: 'how-many' },
   { id: 'gi-bananas', name: 'Bananas', emoji: '🍌🍌', category: 'how-many' },
   { id: 'gi-tea', name: 'Tea', emoji: '🍵', category: 'how-much' },
-  { id: 'gi-sugar', name: 'Sugar', emoji: '🍰✨', category: 'how-much' },
+  { id: 'gi-sugar', name: 'Sugar', emoji: '🫙', category: 'how-much' },
   { id: 'gi-soda', name: 'Soda', emoji: '🥤', category: 'how-much' },
   { id: 'gi-cheese', name: 'Cheese', emoji: '🧀', category: 'how-much' },
 ];
