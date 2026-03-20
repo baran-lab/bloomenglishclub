@@ -9,6 +9,7 @@ import Signup from "./pages/Signup";
 import Module1 from "./pages/Module1";
 import Module2 from "./pages/Module2";
 import Module3 from "./pages/Module3";
+import Module5 from "./pages/Module5";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
