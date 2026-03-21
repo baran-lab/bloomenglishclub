@@ -12,8 +12,8 @@ import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { GroceryDragDrop } from '@/components/module5/GroceryDragDrop';
 import { HowMuchManyDragDrop } from '@/components/module5/HowMuchManyDragDrop';
 import { SentenceOrderPractice } from '@/components/module5/SentenceOrderPractice';
-import { VisualVocabularyLesson } from '@/components/module5/VisualVocabularyLesson';
-import { VisualMatchingPractice } from '@/components/module5/VisualMatchingPractice';
+
+
 import { module5Lessons, Module5Lesson, howMuchManySentences } from '@/data/module5Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
