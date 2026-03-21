@@ -111,10 +111,8 @@ const Module5Content: React.FC = () => {
         return <HowMuchManyDragDrop onComplete={handleLessonComplete} />;
       case 'sentence-order':
         return <SentenceOrderPractice sentences={howMuchManySentences} onComplete={handleLessonComplete} title={lesson.title} />;
-      case 'visual-vocabulary':
-        return <VisualVocabularyLesson vocabulary={lesson.visualContent || []} onComplete={handleLessonComplete} title={lesson.title} />;
-      case 'visual-matching':
-        return <VisualMatchingPractice vocabulary={lesson.visualContent || []} onComplete={handleLessonComplete} title={lesson.title} />;
+
+
       case 'video-series':
         return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
       default:
