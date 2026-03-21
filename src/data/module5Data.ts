@@ -90,7 +90,7 @@ export const module5Vocabulary3: VocabularyItem[] = [
   { id: 'm5v3-bag', english: 'bag', pronunciation: 'bag', translations: { arabic: 'كيس', bengali: 'ব্যাগ', korean: '봉지', spanish: 'bolsa', turkish: 'torba' } },
   { id: 'm5v3-bottle', english: 'bottle', pronunciation: 'BAH-tul', translations: { arabic: 'زجاجة', bengali: 'বোতল', korean: '병', spanish: 'botella', turkish: 'şişe' } },
   { id: 'm5v3-box', english: 'box', pronunciation: 'boks', translations: { arabic: 'صندوق', bengali: 'বাক্স', korean: '상자', spanish: 'caja', turkish: 'kutu' } },
-  { id: 'm5v3-can', english: 'can', pronunciation: 'kan', translations: { arabic: 'علبة', bengali: 'ক্যান', korean: '캔', spanish: 'lata', turkish: 'konserve kutusu' } },
+  { id: 'm5v3-can', english: 'can of soda', pronunciation: 'kan uhv SOH-duh', translations: { arabic: 'علبة مشروب غازي', bengali: 'সোডার ক্যান', korean: '탄산음료 캔', spanish: 'lata de refresco', turkish: 'kutu içecek' } },
   { id: 'm5v3-carton', english: 'carton', pronunciation: 'KAR-tun', translations: { arabic: 'كرتونة', bengali: 'কার্টন', korean: '팩', spanish: 'cartón', turkish: 'karton' } },
   { id: 'm5v3-cup', english: 'cup', pronunciation: 'kup', translations: { arabic: 'كوب', bengali: 'কাপ', korean: '컵', spanish: 'taza', turkish: 'fincan' } },
   { id: 'm5v3-dozen', english: 'dozen', pronunciation: 'DUZ-en', translations: { arabic: 'دزينة', bengali: 'ডজন', korean: '다스', spanish: 'docena', turkish: 'düzine' } },
