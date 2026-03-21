@@ -267,46 +267,6 @@ export const module5Lessons: Module5Lesson[] = [
   },
   // 10
   {
-    id: 'm5-visual-vocab-1',
-    title: 'Grocery Shopping Vocabulary',
-    description: 'Learn container + food phrases with visuals',
-    type: 'visual-vocabulary',
-    visualContent: module5VisualVocab1,
-    isCompleted: false,
-    duration: '5 min',
-  },
-  // 11
-  {
-    id: 'm5-visual-match-1',
-    title: 'Grocery Shopping Matching',
-    description: 'Match visuals with vocabulary phrases',
-    type: 'visual-matching',
-    visualContent: module5VisualVocab1,
-    isCompleted: false,
-    duration: '5 min',
-  },
-  // 12
-  {
-    id: 'm5-visual-vocab-2',
-    title: 'Grocery Shopping Vocabulary 2',
-    description: 'Learn plural container phrases with visuals',
-    type: 'visual-vocabulary',
-    visualContent: module5VisualVocab2,
-    isCompleted: false,
-    duration: '5 min',
-  },
-  // 13
-  {
-    id: 'm5-visual-match-2',
-    title: 'Grocery Shopping Matching 2',
-    description: 'Match plural visuals with vocabulary phrases',
-    type: 'visual-matching',
-    visualContent: module5VisualVocab2,
-    isCompleted: false,
-    duration: '5 min',
-  },
-  // 14
-  {
     id: 'm5-vegetable-omelet',
     title: 'Vegetable Omelet',
     description: "Watch Fatima make a vegetable omelet",
