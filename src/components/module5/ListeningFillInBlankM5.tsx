@@ -135,7 +135,7 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
             <p className="text-xl font-medium text-foreground leading-relaxed">
               {parts[0]}
               {isCorrect ? (
-                <span className="inline-block mx-1 px-3 py-1 bg-green-100 text-green-700 rounded-lg font-bold">{answer}</span>
+                <span className="inline-block mx-1 px-3 py-1 bg-primary/10 text-primary rounded-lg font-bold">{answer}</span>
               ) : (
                 <Input
                   value={answer}
