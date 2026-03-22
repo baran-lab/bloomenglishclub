@@ -9,6 +9,7 @@ export const module5Vocabulary1: VocabularyItem[] = [
   { id: 'm5v1-cook', english: 'cook', pronunciation: 'kuk', translations: { arabic: 'اطبخ', bengali: 'রান্না করা', korean: '요리하다', spanish: 'cocinar', turkish: 'pişirmek' } },
   { id: 'm5v1-dessert', english: 'dessert', pronunciation: 'dih-ZERT', translations: { arabic: 'حلوى', bengali: 'মিষ্টান্ন', korean: '디저트', spanish: 'postre', turkish: 'tatlı' } },
   { id: 'm5v1-eat', english: 'eat', pronunciation: 'eet', translations: { arabic: 'كل', bengali: 'খাওয়া', korean: '먹다', spanish: 'comer', turkish: 'yemek' } },
+  { id: 'm5v1-need', english: 'need', pronunciation: 'need', translations: { arabic: 'يحتاج', bengali: 'প্রয়োজন', korean: '필요하다', spanish: 'necesitar', turkish: 'ihtiyaç duymak' } },
 ];
 
 // Vocabulary Set 2 - More Cooking & Food Words
@@ -149,6 +150,85 @@ export const fatimaOmeletVideos = [
   { url: '/videos/module5/M5_Fatima_8.mp4', title: 'Vegetable Omelet - Part 8', sentenceToRecord: 'I need one tablespoon olive oil.' },
 ];
 
+// Rosa & Fatima Listening video
+export const rosaFatimaListeningVideos = [
+  { url: '/videos/module5/M5_Rosa_Fatima.mp4', title: 'How much? How many? Listening', listenOnly: true },
+];
+
+// Container Videos with voice recording
+export const containerVideos = [
+  { url: '/videos/module5/M5_a_can.mp4', title: 'A can of soda', sentenceToRecord: 'A can of soda.' },
+  { url: '/videos/module5/M5_two_cans.mp4', title: 'Two cans of soda', sentenceToRecord: 'Two cans of soda.' },
+  { url: '/videos/module5/M5_a_carton.mp4', title: 'A carton', sentenceToRecord: 'A carton.' },
+  { url: '/videos/module5/M5_three_cartons.mp4', title: 'Three cartons', sentenceToRecord: 'Three cartons.' },
+  { url: '/videos/module5/M5_a_gallon.mp4', title: 'A gallon', sentenceToRecord: 'A gallon.' },
+  { url: '/videos/module5/M5_two_gallons.mp4', title: 'Two gallons', sentenceToRecord: 'Two gallons.' },
+  { url: '/videos/module5/M5_a_package.mp4', title: 'A package', sentenceToRecord: 'A package.' },
+  { url: '/videos/module5/M5_three_packages.mp4', title: 'Three packages', sentenceToRecord: 'Three packages.' },
+];
+
+// How much? How many? Fill-in-the-blank practice items
+import { ListeningFillItem } from '@/components/module5/ListeningFillInBlankM5';
+
+export const howMuchManyFillItems: ListeningFillItem[] = [
+  {
+    id: 'hmm-1',
+    questionAudio: 'What is Fatima cooking?',
+    answerAudio: 'She is cooking a vegetable omelet.',
+    displaySentence: 'She is cooking a vegetable ________.',
+    acceptedAnswers: ['omelet', 'omelette', 'omlet'],
+  },
+  {
+    id: 'hmm-2',
+    questionAudio: 'How many eggs does she need?',
+    answerAudio: 'She needs two eggs.',
+    displaySentence: 'She needs ________ eggs.',
+    acceptedAnswers: ['two', '2'],
+  },
+  {
+    id: 'hmm-3',
+    questionAudio: 'How many onions does she need?',
+    answerAudio: 'She needs one onion.',
+    displaySentence: 'She needs ________ onion.',
+    acceptedAnswers: ['one', '1'],
+  },
+  {
+    id: 'hmm-4',
+    questionAudio: 'How many tomatoes does she need?',
+    answerAudio: 'She needs two tomatoes.',
+    displaySentence: 'She needs ________ tomatoes.',
+    acceptedAnswers: ['two', '2'],
+  },
+  {
+    id: 'hmm-5',
+    questionAudio: 'How many green peppers does she need?',
+    answerAudio: 'She needs one green pepper.',
+    displaySentence: 'She needs ________ green pepper.',
+    acceptedAnswers: ['one', '1'],
+  },
+  {
+    id: 'hmm-6',
+    questionAudio: 'How many carrots do you need?',
+    answerAudio: 'She needs one carrot.',
+    displaySentence: 'She needs ________ carrot.',
+    acceptedAnswers: ['one', '1'],
+  },
+  {
+    id: 'hmm-7',
+    questionAudio: 'How much bread does she need?',
+    answerAudio: 'She needs one slice of bread.',
+    displaySentence: 'She needs ________ slice of bread.',
+    acceptedAnswers: ['one', '1'],
+  },
+  {
+    id: 'hmm-8',
+    questionAudio: 'How much olive oil does she need?',
+    answerAudio: 'She needs one tablespoon olive oil.',
+    displaySentence: 'She needs ________ tablespoon olive oil.',
+    acceptedAnswers: ['one', '1'],
+  },
+];
+
 // Vocabulary Set 4 - Kitchen Items
 export const module5Vocabulary4: VocabularyItem[] = [
   { id: 'm5v4-blender', english: 'blender', pronunciation: 'BLEN-der', translations: { arabic: 'خلاط', bengali: 'ব্লেন্ডার', korean: '블렌더', spanish: 'licuadora', turkish: 'blender' } },
@@ -168,10 +248,11 @@ export interface Module5Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'visual-vocabulary' | 'visual-matching';
+  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'listening-fill-blank' | 'container-videos';
   content?: VocabularyItem[];
   visualContent?: VisualVocabularyItem[];
-  videos?: { url: string; title: string; subtitle?: string }[];
+  videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean; sentenceToRecord?: string }[];
+  fillItems?: ListeningFillItem[];
   isCompleted: boolean;
   duration?: string;
 }
@@ -275,7 +356,7 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
-  // 15
+  // 11
   {
     id: 'm5-vocab-4',
     title: 'Vocabulary Part 4',
@@ -285,7 +366,7 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '5 min',
   },
-  // 16
+  // 12
   {
     id: 'm5-vocab-match-4',
     title: 'Vocabulary Matching 4',
@@ -294,5 +375,37 @@ export const module5Lessons: Module5Lesson[] = [
     content: module5Vocabulary4,
     isCompleted: false,
     duration: '5 min',
+  },
+  // 13 (was removed lessons 10-13, now using old numbering for new lessons)
+  // Actually: lessons 13, 14, 15 are removed. Adding new 15, 16, 17:
+  // 15
+  {
+    id: 'm5-rosa-fatima-listening',
+    title: 'How much? How many? Listening',
+    description: 'Listen to Rosa and Fatima talk about food',
+    type: 'video-series',
+    videos: rosaFatimaListeningVideos,
+    isCompleted: false,
+    duration: '5 min',
+  },
+  // 16
+  {
+    id: 'm5-how-much-many-fill',
+    title: 'How much? How many? Practice',
+    description: 'Listen and fill in the blanks',
+    type: 'listening-fill-blank',
+    fillItems: howMuchManyFillItems,
+    isCompleted: false,
+    duration: '8 min',
+  },
+  // 17
+  {
+    id: 'm5-container-videos',
+    title: 'A can of soda / Two cans of soda',
+    description: 'Learn container phrases with video and voice practice',
+    type: 'container-videos',
+    videos: containerVideos,
+    isCompleted: false,
+    duration: '10 min',
   },
 ];
