@@ -153,7 +153,7 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
           {/* Feedback */}
           {isCorrect === true && (
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-3">
-              <div className="flex items-center justify-center gap-2 text-green-600">
+              <div className="flex items-center justify-center gap-2 text-primary">
                 <Check className="w-6 h-6" />
                 <span className="font-bold text-lg">Correct! 🎉</span>
               </div>
