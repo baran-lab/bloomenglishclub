@@ -12,7 +12,7 @@ import { VideoSeriesLesson } from '@/components/module1/VideoSeriesLesson';
 import { GroceryDragDrop } from '@/components/module5/GroceryDragDrop';
 import { HowMuchManyDragDrop } from '@/components/module5/HowMuchManyDragDrop';
 import { SentenceOrderPractice } from '@/components/module5/SentenceOrderPractice';
-
+import { ListeningFillInBlankM5 } from '@/components/module5/ListeningFillInBlankM5';
 
 import { module5Lessons, Module5Lesson, howMuchManySentences } from '@/data/module5Data';
 import { useToast } from '@/hooks/use-toast';
@@ -111,9 +111,11 @@ const Module5Content: React.FC = () => {
         return <HowMuchManyDragDrop onComplete={handleLessonComplete} />;
       case 'sentence-order':
         return <SentenceOrderPractice sentences={howMuchManySentences} onComplete={handleLessonComplete} title={lesson.title} />;
-
-
+      case 'listening-fill-blank':
+        return <ListeningFillInBlankM5 items={lesson.fillItems || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'video-series':
+        return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'container-videos':
         return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
       default:
         return null;
