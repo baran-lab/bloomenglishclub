@@ -162,7 +162,7 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
 
           {isCorrect === false && (
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-3">
-              <p className="text-red-500 font-medium">Try again! Listen carefully. 🔊</p>
+              <p className="text-destructive font-medium">Try again! Listen carefully. 🔊</p>
               <Button variant="outline" onClick={handleRetry} size="sm">Try Again</Button>
             </motion.div>
           )}
