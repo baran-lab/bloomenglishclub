@@ -165,6 +165,11 @@ export const containerVideos = [
   { url: '/videos/module5/M5_two_gallons.mp4', title: 'Two gallons', sentenceToRecord: 'Two gallons.' },
   { url: '/videos/module5/M5_a_package.mp4', title: 'A package', sentenceToRecord: 'A package.' },
   { url: '/videos/module5/M5_three_packages.mp4', title: 'Three packages', sentenceToRecord: 'Three packages.' },
+  { url: '/videos/module5/M5_a_loaf.mp4', title: 'A loaf', sentenceToRecord: 'A loaf.' },
+  { url: '/videos/module5/M5_four_loaves.mp4', title: 'Four loaves', sentenceToRecord: 'Four loaves.' },
+  { url: '/videos/module5/M5_a_bag.mp4', title: 'A bag', sentenceToRecord: 'A bag.' },
+  { url: '/videos/module5/M5_two_bags.mp4', title: 'Two bags', sentenceToRecord: 'Two bags.' },
+  { url: '/videos/module5/M5_three_bags.mp4', title: 'Three bags', sentenceToRecord: 'Three bags.' },
 ];
 
 // How much? How many? Fill-in-the-blank practice items
