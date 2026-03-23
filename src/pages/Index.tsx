@@ -10,8 +10,6 @@ import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
 import { HamburgerMenu } from "@/components/HamburgerMenu";
 import { ProgressChecklist } from "@/components/ProgressChecklist";
-import { HabitTracker } from "@/components/habits/HabitTracker";
-import { JoinClubCard } from "@/components/JoinClubCard";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -244,14 +242,6 @@ const Index = () => {
           {/* Motivational Quote */}
           <MotivationalQuote quote={currentModule?.quote || ""} />
 
-          {/* Join English Place Club */}
-          <div className="mt-6">
-            <JoinClubCard 
-              totalTimeSpent={totalTimeSpent} 
-              totalCredits={userProgress.points}
-              userName={userName}
-            />
-          </div>
 
           {/* Daily Tasks */}
           {currentTasks.length > 0 && (
@@ -284,10 +274,6 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Habit Tracker */}
-          <div className="mt-8">
-            <HabitTracker />
-          </div>
 
           {/* Progress Checklist */}
           <div className="mt-8">
