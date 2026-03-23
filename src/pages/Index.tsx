@@ -274,10 +274,6 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Habit Tracker */}
-          <div className="mt-8">
-            <HabitTracker />
-          </div>
 
           {/* Progress Checklist */}
           <div className="mt-8">
