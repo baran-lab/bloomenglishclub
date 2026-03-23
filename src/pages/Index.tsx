@@ -242,14 +242,6 @@ const Index = () => {
           {/* Motivational Quote */}
           <MotivationalQuote quote={currentModule?.quote || ""} />
 
-          {/* Join English Place Club */}
-          <div className="mt-6">
-            <JoinClubCard 
-              totalTimeSpent={totalTimeSpent} 
-              totalCredits={userProgress.points}
-              userName={userName}
-            />
-          </div>
 
           {/* Daily Tasks */}
           {currentTasks.length > 0 && (
