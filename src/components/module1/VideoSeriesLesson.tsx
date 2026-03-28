@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic, Square, Home, SkipForward, AlertTriangle, Eye, EyeOff } from 'lucide-react';
+import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic, Square, Home, SkipForward, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
@@ -232,11 +232,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   };
 
   const handleSkipVoiceover = () => {
-    if (!isListenOnly && !hasCompletedPractice) {
-      setShowSkipWarning(true);
-    } else {
-      goNext();
-    }
+    goNext();
   };
 
   const confirmSkip = () => {
@@ -425,34 +421,6 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
             </motion.div>
           )}
 
-          {/* Skip warning modal */}
-          {showSkipWarning && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-4 bg-amber-500/10 rounded-xl border border-amber-500/30"
-            >
-              <div className="flex items-start gap-3">
-                <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
-                    Skipping practice?
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    You won't collect enough credits to unlock items or join the English Place Club. Are you sure?
-                  </p>
-                  <div className="flex gap-2 mt-3">
-                    <Button size="sm" variant="outline" onClick={() => setShowSkipWarning(false)}>
-                      Go back
-                    </Button>
-                    <Button size="sm" variant="ghost" onClick={confirmSkip} className="text-muted-foreground">
-                      Skip anyway
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
         </motion.div>
       )}
 
