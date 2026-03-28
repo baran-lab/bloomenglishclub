@@ -10,6 +10,7 @@ import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
 import { HamburgerMenu } from "@/components/HamburgerMenu";
 import { ProgressChecklist } from "@/components/ProgressChecklist";
+import { GamesSection } from "@/components/GamesSection";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -274,6 +275,11 @@ const Index = () => {
             </div>
           </div>
 
+
+          {/* Games Section */}
+          <div className="mt-8">
+            <GamesSection completedModules={modules.filter(m => m.isCompleted).map(m => m.id)} />
+          </div>
 
           {/* Progress Checklist */}
           <div className="mt-8">
