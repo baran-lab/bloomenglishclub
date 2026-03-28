@@ -210,7 +210,6 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       setPronunciationScore(null);
       clearRecording();
       setIsPlaying(false);
-      setShowSkipWarning(false);
       setActivatedWords(new Set());
       setRecognizedText('');
       setShowTranslation(false);
@@ -224,7 +223,6 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       setPronunciationScore(null);
       clearRecording();
       setIsPlaying(false);
-      setShowSkipWarning(false);
       setActivatedWords(new Set());
       setRecognizedText('');
       setShowTranslation(false);
@@ -232,11 +230,6 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   };
 
   const handleSkipVoiceover = () => {
-    goNext();
-  };
-
-  const confirmSkip = () => {
-    setShowSkipWarning(false);
     goNext();
   };
 
