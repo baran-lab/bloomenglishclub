@@ -179,6 +179,14 @@ export const containerVideos = [
   { url: '/videos/module5/M5_four_boxes_of_tea.mp4', title: 'Four boxes of tea', sentenceToRecord: 'Four boxes of tea.' },
   { url: '/videos/module5/M5_a_bottle_of_water.mp4', title: 'A bottle of water', sentenceToRecord: 'A bottle of water.' },
   { url: '/videos/module5/M5_six_bottles_of_water.mp4', title: 'Six bottles of water', sentenceToRecord: 'Six bottles of water.' },
+  { url: '/videos/module5/M5_a_bar_of_chocolate.mp4', title: 'A bar of chocolate', sentenceToRecord: 'A bar of chocolate.' },
+  { url: '/videos/module5/M5_two_bars_of_chocolate.mp4', title: 'Two bars of chocolate', sentenceToRecord: 'Two bars of chocolate.' },
+  { url: '/videos/module5/M5_a_bunch_of_cilantro.mp4', title: 'A bunch of cilantro', sentenceToRecord: 'A bunch of cilantro.' },
+  { url: '/videos/module5/M5_three_bunches_of_cilantro.mp4', title: 'Three bunches of cilantro', sentenceToRecord: 'Three bunches of cilantro.' },
+  { url: '/videos/module5/M5_a_bun.mp4', title: 'A bun', sentenceToRecord: 'A bun.' },
+  { url: '/videos/module5/M5_four_buns.mp4', title: 'Four buns', sentenceToRecord: 'Four buns.' },
+  { url: '/videos/module5/M5_a_slice_of_bread.mp4', title: 'A slice of bread', sentenceToRecord: 'A slice of bread.' },
+  { url: '/videos/module5/M5_three_slices_of_bread.mp4', title: 'Three slices of bread', sentenceToRecord: 'Three slices of bread.' },
 ];
 
 // How much? How many? Fill-in-the-blank practice items
