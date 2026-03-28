@@ -160,7 +160,6 @@ export const mockUserProgress: UserProgress = {
 
 export const characters = [
   { name: "Ahmet", country: "Egypt", flag: "🇪🇬" },
-  { name: "Heba", country: "Egypt", flag: "🇪🇬" },
   { name: "Marisol", country: "Peru", flag: "🇵🇪" },
   { name: "Saojin", country: "Korea", flag: "🇰🇷" },
   { name: "Fatima", country: "Bangladesh", flag: "🇧🇩" },
