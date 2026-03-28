@@ -39,14 +39,14 @@ export const module2Vocabulary: VocabularyItem[] = [
   { id: 'm2-date', english: 'Date', pronunciation: '', translations: { arabic: 'تاريخ', bengali: 'তারিখ', korean: '날짜', spanish: 'Fecha', turkish: 'Tarih' } },
   { id: 'm2-day', english: 'Day', pronunciation: '', translations: { arabic: 'يوم', bengali: 'দিন', korean: '일', spanish: 'Día', turkish: 'Gün' } },
   { id: 'm2-month', english: 'Month', pronunciation: '', translations: { arabic: 'شهر', bengali: 'মাস', korean: '월', spanish: 'Mes', turkish: 'Ay' } },
-  { id: 'm2-my', english: 'my', pronunciation: '', translations: { arabic: 'ملكي', bengali: 'আমার', korean: '나의', spanish: 'mi', turkish: 'benim' } },
+  { id: 'm2-my', english: 'My', pronunciation: '', translations: { arabic: 'ملكي', bengali: 'আমার', korean: '나의', spanish: 'mi', turkish: 'benim' } },
   { id: 'm2-number', english: 'Number', pronunciation: '', translations: { arabic: 'رقم', bengali: 'সংখ্যা', korean: '번호', spanish: 'Número', turkish: 'Numara' } },
   { id: 'm2-i', english: 'I', pronunciation: '', translations: { arabic: 'أنا', bengali: 'আমি', korean: '나', spanish: 'Yo', turkish: 'Ben' } },
   { id: 'm2-today', english: 'Today', pronunciation: '', translations: { arabic: 'اليوم', bengali: 'আজ', korean: '오늘', spanish: 'Hoy', turkish: 'Bugün' } },
   { id: 'm2-week', english: 'Week', pronunciation: '', translations: { arabic: 'أسبوع', bengali: 'সপ্তাহ', korean: '주', spanish: 'Semana', turkish: 'Hafta' } },
   { id: 'm2-year', english: 'Year', pronunciation: '', translations: { arabic: 'سنة', bengali: 'বছর', korean: '년', spanish: 'Año', turkish: 'Yıl' } },
   { id: 'm2-you', english: 'You', pronunciation: '', translations: { arabic: 'أنت', bengali: 'তুমি', korean: '너', spanish: 'Tú', turkish: 'Sen' } },
-  { id: 'm2-your', english: 'your', pronunciation: '', translations: { arabic: 'ملكك', bengali: 'তোমার', korean: '너의', spanish: 'tu', turkish: 'senin' } },
+  { id: 'm2-your', english: 'Your', pronunciation: '', translations: { arabic: 'ملكك', bengali: 'তোমার', korean: '너의', spanish: 'tu', turkish: 'senin' } },
 ];
 
 // Module 2 Vocabulary 2
@@ -152,11 +152,11 @@ export const hebaAddressVideos = [
 
 // Heba Video Series - How to say your address - Updated with new M2 Heba videos
 export const hebaAddressHowToVideos = [
-  { url: '/videos/module2/heba-13.mp4', title: 'I live at...', subtitle: 'Note: "live" (verb) rhymes with "give"', listenOnly: true },
+  { url: '/videos/module2/M2_HEBA_44.mp4', title: 'I live at...', subtitle: 'Note: "live" (verb) rhymes with "give"', listenOnly: true },
   { url: '/videos/module2/m2-heba-street.mp4', title: 'Street', subtitle: 'Street number and name', listenOnly: true },
   { url: '/videos/module2/m2-heba-apartment.mp4', title: 'Apartment', subtitle: 'Apartment number', listenOnly: true },
   { url: '/videos/module2/m2-heba-city.mp4', title: 'City', subtitle: 'City name', listenOnly: true },
-  { url: '/videos/module2/m2-heba-state.mp4', title: 'State', subtitle: 'State name', listenOnly: true },
+  { url: '/videos/module2/M2_HEBA_state.mp4', title: 'State', subtitle: 'State name', listenOnly: true },
   { url: '/videos/module2/m2-heba-zip-code.mp4', title: 'Zip Code', subtitle: 'Note: "live" (verb) rhymes with "give", not "five"', listenOnly: true },
 ];
 

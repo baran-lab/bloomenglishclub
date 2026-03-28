@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic, Square, Home, SkipForward, AlertTriangle, Eye, EyeOff } from 'lucide-react';
+import { Play, Pause, ChevronLeft, ChevronRight, Check, RotateCcw, Volume2, Mic, Square, Home, SkipForward, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
@@ -39,7 +39,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   const [showPractice, setShowPractice] = useState(false);
   const [pronunciationScore, setPronunciationScore] = useState<number | null>(null);
   const [showQuiz, setShowQuiz] = useState(false);
-  const [showSkipWarning, setShowSkipWarning] = useState(false);
+  
   const [recordingStartTime, setRecordingStartTime] = useState<number | null>(null);
   const [activatedWords, setActivatedWords] = useState<Set<number>>(new Set());
   const [recognizedText, setRecognizedText] = useState('');
@@ -210,7 +210,6 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       setPronunciationScore(null);
       clearRecording();
       setIsPlaying(false);
-      setShowSkipWarning(false);
       setActivatedWords(new Set());
       setRecognizedText('');
       setShowTranslation(false);
@@ -224,7 +223,6 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       setPronunciationScore(null);
       clearRecording();
       setIsPlaying(false);
-      setShowSkipWarning(false);
       setActivatedWords(new Set());
       setRecognizedText('');
       setShowTranslation(false);
@@ -232,15 +230,6 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   };
 
   const handleSkipVoiceover = () => {
-    if (!isListenOnly && !hasCompletedPractice) {
-      setShowSkipWarning(true);
-    } else {
-      goNext();
-    }
-  };
-
-  const confirmSkip = () => {
-    setShowSkipWarning(false);
     goNext();
   };
 
@@ -411,7 +400,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="text-center"
+              className="text-center space-y-3"
             >
               <span className={`text-2xl font-bold ${pronunciationScore >= 50 ? 'text-green-500' : 'text-orange-500'}`}>
                 {pronunciationScore}%
@@ -419,40 +408,35 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
               <p className={`font-medium ${pronunciationScore >= 50 ? 'text-green-500' : 'text-orange-500'}`}>
                 {pronunciationScore >= 85 ? t('excellent') : pronunciationScore >= 50 ? t('goodJob') : 'Try again! You can do it! 💪'}
               </p>
+              {/* Pronunciation corrections */}
+              {recognizedText && (() => {
+                const corrections: string[] = [];
+                const text = recognizedText.toLowerCase();
+                if (/\bnane\b/.test(text)) corrections.push('It\'s "name" not "nane"');
+                if (/\bshe haves?\b/.test(text)) corrections.push('It\'s "she has" not "she haves"');
+                if (/\bhe haves?\b/.test(text)) corrections.push('It\'s "he has" not "he haves"');
+                if (/\bshe get\b/.test(text)) corrections.push('It\'s "she gets" — use -s with he/she/it');
+                if (/\bhe get\b/.test(text)) corrections.push('It\'s "he gets" — use -s with he/she/it');
+                if (/\bshe work\b/.test(text)) corrections.push('It\'s "she works" — use -s with he/she/it');
+                if (/\bhe work\b/.test(text)) corrections.push('It\'s "he works" — use -s with he/she/it');
+                if (/\bshe live\b/.test(text)) corrections.push('It\'s "she lives" — use -s with he/she/it');
+                if (/\bhe live\b/.test(text)) corrections.push('It\'s "he lives" — use -s with he/she/it');
+                if (corrections.length === 0) return null;
+                return (
+                  <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-300 dark:border-amber-700 text-left">
+                    <p className="text-sm font-medium text-amber-700 dark:text-amber-400 mb-1">Pronunciation tip:</p>
+                    {corrections.map((c, i) => (
+                      <p key={i} className="text-sm text-amber-600 dark:text-amber-500">• {c}</p>
+                    ))}
+                  </div>
+                );
+              })()}
               {pronunciationScore < 50 && (
                 <p className="text-sm text-muted-foreground mt-1">Record again to continue</p>
               )}
             </motion.div>
           )}
 
-          {/* Skip warning modal */}
-          {showSkipWarning && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-4 bg-amber-500/10 rounded-xl border border-amber-500/30"
-            >
-              <div className="flex items-start gap-3">
-                <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
-                    Skipping practice?
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    You won't collect enough credits to unlock items or join the English Place Club. Are you sure?
-                  </p>
-                  <div className="flex gap-2 mt-3">
-                    <Button size="sm" variant="outline" onClick={() => setShowSkipWarning(false)}>
-                      Go back
-                    </Button>
-                    <Button size="sm" variant="ghost" onClick={confirmSkip} className="text-muted-foreground">
-                      Skip anyway
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
         </motion.div>
       )}
 

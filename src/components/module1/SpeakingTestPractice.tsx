@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, Square, Play, RotateCcw, ChevronLeft, ChevronRight, Home, Volume2, Lightbulb, CheckCircle2, Sparkles, Star } from 'lucide-react';
+import { Mic, Square, Play, RotateCcw, ChevronLeft, ChevronRight, Home, Volume2, Lightbulb, CheckCircle2, Sparkles, Star, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useLanguage } from '@/components/LanguageContext';
-import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
 import { playRecordingSuccessSound } from '@/utils/soundEffects';
 import { SupportedLanguage } from '@/data/module1Data';
 import { useNavigate } from 'react-router-dom';
@@ -27,14 +26,21 @@ interface SpeakingTestPracticeProps {
   characterName?: string;
 }
 
-const encouragingMessages = [
-  "Great effort! Keep going! 🌟",
-  "You're doing amazing! 💪",
-  "Nice job! Let's hear the next one! 🎉",
-  "Wonderful! You're making great progress! ✨",
-  "Well done! On to the next question! 🌈",
-  "You're getting better! 🚀",
-  "Good job! 👏",
+// Common pronunciation mistakes and corrections
+const pronunciationCorrections: { wrong: RegExp; correct: string; feedback: string }[] = [
+  { wrong: /\bnane\b/i, correct: 'name', feedback: 'It\'s "name" not "nane"' },
+  { wrong: /\bshe haves?\b/i, correct: 'she has', feedback: 'It\'s "she has" not "she haves"' },
+  { wrong: /\bhe haves?\b/i, correct: 'he has', feedback: 'It\'s "he has" not "he haves"' },
+  { wrong: /\bit haves?\b/i, correct: 'it has', feedback: 'It\'s "it has" not "it haves"' },
+  { wrong: /\bshe get\b/i, correct: 'she gets', feedback: 'It\'s "she gets" not "she get" — use -s with he/she/it' },
+  { wrong: /\bhe get\b/i, correct: 'he gets', feedback: 'It\'s "he gets" not "he get" — use -s with he/she/it' },
+  { wrong: /\bit get\b/i, correct: 'it gets', feedback: 'It\'s "it gets" not "it get" — use -s with he/she/it' },
+  { wrong: /\bshe work\b/i, correct: 'she works', feedback: 'It\'s "she works" not "she work" — use -s with he/she/it' },
+  { wrong: /\bhe work\b/i, correct: 'he works', feedback: 'It\'s "he works" not "he work" — use -s with he/she/it' },
+  { wrong: /\bshe live\b/i, correct: 'she lives', feedback: 'It\'s "she lives" not "she live" — use -s with he/she/it' },
+  { wrong: /\bhe live\b/i, correct: 'he lives', feedback: 'It\'s "he lives" not "he live" — use -s with he/she/it' },
+  { wrong: /\bshe do\b(?! you)/i, correct: 'she does', feedback: 'It\'s "she does" not "she do" — use -es with he/she/it' },
+  { wrong: /\bhe do\b(?! you)/i, correct: 'he does', feedback: 'It\'s "he does" not "he do" — use -es with he/she/it' },
 ];
 
 const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
@@ -51,6 +57,8 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hasRecorded, setHasRecorded] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<string>('');
+  const [pronunciationFeedback, setPronunciationFeedback] = useState<string[]>([]);
+  const [missingWords, setMissingWords] = useState<string[]>([]);
   const [isComplete, setIsComplete] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [recognizedText, setRecognizedText] = useState<string>('');
@@ -66,6 +74,17 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
 
   const currentSlide = slides[currentIndex];
   const progress = ((currentIndex + (hasRecorded ? 1 : 0)) / slides.length) * 100;
+
+  // Accepted answers for Test 1
+  const acceptedAnswers: Record<string, string[]> = {
+    'test1-s1': ["what is your name", "what's your name"],
+    'test1-s2': ["where are you from"],
+    'test1-s3': ["how old are you"],
+    'test1-s4': ["are you married or single"],
+    'test1-s5': ["do you have children"],
+    'test1-s6': ["what do you do"],
+    'test1-s7': ["where do you work"],
+  };
 
   // Initialize speech recognition
   useEffect(() => {
@@ -108,9 +127,42 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     };
   }, []);
 
+  const checkPronunciation = (text: string): string[] => {
+    const corrections: string[] = [];
+    for (const rule of pronunciationCorrections) {
+      if (rule.wrong.test(text)) {
+        corrections.push(rule.feedback);
+      }
+    }
+    return corrections;
+  };
+
+  const checkMissingWords = (text: string, slideId: string): string[] => {
+    const accepted = acceptedAnswers[slideId];
+    if (!accepted) return [];
+    
+    const normalizedText = text.toLowerCase().replace(/[?.!,'"]/g, '').trim();
+    
+    // Check if user said any of the accepted answers
+    for (const answer of accepted) {
+      const answerWords = answer.split(/\s+/);
+      const textWords = normalizedText.split(/\s+/);
+      const missing = answerWords.filter(w => !textWords.some(tw => tw === w || tw.includes(w) || w.includes(tw)));
+      if (missing.length === 0) return []; // Perfect match
+    }
+    
+    // Find the best match and return missing words
+    const bestAnswer = accepted[0];
+    const answerWords = bestAnswer.split(/\s+/);
+    const textWords = normalizedText.split(/\s+/);
+    return answerWords.filter(w => !textWords.some(tw => tw === w || tw.includes(w) || w.includes(tw)));
+  };
+
   const startRecording = async () => {
     try {
       setRecognizedText('');
+      setPronunciationFeedback([]);
+      setMissingWords([]);
       audioChunksRef.current = [];
       
       if (audioUrl) {
@@ -171,35 +223,44 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     setIsListening(false);
     setIsAnalyzing(true);
     
-    // Analyze and provide feedback, then auto-advance
+    // Analyze and provide feedback
     setTimeout(() => {
       setIsAnalyzing(false);
       setHasRecorded(true);
       
-      // Generate encouraging feedback (no score, no right/wrong)
-      const message = encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)];
-      setFeedbackMessage(message);
+      const text = recognizedText.trim();
       
-      playRecordingSuccessSound();
+      // Check pronunciation errors
+      const corrections = checkPronunciation(text);
+      setPronunciationFeedback(corrections);
       
-      // Auto-advance to next slide after showing feedback briefly
-      const timer = window.setTimeout(() => {
-        handleAutoNext();
-      }, 2500);
-      setAutoAdvanceTimer(timer);
+      // Check missing words
+      const missing = checkMissingWords(text, currentSlide.id);
+      setMissingWords(missing);
+      
+      if (corrections.length > 0) {
+        setFeedbackMessage('Almost there! Check the corrections below.');
+      } else if (missing.length > 0) {
+        setFeedbackMessage(`Some words are missing. The correct question is: "${currentSlide.questionToAsk}"`);
+      } else if (text.length > 0) {
+        setFeedbackMessage('Great job! 🎉');
+        playRecordingSuccessSound();
+        
+        // Auto-advance after success
+        const timer = window.setTimeout(() => {
+          handleAutoNext();
+        }, 3000);
+        setAutoAdvanceTimer(timer);
+      } else {
+        setFeedbackMessage('Try again! Speak clearly into the microphone. 💪');
+      }
     }, 1000);
   };
 
   const handleAutoNext = () => {
     if (currentIndex < slides.length - 1) {
       setCurrentIndex(prev => prev + 1);
-      setHasRecorded(false);
-      setFeedbackMessage('');
-      setRecognizedText('');
-      if (audioUrl) {
-        URL.revokeObjectURL(audioUrl);
-      }
-      setAudioUrl(null);
+      resetSlideState();
       setAutoAdvanceTimer(null);
     } else {
       setIsComplete(true);
@@ -207,11 +268,22 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     }
   };
 
+  const resetSlideState = () => {
+    setHasRecorded(false);
+    setFeedbackMessage('');
+    setPronunciationFeedback([]);
+    setMissingWords([]);
+    setRecognizedText('');
+    if (audioUrl) {
+      URL.revokeObjectURL(audioUrl);
+    }
+    setAudioUrl(null);
+  };
+
   const handleRecord = async () => {
     if (isRecording) {
       stopRecording();
     } else {
-      // Clear any pending auto-advance
       if (autoAdvanceTimer) {
         clearTimeout(autoAdvanceTimer);
         setAutoAdvanceTimer(null);
@@ -234,13 +306,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     }
     if (currentIndex < slides.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      setHasRecorded(false);
-      setFeedbackMessage('');
-      setRecognizedText('');
-      if (audioUrl) {
-        URL.revokeObjectURL(audioUrl);
-      }
-      setAudioUrl(null);
+      resetSlideState();
     } else {
       setIsComplete(true);
       onComplete();
@@ -254,17 +320,10 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     }
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
-      setHasRecorded(false);
-      setFeedbackMessage('');
-      setRecognizedText('');
-      if (audioUrl) {
-        URL.revokeObjectURL(audioUrl);
-      }
-      setAudioUrl(null);
+      resetSlideState();
     }
   };
 
-  // Get translation for current slide
   const getTranslation = () => {
     const lang = selectedLanguage as SupportedLanguage;
     return currentSlide.translations[lang] || { question: currentSlide.questionToAsk, hint: currentSlide.hint };
@@ -287,10 +346,6 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
           You've completed {lessonTitle}! Great job practicing your speaking skills!
         </p>
         <div className="flex justify-center gap-4">
-          <Button variant="outline" onClick={() => navigate('/')} className="gap-2">
-            <Home className="w-4 h-4" />
-            Dashboard
-          </Button>
           {onContinue && (
             <Button onClick={onContinue} className="gap-2 bg-gradient-primary">
               Continue
@@ -308,9 +363,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
-          <Home className="w-5 h-5" />
-        </Button>
+        <div className="w-10" />
         <div className="text-center flex-1">
           <h2 className="font-fredoka text-xl font-bold text-foreground">{lessonTitle}</h2>
           <p className="text-sm text-muted-foreground">{lessonDescription}</p>
@@ -393,9 +446,9 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
             </p>
           </div>
 
-          {/* Feedback after recording - show transcript and encouraging message */}
+          {/* Feedback after recording */}
           <AnimatePresence>
-            {hasRecorded && feedbackMessage && (
+            {hasRecorded && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -409,13 +462,44 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
                   </div>
                 )}
 
-                {/* Encouraging Feedback - no right/wrong indication */}
+                {/* Pronunciation corrections */}
+                {pronunciationFeedback.length > 0 && (
+                  <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-300 dark:border-amber-700">
+                    <div className="flex items-start gap-2">
+                      <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-amber-700 dark:text-amber-400">Pronunciation tip:</p>
+                        {pronunciationFeedback.map((tip, i) => (
+                          <p key={i} className="text-sm text-amber-600 dark:text-amber-500">• {tip}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Missing words feedback */}
+                {missingWords.length > 0 && (
+                  <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-300 dark:border-blue-700">
+                    <p className="text-sm font-medium text-blue-700 dark:text-blue-400">
+                      The correct question is: "{currentSlide.questionToAsk}"
+                    </p>
+                    <p className="text-xs text-blue-600 dark:text-blue-500 mt-1">
+                      Missing: {missingWords.join(', ')}
+                    </p>
+                  </div>
+                )}
+
+                {/* General Feedback */}
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   className="text-center"
                 >
-                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-primary/10 rounded-xl border border-primary/20">
+                  <div className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl border ${
+                    pronunciationFeedback.length === 0 && missingWords.length === 0
+                      ? 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700'
+                      : 'bg-primary/10 border-primary/20'
+                  }`}>
                     <CheckCircle2 className="w-5 h-5 text-primary" />
                     <span className="text-lg font-semibold text-primary">
                       {feedbackMessage}
@@ -425,17 +509,23 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
 
                 {/* Playback */}
                 {audioUrl && (
-                  <div className="flex justify-center">
+                  <div className="flex justify-center gap-3">
                     <Button variant="outline" size="sm" onClick={playRecording} className="gap-2">
                       <Play className="w-4 h-4" />
                       Play Recording
                     </Button>
+                    <Button variant="outline" size="sm" onClick={() => { resetSlideState(); }} className="gap-2">
+                      <RotateCcw className="w-4 h-4" />
+                      Try Again
+                    </Button>
                   </div>
                 )}
 
-                <p className="text-sm text-muted-foreground text-center animate-pulse">
-                  Moving to next question...
-                </p>
+                {pronunciationFeedback.length === 0 && missingWords.length === 0 && recognizedText.trim().length > 0 && (
+                  <p className="text-sm text-muted-foreground text-center animate-pulse">
+                    Moving to next question...
+                  </p>
+                )}
               </motion.div>
             )}
           </AnimatePresence>

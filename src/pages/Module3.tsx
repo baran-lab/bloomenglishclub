@@ -76,8 +76,7 @@ const Module3Content: React.FC = () => {
       setShowContinue(false);
     } else {
       toast({ title: '🏆 Module Complete!' });
-      setViewState('lessons');
-      setActiveLesson(null);
+      navigate('/');
     }
   };
 
@@ -219,9 +218,9 @@ const Module3Content: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex justify-center gap-3 pt-4"
                 >
-                  <Button variant="outline" onClick={() => navigate('/')} className="gap-2">
+                  <Button variant="outline" onClick={() => { setViewState('lessons'); setActiveLesson(null); setShowContinue(false); }} className="gap-2">
                     <Home className="w-4 h-4" />
-                    Dashboard
+                    Lessons
                   </Button>
                   <Button size="lg" onClick={handleContinue} className="gap-2 rounded-xl bg-gradient-primary text-primary-foreground px-8">
                     Continue
