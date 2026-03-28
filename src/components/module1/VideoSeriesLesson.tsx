@@ -407,7 +407,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="text-center"
+              className="text-center space-y-3"
             >
               <span className={`text-2xl font-bold ${pronunciationScore >= 50 ? 'text-green-500' : 'text-orange-500'}`}>
                 {pronunciationScore}%
@@ -415,6 +415,29 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
               <p className={`font-medium ${pronunciationScore >= 50 ? 'text-green-500' : 'text-orange-500'}`}>
                 {pronunciationScore >= 85 ? t('excellent') : pronunciationScore >= 50 ? t('goodJob') : 'Try again! You can do it! 💪'}
               </p>
+              {/* Pronunciation corrections */}
+              {recognizedText && (() => {
+                const corrections: string[] = [];
+                const text = recognizedText.toLowerCase();
+                if (/\bnane\b/.test(text)) corrections.push('It\'s "name" not "nane"');
+                if (/\bshe haves?\b/.test(text)) corrections.push('It\'s "she has" not "she haves"');
+                if (/\bhe haves?\b/.test(text)) corrections.push('It\'s "he has" not "he haves"');
+                if (/\bshe get\b/.test(text)) corrections.push('It\'s "she gets" — use -s with he/she/it');
+                if (/\bhe get\b/.test(text)) corrections.push('It\'s "he gets" — use -s with he/she/it');
+                if (/\bshe work\b/.test(text)) corrections.push('It\'s "she works" — use -s with he/she/it');
+                if (/\bhe work\b/.test(text)) corrections.push('It\'s "he works" — use -s with he/she/it');
+                if (/\bshe live\b/.test(text)) corrections.push('It\'s "she lives" — use -s with he/she/it');
+                if (/\bhe live\b/.test(text)) corrections.push('It\'s "he lives" — use -s with he/she/it');
+                if (corrections.length === 0) return null;
+                return (
+                  <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-300 dark:border-amber-700 text-left">
+                    <p className="text-sm font-medium text-amber-700 dark:text-amber-400 mb-1">Pronunciation tip:</p>
+                    {corrections.map((c, i) => (
+                      <p key={i} className="text-sm text-amber-600 dark:text-amber-500">• {c}</p>
+                    ))}
+                  </div>
+                );
+              })()}
               {pronunciationScore < 50 && (
                 <p className="text-sm text-muted-foreground mt-1">Record again to continue</p>
               )}
