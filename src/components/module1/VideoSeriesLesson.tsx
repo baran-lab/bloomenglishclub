@@ -39,7 +39,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
   const [showPractice, setShowPractice] = useState(false);
   const [pronunciationScore, setPronunciationScore] = useState<number | null>(null);
   const [showQuiz, setShowQuiz] = useState(false);
-  const [showSkipWarning, setShowSkipWarning] = useState(false);
+  
   const [recordingStartTime, setRecordingStartTime] = useState<number | null>(null);
   const [activatedWords, setActivatedWords] = useState<Set<number>>(new Set());
   const [recognizedText, setRecognizedText] = useState('');
