@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Mic, Square, Play, RotateCcw, Volume2, Home, ChevronRight } from 'lucide-react';
+import { Mic, Square, Play, RotateCcw, Volume2, Home, ChevronRight, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/components/LanguageContext';
@@ -19,6 +19,14 @@ const telephoneTranslations: Record<string, { tip: string; title: string }> = {
   turkish: { tip: '"zero" yerine "oh" kullanabilirsiniz', title: 'Telefon Numarası Pratik' },
 };
 
+// Accepted answers for the telephone number
+const acceptedPatterns = [
+  'two one two five five five oh one eight two',
+  'two one two five five five zero one eight two',
+  '212 555 0182',
+  '2125550182',
+];
+
 export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete, userName = 'friend' }) => {
   const navigate = useNavigate();
   const { selectedLanguage } = useLanguage();
@@ -28,6 +36,7 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
   const [showPractice, setShowPractice] = useState(false);
   const [recordingStartTime, setRecordingStartTime] = useState<number | null>(null);
   const [recognizedNumber, setRecognizedNumber] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const recognitionRef = useRef<any>(null);
@@ -69,10 +78,20 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
     }
   };
 
+  const validateRecording = (text: string): boolean => {
+    const normalized = text.toLowerCase().replace(/[,.\-()]/g, '').replace(/\s+/g, ' ').trim();
+    return acceptedPatterns.some(pattern => {
+      const normalizedPattern = pattern.toLowerCase().replace(/\s+/g, ' ').trim();
+      // Check if recognized text contains the pattern or is close enough
+      return normalized.includes(normalizedPattern) || normalizedPattern.includes(normalized);
+    });
+  };
+
   const startRecording = async () => {
     try {
       audioChunksRef.current = [];
       setRecognizedNumber(null);
+      setFeedback(null);
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
@@ -89,6 +108,21 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
           const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
           setAudioUrl(URL.createObjectURL(blob));
           setHasRecorded(true);
+          
+          // Validate after a short delay to let speech recognition finish
+          setTimeout(() => {
+            if (recognizedNumber) {
+              const isValid = validateRecording(recognizedNumber);
+              if (isValid) {
+                setFeedback({ type: 'success', message: `Great job, ${userName}! 🎉` });
+              } else {
+                setFeedback({ type: 'error', message: 'Try saying: "two-one-two, five-five-five, oh-one-eight-two"' });
+              }
+            } else {
+              // If no recognition, still show success (recognition may not be available)
+              setFeedback({ type: 'success', message: `Great job, ${userName}! 🎉` });
+            }
+          }, 500);
         }
         stream.getTracks().forEach(t => t.stop());
       };
@@ -96,7 +130,6 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
       mediaRecorder.start();
       setIsRecording(true);
 
-      // Start speech recognition
       if (recognitionRef.current) {
         recognitionRef.current.start();
       }
@@ -121,10 +154,6 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
 
   return (
     <div className="space-y-6">
-      <Button variant="outline" size="sm" onClick={() => navigate('/')} className="gap-2">
-        <Home className="w-4 h-4" /> Dashboard
-      </Button>
-
       <div className="text-center">
         <h3 className="font-fredoka text-xl font-bold">Telephone Number Practice</h3>
       </div>
@@ -134,7 +163,6 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
           <h4 className="font-semibold text-center text-lg">How to say your telephone number:</h4>
           
           <div className="space-y-4">
-            {/* Example with audio */}
             <div className="text-center space-y-2">
               <p className="text-2xl font-mono font-bold">{telephoneNumberInfo.example}</p>
               <Button variant="outline" size="sm" onClick={() => speakText(telephoneNumberInfo.spoken)} className="gap-2">
@@ -143,7 +171,6 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
               <p className="text-muted-foreground italic">{telephoneNumberInfo.spoken}</p>
             </div>
 
-            {/* Key tip about "oh" for "zero" */}
             <div className="p-4 bg-primary/10 rounded-xl">
               <p className="font-medium text-primary text-center">
                 💡 {telephoneNumberInfo.tip}
@@ -153,7 +180,6 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
               </p>
             </div>
 
-            {/* Alternative pronunciation */}
             <div className="text-center space-y-2">
               <p className="text-sm text-muted-foreground">Alternative:</p>
               <Button variant="ghost" size="sm" onClick={() => speakText(telephoneNumberInfo.alternativeSpoken)} className="gap-2">
@@ -161,7 +187,6 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
               </Button>
             </div>
 
-            {/* Explanation */}
             <div className="p-4 bg-muted/50 rounded-xl text-sm space-y-2">
               <p className="font-medium">When saying telephone numbers:</p>
               <ul className="list-disc list-inside space-y-1 text-muted-foreground">
@@ -186,12 +211,11 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
           </div>
 
           <div className="text-center p-4 bg-muted/50 rounded-xl">
-            <p className="text-sm text-muted-foreground mb-2">Say your telephone number:</p>
-            <p className="font-medium text-foreground text-lg font-mono">212 555 0182</p>
-            <p className="text-xs text-muted-foreground mt-1">(Practice saying: "two-one-two, five-five-five, oh-one-eight-two")</p>
+            <p className="text-sm text-muted-foreground mb-2">Say this telephone number:</p>
           </div>
 
           <div className="flex flex-col items-center gap-4">
+            <p className="font-bold text-foreground text-2xl font-mono">212 555 0182</p>
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={isRecording ? stopRecording : startRecording}
@@ -213,12 +237,37 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl text-center"
+                  className="p-4 bg-muted/50 rounded-xl text-center"
                 >
                   <p className="text-sm text-muted-foreground">You said:</p>
-                  <p className="text-xl font-mono font-bold text-blue-700 dark:text-blue-400 mt-1">
+                  <p className="text-xl font-mono font-bold text-foreground mt-1">
                     {recognizedNumber}
                   </p>
+                </motion.div>
+              )}
+
+              {/* Feedback */}
+              {feedback && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`p-4 rounded-xl text-center ${
+                    feedback.type === 'success' 
+                      ? 'bg-green-50 dark:bg-green-900/20' 
+                      : 'bg-amber-50 dark:bg-amber-900/20'
+                  }`}
+                >
+                  {feedback.type === 'success' ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-green-600" />
+                      <p className="text-green-700 dark:text-green-400 font-medium">{feedback.message}</p>
+                    </div>
+                  ) : (
+                    <div className="flex items-start justify-center gap-2">
+                      <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                      <p className="text-amber-700 dark:text-amber-400 font-medium">{feedback.message}</p>
+                    </div>
+                  )}
                 </motion.div>
               )}
 
@@ -226,12 +275,9 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
                 <Button variant="outline" onClick={playRecording} className="gap-2">
                   <Play className="w-4 h-4" /> Play Recording
                 </Button>
-                <Button variant="outline" onClick={() => { setHasRecorded(false); setAudioUrl(null); setRecognizedNumber(null); }} className="gap-2">
+                <Button variant="outline" onClick={() => { setHasRecorded(false); setAudioUrl(null); setRecognizedNumber(null); setFeedback(null); }} className="gap-2">
                   <RotateCcw className="w-4 h-4" /> Try Again
                 </Button>
-              </div>
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl text-center">
-                <p className="text-green-700 dark:text-green-400 font-medium">Great job, {userName}! 🎉</p>
               </div>
               <Button onClick={onComplete} className="w-full gap-2">
                 Continue <ChevronRight className="w-4 h-4" />
