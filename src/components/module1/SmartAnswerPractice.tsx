@@ -10,7 +10,7 @@ interface SmartQuestion {
   id: string;
   question: string;
   audioQuestion?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
   validationPattern: 'name' | 'country' | 'age' | 'marital' | 'job' | 'workplace';
   acceptedPrefixes: string[];
 }

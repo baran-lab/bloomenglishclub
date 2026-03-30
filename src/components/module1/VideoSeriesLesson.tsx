@@ -14,7 +14,7 @@ interface VideoItem {
   subtitle?: string;
   listenOnly?: boolean;
   sentenceToRecord?: string;
-  translations?: Record<SupportedLanguage, string>;
+  translations?: Partial<Record<SupportedLanguage, string>>;
 }
 
 interface VideoSeriesLessonProps {

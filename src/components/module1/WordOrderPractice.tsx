@@ -13,7 +13,7 @@ interface WordOrderSlide {
   subtitle?: string;
   correctSentence: string;
   jumbledWords: string[];
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 interface WordOrderPracticeProps {

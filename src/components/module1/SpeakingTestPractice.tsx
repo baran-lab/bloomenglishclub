@@ -13,7 +13,7 @@ export interface SpeakingTestSlide {
   videoUrl: string;
   questionToAsk: string;
   hint: string;
-  translations: Record<SupportedLanguage, { question: string; hint: string }>;
+  translations: Partial<Record<SupportedLanguage, { question: string; hint: string }>>;
 }
 
 interface SpeakingTestPracticeProps {
