@@ -5,7 +5,7 @@ interface LanguageContextType {
   selectedLanguage: SupportedLanguage;
   setSelectedLanguage: (lang: SupportedLanguage) => void;
   t: (key: string) => string;
-  languageInfo: typeof languageNames[SupportedLanguage];
+  languageInfo: { native: string; english: string; flag: string } | undefined;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
