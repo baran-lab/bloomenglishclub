@@ -37,7 +37,7 @@ export interface SpeakingTestSlide {
   videoUrl: string;
   questionToAsk: string;
   hint: string;
-  translations: Record<SupportedLanguage, { question: string; hint: string }>;
+  translations: Partial<Record<SupportedLanguage, { question: string; hint: string }>>;
 }
 
 export interface Lesson {
@@ -132,7 +132,7 @@ export interface QuestionItem {
 }
 
 // Translations for UI elements
-export const uiTranslations: Record<SupportedLanguage, Record<string, string>> = {
+export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, string>>> = {
   arabic: {
     showTranslation: 'إظهار الترجمة',
     hideTranslation: 'إخفاء الترجمة',
@@ -266,7 +266,7 @@ export const uiTranslations: Record<SupportedLanguage, Record<string, string>> =
 };
 
 // Language display names
-export const languageNames: Record<SupportedLanguage, { native: string; english: string; flag: string }> = {
+export const languageNames: Partial<Record<SupportedLanguage, { native: string; english: string; flag: string }>> = {
   arabic: { native: 'العربية', english: 'Arabic', flag: '🇸🇦' },
   bengali: { native: 'বাংলা', english: 'Bengali', flag: '🇧🇩' },
   korean: { native: '한국어', english: 'Korean', flag: '🇰🇷' },
@@ -490,7 +490,7 @@ export interface VideoSlideWithQuiz {
 export interface GrammarRule {
   english: string;
   example: string;
-  translations: Record<SupportedLanguage, { rule: string; example: string }>;
+  translations: Partial<Record<SupportedLanguage, { rule: string; example: string }>>;
 }
 
 export const grammarExplanations: GrammarRule[] = [
