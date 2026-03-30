@@ -205,7 +205,7 @@ export function WorkbookM1a() {
 
   const getInputClass = (id: string) => {
     if (!checked) return "border-input";
-    return results[id] ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50";
+    return results[id] ? "border-success bg-success/10" : "border-destructive bg-destructive/10";
   };
 
   if (!isOpen) {
@@ -282,11 +282,11 @@ export function WorkbookM1a() {
                     />
                     {checked && (
                       <span className="absolute right-3 top-1/2 -translate-y-1/2">
-                        {results[q.id] ? <Check className="w-4 h-4 text-green-500" /> : <X className="w-4 h-4 text-red-500" />}
+                        {results[q.id] ? <Check className="w-4 h-4 text-success" /> : <X className="w-4 h-4 text-destructive" />}
                       </span>
                     )}
                     {checked && !results[q.id] && (
-                      <p className="text-xs text-green-600 mt-1">Correct: {q.correctAnswers.join(' / ')}</p>
+                      <p className="text-xs text-success mt-1">Correct: {q.correctAnswers.join(' / ')}</p>
                     )}
                   </div>
                 )}
@@ -301,11 +301,11 @@ export function WorkbookM1a() {
                     />
                     {checked && (
                       <span className="absolute right-3 top-1/2 -translate-y-1/2">
-                        {results[q.id] ? <Check className="w-4 h-4 text-green-500" /> : <X className="w-4 h-4 text-red-500" />}
+                        {results[q.id] ? <Check className="w-4 h-4 text-success" /> : <X className="w-4 h-4 text-destructive" />}
                       </span>
                     )}
                     {checked && !results[q.id] && (
-                      <p className="text-xs text-green-600 mt-1">Correct: {q.correctAnswers.join(' & ')}</p>
+                      <p className="text-xs text-success mt-1">Correct: {q.correctAnswers.join(' & ')}</p>
                     )}
                   </div>
                 )}
@@ -323,7 +323,7 @@ export function WorkbookM1a() {
                       </SelectContent>
                     </Select>
                     {checked && !results[q.id] && (
-                      <p className="text-xs text-green-600 mt-1">Correct: {q.correctAnswer}</p>
+                      <p className="text-xs text-success mt-1">Correct: {q.correctAnswer}</p>
                     )}
                   </div>
                 )}
@@ -345,7 +345,7 @@ export function WorkbookM1a() {
                       </div>
                     </RadioGroup>
                     {checked && !results[q.id] && (
-                      <p className="text-xs text-green-600">Correct: {q.correctAnswer === 'yes' ? 'Yes' : 'No'}</p>
+                      <p className="text-xs text-success">Correct: {q.correctAnswer === 'yes' ? 'Yes' : 'No'}</p>
                     )}
                     {q.followUp && answers[q.id] === 'no' && q.correctAnswer === 'no' && (
                       <div className="ml-4 space-y-1">
@@ -353,11 +353,11 @@ export function WorkbookM1a() {
                         <Input
                           value={followUpAnswers[q.id] || ''}
                           onChange={(e) => updateFollowUp(q.id, e.target.value)}
-                          className={`text-sm ${checked ? (results[q.id + '-followup'] ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50') : ''}`}
+                          className={`text-sm ${checked ? (results[q.id + '-followup'] ? 'border-success bg-success/10' : 'border-destructive bg-destructive/10') : ''}`}
                           placeholder="Type the country..."
                         />
                         {checked && !results[q.id + '-followup'] && (
-                          <p className="text-xs text-green-600">Correct: {q.followUpAnswer}</p>
+                          <p className="text-xs text-success">Correct: {q.followUpAnswer}</p>
                         )}
                       </div>
                     )}
