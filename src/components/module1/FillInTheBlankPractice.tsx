@@ -12,7 +12,7 @@ interface FillInBlankItem {
   sentenceAfter: string;
   correctAnswers: string[];
   audioUrl?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 interface FillInTheBlankPracticeProps {

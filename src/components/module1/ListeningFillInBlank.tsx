@@ -14,7 +14,7 @@ export interface ListeningFillInBlankItem {
   correctAnswer: string; // Primary correct answer
   acceptedAnswers: string[]; // All accepted variations (is, IS, Is, iS)
   audioUrl?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 interface ListeningFillInBlankProps {

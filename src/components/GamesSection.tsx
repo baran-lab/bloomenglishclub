@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Gamepad2, Lock, ExternalLink } from "lucide-react";
+import { Gamepad2, ExternalLink } from "lucide-react";
 
 interface Game {
   title: string;
@@ -44,36 +44,23 @@ export function GamesSection({ completedModules }: GamesSectionProps) {
       </div>
 
       <div className="grid gap-2 sm:grid-cols-2">
-        {allGames.map((game, index) => {
-          const isUnlocked = completedModules.includes(game.requiredModule);
-
-          return (
-            <motion.a
-              key={index}
-              href={isUnlocked ? game.url : undefined}
-              target={isUnlocked ? "_blank" : undefined}
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 * index }}
-              className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
-                isUnlocked
-                  ? "bg-muted hover:bg-primary/10 cursor-pointer"
-                  : "bg-muted/50 opacity-60 cursor-not-allowed"
-              }`}
-              onClick={(e) => { if (!isUnlocked) e.preventDefault(); }}
-            >
-              {isUnlocked ? (
-                <ExternalLink className="w-4 h-4 text-primary shrink-0" />
-              ) : (
-                <Lock className="w-4 h-4 text-muted-foreground shrink-0" />
-              )}
-              <span className="text-sm font-medium text-foreground truncate">
-                {game.title}
-              </span>
-            </motion.a>
-          );
-        })}
+        {allGames.map((game, index) => (
+          <motion.a
+            key={index}
+            href={game.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 * index }}
+            className="flex items-center gap-3 p-3 rounded-xl transition-all bg-muted hover:bg-primary/10 cursor-pointer"
+          >
+            <ExternalLink className="w-4 h-4 text-primary shrink-0" />
+            <span className="text-sm font-medium text-foreground truncate">
+              {game.title}
+            </span>
+          </motion.a>
+        ))}
       </div>
     </motion.div>
   );

@@ -1,6 +1,6 @@
 // Module 1 - Introduce Yourself Content Data
 
-export type SupportedLanguage = 'arabic' | 'bengali' | 'korean' | 'spanish' | 'turkish';
+export type SupportedLanguage = 'arabic' | 'bengali' | 'chinese' | 'hebrew' | 'korean' | 'spanish' | 'turkish';
 
 export interface Character {
   id: string;
@@ -27,7 +27,7 @@ export interface VocabularyItem {
   id: string;
   english: string;
   pronunciation: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
   audioExample?: string;
   image?: string;
 }
@@ -37,7 +37,7 @@ export interface SpeakingTestSlide {
   videoUrl: string;
   questionToAsk: string;
   hint: string;
-  translations: Record<SupportedLanguage, { question: string; hint: string }>;
+  translations: Partial<Record<SupportedLanguage, { question: string; hint: string }>>;
 }
 
 export interface Lesson {
@@ -84,7 +84,7 @@ export interface ListeningFillInBlankItem {
   correctAnswer: string;
   acceptedAnswers: string[];
   audioUrl?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
   blankCount?: number; // For sentences with multiple blanks
   correctAnswers?: string[]; // For multiple blanks
   acceptedAnswersPerBlank?: string[][]; // For multiple blanks
@@ -94,7 +94,7 @@ export interface SmartQuestion {
   id: string;
   question: string;
   audioQuestion?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
   validationPattern: 'name' | 'country' | 'age' | 'marital' | 'job' | 'workplace';
   acceptedPrefixes: string[];
 }
@@ -105,14 +105,14 @@ export interface FillInBlankItem {
   sentenceAfter: string;
   correctAnswers: string[];
   audioUrl?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 export interface PhraseItem {
   id: string;
   english: string;
   pronunciation: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
   context?: string;
   speaker?: string;
 }
@@ -121,18 +121,18 @@ export interface SentenceItem {
   id: string;
   english: string;
   pronunciation: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 export interface QuestionItem {
   id: string;
   question: string;
   audioQuestion?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 // Translations for UI elements
-export const uiTranslations: Record<SupportedLanguage, Record<string, string>> = {
+export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, string>>> = {
   arabic: {
     showTranslation: 'إظهار الترجمة',
     hideTranslation: 'إخفاء الترجمة',
@@ -263,12 +263,66 @@ export const uiTranslations: Record<SupportedLanguage, Record<string, string>> =
     correct: 'Doğru!',
     tryAgainMessage: 'Tekrar dene!',
   },
+  chinese: {
+    showTranslation: '显示翻译',
+    hideTranslation: '隐藏翻译',
+    record: '录音',
+    stopRecording: '停止录音',
+    playRecording: '播放录音',
+    tryAgain: '再试一次',
+    goodJob: '做得好！',
+    keepPracticing: '继续练习',
+    excellent: '太棒了！',
+    next: '下一个',
+    previous: '上一个',
+    needHelp: '需要帮助吗？',
+    congratulations: '恭喜！🎉',
+    lessonComplete: '你完成了这节课！',
+    keepGoing: '继续加油！',
+    almostThere: '快完成了！',
+    greatProgress: '进步很大！',
+    youCanDoIt: '你可以的！',
+    listen: '听',
+    repeat: '重复',
+    typeAnswer: '输入你的答案',
+    submit: '提交',
+    correct: '正确！',
+    tryAgainMessage: '再试一次！',
+  },
+  hebrew: {
+    showTranslation: 'הצג תרגום',
+    hideTranslation: 'הסתר תרגום',
+    record: 'הקלט',
+    stopRecording: 'עצור הקלטה',
+    playRecording: 'נגן הקלטה',
+    tryAgain: 'נסה שוב',
+    goodJob: '!כל הכבוד',
+    keepPracticing: 'המשך לתרגל',
+    excellent: '!מצוין',
+    next: 'הבא',
+    previous: 'הקודם',
+    needHelp: '?צריך עזרה',
+    congratulations: '!מזל טוב 🎉',
+    lessonComplete: '!סיימת את השיעור',
+    keepGoing: '!המשך כך',
+    almostThere: '!כמעט שם',
+    greatProgress: '!התקדמות מצוינת',
+    youCanDoIt: '!אתה יכול',
+    listen: 'הקשב',
+    repeat: 'חזור',
+    typeAnswer: 'הקלד את התשובה',
+    submit: 'שלח',
+    correct: '!נכון',
+    tryAgainMessage: '!נסה שוב',
+  },
 };
 
 // Language display names
-export const languageNames: Record<SupportedLanguage, { native: string; english: string; flag: string }> = {
+export const languageNames: Partial<Record<SupportedLanguage, { native: string; english: string; flag: string }>> = {
   arabic: { native: 'العربية', english: 'Arabic', flag: '🇸🇦' },
   bengali: { native: 'বাংলা', english: 'Bengali', flag: '🇧🇩' },
+  chinese: { native: '中文', english: 'Chinese', flag: '🇨🇳' },
+  hebrew: { native: 'עברית', english: 'Hebrew', flag: '🇮🇱' },
   korean: { native: '한국어', english: 'Korean', flag: '🇰🇷' },
   spanish: { native: 'Español', english: 'Spanish', flag: '🇪🇸' },
   turkish: { native: 'Türkçe', english: 'Turkish', flag: '🇹🇷' },
@@ -490,7 +544,7 @@ export interface VideoSlideWithQuiz {
 export interface GrammarRule {
   english: string;
   example: string;
-  translations: Record<SupportedLanguage, { rule: string; example: string }>;
+  translations: Partial<Record<SupportedLanguage, { rule: string; example: string }>>;
 }
 
 export const grammarExplanations: GrammarRule[] = [
@@ -634,7 +688,7 @@ export interface WordOrderSlide {
   subtitle?: string;
   correctSentence: string;
   jumbledWords: string[];
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 // Practice 2 slides - Rosa word ordering
@@ -718,7 +772,7 @@ export interface QuizQuestion {
   question: string;
   options: string[];
   correctAnswer: number;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 // Quiz for Ahmet
