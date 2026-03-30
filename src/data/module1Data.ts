@@ -27,7 +27,7 @@ export interface VocabularyItem {
   id: string;
   english: string;
   pronunciation: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
   audioExample?: string;
   image?: string;
 }
@@ -84,7 +84,7 @@ export interface ListeningFillInBlankItem {
   correctAnswer: string;
   acceptedAnswers: string[];
   audioUrl?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
   blankCount?: number; // For sentences with multiple blanks
   correctAnswers?: string[]; // For multiple blanks
   acceptedAnswersPerBlank?: string[][]; // For multiple blanks
@@ -94,7 +94,7 @@ export interface SmartQuestion {
   id: string;
   question: string;
   audioQuestion?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
   validationPattern: 'name' | 'country' | 'age' | 'marital' | 'job' | 'workplace';
   acceptedPrefixes: string[];
 }
@@ -105,14 +105,14 @@ export interface FillInBlankItem {
   sentenceAfter: string;
   correctAnswers: string[];
   audioUrl?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 export interface PhraseItem {
   id: string;
   english: string;
   pronunciation: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
   context?: string;
   speaker?: string;
 }
@@ -121,14 +121,14 @@ export interface SentenceItem {
   id: string;
   english: string;
   pronunciation: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 export interface QuestionItem {
   id: string;
   question: string;
   audioQuestion?: string;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 // Translations for UI elements
@@ -634,7 +634,7 @@ export interface WordOrderSlide {
   subtitle?: string;
   correctSentence: string;
   jumbledWords: string[];
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 // Practice 2 slides - Rosa word ordering
@@ -718,7 +718,7 @@ export interface QuizQuestion {
   question: string;
   options: string[];
   correctAnswer: number;
-  translations: Record<SupportedLanguage, string>;
+  translations: Partial<Record<SupportedLanguage, string>>;
 }
 
 // Quiz for Ahmet
