@@ -1,6 +1,6 @@
 // Module 1 - Introduce Yourself Content Data
 
-export type SupportedLanguage = 'arabic' | 'bengali' | 'korean' | 'spanish' | 'turkish';
+export type SupportedLanguage = 'arabic' | 'bengali' | 'chinese' | 'hebrew' | 'korean' | 'spanish' | 'turkish';
 
 export interface Character {
   id: string;
