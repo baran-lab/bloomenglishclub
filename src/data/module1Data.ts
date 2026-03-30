@@ -269,6 +269,8 @@ export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, st
 export const languageNames: Partial<Record<SupportedLanguage, { native: string; english: string; flag: string }>> = {
   arabic: { native: 'العربية', english: 'Arabic', flag: '🇸🇦' },
   bengali: { native: 'বাংলা', english: 'Bengali', flag: '🇧🇩' },
+  chinese: { native: '中文', english: 'Chinese', flag: '🇨🇳' },
+  hebrew: { native: 'עברית', english: 'Hebrew', flag: '🇮🇱' },
   korean: { native: '한국어', english: 'Korean', flag: '🇰🇷' },
   spanish: { native: 'Español', english: 'Spanish', flag: '🇪🇸' },
   turkish: { native: 'Türkçe', english: 'Turkish', flag: '🇹🇷' },
