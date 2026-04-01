@@ -299,6 +299,11 @@ const Index = () => {
             </motion.button>
           </div>
 
+          {/* Community Section */}
+          <div className="mt-8">
+            <CommunitySection />
+          </div>
+
           {/* Progress Checklist */}
           <div className="mt-8">
             <ProgressChecklist 
