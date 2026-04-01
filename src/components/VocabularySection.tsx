@@ -17,7 +17,6 @@ interface VocabularyLesson {
 const vocabularyLessons: VocabularyLesson[] = [
   { id: 'family-members', title: '1. Family Members', description: 'Learn family vocabulary with listen & repeat + matching', moduleId: 1 },
   { id: 'dmitry-family', title: "2. Dmitry's Family", description: 'Watch videos and complete drag-and-drop sentences', moduleId: 1 },
-  { id: 'dmitry-practice', title: "3. Dmitry's Family Practice 1", description: 'Practice what you learned about Dmitry\'s family', moduleId: 1 },
 ];
 
 export function VocabularySection() {
@@ -52,7 +51,7 @@ export function VocabularySection() {
     );
   }
 
-  if (activeLesson === 'dmitry-family' || activeLesson === 'dmitry-practice') {
+  if (activeLesson === 'dmitry-family') {
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl p-5 shadow-soft">
         <DmitryFamilyQuiz
