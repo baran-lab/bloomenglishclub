@@ -10,6 +10,7 @@ import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
 import { HamburgerMenu } from "@/components/HamburgerMenu";
 import { ProgressChecklist } from "@/components/ProgressChecklist";
+import { CommunitySection } from "@/components/CommunitySection";
 
 import { BookOpen, Gamepad2 } from "lucide-react";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
@@ -242,15 +243,12 @@ const Index = () => {
           <WelcomeHeader />
 
           {/* Motivational Quote */}
-          <MotivationalQuote quote={currentModule?.quote || ""} />
-
+          <MotivationalQuote />
 
           {/* Daily Tasks */}
-          {currentTasks.length > 0 && (
-            <div className="mt-6">
-              <DailyTasks tasks={currentTasks} onToggle={handleTaskToggle} />
-            </div>
-          )}
+          <div className="mt-6">
+            <DailyTasks />
+          </div>
 
           {/* Modules Grid */}
           <div className="mt-8">
@@ -299,6 +297,11 @@ const Index = () => {
                 <span className="flex items-center gap-1">🎮 Games</span>
               </div>
             </motion.button>
+          </div>
+
+          {/* Community Section */}
+          <div className="mt-8">
+            <CommunitySection />
           </div>
 
           {/* Progress Checklist */}
