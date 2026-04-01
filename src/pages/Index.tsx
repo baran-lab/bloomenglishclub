@@ -283,6 +283,11 @@ const Index = () => {
             <WorkbookM1a />
           </div>
 
+          {/* Vocabulary Section */}
+          <div className="mt-8">
+            <VocabularySection />
+          </div>
+
           {/* Games Section */}
           <div className="mt-8">
             <GamesSection completedModules={modules.filter(m => m.isCompleted).map(m => m.id)} />
