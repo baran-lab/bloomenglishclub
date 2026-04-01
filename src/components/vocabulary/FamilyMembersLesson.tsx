@@ -48,6 +48,20 @@ interface FamilyMembersLessonProps {
 
 export const FamilyMembersLesson: React.FC<FamilyMembersLessonProps> = ({ selectedLanguage, onComplete, onBack }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Auto-play audio when word changes
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(familyMembers[currentIndex].english);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.7;
+        speechSynthesis.speak(utterance);
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
   const [completedWords, setCompletedWords] = useState<Set<string>>(new Set());
   const [phase, setPhase] = useState<'listen' | 'matching'>('listen');
 
