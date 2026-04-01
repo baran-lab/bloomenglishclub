@@ -243,15 +243,12 @@ const Index = () => {
           <WelcomeHeader />
 
           {/* Motivational Quote */}
-          <MotivationalQuote quote={currentModule?.quote || ""} />
-
+          <MotivationalQuote />
 
           {/* Daily Tasks */}
-          {currentTasks.length > 0 && (
-            <div className="mt-6">
-              <DailyTasks tasks={currentTasks} onToggle={handleTaskToggle} />
-            </div>
-          )}
+          <div className="mt-6">
+            <DailyTasks />
+          </div>
 
           {/* Modules Grid */}
           <div className="mt-8">
