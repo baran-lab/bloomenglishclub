@@ -51,7 +51,7 @@ export function VocabularySection() {
     );
   }
 
-  if (activeLesson === 'dmitry-family' || activeLesson === 'dmitry-practice') {
+  if (activeLesson === 'dmitry-family') {
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl p-5 shadow-soft">
         <DmitryFamilyQuiz

@@ -277,11 +277,6 @@ const Index = () => {
           </div>
 
 
-          {/* Workbook Section */}
-          <div className="mt-8">
-            <WorkbookM1a />
-          </div>
-
           {/* Practice Skills Card */}
           <div className="mt-8">
             <motion.button

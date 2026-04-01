@@ -65,6 +65,17 @@ export const DmitryFamilyQuiz: React.FC<DmitryFamilyQuizProps> = ({ onComplete, 
     }
   };
 
+  // Auto-play video when question changes
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.play().catch(() => {});
+        setIsPlaying(true);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
+
   const goNext = () => {
     if (currentIndex < quizItems.length - 1) {
       setCurrentIndex(prev => prev + 1);

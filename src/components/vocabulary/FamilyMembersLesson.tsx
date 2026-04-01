@@ -160,7 +160,6 @@ export const FamilyMembersLesson: React.FC<FamilyMembersLessonProps> = ({ select
           >
             <div className="text-center space-y-4">
               <p className="text-2xl font-bold text-foreground">{current.english}</p>
-              <p className="text-sm text-muted-foreground italic">/{current.pronunciation}/</p>
               
               <Button onClick={() => speakWord(current.english)} className="gap-2">
                 <Volume2 className="w-5 h-5" /> Listen
