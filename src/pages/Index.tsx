@@ -12,6 +12,7 @@ import { HamburgerMenu } from "@/components/HamburgerMenu";
 import { ProgressChecklist } from "@/components/ProgressChecklist";
 import { WorkbookM1a } from "@/components/WorkbookM1a";
 import { GamesSection } from "@/components/GamesSection";
+import { VocabularySection } from "@/components/VocabularySection";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -280,6 +281,11 @@ const Index = () => {
           {/* Workbook Section */}
           <div className="mt-8">
             <WorkbookM1a />
+          </div>
+
+          {/* Vocabulary Section */}
+          <div className="mt-8">
+            <VocabularySection />
           </div>
 
           {/* Games Section */}
