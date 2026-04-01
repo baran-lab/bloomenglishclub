@@ -11,8 +11,7 @@ import { DailyTasks } from "@/components/DailyTasks";
 import { HamburgerMenu } from "@/components/HamburgerMenu";
 import { ProgressChecklist } from "@/components/ProgressChecklist";
 import { WorkbookM1a } from "@/components/WorkbookM1a";
-import { GamesSection } from "@/components/GamesSection";
-import { VocabularySection } from "@/components/VocabularySection";
+import { BookOpen, Gamepad2 } from "lucide-react";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -283,14 +282,28 @@ const Index = () => {
             <WorkbookM1a />
           </div>
 
-          {/* Vocabulary Section */}
+          {/* Practice Skills Card */}
           <div className="mt-8">
-            <VocabularySection />
-          </div>
-
-          {/* Games Section */}
-          <div className="mt-8">
-            <GamesSection completedModules={modules.filter(m => m.isCompleted).map(m => m.id)} />
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              onClick={() => navigate('/practice')}
+              className="w-full bg-card rounded-2xl p-5 shadow-soft text-left hover:shadow-md transition-shadow border border-border group"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <BookOpen className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-fredoka text-lg font-semibold text-foreground">Practice Skills</h3>
+                  <p className="text-xs text-muted-foreground">Vocabulary · Games</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1">📇 Vocabulary Practice</span>
+                <span className="flex items-center gap-1">🎮 Games</span>
+              </div>
+            </motion.button>
           </div>
 
           {/* Progress Checklist */}
