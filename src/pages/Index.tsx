@@ -10,6 +10,7 @@ import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
 import { HamburgerMenu } from "@/components/HamburgerMenu";
 import { ProgressChecklist } from "@/components/ProgressChecklist";
+import { CommunitySection } from "@/components/CommunitySection";
 
 import { BookOpen, Gamepad2 } from "lucide-react";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
