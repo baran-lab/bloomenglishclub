@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Settings, BarChart2, BookOpen, Heart, Share2, Shield } from 'lucide-react';
+import { X, Settings, BarChart2, BookOpen, Heart, Share2, Shield, Mic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,6 +24,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     { id: 'lessons', label: 'All Lessons', icon: BookOpen },
     { id: 'achievements', label: 'Achievements', icon: Heart },
     { id: 'practice', label: 'Practice Skills', icon: BookOpen },
+    { id: 'pronunciation', label: 'Pronunciation', icon: Mic },
     { id: 'share', label: 'Share Progress', icon: Share2 },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'admin', label: 'Admin Facility', icon: Shield },
@@ -47,6 +48,11 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     }
     if (itemId === 'practice') {
       navigate('/practice');
+      onClose();
+      return;
+    }
+    if (itemId === 'pronunciation') {
+      navigate('/pronunciation');
       onClose();
       return;
     }
