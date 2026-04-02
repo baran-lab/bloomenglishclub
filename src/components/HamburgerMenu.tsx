@@ -127,7 +127,6 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
             <nav className="p-4 space-y-1">
               {menuItems.map((item, index) => {
                 const Icon = item.icon;
-                const isNeighbors = item.id === 'neighbors';
                 
                 return (
                   <div key={item.id}>
@@ -135,66 +134,14 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      onClick={() => handleItemClick(item.id, item.expandable)}
+                      onClick={() => handleItemClick(item.id)}
                       className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-left hover:bg-secondary transition-colors group"
                     >
                       <div className="flex items-center gap-3">
                         <Icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                         <span className="font-medium text-foreground">{item.label}</span>
                       </div>
-                      {isNeighbors && (
-                        isNeighborsExpanded ? (
-                          <ChevronUp className="w-4 h-4 text-muted-foreground" />
-                        ) : (
-                          <ChevronDown className="w-4 h-4 text-muted-foreground" />
-                        )
-                      )}
                     </motion.button>
-
-                    {/* Expandable Neighbors List - No videos, just names */}
-                    <AnimatePresence>
-                      {isNeighbors && isNeighborsExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pl-6 pr-2 py-2 space-y-1">
-                            {displayCharacters.map((character) => {
-                              const firstName = character.id.toLowerCase();
-                              const lesson = neighborLessons[firstName];
-                              
-                              if (!lesson) return null;
-                              
-                              return (
-                                <motion.button
-                                  key={character.id}
-                                  whileHover={{ x: 4 }}
-                                  whileTap={{ scale: 0.98 }}
-                                  onClick={() => handleNeighborClick(firstName)}
-                                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary/10 transition-colors group"
-                                >
-                                  <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-base flex-shrink-0">
-                                    {character.avatar}
-                                  </div>
-                                  <div className="flex-1 text-left">
-                                    <p className="font-medium text-sm text-foreground">
-                                      {character.name}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                      {character.job} • Apt {character.apartment}
-                                    </p>
-                                  </div>
-                                  {/* No play button for Marisol/Rosa since they go to Module 1 */}
-                                </motion.button>
-                              );
-                            })}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
                 );
               })}
