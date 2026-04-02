@@ -47,13 +47,24 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     { id: 'admin', label: 'Admin Facility', icon: Shield },
   ];
 
-  const handleItemClick = (itemId: string, expandable?: boolean) => {
-    if (itemId === 'neighbors' && expandable) {
-      setIsNeighborsExpanded(!isNeighborsExpanded);
-      return;
-    }
+  const handleItemClick = (itemId: string) => {
     if (itemId === 'admin') {
       navigate('/admin');
+      onClose();
+      return;
+    }
+    if (itemId === 'progress') {
+      navigate('/progress');
+      onClose();
+      return;
+    }
+    if (itemId === 'achievements') {
+      navigate('/achievements');
+      onClose();
+      return;
+    }
+    if (itemId === 'practice') {
+      navigate('/practice');
       onClose();
       return;
     }
