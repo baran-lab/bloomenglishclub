@@ -51,6 +51,11 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
       onClose();
       return;
     }
+    if (itemId === 'pronunciation') {
+      navigate('/pronunciation');
+      onClose();
+      return;
+    }
     onNavigate?.(itemId);
     onClose();
   };
