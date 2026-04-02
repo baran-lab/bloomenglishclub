@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Bell, Menu, Home } from "lucide-react";
+import { Bell, Menu } from "lucide-react";
 import { WelcomeHeader } from "@/components/WelcomeHeader";
 import { ModuleCard } from "@/components/ModuleCard";
 import { SkillsSection } from "@/components/SkillsSection";
@@ -9,12 +9,10 @@ import { ProfileSidebar } from "@/components/ProfileSidebar";
 import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
 import { HamburgerMenu } from "@/components/HamburgerMenu";
-import { ProgressChecklist } from "@/components/ProgressChecklist";
 import { CommunitySection } from "@/components/CommunitySection";
 
-import { BookOpen, Gamepad2 } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { playAppJingle } from "@/utils/appJingle";
 import { useToast } from "@/hooks/use-toast";
