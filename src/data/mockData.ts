@@ -179,7 +179,7 @@ export const mockUserProgress: UserProgress = {
     { id: "speaker", name: "Brave Speaker", icon: "mic", description: "Complete 10 speaking exercises", isEarned: false },
   ],
   modulesCompleted: 0,
-  totalModules: 6,
+  totalModules: 8,
   vocabulary: { current: 20, total: 500 },
   everydayEnglish: { current: 10, total: 50 },
   listening: { current: 5, total: 30 },
