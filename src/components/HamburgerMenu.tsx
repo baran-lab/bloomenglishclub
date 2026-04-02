@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Settings, BarChart2, BookOpen, Heart, Share2, Shield } from 'lucide-react';
+import { X, Settings, BarChart2, BookOpen, Heart, Share2, Shield, Mic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
