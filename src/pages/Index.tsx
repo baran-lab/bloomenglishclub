@@ -67,15 +67,6 @@ const Index = () => {
   const currentModule = modules.find((m) => m.isUnlocked && !m.isCompleted);
   const currentTasks = currentModule?.tasks || [];
 
-  // Progress checklist items based on completed modules
-  const progressItems = [
-    { id: 'intro', text: 'You can introduce yourself', isCompleted: modules[0]?.progress >= 30 },
-    { id: 'name', text: 'You can say your name', isCompleted: modules[0]?.progress >= 20 },
-    { id: 'origin', text: 'You can tell where you are from', isCompleted: modules[0]?.progress >= 40 },
-    { id: 'age', text: 'You can say your age', isCompleted: modules[0]?.progress >= 50 },
-    { id: 'job', text: 'You can tell people your job', isCompleted: modules[0]?.progress >= 60 },
-    { id: 'numbers', text: 'You can count to 60', isCompleted: modules[0]?.progress >= 70 },
-  ];
 
   const handleModuleClick = (module: Module) => {
     if (!module.isUnlocked) return;
