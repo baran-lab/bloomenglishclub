@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Users, Settings, BarChart2, BookOpen, Heart, Share2, ChevronDown, ChevronUp, Shield } from 'lucide-react';
+import { X, Settings, BarChart2, BookOpen, Heart, Share2, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { characters } from '@/data/module1Data';
 
 interface HamburgerMenuProps {
   isOpen: boolean;
@@ -11,22 +10,6 @@ interface HamburgerMenuProps {
   userName: string;
   onNavigate?: (section: string) => void;
 }
-
-// Map character names to their lesson IDs in Module 1
-// Marisol/Rosa direct to their neighbor quizzes, others to specialized quizzes
-const neighborLessons: Record<string, { lessonId: string; name: string; directToModule?: boolean }> = {
-  'marisol': { lessonId: 'neighbor-marisol-quiz', name: 'Marisol Rivera' },
-  'rosa': { lessonId: 'neighbor-rosa-quiz', name: 'Rosa Silva' },
-  'ahmet': { lessonId: 'neighbor-ahmed', name: 'Ahmet El-Masri' },
-  'saojin': { lessonId: 'neighbor-saojin', name: 'Saojin Lee' },
-  'dmitry': { lessonId: 'neighbor-dmitry', name: 'Dmitry Ivanov' },
-  'fatima': { lessonId: 'neighbor-fatima', name: 'Fatima Hassan' },
-};
-
-// Filter out characters not in the menu
-const displayCharacters = characters.filter(c => 
-  ['marisol', 'rosa', 'ahmet', 'saojin', 'dmitry', 'fatima'].includes(c.id.toLowerCase())
-);
 
 export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   isOpen,
