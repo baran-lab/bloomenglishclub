@@ -18,7 +18,6 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   onNavigate,
 }) => {
   const navigate = useNavigate();
-  const [isNeighborsExpanded, setIsNeighborsExpanded] = useState(false);
 
   const menuItems = [
     { id: 'progress', label: 'My Progress', icon: BarChart2 },
