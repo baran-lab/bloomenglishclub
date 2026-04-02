@@ -13,6 +13,7 @@ import Module5 from "./pages/Module5";
 import PracticeSkills from "./pages/PracticeSkills";
 import MyProgress from "./pages/MyProgress";
 import Achievements from "./pages/Achievements";
+import PronunciationPractice from "./pages/PronunciationPractice";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
