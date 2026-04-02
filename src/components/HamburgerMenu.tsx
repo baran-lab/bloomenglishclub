@@ -54,15 +54,6 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     onClose();
   };
 
-  const handleNeighborClick = (characterKey: string) => {
-    const lesson = neighborLessons[characterKey.toLowerCase()];
-    if (lesson) {
-      // Navigate to Module 1 with the neighbor's lesson ID
-      const lessonId = lesson.lessonId;
-      navigate(`/module/1?lesson=${lessonId}`);
-      onClose();
-    }
-  };
 
   return (
     <AnimatePresence>
