@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Users, Settings, BarChart2, BookOpen, Heart, Share2, ChevronDown, ChevronUp, Shield } from 'lucide-react';
+import { X, Settings, BarChart2, BookOpen, Heart, Share2, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { characters } from '@/data/module1Data';
 
 interface HamburgerMenuProps {
   isOpen: boolean;
@@ -12,22 +11,6 @@ interface HamburgerMenuProps {
   onNavigate?: (section: string) => void;
 }
 
-// Map character names to their lesson IDs in Module 1
-// Marisol/Rosa direct to their neighbor quizzes, others to specialized quizzes
-const neighborLessons: Record<string, { lessonId: string; name: string; directToModule?: boolean }> = {
-  'marisol': { lessonId: 'neighbor-marisol-quiz', name: 'Marisol Rivera' },
-  'rosa': { lessonId: 'neighbor-rosa-quiz', name: 'Rosa Silva' },
-  'ahmet': { lessonId: 'neighbor-ahmed', name: 'Ahmet El-Masri' },
-  'saojin': { lessonId: 'neighbor-saojin', name: 'Saojin Lee' },
-  'dmitry': { lessonId: 'neighbor-dmitry', name: 'Dmitry Ivanov' },
-  'fatima': { lessonId: 'neighbor-fatima', name: 'Fatima Hassan' },
-};
-
-// Filter out characters not in the menu
-const displayCharacters = characters.filter(c => 
-  ['marisol', 'rosa', 'ahmet', 'saojin', 'dmitry', 'fatima'].includes(c.id.toLowerCase())
-);
-
 export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   isOpen,
   onClose,
@@ -35,25 +18,35 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   onNavigate,
 }) => {
   const navigate = useNavigate();
-  const [isNeighborsExpanded, setIsNeighborsExpanded] = useState(false);
 
   const menuItems = [
-    { id: 'neighbors', label: 'Meet Your Neighbors', icon: Users, expandable: true },
     { id: 'progress', label: 'My Progress', icon: BarChart2 },
     { id: 'lessons', label: 'All Lessons', icon: BookOpen },
     { id: 'achievements', label: 'Achievements', icon: Heart },
+    { id: 'practice', label: 'Practice Skills', icon: BookOpen },
     { id: 'share', label: 'Share Progress', icon: Share2 },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'admin', label: 'Admin Facility', icon: Shield },
   ];
 
-  const handleItemClick = (itemId: string, expandable?: boolean) => {
-    if (itemId === 'neighbors' && expandable) {
-      setIsNeighborsExpanded(!isNeighborsExpanded);
-      return;
-    }
+  const handleItemClick = (itemId: string) => {
     if (itemId === 'admin') {
       navigate('/admin');
+      onClose();
+      return;
+    }
+    if (itemId === 'progress') {
+      navigate('/progress');
+      onClose();
+      return;
+    }
+    if (itemId === 'achievements') {
+      navigate('/achievements');
+      onClose();
+      return;
+    }
+    if (itemId === 'practice') {
+      navigate('/practice');
       onClose();
       return;
     }
@@ -61,15 +54,6 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     onClose();
   };
 
-  const handleNeighborClick = (characterKey: string) => {
-    const lesson = neighborLessons[characterKey.toLowerCase()];
-    if (lesson) {
-      // Navigate to Module 1 with the neighbor's lesson ID
-      const lessonId = lesson.lessonId;
-      navigate(`/module/1?lesson=${lessonId}`);
-      onClose();
-    }
-  };
 
   return (
     <AnimatePresence>
@@ -116,7 +100,6 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
             <nav className="p-4 space-y-1">
               {menuItems.map((item, index) => {
                 const Icon = item.icon;
-                const isNeighbors = item.id === 'neighbors';
                 
                 return (
                   <div key={item.id}>
@@ -124,66 +107,14 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      onClick={() => handleItemClick(item.id, item.expandable)}
+                      onClick={() => handleItemClick(item.id)}
                       className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-left hover:bg-secondary transition-colors group"
                     >
                       <div className="flex items-center gap-3">
                         <Icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                         <span className="font-medium text-foreground">{item.label}</span>
                       </div>
-                      {isNeighbors && (
-                        isNeighborsExpanded ? (
-                          <ChevronUp className="w-4 h-4 text-muted-foreground" />
-                        ) : (
-                          <ChevronDown className="w-4 h-4 text-muted-foreground" />
-                        )
-                      )}
                     </motion.button>
-
-                    {/* Expandable Neighbors List - No videos, just names */}
-                    <AnimatePresence>
-                      {isNeighbors && isNeighborsExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pl-6 pr-2 py-2 space-y-1">
-                            {displayCharacters.map((character) => {
-                              const firstName = character.id.toLowerCase();
-                              const lesson = neighborLessons[firstName];
-                              
-                              if (!lesson) return null;
-                              
-                              return (
-                                <motion.button
-                                  key={character.id}
-                                  whileHover={{ x: 4 }}
-                                  whileTap={{ scale: 0.98 }}
-                                  onClick={() => handleNeighborClick(firstName)}
-                                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-primary/10 transition-colors group"
-                                >
-                                  <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-base flex-shrink-0">
-                                    {character.avatar}
-                                  </div>
-                                  <div className="flex-1 text-left">
-                                    <p className="font-medium text-sm text-foreground">
-                                      {character.name}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                      {character.job} • Apt {character.apartment}
-                                    </p>
-                                  </div>
-                                  {/* No play button for Marisol/Rosa since they go to Module 1 */}
-                                </motion.button>
-                              );
-                            })}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
                 );
               })}

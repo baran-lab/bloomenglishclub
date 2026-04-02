@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Bell, Menu, Home } from "lucide-react";
+import { Bell, Menu } from "lucide-react";
 import { WelcomeHeader } from "@/components/WelcomeHeader";
 import { ModuleCard } from "@/components/ModuleCard";
 import { SkillsSection } from "@/components/SkillsSection";
@@ -9,12 +9,10 @@ import { ProfileSidebar } from "@/components/ProfileSidebar";
 import { MotivationalQuote } from "@/components/MotivationalQuote";
 import { DailyTasks } from "@/components/DailyTasks";
 import { HamburgerMenu } from "@/components/HamburgerMenu";
-import { ProgressChecklist } from "@/components/ProgressChecklist";
 import { CommunitySection } from "@/components/CommunitySection";
 
-import { BookOpen, Gamepad2 } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { mockModules, mockUserProgress, Module } from "@/data/mockData";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { playAppJingle } from "@/utils/appJingle";
 import { useToast } from "@/hooks/use-toast";
@@ -69,15 +67,6 @@ const Index = () => {
   const currentModule = modules.find((m) => m.isUnlocked && !m.isCompleted);
   const currentTasks = currentModule?.tasks || [];
 
-  // Progress checklist items based on completed modules
-  const progressItems = [
-    { id: 'intro', text: 'You can introduce yourself', isCompleted: modules[0]?.progress >= 30 },
-    { id: 'name', text: 'You can say your name', isCompleted: modules[0]?.progress >= 20 },
-    { id: 'origin', text: 'You can tell where you are from', isCompleted: modules[0]?.progress >= 40 },
-    { id: 'age', text: 'You can say your age', isCompleted: modules[0]?.progress >= 50 },
-    { id: 'job', text: 'You can tell people your job', isCompleted: modules[0]?.progress >= 60 },
-    { id: 'numbers', text: 'You can count to 60', isCompleted: modules[0]?.progress >= 70 },
-  ];
 
   const handleModuleClick = (module: Module) => {
     if (!module.isUnlocked) return;
@@ -275,15 +264,16 @@ const Index = () => {
           </div>
 
 
-          {/* Practice Skills Card */}
-          <div className="mt-8">
+          {/* Quick Action Cards */}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {/* Practice Skills */}
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => navigate('/practice')}
-              className="w-full bg-card rounded-2xl p-5 shadow-soft text-left hover:shadow-md transition-shadow border border-border group"
+              className="bg-card rounded-2xl p-5 shadow-soft text-left hover:shadow-md transition-shadow border border-border group"
             >
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <BookOpen className="w-5 h-5 text-primary" />
                 </div>
@@ -292,25 +282,26 @@ const Index = () => {
                   <p className="text-xs text-muted-foreground">Vocabulary · Games</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1">📇 Vocabulary Practice</span>
-                <span className="flex items-center gap-1">🎮 Games</span>
+            </motion.button>
+
+            {/* My Progress */}
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              onClick={() => navigate('/progress')}
+              className="bg-card rounded-2xl p-5 shadow-soft text-left hover:shadow-md transition-shadow border border-border group"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                  <span className="text-xl">📊</span>
+                </div>
+                <div>
+                  <h3 className="font-fredoka text-lg font-semibold text-foreground">My Progress</h3>
+                  <p className="text-xs text-muted-foreground">Stats · Skills · Streak</p>
+                </div>
               </div>
             </motion.button>
-          </div>
-
-          {/* Community Section */}
-          <div className="mt-8">
-            <CommunitySection />
-          </div>
-
-          {/* Progress Checklist */}
-          <div className="mt-8">
-            <ProgressChecklist 
-              items={progressItems} 
-              userName={userName}
-              title="What You Can Do Now"
-            />
           </div>
 
           {/* Skills Section */}
