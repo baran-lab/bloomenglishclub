@@ -275,15 +275,16 @@ const Index = () => {
           </div>
 
 
-          {/* Practice Skills Card */}
-          <div className="mt-8">
+          {/* Quick Action Cards */}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {/* Practice Skills */}
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => navigate('/practice')}
-              className="w-full bg-card rounded-2xl p-5 shadow-soft text-left hover:shadow-md transition-shadow border border-border group"
+              className="bg-card rounded-2xl p-5 shadow-soft text-left hover:shadow-md transition-shadow border border-border group"
             >
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <BookOpen className="w-5 h-5 text-primary" />
                 </div>
@@ -292,25 +293,26 @@ const Index = () => {
                   <p className="text-xs text-muted-foreground">Vocabulary · Games</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1">📇 Vocabulary Practice</span>
-                <span className="flex items-center gap-1">🎮 Games</span>
+            </motion.button>
+
+            {/* My Progress */}
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              onClick={() => navigate('/progress')}
+              className="bg-card rounded-2xl p-5 shadow-soft text-left hover:shadow-md transition-shadow border border-border group"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                  <span className="text-xl">📊</span>
+                </div>
+                <div>
+                  <h3 className="font-fredoka text-lg font-semibold text-foreground">My Progress</h3>
+                  <p className="text-xs text-muted-foreground">Stats · Skills · Streak</p>
+                </div>
               </div>
             </motion.button>
-          </div>
-
-          {/* Community Section */}
-          <div className="mt-8">
-            <CommunitySection />
-          </div>
-
-          {/* Progress Checklist */}
-          <div className="mt-8">
-            <ProgressChecklist 
-              items={progressItems} 
-              userName={userName}
-              title="What You Can Do Now"
-            />
           </div>
 
           {/* Skills Section */}

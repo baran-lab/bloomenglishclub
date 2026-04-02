@@ -38,10 +38,10 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   const [isNeighborsExpanded, setIsNeighborsExpanded] = useState(false);
 
   const menuItems = [
-    { id: 'neighbors', label: 'Meet Your Neighbors', icon: Users, expandable: true },
     { id: 'progress', label: 'My Progress', icon: BarChart2 },
     { id: 'lessons', label: 'All Lessons', icon: BookOpen },
     { id: 'achievements', label: 'Achievements', icon: Heart },
+    { id: 'practice', label: 'Practice Skills', icon: BookOpen },
     { id: 'share', label: 'Share Progress', icon: Share2 },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'admin', label: 'Admin Facility', icon: Shield },

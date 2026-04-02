@@ -11,6 +11,8 @@ import Module2 from "./pages/Module2";
 import Module3 from "./pages/Module3";
 import Module5 from "./pages/Module5";
 import PracticeSkills from "./pages/PracticeSkills";
+import MyProgress from "./pages/MyProgress";
+import Achievements from "./pages/Achievements";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +33,8 @@ const App = () => (
           <Route path="/module/3" element={<Module3 />} />
           <Route path="/module/5" element={<Module5 />} />
           <Route path="/practice" element={<PracticeSkills />} />
+          <Route path="/progress" element={<MyProgress />} />
+          <Route path="/achievements" element={<Achievements />} />
           <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
