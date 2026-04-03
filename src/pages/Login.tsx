@@ -241,7 +241,7 @@ const Login = () => {
               <Building2 className="w-10 h-10 text-primary-foreground" />
             </motion.div>
             <h1 className="font-fredoka text-3xl font-bold text-foreground">
-              RealTalkEnglish
+              Bloom English Club
             </h1>
             <p className="text-muted-foreground mt-1">
               Learn English for everyday life
