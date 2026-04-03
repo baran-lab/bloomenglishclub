@@ -38,7 +38,7 @@ export function SkillsSection({ progress }: SkillsSectionProps) {
 
   const isUnlocked = (key: string) => {
     const skillProgress = getSkillProgress(key);
-    return skillProgress.current > 0 || key === "vocabulary" || key === "games" || key === "speaking";
+    return skillProgress.current > 0 || key === "vocabulary" || key === "games" || key === "speaking" || key === "listening";
   };
 
   const handleClick = (skill: typeof skills[0]) => {
