@@ -129,7 +129,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
             {/* Version info */}
             <div className="p-4 border-t border-border mt-4">
               <p className="text-xs text-muted-foreground text-center">
-                RealTalkEnglish v1.0 • Made with 💛
+                Bloom English Club v1.0 • Made with 💛
               </p>
             </div>
           </motion.div>
