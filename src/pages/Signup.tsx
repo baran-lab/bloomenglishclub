@@ -131,7 +131,7 @@ const Signup = () => {
       if (data.session) {
         // Auto-confirmed (if enabled)
         toast({
-          title: "Welcome to RealTalkEnglish! 🎉",
+          title: "Welcome to Bloom English Club! 🎉",
           description: "Your account has been created successfully.",
         });
         navigate('/');
