@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { LanguageProvider } from '@/components/LanguageContext';
 import { FamilyMembersLesson } from '@/components/vocabulary/FamilyMembersLesson';
 import { DmitryFamilyQuiz } from '@/components/vocabulary/DmitryFamilyQuiz';
+import { FamilyQuizTime } from '@/components/vocabulary/FamilyQuizTime';
 import { SupportedLanguage } from '@/data/module1Data';
 
 interface VocabularyLesson {
