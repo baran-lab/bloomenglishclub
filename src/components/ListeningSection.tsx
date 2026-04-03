@@ -23,8 +23,8 @@ const listeningVideos: ListeningVideo[] = [
     title: 'Ahmed',
     videoUrl: '/videos/listening/M1_L_Ahmed.mp4',
     quiz: [
-      { question: "Where is Ahmed from?", options: ["Syria", "Egypt", "Jordan", "Iraq"], correctAnswer: 0 },
-      { question: "What does Ahmed do?", options: ["He is a student", "He is a teacher", "He is a doctor", "He is a driver"], correctAnswer: 0 },
+      { question: "Where is Ahmed from?", options: ["Syria", "Egypt", "Jordan", "Iraq"], correctAnswer: 1 },
+      { question: "What does Ahmed do?", options: ["He is a student", "He is a teacher", "He is a doctor", "He is a driver"], correctAnswer: 3 },
     ],
   },
   {
@@ -32,8 +32,8 @@ const listeningVideos: ListeningVideo[] = [
     title: 'Marisol',
     videoUrl: '/videos/listening/M1_L_Marisol.mp4',
     quiz: [
-      { question: "Where is Marisol from?", options: ["Mexico", "Colombia", "Peru", "Argentina"], correctAnswer: 0 },
-      { question: "What apartment does Marisol live in?", options: ["Apartment 1", "Apartment 2", "Apartment 3", "Apartment 4"], correctAnswer: 1 },
+      { question: "Where is Marisol from?", options: ["Mexico", "Colombia", "Peru", "Argentina"], correctAnswer: 2 },
+      { question: "What apartment does Marisol live in?", options: ["Apartment 1", "Apartment 2", "Apartment 3", "Apartment 4"], correctAnswer: 0 },
     ],
   },
   {
@@ -41,8 +41,8 @@ const listeningVideos: ListeningVideo[] = [
     title: 'Saojin',
     videoUrl: '/videos/listening/M1_L_Saojin.mp4',
     quiz: [
-      { question: "Where is Saojin from?", options: ["Japan", "China", "South Korea", "Vietnam"], correctAnswer: 2 },
-      { question: "What is Saojin's job?", options: ["Nurse", "Teacher", "Student", "Chef"], correctAnswer: 2 },
+      { question: "Where is Saojin from?", options: ["Japan", "China", "Korea", "Vietnam"], correctAnswer: 2 },
+      { question: "What is Saojin's job?", options: ["Nurse", "Teacher", "Student", "Chef"], correctAnswer: 0 },
     ],
   },
   {
@@ -50,8 +50,8 @@ const listeningVideos: ListeningVideo[] = [
     title: 'Fatima',
     videoUrl: '/videos/listening/M1_L_Fatima.mp4',
     quiz: [
-      { question: "Where is Fatima from?", options: ["Morocco", "Turkey", "Egypt", "Iran"], correctAnswer: 0 },
-      { question: "How many children does Fatima have?", options: ["One", "Two", "Three", "Four"], correctAnswer: 1 },
+      { question: "Where is Fatima from?", options: ["Morocco", "Turkey", "Egypt", "Bangladesh"], correctAnswer: 3 },
+      { question: "How many children does Fatima have?", options: ["One", "Two", "Three", "Four"], correctAnswer: 0 },
     ],
   },
   {
@@ -60,7 +60,7 @@ const listeningVideos: ListeningVideo[] = [
     videoUrl: '/videos/listening/M1_L_Dmitry.mp4',
     quiz: [
       { question: "Where is Dmitry from?", options: ["Ukraine", "Russia", "Poland", "Germany"], correctAnswer: 1 },
-      { question: "What does Dmitry do?", options: ["He is a chef", "He is an engineer", "He is a mechanic", "He is a teacher"], correctAnswer: 2 },
+      { question: "What does Dmitry do?", options: ["He is a chef", "He is a student", "He is a mechanic", "He is a teacher"], correctAnswer: 1 },
     ],
   },
   {
@@ -68,8 +68,8 @@ const listeningVideos: ListeningVideo[] = [
     title: 'Rosa',
     videoUrl: '/videos/listening/M1_L_Rosa.mp4',
     quiz: [
-      { question: "Where is Rosa from?", options: ["Brazil", "Portugal", "Colombia", "Spain"], correctAnswer: 2 },
-      { question: "What apartment does Rosa live in?", options: ["Apartment 3", "Apartment 4", "Apartment 5", "Apartment 6"], correctAnswer: 2 },
+      { question: "Where is Rosa from?", options: ["Brazil", "The Dominican Republic", "Colombia", "Spain"], correctAnswer: 2 },
+      { question: "What apartment does Rosa live in?", options: ["Apartment 1", "Apartment 2", "Apartment 3", "Apartment 4"], correctAnswer: 2 },
     ],
   },
   {
@@ -78,7 +78,7 @@ const listeningVideos: ListeningVideo[] = [
     videoUrl: '/videos/listening/M1_L_Ali.mp4',
     quiz: [
       { question: "Where is Ali from?", options: ["Turkey", "Syria", "Iraq", "Lebanon"], correctAnswer: 0 },
-      { question: "What is Ali's job?", options: ["Driver", "Cook", "Builder", "Cleaner"], correctAnswer: 1 },
+      { question: "What is Ali's job?", options: ["Driver", "Cook", "Electrician", "Cleaner"], correctAnswer: 2 },
     ],
   },
 ];
