@@ -180,7 +180,7 @@ const Index = () => {
                 <Menu className="w-5 h-5" />
               </Button>
               <div className="font-fredoka text-xl font-bold text-primary">
-                Englishville
+                English Place
               </div>
             </div>
             

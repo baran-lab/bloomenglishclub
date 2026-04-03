@@ -1,15 +1,11 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VocabularySection } from "@/components/VocabularySection";
-import { GamesSection } from "@/components/GamesSection";
 
 const PracticeSkills = () => {
   const navigate = useNavigate();
-  const completedModules: number[] = [];
-  const isPrePublish = true;
 
   return (
     <div className="min-h-screen bg-gradient-hero">
@@ -30,12 +26,11 @@ const PracticeSkills = () => {
         >
           <Lightbulb className="w-5 h-5 text-primary shrink-0 mt-0.5" />
           <p className="text-sm font-medium text-foreground">
-            Practice your English with vocabulary and games. Pick a lesson below!
+            Practice your English with vocabulary exercises. Pick a lesson below!
           </p>
         </motion.div>
 
         <VocabularySection />
-        <GamesSection completedModules={isPrePublish ? [1, 2] : completedModules} />
       </main>
     </div>
   );

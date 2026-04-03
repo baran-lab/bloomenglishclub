@@ -15,7 +15,7 @@ export function WelcomeHeader() {
         </div>
         <div>
           <h1 className="font-fredoka text-3xl font-bold text-foreground">
-            RealTalkEnglish
+            Bloom English Club
           </h1>
           <p className="text-muted-foreground text-sm">
             Learn everyday English through real conversations
