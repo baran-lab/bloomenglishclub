@@ -214,7 +214,7 @@ const Login = () => {
             className="bg-card/90 backdrop-blur-sm rounded-2xl p-6 max-w-md shadow-card"
           >
             <h2 className="font-fredoka text-2xl font-bold text-foreground mb-2">
-              Welcome to RealTalkEnglish!
+              Welcome to Bloom English Club!
             </h2>
             <p className="text-muted-foreground">
               Learn everyday English through real conversations with your neighbors. 🏘️
