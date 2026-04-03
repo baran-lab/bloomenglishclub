@@ -18,6 +18,8 @@ const skills = [
 
 export function SkillsSection({ progress }: SkillsSectionProps) {
   const navigate = useNavigate();
+
+  const getSkillProgress = (key: string) => {
     switch (key) {
       case "vocabulary":
         return progress.vocabulary;
@@ -36,7 +38,13 @@ export function SkillsSection({ progress }: SkillsSectionProps) {
 
   const isUnlocked = (key: string) => {
     const skillProgress = getSkillProgress(key);
-    return skillProgress.current > 0;
+    return skillProgress.current > 0 || key === "vocabulary" || key === "games" || key === "speaking";
+  };
+
+  const handleClick = (skill: typeof skills[0]) => {
+    if (skill.route) {
+      navigate(skill.route);
+    }
   };
 
   return (
@@ -61,10 +69,12 @@ export function SkillsSection({ progress }: SkillsSectionProps) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 + index * 0.1 }}
               whileHover={unlocked ? { scale: 1.05, y: -2 } : {}}
+              onClick={() => unlocked && handleClick(skill)}
               className={cn(
-                "relative rounded-xl p-4 text-center cursor-pointer transition-all",
-                "shadow-soft",
-                unlocked ? "bg-card" : "bg-muted cursor-not-allowed opacity-60"
+                "relative rounded-xl p-4 text-center transition-all shadow-soft",
+                unlocked 
+                  ? "bg-card cursor-pointer" 
+                  : "bg-muted cursor-not-allowed opacity-60"
               )}
             >
               <div
@@ -99,7 +109,6 @@ export function SkillsSection({ progress }: SkillsSectionProps) {
                 </div>
               )}
 
-              {/* Mini progress bar */}
               {unlocked && (
                 <div className="mt-2 h-1 bg-muted rounded-full overflow-hidden">
                   <motion.div
