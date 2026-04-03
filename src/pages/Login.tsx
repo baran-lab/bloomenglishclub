@@ -202,7 +202,7 @@ const Login = () => {
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img
           src={heroImage}
-          alt="RealTalkEnglish - A welcoming neighborhood"
+          alt="Bloom English Club - A welcoming neighborhood"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-transparent" />
