@@ -337,7 +337,7 @@ const Login = () => {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
-                New to RealTalkEnglish?{" "}
+                New to Bloom English Club?{" "}
                 <Link
                   to="/signup"
                   className="text-primary font-semibold hover:underline"

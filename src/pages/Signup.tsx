@@ -165,7 +165,7 @@ const Signup = () => {
             <span className="text-3xl">🐝</span>
           </motion.div>
           <h1 className="font-fredoka text-3xl font-bold text-foreground">
-            Join RealTalkEnglish
+            Join Bloom English Club
           </h1>
           <p className="text-muted-foreground mt-2">
             Create your account and start learning!
