@@ -17,7 +17,7 @@ const skills = [
 ];
 
 export function SkillsSection({ progress }: SkillsSectionProps) {
-  const getSkillProgress = (key: string) => {
+  const navigate = useNavigate();
     switch (key) {
       case "vocabulary":
         return progress.vocabulary;
