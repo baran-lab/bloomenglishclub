@@ -13,7 +13,7 @@ const skills = [
   { key: "everydayEnglish", label: "Everyday English", icon: MessageCircle, color: "from-[hsl(35,90%,50%)] to-[hsl(25,85%,55%)]", route: null },
   { key: "listening", label: "Listening", icon: Headphones, color: "from-[hsl(200,70%,50%)] to-[hsl(210,65%,55%)]", route: "/practice?tab=listening" },
   { key: "speaking", label: "Speaking", icon: Mic, color: "from-[hsl(145,55%,45%)] to-[hsl(155,50%,50%)]", route: "/pronunciation" },
-  { key: "games", label: "Games", icon: Gamepad2, color: "from-[hsl(260,60%,55%)] to-[hsl(270,55%,60%)]", route: "/practice" },
+  { key: "games", label: "Games", icon: Gamepad2, color: "from-[hsl(260,60%,55%)] to-[hsl(270,55%,60%)]", route: "/practice?tab=games" },
 ];
 
 export function SkillsSection({ progress }: SkillsSectionProps) {
