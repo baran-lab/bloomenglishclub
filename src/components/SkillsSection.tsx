@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { BookOpen, MessageCircle, Headphones, Mic, Gamepad2, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserProgress } from "@/data/mockData";
@@ -8,11 +9,11 @@ interface SkillsSectionProps {
 }
 
 const skills = [
-  { key: "vocabulary", label: "Vocabulary", icon: BookOpen, color: "from-[hsl(175,60%,45%)] to-[hsl(185,55%,50%)]" },
-  { key: "everydayEnglish", label: "Everyday English", icon: MessageCircle, color: "from-[hsl(35,90%,50%)] to-[hsl(25,85%,55%)]" },
-  { key: "listening", label: "Listening", icon: Headphones, color: "from-[hsl(200,70%,50%)] to-[hsl(210,65%,55%)]" },
-  { key: "speaking", label: "Speaking", icon: Mic, color: "from-[hsl(145,55%,45%)] to-[hsl(155,50%,50%)]" },
-  { key: "games", label: "Games", icon: Gamepad2, color: "from-[hsl(260,60%,55%)] to-[hsl(270,55%,60%)]" },
+  { key: "vocabulary", label: "Vocabulary", icon: BookOpen, color: "from-[hsl(175,60%,45%)] to-[hsl(185,55%,50%)]", route: "/practice" },
+  { key: "everydayEnglish", label: "Everyday English", icon: MessageCircle, color: "from-[hsl(35,90%,50%)] to-[hsl(25,85%,55%)]", route: null },
+  { key: "listening", label: "Listening", icon: Headphones, color: "from-[hsl(200,70%,50%)] to-[hsl(210,65%,55%)]", route: null },
+  { key: "speaking", label: "Speaking", icon: Mic, color: "from-[hsl(145,55%,45%)] to-[hsl(155,50%,50%)]", route: "/pronunciation" },
+  { key: "games", label: "Games", icon: Gamepad2, color: "from-[hsl(260,60%,55%)] to-[hsl(270,55%,60%)]", route: "/practice" },
 ];
 
 export function SkillsSection({ progress }: SkillsSectionProps) {
