@@ -284,7 +284,7 @@ const Module1Content: React.FC = () => {
           {viewState === 'language-select' && (
             <motion.div key="language-select" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-8">
               <div className="text-center space-y-2">
-                <h2 className="font-fredoka text-3xl font-bold text-foreground">Welcome to Englishville! 🏘️</h2>
+                <h2 className="font-fredoka text-3xl font-bold text-foreground">Welcome to English Place! 🏘️</h2>
                 <p className="text-muted-foreground max-w-md mx-auto">Choose your native language to help you learn English.</p>
               </div>
               <LanguageSelector showTitle={true} />

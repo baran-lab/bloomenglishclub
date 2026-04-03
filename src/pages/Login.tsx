@@ -134,7 +134,7 @@ const Login = () => {
               animate={{ opacity: 1, y: 0 }}
               className="font-fredoka text-3xl md:text-4xl font-bold text-foreground"
             >
-              Welcome to RealTalkEnglish! 🏘️
+              Welcome to Bloom English Club! 🏘️
             </motion.h1>
             <p className="text-muted-foreground">
               Watch this short introduction to get started
@@ -202,7 +202,7 @@ const Login = () => {
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img
           src={heroImage}
-          alt="RealTalkEnglish - A welcoming neighborhood"
+          alt="Bloom English Club - A welcoming neighborhood"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-transparent" />
@@ -214,7 +214,7 @@ const Login = () => {
             className="bg-card/90 backdrop-blur-sm rounded-2xl p-6 max-w-md shadow-card"
           >
             <h2 className="font-fredoka text-2xl font-bold text-foreground mb-2">
-              Welcome to RealTalkEnglish!
+              Welcome to Bloom English Club!
             </h2>
             <p className="text-muted-foreground">
               Learn everyday English through real conversations with your neighbors. 🏘️
@@ -241,7 +241,7 @@ const Login = () => {
               <Building2 className="w-10 h-10 text-primary-foreground" />
             </motion.div>
             <h1 className="font-fredoka text-3xl font-bold text-foreground">
-              RealTalkEnglish
+              Bloom English Club
             </h1>
             <p className="text-muted-foreground mt-1">
               Learn English for everyday life
@@ -337,7 +337,7 @@ const Login = () => {
 
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
-                New to RealTalkEnglish?{" "}
+                New to Bloom English Club?{" "}
                 <Link
                   to="/signup"
                   className="text-primary font-semibold hover:underline"
