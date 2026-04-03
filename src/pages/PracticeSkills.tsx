@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { BookOpen, Gamepad2, ArrowLeft, ChevronRight, ChevronDown, ChevronUp, ExternalLink, Lock, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VocabularySection } from "@/components/VocabularySection";
@@ -10,7 +10,12 @@ type View = 'home' | 'vocabulary' | 'games';
 
 const PracticeSkills = () => {
   const navigate = useNavigate();
-  const [view, setView] = useState<View>('home');
+  const [searchParams] = useSearchParams();
+  const [view, setView] = useState<View>(() => {
+    const v = searchParams.get('view');
+    if (v === 'vocabulary' || v === 'games') return v;
+    return 'home';
+  });
 
   // TODO: replace with real completion tracking
   const completedModules: number[] = [];
