@@ -264,51 +264,6 @@ const Index = () => {
           </div>
 
 
-          {/* Practice Skills Section */}
-          <div className="mt-8">
-            <h2 className="font-fredoka text-xl font-semibold text-foreground mb-4">
-              Practice Skills
-            </h2>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {/* Vocabulary */}
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                onClick={() => navigate('/practice?view=vocabulary')}
-                className="bg-card rounded-2xl p-5 shadow-soft text-left hover:shadow-md transition-shadow border border-border group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <BookOpen className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-fredoka text-lg font-semibold text-foreground">📇 Vocabulary</h3>
-                    <p className="text-xs text-muted-foreground">Learn & review words with audio</p>
-                  </div>
-                </div>
-              </motion.button>
-
-              {/* Games */}
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.05 }}
-                onClick={() => navigate('/practice?view=games')}
-                className="bg-card rounded-2xl p-5 shadow-soft text-left hover:shadow-md transition-shadow border border-border group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                    <span className="text-xl">🎮</span>
-                  </div>
-                  <div>
-                    <h3 className="font-fredoka text-lg font-semibold text-foreground">🎮 Games</h3>
-                    <p className="text-xs text-muted-foreground">Fun activities by module</p>
-                  </div>
-                </div>
-              </motion.button>
-            </div>
-          </div>
-
           {/* Quick Links */}
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <motion.button

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { BookOpen, MessageCircle, Headphones, Mic, Gamepad2, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserProgress } from "@/data/mockData";
@@ -8,14 +9,16 @@ interface SkillsSectionProps {
 }
 
 const skills = [
-  { key: "vocabulary", label: "Vocabulary", icon: BookOpen, color: "from-[hsl(175,60%,45%)] to-[hsl(185,55%,50%)]" },
-  { key: "everydayEnglish", label: "Everyday English", icon: MessageCircle, color: "from-[hsl(35,90%,50%)] to-[hsl(25,85%,55%)]" },
-  { key: "listening", label: "Listening", icon: Headphones, color: "from-[hsl(200,70%,50%)] to-[hsl(210,65%,55%)]" },
-  { key: "speaking", label: "Speaking", icon: Mic, color: "from-[hsl(145,55%,45%)] to-[hsl(155,50%,50%)]" },
-  { key: "games", label: "Games", icon: Gamepad2, color: "from-[hsl(260,60%,55%)] to-[hsl(270,55%,60%)]" },
+  { key: "vocabulary", label: "Vocabulary", icon: BookOpen, color: "from-[hsl(175,60%,45%)] to-[hsl(185,55%,50%)]", route: "/practice" },
+  { key: "everydayEnglish", label: "Everyday English", icon: MessageCircle, color: "from-[hsl(35,90%,50%)] to-[hsl(25,85%,55%)]", route: null },
+  { key: "listening", label: "Listening", icon: Headphones, color: "from-[hsl(200,70%,50%)] to-[hsl(210,65%,55%)]", route: null },
+  { key: "speaking", label: "Speaking", icon: Mic, color: "from-[hsl(145,55%,45%)] to-[hsl(155,50%,50%)]", route: "/pronunciation" },
+  { key: "games", label: "Games", icon: Gamepad2, color: "from-[hsl(260,60%,55%)] to-[hsl(270,55%,60%)]", route: "/practice" },
 ];
 
 export function SkillsSection({ progress }: SkillsSectionProps) {
+  const navigate = useNavigate();
+
   const getSkillProgress = (key: string) => {
     switch (key) {
       case "vocabulary":
@@ -35,7 +38,13 @@ export function SkillsSection({ progress }: SkillsSectionProps) {
 
   const isUnlocked = (key: string) => {
     const skillProgress = getSkillProgress(key);
-    return skillProgress.current > 0;
+    return skillProgress.current > 0 || key === "vocabulary" || key === "games" || key === "speaking";
+  };
+
+  const handleClick = (skill: typeof skills[0]) => {
+    if (skill.route) {
+      navigate(skill.route);
+    }
   };
 
   return (
@@ -60,10 +69,12 @@ export function SkillsSection({ progress }: SkillsSectionProps) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 + index * 0.1 }}
               whileHover={unlocked ? { scale: 1.05, y: -2 } : {}}
+              onClick={() => unlocked && handleClick(skill)}
               className={cn(
-                "relative rounded-xl p-4 text-center cursor-pointer transition-all",
-                "shadow-soft",
-                unlocked ? "bg-card" : "bg-muted cursor-not-allowed opacity-60"
+                "relative rounded-xl p-4 text-center transition-all shadow-soft",
+                unlocked 
+                  ? "bg-card cursor-pointer" 
+                  : "bg-muted cursor-not-allowed opacity-60"
               )}
             >
               <div
@@ -98,7 +109,6 @@ export function SkillsSection({ progress }: SkillsSectionProps) {
                 </div>
               )}
 
-              {/* Mini progress bar */}
               {unlocked && (
                 <div className="mt-2 h-1 bg-muted rounded-full overflow-hidden">
                   <motion.div
