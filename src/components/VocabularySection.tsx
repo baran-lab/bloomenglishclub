@@ -18,6 +18,7 @@ interface VocabularyLesson {
 const vocabularyLessons: VocabularyLesson[] = [
   { id: 'family-members', title: '1. Family Members', description: 'Learn family vocabulary with listen & repeat + matching', moduleId: 1 },
   { id: 'dmitry-family', title: "2. Dmitry's Family", description: 'Watch videos and complete drag-and-drop sentences', moduleId: 1 },
+  { id: 'quiz-time', title: '3. Quiz Time', description: 'Watch, record your answer, then see the correct answer', moduleId: 1 },
 ];
 
 export function VocabularySection() {
