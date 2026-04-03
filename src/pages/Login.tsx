@@ -134,7 +134,7 @@ const Login = () => {
               animate={{ opacity: 1, y: 0 }}
               className="font-fredoka text-3xl md:text-4xl font-bold text-foreground"
             >
-              Welcome to RealTalkEnglish! 🏘️
+              Welcome to Bloom English Club! 🏘️
             </motion.h1>
             <p className="text-muted-foreground">
               Watch this short introduction to get started
