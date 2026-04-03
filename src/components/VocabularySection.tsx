@@ -64,6 +64,17 @@ export function VocabularySection() {
     );
   }
 
+  if (activeLesson === 'quiz-time') {
+    return (
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-2xl p-5 shadow-soft">
+        <FamilyQuizTime
+          onComplete={() => setActiveLesson(null)}
+          onBack={() => setActiveLesson(null)}
+        />
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
