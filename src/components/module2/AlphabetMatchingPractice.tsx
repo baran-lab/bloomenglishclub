@@ -69,13 +69,7 @@ export const AlphabetMatchingPractice: React.FC<AlphabetMatchingPracticeProps> =
   };
 
   const speakLetter = (letter: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(letter);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.6;
-      speechSynthesis.speak(utterance);
-    }
+    speakText(letter, 0.7);
   };
 
   const handleAudioClick = (letter: string) => {

@@ -23,14 +23,8 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 const speakPhrase = (text: string) => {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.8;
-    speechSynthesis.speak(utterance);
-  }
-};
+    speakText(text, 0.7);
+  };
 
 export const VisualMatchingPractice: React.FC<VisualMatchingPracticeProps> = ({
   vocabulary,

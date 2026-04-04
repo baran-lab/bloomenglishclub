@@ -72,13 +72,7 @@ export const NumbersMatchingPractice: React.FC<NumbersMatchingPracticeProps> = (
   }, [shuffleArrays]);
 
   const speakNumber = (text: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.7;
-      speechSynthesis.speak(utterance);
-    }
+    speakText(text, 0.7);
   };
 
   const handleNumberClick = (num: VocabularyItem) => {

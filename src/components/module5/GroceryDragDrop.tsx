@@ -22,14 +22,8 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 const speakWord = (word: string) => {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.8;
-    speechSynthesis.speak(utterance);
-  }
-};
+    speakText(word, 0.7);
+  };
 
 export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) => {
   const navigate = useNavigate();

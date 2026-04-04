@@ -122,13 +122,7 @@ export const PronounPractice: React.FC<PronounPracticeProps> = ({ onComplete, us
   const progress = (currentIndex / pronounQuestions.length) * 100;
 
   const speakText = (text: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.8;
-      speechSynthesis.speak(utterance);
-    }
+    speakText(text, 0.7);
   };
 
   const handleOptionClick = (index: number) => {

@@ -21,13 +21,7 @@ export const AlphabetLesson: React.FC<AlphabetLessonProps> = ({ onComplete }) =>
   const allCompleted = completedLetters.size === alphabetData.length;
 
   const speakLetter = (letter: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(letter);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.6;
-      speechSynthesis.speak(utterance);
-    }
+    speakText(letter, 0.7);
   };
 
   const playAllLetters = async () => {
