@@ -9,20 +9,17 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
+import Module1 from "./pages/Module1";
 
-// Retry wrapper for lazy imports — handles Vite HMR module invalidation
 function lazyWithRetry(importFn: () => Promise<any>) {
   return lazy(() =>
     importFn().catch(() => {
-      // Module fetch failed (likely HMR invalidation), reload the page
       window.location.reload();
       return importFn();
     })
   );
 }
 
-// Lazy load heavy module pages (video-heavy)
-const Module1 = lazyWithRetry(() => import("./pages/Module1"));
 const Module2 = lazyWithRetry(() => import("./pages/Module2"));
 const Module3 = lazyWithRetry(() => import("./pages/Module3"));
 const Module5 = lazyWithRetry(() => import("./pages/Module5"));
