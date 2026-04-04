@@ -162,7 +162,7 @@ export const FamilyQuizTime: React.FC<FamilyQuizTimeProps> = ({ onComplete, onBa
 
       {/* Video */}
       <div className="rounded-xl overflow-hidden bg-black aspect-video">
-        <video
+        <video preload="metadata"
           ref={videoRef}
           src={currentVideoSrc}
           className="w-full h-full object-contain"

@@ -130,7 +130,7 @@ export const NeighborVideoQuiz: React.FC<NeighborVideoQuizProps> = ({
             </div>
 
             <div className="relative rounded-2xl overflow-hidden bg-black shadow-lg">
-              <video
+              <video preload="metadata"
                 ref={videoRef}
                 src={videoUrl}
                 controls

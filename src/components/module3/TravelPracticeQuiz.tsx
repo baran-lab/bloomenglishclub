@@ -68,7 +68,7 @@ const ListenRepeatMode: React.FC<{
       {/* Full conversation video */}
       <Card className="overflow-hidden">
         <div className="relative aspect-video bg-black">
-          <video
+          <video preload="metadata"
             ref={videoRef}
             src={videoUrl}
             className="w-full h-full object-contain"

@@ -149,7 +149,7 @@ export function ListeningSection() {
         {!quizStarted ? (
           <div className="space-y-4">
             <div className="rounded-xl overflow-hidden bg-black">
-              <video
+              <video preload="metadata"
                 ref={videoRef}
                 src={currentVideoData.videoUrl}
                 controls

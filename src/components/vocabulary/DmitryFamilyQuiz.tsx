@@ -112,7 +112,7 @@ export const DmitryFamilyQuiz: React.FC<DmitryFamilyQuizProps> = ({ onComplete, 
 
       {/* Video */}
       <div className="relative rounded-2xl overflow-hidden bg-black aspect-video">
-        <video
+        <video preload="metadata"
           ref={videoRef}
           src={current.videoUrl}
           className="w-full h-full object-cover"

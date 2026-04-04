@@ -90,7 +90,7 @@ export const DmitryNeighborQuiz: React.FC<DmitryNeighborQuizProps> = ({ onComple
 
       {/* Video Player */}
       <div className="relative bg-black rounded-2xl overflow-hidden aspect-video">
-        <video
+        <video preload="metadata"
           ref={videoRef}
           src={current.url}
           className="w-full h-full object-contain"

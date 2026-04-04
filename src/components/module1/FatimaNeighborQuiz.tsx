@@ -115,7 +115,7 @@ export const FatimaNeighborQuiz: React.FC<FatimaNeighborQuizProps> = ({ onComple
 
       {/* Video Player */}
       <div className="relative bg-black rounded-2xl overflow-hidden aspect-video">
-        <video
+        <video preload="metadata"
           ref={videoRef}
           src={currentVideo.url}
           className="w-full h-full object-contain"

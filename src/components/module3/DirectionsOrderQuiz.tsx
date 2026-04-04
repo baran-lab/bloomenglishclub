@@ -167,7 +167,7 @@ export const DirectionsOrderQuiz: React.FC<DirectionsOrderQuizProps> = ({ steps,
       {/* Video */}
       <Card className="overflow-hidden">
         <div className="relative aspect-video bg-black">
-          <video
+          <video preload="metadata"
             ref={videoRef}
             key={step?.videoUrl}
             src={step?.videoUrl}

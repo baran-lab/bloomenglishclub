@@ -87,7 +87,7 @@ export const HebaListeningLesson: React.FC<HebaListeningLessonProps> = ({
 
       {/* Video Player - Auto plays */}
       <div className="relative bg-black rounded-2xl overflow-hidden aspect-video">
-        <video
+        <video preload="metadata"
           ref={videoRef}
           src={currentVideo.url}
           className="w-full h-full object-contain"

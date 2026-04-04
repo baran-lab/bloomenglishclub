@@ -40,7 +40,7 @@ export function EverydayEnglishSection() {
           <h3 className="font-fredoka text-lg font-semibold">{currentVideoData.title}</h3>
         </div>
         <div className="rounded-xl overflow-hidden bg-black">
-          <video
+          <video preload="metadata"
             ref={videoRef}
             src={currentVideoData.videoUrl}
             controls
