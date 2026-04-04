@@ -179,7 +179,7 @@ const WordOrderPractice: React.FC<WordOrderPracticeProps> = ({
       {/* Video Section */}
       <Card className="overflow-hidden">
         <div className="relative aspect-video bg-black">
-          <video
+          <video preload="metadata"
             ref={videoRef}
             src={slide.url}
             className="w-full h-full object-contain"

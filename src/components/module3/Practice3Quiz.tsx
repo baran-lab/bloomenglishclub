@@ -152,7 +152,7 @@ const FillBlankExercise: React.FC<{
       {/* Video */}
       <Card className="overflow-hidden">
         <div className="relative aspect-video bg-black">
-          <video
+          <video preload="metadata"
             ref={videoRef}
             src={data.videoUrl}
             className="w-full h-full object-contain"
@@ -305,7 +305,7 @@ const ReadAlongExercise: React.FC<{
     <div className="space-y-4">
       <Card className="overflow-hidden">
         <div className="relative aspect-video bg-black">
-          <video
+          <video preload="metadata"
             ref={videoRef}
             src={data.videoUrl}
             className="w-full h-full object-contain"

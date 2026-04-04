@@ -209,7 +209,7 @@ export const MoreFamilyMembers: React.FC<MoreFamilyMembersProps> = ({ onComplete
           className="space-y-4"
         >
           <div className="relative rounded-xl overflow-hidden bg-black aspect-video">
-            <video
+            <video preload="metadata"
               ref={videoRef}
               src={currentItem.videoUrl}
               className="w-full h-full object-contain"

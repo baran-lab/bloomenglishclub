@@ -108,7 +108,7 @@ export const RosaNeighborQuiz: React.FC<RosaNeighborQuizProps> = ({ onComplete }
         <>
           {/* Video Player */}
           <div className="relative bg-black rounded-2xl overflow-hidden aspect-video">
-            <video
+            <video preload="metadata"
               ref={videoRef}
               src="/videos/module1/rosa-silva.mp4"
               className="w-full h-full object-contain"

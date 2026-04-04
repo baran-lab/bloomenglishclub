@@ -53,7 +53,7 @@ export const VideoLesson: React.FC<VideoLessonProps> = ({ lesson, onComplete, on
     <div className="space-y-4">
       {/* Video container */}
       <div className="relative bg-black rounded-2xl overflow-hidden aspect-video">
-        <video
+        <video preload="metadata"
           ref={videoRef}
           src={lesson.videoUrl}
           className="w-full h-full object-contain"

@@ -91,7 +91,7 @@ const Login = () => {
             <p className="text-muted-foreground">Watch this short introduction to get started</p>
           </div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="relative rounded-2xl overflow-hidden bg-black shadow-2xl">
-            <video src="/videos/module1/m1-l1-s1.mp4" controls autoPlay className="w-full aspect-video" onEnded={handleVideoEnd} />
+            <video preload="metadata" src="/videos/module1/m1-l1-s1.mp4" controls autoPlay className="w-full aspect-video" onEnded={handleVideoEnd} />
           </motion.div>
           <AnimatePresence>
             {videoEnded && (
