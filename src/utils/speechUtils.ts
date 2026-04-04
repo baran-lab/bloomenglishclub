@@ -1,79 +1,70 @@
-// Robust speech synthesis utility that handles common browser quirks
+let availableVoices: SpeechSynthesisVoice[] = [];
+let isInitialized = false;
 
-let voicesLoaded = false;
-let voicesPromise: Promise<SpeechSynthesisVoice[]> | null = null;
+const canUseSpeechSynthesis = () =>
+  typeof window !== 'undefined' && 'speechSynthesis' in window;
 
-function loadVoices(): Promise<SpeechSynthesisVoice[]> {
-  if (voicesPromise) return voicesPromise;
-  
-  voicesPromise = new Promise((resolve) => {
-    if (!('speechSynthesis' in window)) {
-      resolve([]);
-      return;
+const refreshVoices = () => {
+  if (!canUseSpeechSynthesis()) return;
+  availableVoices = window.speechSynthesis.getVoices();
+};
+
+export function initializeSpeechSynthesis() {
+  if (!canUseSpeechSynthesis() || isInitialized) return;
+
+  isInitialized = true;
+  refreshVoices();
+
+  window.speechSynthesis.onvoiceschanged = refreshVoices;
+
+  const unlockSpeech = () => {
+    try {
+      window.speechSynthesis.resume();
+      refreshVoices();
+    } catch (error) {
+      console.warn('Unable to unlock speech synthesis', error);
     }
-    
-    const voices = speechSynthesis.getVoices();
-    if (voices.length > 0) {
-      voicesLoaded = true;
-      resolve(voices);
-      return;
-    }
-    
-    // Wait for voices to load (Chrome loads them async)
-    speechSynthesis.onvoiceschanged = () => {
-      voicesLoaded = true;
-      resolve(speechSynthesis.getVoices());
-    };
-    
-    // Fallback timeout - speak without voice selection
-    setTimeout(() => {
-      if (!voicesLoaded) {
-        resolve(speechSynthesis.getVoices());
-      }
-    }, 1000);
-  });
-  
-  return voicesPromise;
+  };
+
+  window.addEventListener('pointerdown', unlockSpeech, { passive: true });
+  window.addEventListener('keydown', unlockSpeech, { passive: true });
 }
 
-// Initialize on import
-if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-  loadVoices();
-}
-
-export async function speakText(text: string, rate = 0.7): Promise<void> {
-  if (!('speechSynthesis' in window)) {
+export function speakText(text: string, rate = 0.7) {
+  if (!canUseSpeechSynthesis()) {
     console.warn('Speech synthesis not available');
-    return;
+    return false;
   }
 
-  // Cancel any ongoing speech
-  speechSynthesis.cancel();
+  const cleanedText = text.trim();
+  if (!cleanedText) return false;
 
-  const voices = await loadVoices();
-  
-  return new Promise((resolve) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = rate;
-    utterance.volume = 1;
-    
-    // Select an English voice if available
-    if (voices.length > 0) {
-      const englishVoice = voices.find(v => v.lang === 'en-US') 
-        || voices.find(v => v.lang.startsWith('en'));
-      if (englishVoice) utterance.voice = englishVoice;
+  initializeSpeechSynthesis();
+
+  const synth = window.speechSynthesis;
+  const utterance = new SpeechSynthesisUtterance(cleanedText);
+  utterance.lang = 'en-US';
+  utterance.rate = rate;
+  utterance.volume = 1;
+  utterance.pitch = 1;
+
+  const voice =
+    availableVoices.find((item) => item.lang === 'en-US') ??
+    availableVoices.find((item) => item.lang.startsWith('en'));
+
+  if (voice) {
+    utterance.voice = voice;
+  }
+
+  try {
+    if (synth.speaking || synth.pending) {
+      synth.cancel();
     }
-
-    utterance.onend = () => resolve();
-    utterance.onerror = (e) => {
-      console.warn('Speech error:', e.error);
-      resolve();
-    };
-
-    // Chrome bug workaround: schedule speak in next tick after cancel
-    requestAnimationFrame(() => {
-      speechSynthesis.speak(utterance);
-    });
-  });
+    synth.resume();
+    synth.speak(utterance);
+    return true;
+  } catch (error) {
+    console.warn('Speech playback failed', error);
+    return false;
+  }
 }

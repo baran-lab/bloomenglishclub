@@ -1,77 +1,83 @@
-// Sound effects utility for the app
+let sharedAudioContext: AudioContext | null = null;
+let soundEffectsInitialized = false;
+
+const getAudioContext = async () => {
+  if (typeof window === 'undefined') return null;
+
+  const AudioContextClass =
+    window.AudioContext || (window as Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+
+  if (!AudioContextClass) return null;
+
+  if (!sharedAudioContext) {
+    sharedAudioContext = new AudioContextClass();
+  }
+
+  if (sharedAudioContext.state === 'suspended') {
+    try {
+      await sharedAudioContext.resume();
+    } catch (error) {
+      console.warn('Unable to resume audio context', error);
+    }
+  }
+
+  return sharedAudioContext;
+};
+
+export const initializeSoundEffects = () => {
+  if (typeof window === 'undefined' || soundEffectsInitialized) return;
+
+  soundEffectsInitialized = true;
+
+  const unlockAudio = () => {
+    void getAudioContext();
+  };
+
+  window.addEventListener('pointerdown', unlockAudio, { passive: true });
+  window.addEventListener('keydown', unlockAudio, { passive: true });
+};
+
+const playToneSequence = async (
+  frequencies: number[],
+  duration: number,
+  type: OscillatorType,
+  volume: number,
+) => {
+  const audioContext = await getAudioContext();
+  if (!audioContext) return;
+
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  oscillator.type = type;
+
+  frequencies.forEach((frequency, index) => {
+    oscillator.frequency.setValueAtTime(
+      frequency,
+      audioContext.currentTime + index * (duration / Math.max(frequencies.length, 1)),
+    );
+  });
+
+  gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + duration);
+};
 
 export const playSuccessSound = () => {
-  try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    // Happy ascending notes (C5 -> E5 -> G5)
-    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
-    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
-    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
-    
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.4);
-  } catch (e) {
-    console.log('Audio not available');
-  }
+  void playToneSequence([523.25, 659.25, 783.99], 0.4, 'sine', 0.3);
 };
 
 export const playErrorSound = () => {
-  try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    // Descending buzz
-    oscillator.type = 'sawtooth';
-    oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
-    oscillator.frequency.setValueAtTime(200, audioContext.currentTime + 0.2);
-    
-    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.3);
-  } catch (e) {
-    console.log('Audio not available');
-  }
+  void playToneSequence([300, 200], 0.3, 'sawtooth', 0.2);
 };
 
 export const playRecordingSuccessSound = () => {
-  try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    // Double chime for 80%+ recording
-    oscillator.frequency.setValueAtTime(880, audioContext.currentTime); // A5
-    oscillator.frequency.setValueAtTime(1046.5, audioContext.currentTime + 0.15); // C6
-    oscillator.frequency.setValueAtTime(1318.5, audioContext.currentTime + 0.3); // E6
-    
-    gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
-  } catch (e) {
-    console.log('Audio not available');
-  }
+  void playToneSequence([880, 1046.5, 1318.5], 0.5, 'sine', 0.25);
 };
 
-// Alias functions for backward compatibility
 export const playCorrectSound = playSuccessSound;
 export const playIncorrectSound = playErrorSound;

@@ -4,6 +4,7 @@ import { Volume2, CheckCircle2, Shuffle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VocabularyItem } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
+import { speakText } from '@/utils/speechUtils';
 
 interface OrdinalNumbersLessonProps {
   content: VocabularyItem[];

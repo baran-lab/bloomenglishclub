@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, ChevronRight, CheckCircle2, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
+import { speakText } from '@/utils/speechUtils';
 import { useNavigate } from 'react-router-dom';
 
 interface PronounQuestion {
