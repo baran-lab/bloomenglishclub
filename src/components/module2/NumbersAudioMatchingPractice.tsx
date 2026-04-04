@@ -4,6 +4,7 @@ import { Volume2, CheckCircle2, RotateCcw, Shuffle, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VocabularyItem } from '@/data/module1Data';
 import { useNavigate } from 'react-router-dom';
+import { speakText } from '@/utils/speechUtils';
 
 interface NumbersAudioMatchingPracticeProps {
   numbers: VocabularyItem[];

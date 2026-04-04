@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound } from '@/utils/soundEffects';
 import { VisualVocabularyItem } from '@/data/module5Data';
+import { speakText } from '@/utils/speechUtils';
 
 interface VisualVocabularyLessonProps {
   vocabulary: VisualVocabularyItem[];
@@ -14,14 +15,8 @@ interface VisualVocabularyLessonProps {
 }
 
 const speakPhrase = (text: string) => {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.8;
-    speechSynthesis.speak(utterance);
-  }
-};
+    speakText(text, 0.7);
+  };
 
 export const VisualVocabularyLesson: React.FC<VisualVocabularyLessonProps> = ({
   vocabulary,

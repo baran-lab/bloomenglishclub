@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { VocabularyItem, SupportedLanguage } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
 import { useNavigate } from 'react-router-dom';
+import { speakText } from '@/utils/speechUtils';
 
 interface VocabularyMatchingPracticeProps {
   vocabulary: VocabularyItem[];
@@ -83,13 +84,7 @@ export const VocabularyMatchingPractice: React.FC<VocabularyMatchingPracticeProp
 
   // Speak English word using Web Speech API
   const speakWord = (word: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(word);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.8;
-      speechSynthesis.speak(utterance);
-    }
+    speakText(word, 0.7);
   };
 
   const handleEnglishClick = (id: string, englishWord: string) => {

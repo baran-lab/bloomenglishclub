@@ -4,6 +4,7 @@ import { Volume2, CheckCircle2, RotateCcw, Shuffle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VocabularyItem, encouragingMessages, congratulatoryMessages } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
+import { speakText } from '@/utils/speechUtils';
 
 interface NumbersMatchingPracticeProps {
   numbers: VocabularyItem[];
@@ -71,13 +72,7 @@ export const NumbersMatchingPractice: React.FC<NumbersMatchingPracticeProps> = (
   }, [shuffleArrays]);
 
   const speakNumber = (text: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.7;
-      speechSynthesis.speak(utterance);
-    }
+    speakText(text, 0.7);
   };
 
   const handleNumberClick = (num: VocabularyItem) => {

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { VocabularyItem } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
+import { speakText } from '@/utils/speechUtils';
 
 interface MonthsLessonProps {
   content: VocabularyItem[];
@@ -23,13 +24,7 @@ export const MonthsLesson: React.FC<MonthsLessonProps> = ({ content, onComplete 
   const allCompleted = completedMonths.size === content.length;
 
   const speakMonth = (text: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.7;
-      speechSynthesis.speak(utterance);
-    }
+    speakText(text, 0.7);
   };
 
   const handleRecord = async () => {

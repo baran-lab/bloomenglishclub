@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { groceryItemsCorrectOrder } from '@/data/module5Data';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
+import { speakText } from '@/utils/speechUtils';
 
 interface GroceryDragDropProps {
   onComplete: () => void;
@@ -21,14 +22,8 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 const speakWord = (word: string) => {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.8;
-    speechSynthesis.speak(utterance);
-  }
-};
+    speakText(word, 0.7);
+  };
 
 export const GroceryDragDrop: React.FC<GroceryDragDropProps> = ({ onComplete }) => {
   const navigate = useNavigate();

@@ -4,6 +4,7 @@ import { Volume2, Eye, EyeOff, Mic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PhraseItem, SupportedLanguage } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
+import { speakText } from '@/utils/speechUtils';
 
 interface PhraseCardProps {
   phrase: PhraseItem;

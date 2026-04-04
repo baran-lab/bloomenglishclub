@@ -4,6 +4,7 @@ import { CheckCircle2, XCircle, RotateCcw, Home, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { alphabetData } from '@/data/module2Data';
 import { useNavigate } from 'react-router-dom';
+import { speakText } from '@/utils/speechUtils';
 
 interface AlphabetMatchingPracticeProps {
   onComplete: () => void;
@@ -68,13 +69,7 @@ export const AlphabetMatchingPractice: React.FC<AlphabetMatchingPracticeProps> =
   };
 
   const speakLetter = (letter: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(letter);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.6;
-      speechSynthesis.speak(utterance);
-    }
+    speakText(letter, 0.7);
   };
 
   const handleAudioClick = (letter: string) => {

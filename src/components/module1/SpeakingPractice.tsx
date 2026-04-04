@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { PhraseItem } from '@/data/module1Data';
 import { VoiceRecorder } from './VoiceRecorder';
 import { useLanguage } from '@/components/LanguageContext';
+import { speakText } from '@/utils/speechUtils';
 
 interface SpeakingPracticeProps {
   phrases: PhraseItem[];
@@ -46,16 +47,7 @@ export const SpeakingPractice: React.FC<SpeakingPracticeProps> = ({
   };
 
   const speakPhrase = () => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(currentPhrase.english);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.7;
-      const voices = speechSynthesis.getVoices();
-      const englishVoice = voices.find(v => v.lang.startsWith('en'));
-      if (englishVoice) utterance.voice = englishVoice;
-      setTimeout(() => speechSynthesis.speak(utterance), 50);
-    }
+    speakText(currentPhrase.english, 0.7);
   };
 
   return (

@@ -4,6 +4,7 @@ import { Volume2, CheckCircle2, XCircle, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { playCorrectSound, playIncorrectSound } from '@/utils/soundEffects';
 import { useNavigate } from 'react-router-dom';
+import { speakText } from '@/utils/speechUtils';
 
 interface SpellingItem {
   id: string;

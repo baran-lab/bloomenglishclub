@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, ChevronLeft, ChevronRight, CheckCircle2, ArrowLeft, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SupportedLanguage } from '@/data/module1Data';
+import { speakText } from '@/utils/speechUtils';
 
 interface FamilyMember {
   id: string;
@@ -92,13 +93,7 @@ export const FamilyMembersLesson: React.FC<FamilyMembersLessonProps> = ({ select
   }, [phase, matchBatch]);
 
   const speakWord = (word: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(word);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.7;
-      speechSynthesis.speak(utterance);
-    }
+    speakText(word, 0.7);
   };
 
   const handleListenComplete = () => {

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound, playRecordingSuccessSound } from '@/utils/soundEffects';
+import { speakText } from '@/utils/speechUtils';
 
 export interface SentenceOrderItem {
   correctSentence: string;
@@ -18,14 +19,8 @@ interface SentenceOrderPracticeProps {
 }
 
 const speakSentence = (text: string) => {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.85;
-    speechSynthesis.speak(utterance);
-  }
-};
+    speakText(text, 0.7);
+  };
 
 export const SentenceOrderPractice: React.FC<SentenceOrderPracticeProps> = ({
   sentences,

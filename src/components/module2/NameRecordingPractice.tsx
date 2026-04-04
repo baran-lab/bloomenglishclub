@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { nameRecordingQuestions } from '@/data/module2Data';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
 import { useNavigate } from 'react-router-dom';
+import { speakText } from '@/utils/speechUtils';
 
 interface NameRecordingPracticeProps {
   onComplete: () => void;

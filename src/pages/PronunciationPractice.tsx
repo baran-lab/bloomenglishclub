@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Mic, Square, Play, RotateCcw, Volume2, ChevronRight, ChevronLeft, CheckCircle2, Lightbulb, Filter } from 'lucide-react';
@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
 import { getErrorsForLanguage, languageTips, difficultyLevels, PronunciationError } from '@/data/pronunciationData';
+import { speakText } from '@/utils/speechUtils';
 
 type DifficultyFilter = 'all' | 'easy' | 'medium' | 'hard';
 type SelfRating = 'good' | 'okay' | 'needsWork' | null;
@@ -14,14 +15,6 @@ const PronunciationPractice: React.FC = () => {
   const navigate = useNavigate();
   const { selectedLanguage } = useLanguage();
   const { isRecording, audioUrl, startRecording, stopRecording, clearRecording } = useVoiceRecorder();
-
-  // Pre-load voices for speech synthesis
-  React.useEffect(() => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.getVoices();
-      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-    }
-  }, []);
 
   const allErrors = getErrorsForLanguage(selectedLanguage);
   const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all');
@@ -36,26 +29,9 @@ const PronunciationPractice: React.FC = () => {
 
   const currentError = filteredErrors[currentIndex];
 
-  const speakWord = useCallback((text: string) => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.7;
-      
-      // Ensure voices are loaded before speaking
-      const voices = speechSynthesis.getVoices();
-      if (voices.length > 0) {
-        const englishVoice = voices.find(v => v.lang.startsWith('en'));
-        if (englishVoice) utterance.voice = englishVoice;
-      }
-      
-      // Workaround for Chrome bug where speechSynthesis stops working
-      setTimeout(() => {
-        speechSynthesis.speak(utterance);
-      }, 50);
-    }
-  }, []);
+  const speakWord = (text: string) => {
+    speakText(text.replace(/[↑↓]/g, ''), 0.7);
+  };
 
   const handleRecord = async () => {
     if (isRecording) {
