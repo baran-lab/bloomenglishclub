@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Mic, Square, Play, RotateCcw, Volume2, ChevronRight, ChevronLeft, CheckCircle2, Lightbulb, Filter } from 'lucide-react';
@@ -6,22 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
 import { getErrorsForLanguage, languageTips, difficultyLevels, PronunciationError } from '@/data/pronunciationData';
-
-type DifficultyFilter = 'all' | 'easy' | 'medium' | 'hard';
-type SelfRating = 'good' | 'okay' | 'needsWork' | null;
-
-const PronunciationPractice: React.FC = () => {
-  const navigate = useNavigate();
-  const { selectedLanguage } = useLanguage();
-  const { isRecording, audioUrl, startRecording, stopRecording, clearRecording } = useVoiceRecorder();
-
-  // Pre-load voices for speech synthesis
-  React.useEffect(() => {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.getVoices();
-      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-    }
-  }, []);
+import { speakText } from '@/utils/speechUtils';
 
   const allErrors = getErrorsForLanguage(selectedLanguage);
   const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all');

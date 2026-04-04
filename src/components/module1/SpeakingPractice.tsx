@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { PhraseItem } from '@/data/module1Data';
 import { VoiceRecorder } from './VoiceRecorder';
 import { useLanguage } from '@/components/LanguageContext';
+import { speakText } from '@/utils/speechUtils';
 
 interface SpeakingPracticeProps {
   phrases: PhraseItem[];
