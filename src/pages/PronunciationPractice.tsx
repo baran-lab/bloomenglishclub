@@ -34,7 +34,18 @@ const PronunciationPractice: React.FC = () => {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
       utterance.rate = 0.7;
-      speechSynthesis.speak(utterance);
+      
+      // Ensure voices are loaded before speaking
+      const voices = speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        const englishVoice = voices.find(v => v.lang.startsWith('en'));
+        if (englishVoice) utterance.voice = englishVoice;
+      }
+      
+      // Workaround for Chrome bug where speechSynthesis stops working
+      setTimeout(() => {
+        speechSynthesis.speak(utterance);
+      }, 50);
     }
   }, []);
 
