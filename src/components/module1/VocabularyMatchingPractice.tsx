@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { VocabularyItem, SupportedLanguage } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
 import { useNavigate } from 'react-router-dom';
+import { speakText } from '@/utils/speechUtils';
 
 interface VocabularyMatchingPracticeProps {
   vocabulary: VocabularyItem[];

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
 import { VisualVocabularyItem } from '@/data/module5Data';
+import { speakText } from '@/utils/speechUtils';
 
 interface VisualMatchingPracticeProps {
   vocabulary: VisualVocabularyItem[];

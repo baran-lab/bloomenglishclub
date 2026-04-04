@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { groceryItemsCorrectOrder } from '@/data/module5Data';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
+import { speakText } from '@/utils/speechUtils';
 
 interface GroceryDragDropProps {
   onComplete: () => void;

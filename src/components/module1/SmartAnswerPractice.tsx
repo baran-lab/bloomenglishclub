@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/components/LanguageContext';
 import { SupportedLanguage } from '@/data/module1Data';
+import { speakText } from '@/utils/speechUtils';
 
 interface SmartQuestion {
   id: string;

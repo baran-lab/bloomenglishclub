@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Volume2, Check, ArrowRight, ArrowLeft, Home, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
+import { speakText } from '@/utils/speechUtils';
 
 export interface ListeningFillItem {
   id: string;

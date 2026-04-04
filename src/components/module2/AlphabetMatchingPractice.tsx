@@ -4,6 +4,7 @@ import { CheckCircle2, XCircle, RotateCcw, Home, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { alphabetData } from '@/data/module2Data';
 import { useNavigate } from 'react-router-dom';
+import { speakText } from '@/utils/speechUtils';
 
 interface AlphabetMatchingPracticeProps {
   onComplete: () => void;

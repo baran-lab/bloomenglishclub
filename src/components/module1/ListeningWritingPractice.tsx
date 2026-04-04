@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { QuestionItem, congratulatoryMessages } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
+import { speakText } from '@/utils/speechUtils';
 
 interface ListeningWritingPracticeProps {
   questions: QuestionItem[];

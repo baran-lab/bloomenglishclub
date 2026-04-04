@@ -4,6 +4,7 @@ import { Volume2, CheckCircle2, RotateCcw, Shuffle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VocabularyItem, encouragingMessages, congratulatoryMessages } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
+import { speakText } from '@/utils/speechUtils';
 
 interface NumbersMatchingPracticeProps {
   numbers: VocabularyItem[];

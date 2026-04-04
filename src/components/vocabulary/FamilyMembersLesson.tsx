@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, ChevronLeft, ChevronRight, CheckCircle2, ArrowLeft, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SupportedLanguage } from '@/data/module1Data';
+import { speakText } from '@/utils/speechUtils';
 
 interface FamilyMember {
   id: string;

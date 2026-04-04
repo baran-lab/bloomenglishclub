@@ -7,6 +7,7 @@ import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
 import { congratulatoryMessages, QuizQuestion, SupportedLanguage } from '@/data/module1Data';
 import { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
 import { useNavigate } from 'react-router-dom';
+import { speakText } from '@/utils/speechUtils';
 
 interface VideoItem {
   url: string;

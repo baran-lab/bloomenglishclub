@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound } from '@/utils/soundEffects';
 import { VisualVocabularyItem } from '@/data/module5Data';
+import { speakText } from '@/utils/speechUtils';
 
 interface VisualVocabularyLessonProps {
   vocabulary: VisualVocabularyItem[];

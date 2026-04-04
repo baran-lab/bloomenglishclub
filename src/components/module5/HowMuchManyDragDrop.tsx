@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { groceryItemsCorrectOrder } from '@/data/module5Data';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
+import { speakText } from '@/utils/speechUtils';
 
 interface HowMuchManyDragDropProps {
   onComplete: () => void;

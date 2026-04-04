@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound, playRecordingSuccessSound } from '@/utils/soundEffects';
+import { speakText } from '@/utils/speechUtils';
 
 export interface SentenceOrderItem {
   correctSentence: string;

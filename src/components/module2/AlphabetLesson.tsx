@@ -4,6 +4,7 @@ import { Volume2, Mic, Square, CheckCircle2, RotateCcw, Play } from 'lucide-reac
 import { Button } from '@/components/ui/button';
 import { alphabetData } from '@/data/module2Data';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
+import { speakText } from '@/utils/speechUtils';
 
 interface AlphabetLessonProps {
   onComplete: () => void;

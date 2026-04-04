@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { VocabularyItem } from '@/data/module1Data';
 import { useLanguage } from '@/components/LanguageContext';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
+import { speakText } from '@/utils/speechUtils';
 
 interface MonthsLessonProps {
   content: VocabularyItem[];
