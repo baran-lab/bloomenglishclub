@@ -15,6 +15,14 @@ const PronunciationPractice: React.FC = () => {
   const { selectedLanguage } = useLanguage();
   const { isRecording, audioUrl, startRecording, stopRecording, clearRecording } = useVoiceRecorder();
 
+  // Pre-load voices for speech synthesis
+  React.useEffect(() => {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.getVoices();
+      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    }
+  }, []);
+
   const allErrors = getErrorsForLanguage(selectedLanguage);
   const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all');
   const [currentIndex, setCurrentIndex] = useState(0);
