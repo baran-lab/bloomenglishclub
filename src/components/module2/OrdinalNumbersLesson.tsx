@@ -29,9 +29,7 @@ export const OrdinalNumbersLesson: React.FC<OrdinalNumbersLessonProps> = ({
   const progress = (completedItems.size / content.length) * 100;
   const allCompleted = completedItems.size >= content.length;
 
-  const speakText = (text: string) => {
-    speakText(text, 0.7);
-  };
+  
 
   const handleNext = () => {
     setCompletedItems(prev => new Set([...prev, currentItem.id]));

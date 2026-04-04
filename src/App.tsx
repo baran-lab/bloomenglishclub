@@ -10,16 +10,27 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 
+// Retry wrapper for lazy imports — handles Vite HMR module invalidation
+function lazyWithRetry(importFn: () => Promise<any>) {
+  return lazy(() =>
+    importFn().catch(() => {
+      // Module fetch failed (likely HMR invalidation), reload the page
+      window.location.reload();
+      return importFn();
+    })
+  );
+}
+
 // Lazy load heavy module pages (video-heavy)
-const Module1 = lazy(() => import("./pages/Module1"));
-const Module2 = lazy(() => import("./pages/Module2"));
-const Module3 = lazy(() => import("./pages/Module3"));
-const Module5 = lazy(() => import("./pages/Module5"));
-const PracticeSkills = lazy(() => import("./pages/PracticeSkills"));
-const MyProgress = lazy(() => import("./pages/MyProgress"));
-const Achievements = lazy(() => import("./pages/Achievements"));
-const PronunciationPractice = lazy(() => import("./pages/PronunciationPractice"));
-const Admin = lazy(() => import("./pages/Admin"));
+const Module1 = lazyWithRetry(() => import("./pages/Module1"));
+const Module2 = lazyWithRetry(() => import("./pages/Module2"));
+const Module3 = lazyWithRetry(() => import("./pages/Module3"));
+const Module5 = lazyWithRetry(() => import("./pages/Module5"));
+const PracticeSkills = lazyWithRetry(() => import("./pages/PracticeSkills"));
+const MyProgress = lazyWithRetry(() => import("./pages/MyProgress"));
+const Achievements = lazyWithRetry(() => import("./pages/Achievements"));
+const PronunciationPractice = lazyWithRetry(() => import("./pages/PronunciationPractice"));
+const Admin = lazyWithRetry(() => import("./pages/Admin"));
 
 const queryClient = new QueryClient();
 

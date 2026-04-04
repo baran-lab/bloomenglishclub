@@ -68,9 +68,7 @@ export const TelephonePractice: React.FC<TelephonePracticeProps> = ({ onComplete
     };
   }, []);
 
-  const speakText = (text: string) => {
-    speakText(text, 0.7);
-  };
+  
 
   const validateRecording = (text: string): boolean => {
     const normalized = text.toLowerCase().replace(/[,.\-()]/g, '').replace(/\s+/g, ' ').trim();

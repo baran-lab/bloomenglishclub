@@ -121,9 +121,7 @@ export const PronounPractice: React.FC<PronounPracticeProps> = ({ onComplete, us
   const isComplete = currentIndex >= pronounQuestions.length;
   const progress = (currentIndex / pronounQuestions.length) * 100;
 
-  const speakText = (text: string) => {
-    speakText(text, 0.7);
-  };
+  
 
   const handleOptionClick = (index: number) => {
     if (showResult) return;

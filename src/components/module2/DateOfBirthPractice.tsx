@@ -149,9 +149,7 @@ export const DateOfBirthPractice: React.FC<DateOfBirthPracticeProps> = ({ onComp
     return ordinalNumbers.some(ord => normalized.includes(ord));
   };
 
-  const speakText = (text: string) => {
-    speakText(text, 0.7);
-  };
+  
 
   const startRecording = async () => {
     try {
