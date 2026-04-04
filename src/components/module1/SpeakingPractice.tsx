@@ -47,10 +47,14 @@ export const SpeakingPractice: React.FC<SpeakingPracticeProps> = ({
 
   const speakPhrase = () => {
     if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(currentPhrase.english);
       utterance.lang = 'en-US';
       utterance.rate = 0.7;
-      speechSynthesis.speak(utterance);
+      const voices = speechSynthesis.getVoices();
+      const englishVoice = voices.find(v => v.lang.startsWith('en'));
+      if (englishVoice) utterance.voice = englishVoice;
+      setTimeout(() => speechSynthesis.speak(utterance), 50);
     }
   };
 

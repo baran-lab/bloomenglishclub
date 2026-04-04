@@ -15,6 +15,14 @@ const PronunciationPractice: React.FC = () => {
   const { selectedLanguage } = useLanguage();
   const { isRecording, audioUrl, startRecording, stopRecording, clearRecording } = useVoiceRecorder();
 
+  // Pre-load voices for speech synthesis
+  React.useEffect(() => {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.getVoices();
+      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    }
+  }, []);
+
   const allErrors = getErrorsForLanguage(selectedLanguage);
   const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -34,7 +42,18 @@ const PronunciationPractice: React.FC = () => {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
       utterance.rate = 0.7;
-      speechSynthesis.speak(utterance);
+      
+      // Ensure voices are loaded before speaking
+      const voices = speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        const englishVoice = voices.find(v => v.lang.startsWith('en'));
+        if (englishVoice) utterance.voice = englishVoice;
+      }
+      
+      // Workaround for Chrome bug where speechSynthesis stops working
+      setTimeout(() => {
+        speechSynthesis.speak(utterance);
+      }, 50);
     }
   }, []);
 
