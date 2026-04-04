@@ -68,7 +68,7 @@ const listeningVideos: ListeningVideo[] = [
     title: 'Rosa',
     videoUrl: '/videos/listening/M1_L_Rosa.mp4',
     quiz: [
-      { question: "Where is Rosa from?", options: ["Brazil", "The Dominican Republic", "Colombia", "Spain"], correctAnswer: 2 },
+      { question: "Where is Rosa from?", options: ["Brazil", "The Dominican Republic", "Colombia", "Spain"], correctAnswer: 1 },
       { question: "What apartment does Rosa live in?", options: ["Apartment 1", "Apartment 2", "Apartment 3", "Apartment 4"], correctAnswer: 2 },
     ],
   },
