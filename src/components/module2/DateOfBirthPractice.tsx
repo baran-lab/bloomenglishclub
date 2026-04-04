@@ -4,6 +4,7 @@ import { Mic, Square, Play, RotateCcw, Volume2, Home, ChevronRight, AlertCircle,
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/components/LanguageContext';
+import { speakText } from '@/utils/speechUtils';
 
 interface DateOfBirthPracticeProps {
   onComplete: () => void;

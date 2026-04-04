@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/components/LanguageContext';
 import { telephoneNumberInfo } from '@/data/module2Data';
+import { speakText } from '@/utils/speechUtils';
 
 interface TelephonePracticeProps {
   onComplete: () => void;
