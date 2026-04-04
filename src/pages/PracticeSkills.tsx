@@ -59,6 +59,7 @@ const PracticeSkills = () => {
         </div>
 
         {activeTab === 'vocabulary' && <VocabularySection />}
+        {activeTab === 'everyday' && <EverydayEnglishSection />}
         {activeTab === 'listening' && <ListeningSection />}
         {activeTab === 'games' && <GamesSection completedModules={completedModules} />}
       </main>
