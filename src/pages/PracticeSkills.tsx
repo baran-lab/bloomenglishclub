@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, Lightbulb, BookOpen, Gamepad2, Headphones } from "lucide-react";
+import { ArrowLeft, Lightbulb, BookOpen, Gamepad2, Headphones, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VocabularySection } from "@/components/VocabularySection";
 import { GamesSection } from "@/components/GamesSection";
 import { ListeningSection } from "@/components/ListeningSection";
+import { EverydayEnglishSection } from "@/components/EverydayEnglishSection";
 import { useState } from "react";
 
 const PracticeSkills = () => {
@@ -18,6 +19,7 @@ const PracticeSkills = () => {
 
   const tabs = [
     { key: 'vocabulary', label: 'Vocabulary', icon: BookOpen },
+    { key: 'everyday', label: 'Everyday English', icon: MessageCircle },
     { key: 'listening', label: 'Listening', icon: Headphones },
     { key: 'games', label: 'Games', icon: Gamepad2 },
   ];
