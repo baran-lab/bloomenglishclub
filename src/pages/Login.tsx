@@ -67,6 +67,16 @@ const Login = () => {
       }
 
       if (data.session) {
+        // Track login session for anti-sharing protection
+        try {
+          await supabase.from('login_sessions').insert({
+            user_id: data.session.user.id,
+            ip_address: null, // Captured server-side if needed
+            user_agent: navigator.userAgent,
+          });
+        } catch (e) {
+          console.error('Failed to log session:', e);
+        }
         toast({ title: "Welcome back! 🎉", description: "You've successfully signed in." });
         setLoginState('welcome-video');
       }
