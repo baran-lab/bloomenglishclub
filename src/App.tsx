@@ -28,6 +28,7 @@ const MyProgress = lazyWithRetry(() => import("./pages/MyProgress"));
 const Achievements = lazyWithRetry(() => import("./pages/Achievements"));
 const PronunciationPractice = lazyWithRetry(() => import("./pages/PronunciationPractice"));
 const Admin = lazyWithRetry(() => import("./pages/Admin"));
+const RequestAccess = lazyWithRetry(() => import("./pages/RequestAccess"));
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,7 @@ const App = () => (
               <Route path="/achievements" element={<Achievements />} />
               <Route path="/pronunciation" element={<PronunciationPractice />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/request-access" element={<RequestAccess />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
