@@ -42,6 +42,8 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
   const [completedItems, setCompletedItems] = useState<Set<number>>(new Set());
   const [hasListened, setHasListened] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [attemptCount, setAttemptCount] = useState(0);
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   const currentItem = items[currentIndex];
   const progress = (completedItems.size / items.length) * 100;
@@ -60,6 +62,8 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
     setHasListened(false);
     setAnswer('');
     setIsCorrect(null);
+    setAttemptCount(0);
+    setShowCorrectAnswer(false);
     const timer = setTimeout(() => playAudio(), 500);
     return () => clearTimeout(timer);
   }, [currentIndex]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -73,6 +77,11 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
       setCompletedItems(prev => new Set(prev).add(currentIndex));
     } else {
       playErrorSound();
+      const newAttempt = attemptCount + 1;
+      setAttemptCount(newAttempt);
+      if (newAttempt >= 2) {
+        setShowCorrectAnswer(true);
+      }
     }
   };
 
