@@ -42,6 +42,8 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
   const [completedItems, setCompletedItems] = useState<Set<number>>(new Set());
   const [hasListened, setHasListened] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [attemptCount, setAttemptCount] = useState(0);
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   const currentItem = items[currentIndex];
   const progress = (completedItems.size / items.length) * 100;
@@ -60,6 +62,8 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
     setHasListened(false);
     setAnswer('');
     setIsCorrect(null);
+    setAttemptCount(0);
+    setShowCorrectAnswer(false);
     const timer = setTimeout(() => playAudio(), 500);
     return () => clearTimeout(timer);
   }, [currentIndex]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -73,6 +77,11 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
       setCompletedItems(prev => new Set(prev).add(currentIndex));
     } else {
       playErrorSound();
+      const newAttempt = attemptCount + 1;
+      setAttemptCount(newAttempt);
+      if (newAttempt >= 2) {
+        setShowCorrectAnswer(true);
+      }
     }
   };
 
@@ -161,21 +170,28 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
             </motion.div>
           )}
 
-          {isCorrect === false && (
+          {isCorrect === false && !showCorrectAnswer && (
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-3">
               <p className="text-destructive font-medium">Try again! Listen carefully. 🔊</p>
               <Button variant="outline" onClick={handleRetry} size="sm">Try Again</Button>
             </motion.div>
           )}
 
+          {showCorrectAnswer && (
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-3">
+              <p className="text-destructive font-medium">The correct answer is:</p>
+              <p className="text-xl font-bold text-primary">{currentItem.acceptedAnswers[0]}</p>
+            </motion.div>
+          )}
+
           {/* Check / Next buttons */}
           <div className="flex justify-center gap-3">
-            {isCorrect !== true && (
+            {isCorrect !== true && !showCorrectAnswer && (
               <Button onClick={checkAnswer} disabled={!answer.trim()} className="gap-2 px-8">
                 <Check className="w-4 h-4" /> Check
               </Button>
             )}
-            {isCorrect === true && (
+            {(isCorrect === true || showCorrectAnswer) && (
               <Button onClick={handleNext} className="gap-2 px-8 bg-gradient-primary text-primary-foreground">
                 {currentIndex < items.length - 1 ? (
                   <>Next <ArrowRight className="w-4 h-4" /></>

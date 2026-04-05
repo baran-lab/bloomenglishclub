@@ -115,7 +115,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-background">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: '#faf3e0' }}>
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="lg:hidden text-center mb-8">
