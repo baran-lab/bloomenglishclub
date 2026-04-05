@@ -170,21 +170,28 @@ export const ListeningFillInBlankM5: React.FC<ListeningFillInBlankM5Props> = ({ 
             </motion.div>
           )}
 
-          {isCorrect === false && (
+          {isCorrect === false && !showCorrectAnswer && (
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-3">
               <p className="text-destructive font-medium">Try again! Listen carefully. 🔊</p>
               <Button variant="outline" onClick={handleRetry} size="sm">Try Again</Button>
             </motion.div>
           )}
 
+          {showCorrectAnswer && (
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-3">
+              <p className="text-destructive font-medium">The correct answer is:</p>
+              <p className="text-xl font-bold text-primary">{currentItem.acceptedAnswers[0]}</p>
+            </motion.div>
+          )}
+
           {/* Check / Next buttons */}
           <div className="flex justify-center gap-3">
-            {isCorrect !== true && (
+            {isCorrect !== true && !showCorrectAnswer && (
               <Button onClick={checkAnswer} disabled={!answer.trim()} className="gap-2 px-8">
                 <Check className="w-4 h-4" /> Check
               </Button>
             )}
-            {isCorrect === true && (
+            {(isCorrect === true || showCorrectAnswer) && (
               <Button onClick={handleNext} className="gap-2 px-8 bg-gradient-primary text-primary-foreground">
                 {currentIndex < items.length - 1 ? (
                   <>Next <ArrowRight className="w-4 h-4" /></>
