@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import { Mail, Lock, ArrowRight, Globe } from "lucide-react";
@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useAuthIdentity } from "@/hooks/useAuthIdentity";
+import { AccountSessionCard } from "@/components/AccountSessionCard";
 import { supabase } from "@/integrations/supabase/client";
 import logoImage from "@/assets/bloom-english-club-logo.png";
 
@@ -19,16 +21,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loginState, setLoginState] = useState<LoginState>('login');
   const [videoEnded, setVideoEnded] = useState(false);
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) navigate('/');
-    });
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) navigate('/');
-    });
-    return () => subscription.unsubscribe();
-  }, [navigate]);
+  const { email: activeEmail, fullName, isReady, user } = useAuthIdentity();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,13 +54,13 @@ const Login = () => {
             ip_address: null,
             user_agent: navigator.userAgent,
           });
-        } catch (e) {
-          console.error('Failed to log session:', e);
+        } catch (sessionError) {
+          console.error('Failed to log session:', sessionError);
         }
         toast({ title: "Welcome back! 🎉", description: "You've successfully signed in." });
         setLoginState('welcome-video');
       }
-    } catch (error) {
+    } catch {
       toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });
     } finally {
       setIsLoading(false);
@@ -92,6 +85,9 @@ const Login = () => {
 
   const handleVideoEnd = () => setVideoEnded(true);
   const handleContinueToModule = () => navigate("/module/1");
+  const handleSwitchAccount = async () => {
+    await supabase.auth.signOut();
+  };
 
   if (loginState === 'welcome-video') {
     return (
@@ -125,14 +121,26 @@ const Login = () => {
     );
   }
 
+  if (isReady && user) {
+    return (
+      <AccountSessionCard
+        continueLabel="Continue to dashboard"
+        description="You’re already signed in on this device, so switch accounts before testing another student login."
+        email={activeEmail}
+        fullName={fullName}
+        onContinue={() => navigate('/')}
+        onSwitchAccount={handleSwitchAccount}
+        title="You’re already signed in"
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen flex">
-      {/* Left side - Login Form with video background */}
       <div className="relative w-full lg:w-1/2 flex items-center justify-center p-8 overflow-hidden">
         <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" src="/videos/login-left.mp4" />
         <div className="absolute inset-0 bg-black/20" />
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="relative z-10 w-full max-w-md">
-          {/* Mobile logo */}
           <div className="lg:hidden text-center mb-8">
             <img src={logoImage} alt="Bloom English Club" className="w-32 h-32 mx-auto object-contain" />
           </div>
@@ -142,7 +150,6 @@ const Login = () => {
             <p className="text-white/80 mt-1 drop-shadow">Sign in to continue learning</p>
           </div>
 
-          {/* Language selector */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="flex items-center justify-center gap-2 mb-6">
             <Globe className="w-4 h-4 text-white/70" />
             <select className="text-sm bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1.5 focus:ring-1 focus:ring-white/30 cursor-pointer backdrop-blur-sm">
@@ -197,7 +204,6 @@ const Login = () => {
         </motion.div>
       </div>
 
-      {/* Right side - Video background with logo */}
       <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center overflow-hidden">
         <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" src="/videos/login-right.mp4" />
       </div>

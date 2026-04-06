@@ -3,8 +3,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/components/LanguageContext";
+import { ProtectedAdminRoute } from "@/components/ProtectedAdminRoute";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -28,7 +29,6 @@ const MyProgress = lazyWithRetry(() => import("./pages/MyProgress"));
 const Achievements = lazyWithRetry(() => import("./pages/Achievements"));
 const PronunciationPractice = lazyWithRetry(() => import("./pages/PronunciationPractice"));
 const Admin = lazyWithRetry(() => import("./pages/Admin"));
-const RequestAccess = lazyWithRetry(() => import("./pages/RequestAccess"));
 const Unsubscribe = lazyWithRetry(() => import("./pages/Unsubscribe"));
 const ResetPassword = lazyWithRetry(() => import("./pages/ResetPassword"));
 
@@ -63,8 +63,8 @@ const App = () => (
               <Route path="/progress" element={<MyProgress />} />
               <Route path="/achievements" element={<Achievements />} />
               <Route path="/pronunciation" element={<PronunciationPractice />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/request-access" element={<RequestAccess />} />
+              <Route path="/admin" element={<ProtectedAdminRoute><Admin /></ProtectedAdminRoute>} />
+              <Route path="/request-access" element={<Navigate to="/signup" replace />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

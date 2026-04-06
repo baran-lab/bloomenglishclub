@@ -17,6 +17,7 @@ import { ListeningFillInBlankM5 } from '@/components/module5/ListeningFillInBlan
 import { module5Lessons, Module5Lesson, howMuchManySentences } from '@/data/module5Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
+import { useAuthIdentity } from '@/hooks/useAuthIdentity';
 import { useMicroWin } from '@/components/MicroWins';
 
 type ViewState = 'language-select' | 'lessons' | 'lesson-detail';
@@ -27,13 +28,14 @@ const Module5Content: React.FC = () => {
   const { toast } = useToast();
   const { languageInfo } = useLanguage();
   const { showWin, MicroWinComponent } = useMicroWin();
+  const { fullName, isAdmin } = useAuthIdentity();
+  const userName = fullName || '';
 
   const [viewState, setViewState] = useState<ViewState>('language-select');
   const [lessons, setLessons] = useState<Module5Lesson[]>(module5Lessons);
   const [activeLesson, setActiveLesson] = useState<Module5Lesson | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [userName, setUserName] = useState(() => localStorage.getItem('englishville_user_name') || '');
   const [showContinue, setShowContinue] = useState(false);
 
   const completedCount = lessons.filter(l => l.isCompleted).length;
@@ -124,7 +126,7 @@ const Module5Content: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       {MicroWinComponent}
-      <HamburgerMenu isOpen={showMenu} onClose={() => setShowMenu(false)} userName={userName} />
+      <HamburgerMenu isOpen={showMenu} onClose={() => setShowMenu(false)} userName={userName} showAdmin={isAdmin} />
 
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
