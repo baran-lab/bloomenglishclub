@@ -22,39 +22,28 @@ const Login = () => {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
-        navigate('/');
-      }
+      if (session?.user) navigate('/');
     });
-
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        navigate('/');
-      }
+      if (session?.user) navigate('/');
     });
-
     return () => subscription.unsubscribe();
   }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast({ title: "Invalid email", description: "Please enter a valid email address.", variant: "destructive" });
       return;
     }
-
     if (password.length < 6) {
       toast({ title: "Invalid password", description: "Password must be at least 6 characters.", variant: "destructive" });
       return;
     }
-
     setIsLoading(true);
-
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
       if (error) {
         if (error.message.includes('Invalid login credentials')) {
           toast({ title: "Login failed", description: "Invalid email or password. Please try again.", variant: "destructive" });
@@ -65,13 +54,11 @@ const Login = () => {
         }
         return;
       }
-
       if (data.session) {
-        // Track login session for anti-sharing protection
         try {
           await supabase.from('login_sessions').insert({
             user_id: data.session.user.id,
-            ip_address: null, // Captured server-side if needed
+            ip_address: null,
             user_agent: navigator.userAgent,
           });
         } catch (e) {
@@ -84,6 +71,22 @@ const Login = () => {
       toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      toast({ title: "Enter your email", description: "Please enter your email address first, then click Forgot Password.", variant: "destructive" });
+      return;
+    }
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      toast({ title: "Check your email", description: "We've sent you a password reset link." });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message || "Could not send reset email.", variant: "destructive" });
     }
   };
 
@@ -126,14 +129,7 @@ const Login = () => {
     <div className="min-h-screen flex">
       {/* Left side - Login Form with video background */}
       <div className="relative w-full lg:w-1/2 flex items-center justify-center p-8 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          src="/videos/login-left.mp4"
-        />
+        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" src="/videos/login-left.mp4" />
         <div className="absolute inset-0 bg-black/20" />
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="relative z-10 w-full max-w-md">
           {/* Mobile logo */}
@@ -141,20 +137,23 @@ const Login = () => {
             <img src={logoImage} alt="Bloom English Club" className="w-32 h-32 mx-auto object-contain" />
           </div>
 
-          <div className="text-center mb-8">
+          <div className="text-center mb-4">
             <h1 className="font-fredoka text-3xl font-bold text-white drop-shadow-lg">Welcome Back</h1>
             <p className="text-white/80 mt-1 drop-shadow">Sign in to continue learning</p>
           </div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="flex items-center justify-center gap-2 mb-8">
+          {/* Language selector */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="flex items-center justify-center gap-2 mb-6">
             <Globe className="w-4 h-4 text-white/70" />
-            <select className="text-sm bg-transparent text-white/70 border-none focus:ring-0 cursor-pointer">
+            <select className="text-sm bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1.5 focus:ring-1 focus:ring-white/30 cursor-pointer backdrop-blur-sm">
               <option value="en">English</option>
-              <option value="es">Español</option>
-              <option value="ar">العربية</option>
-              <option value="ko">한국어</option>
-              <option value="tr">Türkçe</option>
-              <option value="bn">বাংলা</option>
+              <option value="ar">العربية (Arabic)</option>
+              <option value="bn">বাংলা (Bengali)</option>
+              <option value="zh">中文 (Chinese)</option>
+              <option value="he">עברית (Hebrew)</option>
+              <option value="ko">한국어 (Korean)</option>
+              <option value="es">Español (Spanish)</option>
+              <option value="tr">Türkçe (Turkish)</option>
             </select>
           </motion.div>
 
@@ -174,6 +173,11 @@ const Login = () => {
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   <Input id="password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} className="pl-10" required />
                 </div>
+              </div>
+              <div className="flex justify-end">
+                <button type="button" onClick={handleForgotPassword} className="text-sm text-primary hover:underline font-medium">
+                  Forgot password?
+                </button>
               </div>
               <Button type="submit" className="w-full bg-gradient-primary hover:opacity-90 text-primary-foreground font-semibold py-6" disabled={isLoading}>
                 {isLoading ? (
@@ -195,14 +199,7 @@ const Login = () => {
 
       {/* Right side - Video background with logo */}
       <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          src="/videos/login-right.mp4"
-        />
+        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover" src="/videos/login-right.mp4" />
       </div>
     </div>
   );
