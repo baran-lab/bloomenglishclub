@@ -379,6 +379,7 @@ export type Database = {
           read_ct: number
         }[]
       }
+      validate_access_code: { Args: { p_code: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
