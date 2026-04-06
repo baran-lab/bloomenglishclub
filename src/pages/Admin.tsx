@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, Users, BarChart2, Settings, Trash2, RefreshCw, Download, Upload, KeyRound, Copy, CheckCircle, XCircle, Clock, Plus, Shield } from 'lucide-react';
+import { ChevronLeft, Users, BarChart2, Settings, Trash2, RefreshCw, Download, Upload, KeyRound, Copy, CheckCircle, XCircle, Clock, Plus, Shield, Mail, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -119,6 +119,38 @@ const Admin: React.FC = () => {
     const a = document.createElement('a');
     a.href = url; a.download = 'access-codes.csv'; a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleSendCodeEmail = async (request: BetaRequest) => {
+    // Find an available unused code
+    const availableCode = codes.find(c => !c.is_used);
+    if (!availableCode) {
+      toast({ title: 'No available codes', description: 'Generate more access codes first.', variant: 'destructive' });
+      return;
+    }
+
+    try {
+      // Send the email
+      const { error: emailError } = await supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'access-code-invite',
+          recipientEmail: request.email,
+          idempotencyKey: `access-code-${request.id}-${availableCode.id}`,
+          templateData: { name: request.name, accessCode: availableCode.code },
+        },
+      });
+
+      if (emailError) throw emailError;
+
+      // Update request status and link the code
+      await supabase.from('beta_requests').update({ status: 'approved', access_code_id: availableCode.id }).eq('id', request.id);
+
+      toast({ title: `Access code sent to ${request.name}! 📧` });
+      fetchRequests();
+      fetchCodes();
+    } catch (error: any) {
+      toast({ title: 'Failed to send email', description: error?.message || 'Please try again.', variant: 'destructive' });
+    }
   };
 
   if (isAdmin === null) {
@@ -279,6 +311,7 @@ const Admin: React.FC = () => {
                       <th className="text-left p-3 text-sm font-medium text-muted-foreground">Email</th>
                       <th className="text-left p-3 text-sm font-medium text-muted-foreground">Status</th>
                       <th className="text-left p-3 text-sm font-medium text-muted-foreground hidden md:table-cell">Date</th>
+                      <th className="text-right p-3 text-sm font-medium text-muted-foreground">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -298,6 +331,13 @@ const Admin: React.FC = () => {
                         </td>
                         <td className="p-3 text-sm text-muted-foreground hidden md:table-cell">
                           {new Date(req.created_at).toLocaleDateString()}
+                        </td>
+                        <td className="p-3 text-right">
+                          {req.status === 'pending' && (
+                            <Button size="sm" variant="outline" className="gap-1" onClick={() => handleSendCodeEmail(req)}>
+                              <Send className="w-3 h-3" /> Send Code
+                            </Button>
+                          )}
                         </td>
                       </tr>
                     ))}
