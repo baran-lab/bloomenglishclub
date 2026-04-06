@@ -163,7 +163,7 @@ export const whereIsThePractice2: VideoFillInBlankItem[] = [
     options: ['on', 'next to', 'between'],
   },
   {
-    videoUrl: '/videos/module3/m3-p1b.mp4',
+    videoUrl: '/videos/module3/m3-playground.mp4',
     question: 'Where is the park?',
     sentenceBefore: "It's",
     sentenceAfter: 'Bliss Avenue and Main Street.',
