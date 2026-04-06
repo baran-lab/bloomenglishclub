@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { playAppJingle } from "@/utils/appJingle";
 import { useToast } from "@/hooks/use-toast";
 import { useTrackingSystem } from "@/hooks/useTrackingSystem";
+import { useAuthIdentity } from "@/hooks/useAuthIdentity";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -24,14 +25,15 @@ const Index = () => {
     // Only Module 1 is unlocked by default; others unlock sequentially
     return mockModules;
   });
-  const [userProgress, setUserProgress] = useState(mockUserProgress);
+  const [userProgress, setUserProgress] = useState(() => ({ ...mockUserProgress, name: 'Friend' }));
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const { toast } = useToast();
   const hasPlayedJingle = useRef(false);
   const { startSession, endSession, getSessionDuration, currentSession } = useTrackingSystem();
-  
-  const userName = localStorage.getItem('englishville_user_name') || 'Friend';
+  const { fullName, isAdmin } = useAuthIdentity();
+
+  const userName = fullName || 'Friend';
 
   // Calculate total time spent (mock data + current session)
   const totalTimeSpent = userProgress.totalTimeSpent || 0;
@@ -53,6 +55,10 @@ const Index = () => {
       startSession();
     }
   }, [startSession]);
+
+  useEffect(() => {
+    setUserProgress((prev) => prev.name === userName ? prev : { ...prev, name: userName });
+  }, [userName]);
 
   // Handle page unload
   useEffect(() => {

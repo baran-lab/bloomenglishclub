@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, Eye, EyeOff, ArrowRight, User, KeyRound } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { AccountSessionCard } from "@/components/AccountSessionCard";
+import { useAuthIdentity } from "@/hooks/useAuthIdentity";
+import { ensureBaseUserRole } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 
 const Signup = () => {
@@ -13,41 +16,17 @@ const Signup = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { email: activeEmail, fullName: activeFullName, isReady, user } = useAuthIdentity();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    accessCode: "",
   });
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
-        navigate('/');
-      }
-    });
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        navigate('/');
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
-
-  const validateAccessCode = async (code: string): Promise<boolean> => {
-    const { data, error } = await supabase.rpc('validate_access_code', {
-      p_code: code.trim().toUpperCase()
-    });
-    if (error) return false;
-    return data === true;
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast({ title: "Invalid email", description: "Please enter a valid email address.", variant: "destructive" });
@@ -69,28 +48,11 @@ const Signup = () => {
       return;
     }
 
-    if (!formData.accessCode.trim()) {
-      toast({ title: "Access code required", description: "Please enter your beta access code.", variant: "destructive" });
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      // Validate access code first
-      const isValidCode = await validateAccessCode(formData.accessCode);
-      if (!isValidCode) {
-        toast({
-          title: "Invalid access code",
-          description: "This code is invalid, expired, or has already been used. Please check your code and try again.",
-          variant: "destructive",
-        });
-        setIsLoading(false);
-        return;
-      }
-
       const redirectUrl = `${window.location.origin}/`;
-      
+
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -116,33 +78,41 @@ const Signup = () => {
         return;
       }
 
-      // Claim the access code atomically
       if (data.user) {
-        const { data: claimed } = await supabase.rpc('claim_access_code', {
-          p_code: formData.accessCode.trim().toUpperCase(),
-          p_user_id: data.user.id,
-        });
-
-        if (!claimed) {
-          toast({
-            title: "Code already used",
-            description: "This access code was just claimed by someone else. Please use a different code.",
-            variant: "destructive",
-          });
-          return;
-        }
+        await ensureBaseUserRole(data.user.id);
       }
 
       if (data.session) {
         toast({ title: "Welcome to Bloom English Club! 🎉", description: "Your account has been created successfully." });
         navigate('/');
+      } else {
+        toast({ title: "Check your email", description: "Please confirm your email to finish creating your account." });
+        navigate('/login');
       }
-    } catch (error) {
+    } catch {
       toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
   };
+
+  const handleSwitchAccount = async () => {
+    await supabase.auth.signOut();
+  };
+
+  if (isReady && user) {
+    return (
+      <AccountSessionCard
+        continueLabel="Continue to dashboard"
+        description="A different user is already signed in on this device, so switch accounts before creating a new student account."
+        email={activeEmail}
+        fullName={activeFullName}
+        onContinue={() => navigate('/')}
+        onSwitchAccount={handleSwitchAccount}
+        title="You’re already signed in"
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
@@ -164,11 +134,10 @@ const Signup = () => {
             Join Bloom English Club
           </h1>
           <p className="text-muted-foreground mt-2">
-            Enter your access code to create an account
+            Create your account with your name, email, and password
           </p>
-          <div className="mt-3 inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-4 py-2 rounded-full text-sm font-medium">
-            <KeyRound className="w-4 h-4" />
-            Private Beta — Invite Only
+          <div className="mt-3 inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-4 py-2 rounded-full text-sm font-medium">
+            Beta test signup is now open
           </div>
         </div>
 
@@ -179,26 +148,6 @@ const Signup = () => {
           className="bg-card rounded-2xl shadow-card p-6 sm:p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Access Code Field - First and prominent */}
-            <div className="space-y-2">
-              <Label htmlFor="accessCode" className="text-primary font-semibold">Access Code</Label>
-              <div className="relative">
-                <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary" />
-                <Input
-                  id="accessCode"
-                  type="text"
-                  placeholder="Enter your access code"
-                  value={formData.accessCode}
-                  onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
-                  className="pl-10 h-12 border-primary/30 focus:border-primary uppercase tracking-widest font-mono text-lg"
-                  required
-                />
-              </div>
-              <p className="text-xs text-muted-foreground">Check your email for your unique access code</p>
-            </div>
-
-            <div className="border-t border-border pt-4" />
-
             <div className="space-y-2">
               <Label htmlFor="fullName">Full Name</Label>
               <div className="relative">
@@ -264,10 +213,7 @@ const Signup = () => {
         </motion.div>
 
         <div className="text-center mt-6">
-          <p className="text-sm text-muted-foreground">
-            Don't have an access code?{" "}
-            <Link to="/request-access" className="text-primary font-semibold hover:underline">Request one here</Link>
-          </p>
+          <p className="text-sm text-muted-foreground">No invite code is needed for the beta test.</p>
         </div>
       </motion.div>
     </div>

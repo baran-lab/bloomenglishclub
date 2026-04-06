@@ -8,6 +8,7 @@ interface HamburgerMenuProps {
   isOpen: boolean;
   onClose: () => void;
   userName: string;
+  showAdmin?: boolean;
   onNavigate?: (section: string) => void;
 }
 
@@ -15,6 +16,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   isOpen,
   onClose,
   userName,
+  showAdmin = false,
   onNavigate,
 }) => {
   const navigate = useNavigate();
@@ -29,6 +31,8 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'admin', label: 'Admin Facility', icon: Shield },
   ];
+
+  const visibleMenuItems = menuItems.filter((item) => item.id !== 'admin' || showAdmin);
 
   const handleItemClick = (itemId: string) => {
     if (itemId === 'admin') {
@@ -104,7 +108,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
 
             {/* Menu Items */}
             <nav className="p-4 space-y-1">
-              {menuItems.map((item, index) => {
+              {visibleMenuItems.map((item, index) => {
                 const Icon = item.icon;
                 
                 return (
