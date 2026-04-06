@@ -21,8 +21,8 @@ import { useTrackingSystem } from "@/hooks/useTrackingSystem";
 const Index = () => {
   const navigate = useNavigate();
   const [modules, setModules] = useState<Module[]>(() => {
-    // All modules are unlocked - users can access any module
-    return mockModules.map((m) => ({ ...m, isUnlocked: true }));
+    // Only Module 1 is unlocked by default; others unlock sequentially
+    return mockModules;
   });
   const [userProgress, setUserProgress] = useState(mockUserProgress);
   const [isProfileOpen, setIsProfileOpen] = useState(false);

@@ -64,7 +64,7 @@ export const mockModules: Module[] = [
     title: "Names and Dates",
     description: "Learn the alphabet, spelling, and dates",
     icon: "clipboard",
-    isUnlocked: true,
+    isUnlocked: false,
     isCompleted: false,
     progress: 0,
     tasks: [
@@ -80,7 +80,7 @@ export const mockModules: Module[] = [
     title: "Directions",
     description: "Find your way around town and help others too",
     icon: "map",
-    isUnlocked: true,
+    isUnlocked: false,
     isCompleted: false,
     progress: 0,
     tasks: [
@@ -95,7 +95,7 @@ export const mockModules: Module[] = [
     title: "Health Problems",
     description: "Describe how you feel and understand health advice",
     icon: "heart",
-    isUnlocked: true,
+    isUnlocked: false,
     isCompleted: false,
     progress: 0,
     tasks: [
@@ -110,7 +110,7 @@ export const mockModules: Module[] = [
     title: "Food & Cooking",
     description: "Learn food vocabulary, grocery items, and kitchen words",
     icon: "utensils",
-    isUnlocked: true,
+    isUnlocked: false,
     isCompleted: false,
     progress: 0,
     tasks: [
@@ -125,7 +125,7 @@ export const mockModules: Module[] = [
     title: "Daily Routines",
     description: "Talk about your daily activities and schedule",
     icon: "clock",
-    isUnlocked: true,
+    isUnlocked: false,
     isCompleted: false,
     progress: 0,
     tasks: [
@@ -140,7 +140,7 @@ export const mockModules: Module[] = [
     title: "Current Activities",
     description: "Describe what is happening right now",
     icon: "activity",
-    isUnlocked: true,
+    isUnlocked: false,
     isCompleted: false,
     progress: 0,
     tasks: [
@@ -155,7 +155,7 @@ export const mockModules: Module[] = [
     title: "Simple Past",
     description: "Talk about things that happened before",
     icon: "history",
-    isUnlocked: true,
+    isUnlocked: false,
     isCompleted: false,
     progress: 0,
     tasks: [

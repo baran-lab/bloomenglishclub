@@ -14,8 +14,8 @@ const PracticeSkills = () => {
   const initialTab = searchParams.get('tab') || 'vocabulary';
   const [activeTab, setActiveTab] = useState(initialTab);
 
-  const isPrePublish = true;
-  const completedModules = isPrePublish ? [1, 2] : [];
+  // Module 1 is always accessible; Module 2 games unlock after Module 1 completion
+  const completedModules = [1];
 
   const tabs = [
     { key: 'vocabulary', label: 'Vocabulary', icon: BookOpen },
