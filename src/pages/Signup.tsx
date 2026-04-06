@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { AccountSessionCard } from "@/components/AccountSessionCard";
 import { useAuthIdentity } from "@/hooks/useAuthIdentity";
-import { ensureBaseUserRole } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 
 const Signup = () => {
@@ -76,10 +75,6 @@ const Signup = () => {
       if (data.user && data.user.identities && data.user.identities.length === 0) {
         toast({ title: "Account already exists", description: "An account with this email already exists. Please sign in instead.", variant: "destructive" });
         return;
-      }
-
-      if (data.user) {
-        await ensureBaseUserRole(data.user.id);
       }
 
       if (data.session) {

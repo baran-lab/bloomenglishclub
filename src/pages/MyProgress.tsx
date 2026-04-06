@@ -5,6 +5,7 @@ import { ArrowLeft, Flame, Target, Gamepad2, BookOpen, Mic, Headphones, FileText
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useUserStore } from "@/stores/userStore";
+import { useAuthIdentity } from "@/hooks/useAuthIdentity";
 
 const skillData = [
   { key: "speaking", label: "Speaking", icon: Mic, color: "from-primary to-primary/70", emoji: "🗣" },
@@ -30,7 +31,8 @@ const abilities = [
 export default function MyProgress() {
   const navigate = useNavigate();
   const { userData } = useUserStore();
-  const userName = localStorage.getItem('englishville_user_name') || 'Friend';
+  const { fullName } = useAuthIdentity();
+  const userName = fullName || 'Friend';
 
   const completedModules = userData.completedLessons?.length || 0;
   const totalModules = 8;

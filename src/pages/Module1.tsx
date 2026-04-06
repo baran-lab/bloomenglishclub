@@ -35,6 +35,7 @@ import { RosaNeighborQuiz } from '@/components/module1/RosaNeighborQuiz';
 import { module1Lessons, neighborLessons, Lesson, greetingPhrases } from '@/data/module1Data';
 import { useToast } from '@/hooks/use-toast';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
+import { useAuthIdentity } from '@/hooks/useAuthIdentity';
 import { useMicroWin } from '@/components/MicroWins';
 
 type ViewState = 'language-select' | 'intro-video' | 'lessons' | 'lesson-detail';
@@ -45,13 +46,14 @@ const Module1Content: React.FC = () => {
   const { toast } = useToast();
   const { languageInfo } = useLanguage();
   const { showWin, MicroWinComponent } = useMicroWin();
+  const { fullName, isAdmin } = useAuthIdentity();
+  const userName = fullName || '';
   
   const [viewState, setViewState] = useState<ViewState>('language-select');
   const [lessons, setLessons] = useState<Lesson[]>(module1Lessons);
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [userName, setUserName] = useState(() => localStorage.getItem('englishville_user_name') || '');
   const [showContinue, setShowContinue] = useState(false);
   const [introVideoWatched, setIntroVideoWatched] = useState(false);
 
@@ -243,7 +245,7 @@ const Module1Content: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       {MicroWinComponent}
-      <HamburgerMenu isOpen={showMenu} onClose={() => setShowMenu(false)} userName={userName} />
+      <HamburgerMenu isOpen={showMenu} onClose={() => setShowMenu(false)} userName={userName} showAdmin={isAdmin} />
       
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
