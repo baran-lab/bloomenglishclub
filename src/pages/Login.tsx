@@ -124,22 +124,31 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: '#faf3e0' }}>
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-md">
+      {/* Left side - Login Form with video background */}
+      <div className="relative w-full lg:w-1/2 flex items-center justify-center p-8 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/videos/login-left.mp4"
+        />
+        <div className="absolute inset-0 bg-black/20" />
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="relative z-10 w-full max-w-md">
           {/* Mobile logo */}
           <div className="lg:hidden text-center mb-8">
             <img src={logoImage} alt="Bloom English Club" className="w-32 h-32 mx-auto object-contain" />
           </div>
 
           <div className="text-center mb-8">
-            <h1 className="font-fredoka text-3xl font-bold text-foreground">Welcome Back</h1>
-            <p className="text-muted-foreground mt-1">Sign in to continue learning</p>
+            <h1 className="font-fredoka text-3xl font-bold text-white drop-shadow-lg">Welcome Back</h1>
+            <p className="text-white/80 mt-1 drop-shadow">Sign in to continue learning</p>
           </div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="flex items-center justify-center gap-2 mb-8">
-            <Globe className="w-4 h-4 text-muted-foreground" />
-            <select className="text-sm bg-transparent text-muted-foreground border-none focus:ring-0 cursor-pointer">
+            <Globe className="w-4 h-4 text-white/70" />
+            <select className="text-sm bg-transparent text-white/70 border-none focus:ring-0 cursor-pointer">
               <option value="en">English</option>
               <option value="es">Español</option>
               <option value="ar">العربية</option>
@@ -149,7 +158,7 @@ const Login = () => {
             </select>
           </motion.div>
 
-          <motion.form initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} onSubmit={handleLogin} className="bg-card rounded-2xl p-6 shadow-card">
+          <motion.form initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} onSubmit={handleLogin} className="bg-card/95 backdrop-blur-sm rounded-2xl p-6 shadow-card">
             <h2 className="font-fredoka text-xl font-semibold text-foreground mb-6">Sign in to continue</h2>
             <div className="space-y-4">
               <div>
@@ -184,20 +193,16 @@ const Login = () => {
         </motion.div>
       </div>
 
-      {/* Right side - Logo */}
-      <div className="hidden lg:flex lg:w-1/2 items-center justify-center" style={{ backgroundColor: '#faf3e0' }}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-          className="p-12"
-        >
-          <img
-            src={logoImage}
-            alt="Bloom English Club - Your life. Your English."
-            className="w-full max-w-lg object-contain"
-          />
-        </motion.div>
+      {/* Right side - Video background with logo */}
+      <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/videos/login-right.mp4"
+        />
       </div>
     </div>
   );
