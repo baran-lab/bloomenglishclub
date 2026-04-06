@@ -30,6 +30,7 @@ const PronunciationPractice = lazyWithRetry(() => import("./pages/PronunciationP
 const Admin = lazyWithRetry(() => import("./pages/Admin"));
 const RequestAccess = lazyWithRetry(() => import("./pages/RequestAccess"));
 const Unsubscribe = lazyWithRetry(() => import("./pages/Unsubscribe"));
+const ResetPassword = lazyWithRetry(() => import("./pages/ResetPassword"));
 
 const queryClient = new QueryClient();
 
