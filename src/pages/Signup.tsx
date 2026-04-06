@@ -38,16 +38,11 @@ const Signup = () => {
   }, [navigate]);
 
   const validateAccessCode = async (code: string): Promise<boolean> => {
-    const { data, error } = await supabase
-      .from('access_codes')
-      .select('id, is_used, expires_at')
-      .eq('code', code.trim().toUpperCase())
-      .maybeSingle();
-
-    if (error || !data) return false;
-    if (data.is_used) return false;
-    if (data.expires_at && new Date(data.expires_at) < new Date()) return false;
-    return true;
+    const { data, error } = await supabase.rpc('validate_access_code', {
+      p_code: code.trim().toUpperCase()
+    });
+    if (error) return false;
+    return data === true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
