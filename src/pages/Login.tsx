@@ -18,8 +18,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [loginState, setLoginState] = useState<LoginState>('login');
-  const [videoEnded, setVideoEnded] = useState(false);
   const { email: activeEmail, fullName, isReady, user } = useAuthIdentity();
 
   const handleLogin = async (e: React.FormEvent) => {
