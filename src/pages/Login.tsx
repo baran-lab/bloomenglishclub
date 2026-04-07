@@ -11,7 +11,6 @@ import { AccountSessionCard } from "@/components/AccountSessionCard";
 import { supabase } from "@/integrations/supabase/client";
 import logoImage from "@/assets/bloom-english-club-logo.png";
 
-type LoginState = 'login' | 'welcome-video';
 
 const Login = () => {
   const navigate = useNavigate();
