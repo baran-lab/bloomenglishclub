@@ -11,7 +11,6 @@ import { AccountSessionCard } from "@/components/AccountSessionCard";
 import { supabase } from "@/integrations/supabase/client";
 import logoImage from "@/assets/bloom-english-club-logo.png";
 
-type LoginState = 'login' | 'welcome-video';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,8 +18,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [loginState, setLoginState] = useState<LoginState>('login');
-  const [videoEnded, setVideoEnded] = useState(false);
   const { email: activeEmail, fullName, isReady, user } = useAuthIdentity();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -58,7 +55,7 @@ const Login = () => {
           console.error('Failed to log session:', sessionError);
         }
         toast({ title: "Welcome back! 🎉", description: "You've successfully signed in." });
-        setLoginState('welcome-video');
+        navigate('/');
       }
     } catch {
       toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });
@@ -83,43 +80,9 @@ const Login = () => {
     }
   };
 
-  const handleVideoEnd = () => setVideoEnded(true);
-  const handleContinueToModule = () => navigate("/module/1");
   const handleSwitchAccount = async () => {
     await supabase.auth.signOut();
   };
-
-  if (loginState === 'welcome-video') {
-    return (
-      <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-3xl space-y-6">
-          <div className="text-center space-y-2">
-            <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="font-fredoka text-3xl md:text-4xl font-bold text-foreground">
-              Welcome to Bloom English Club! 🏘️
-            </motion.h1>
-            <p className="text-muted-foreground">Watch this short introduction to get started</p>
-          </div>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="relative rounded-2xl overflow-hidden bg-black shadow-2xl">
-            <video preload="metadata" src="/videos/module1/m1-l1-s1.mp4" controls autoPlay className="w-full aspect-video" onEnded={handleVideoEnd} />
-          </motion.div>
-          <AnimatePresence>
-            {videoEnded && (
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex justify-center">
-                <Button size="lg" onClick={handleContinueToModule} className="gap-2 bg-gradient-primary text-primary-foreground px-8 py-6 text-lg rounded-xl shadow-glow">
-                  Start Learning <ArrowRight className="w-5 h-5" />
-                </Button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          {!videoEnded && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="flex justify-center">
-              <Button variant="ghost" onClick={handleContinueToModule} className="text-muted-foreground hover:text-foreground">Skip intro →</Button>
-            </motion.div>
-          )}
-        </motion.div>
-      </div>
-    );
-  }
 
   if (isReady && user) {
     return (

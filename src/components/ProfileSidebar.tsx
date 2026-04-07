@@ -84,7 +84,7 @@ export function ProfileSidebar({ isOpen, onClose, progress }: ProfileSidebarProp
                   </div>
                   <div>
                     <h3 className="font-fredoka text-xl font-bold">{progress.name}</h3>
-                    <p className="text-primary-foreground/80 text-sm">Level {progress.level} Learner</p>
+                    <p className="text-primary-foreground/80 text-sm">English Learner</p>
                   </div>
                 </div>
 
