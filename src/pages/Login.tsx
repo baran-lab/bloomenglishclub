@@ -58,7 +58,7 @@ const Login = () => {
           console.error('Failed to log session:', sessionError);
         }
         toast({ title: "Welcome back! 🎉", description: "You've successfully signed in." });
-        setLoginState('welcome-video');
+        navigate('/');
       }
     } catch {
       toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });

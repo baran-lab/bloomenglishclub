@@ -50,10 +50,10 @@ export const mockModules: Module[] = [
     icon: "user",
     isUnlocked: true,
     isCompleted: false,
-    progress: 60,
+    progress: 0,
     tasks: [
-      { id: "1-1", title: "Learn 5 greeting phrases", isCompleted: true },
-      { id: "1-2", title: "Practice saying your name", isCompleted: true },
+      { id: "1-1", title: "Learn 5 greeting phrases", isCompleted: false },
+      { id: "1-2", title: "Practice saying your name", isCompleted: false },
       { id: "1-3", title: "Ask someone 'How are you?'", isCompleted: false },
       { id: "1-4", title: "Complete the introduction quiz", isCompleted: false },
     ],
@@ -168,24 +168,24 @@ export const mockModules: Module[] = [
 ];
 
 export const mockUserProgress: UserProgress = {
-  name: "Maria",
+  name: "Friend",
   avatar: "",
-  level: 3,
-  points: 450,
+  level: 1,
+  points: 0,
   badges: [
-    { id: "first-step", name: "First Step", icon: "star", description: "Complete your first lesson", isEarned: true },
-    { id: "week-streak", name: "Week Warrior", icon: "flame", description: "7 day streak", isEarned: true },
+    { id: "first-step", name: "First Step", icon: "star", description: "Complete your first lesson", isEarned: false },
+    { id: "week-streak", name: "Week Warrior", icon: "flame", description: "7 day streak", isEarned: false },
     { id: "vocab-master", name: "Word Collector", icon: "book", description: "Learn 50 words", isEarned: false },
     { id: "speaker", name: "Brave Speaker", icon: "mic", description: "Complete 10 speaking exercises", isEarned: false },
   ],
   modulesCompleted: 0,
   totalModules: 8,
-  vocabulary: { current: 20, total: 500 },
-  everydayEnglish: { current: 10, total: 50 },
-  listening: { current: 5, total: 30 },
-  speaking: { current: 3, total: 20 },
-  streak: 5,
-  totalTimeSpent: 600, // 10 minutes in seconds
+  vocabulary: { current: 0, total: 500 },
+  everydayEnglish: { current: 0, total: 50 },
+  listening: { current: 0, total: 30 },
+  speaking: { current: 0, total: 20 },
+  streak: 0,
+  totalTimeSpent: 0,
 };
 
 export const characters = [
