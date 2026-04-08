@@ -2,7 +2,11 @@ import { motion } from "framer-motion";
 import { Building2, Users } from "lucide-react";
 import { characters } from "@/data/mockData";
 
-export function WelcomeHeader() {
+interface WelcomeHeaderProps {
+  userName?: string;
+}
+
+export function WelcomeHeader({ userName = 'Friend' }: WelcomeHeaderProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -22,6 +26,21 @@ export function WelcomeHeader() {
           </p>
         </div>
       </div>
+
+      {/* User subtitle */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="mt-3 mb-2"
+      >
+        <p className="font-fredoka text-lg text-foreground">
+          Hello, <span className="font-bold text-primary">{userName}</span>! 👋
+        </p>
+        <p className="text-sm text-muted-foreground">
+          You are building your speaking confidence. 💪
+        </p>
+      </motion.div>
 
       {/* Characters strip */}
       <motion.div

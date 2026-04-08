@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useUserStore } from "@/stores/userStore";
 import { useAuthIdentity } from "@/hooks/useAuthIdentity";
+import { microplay } from "@/utils/microplayMessages";
 
 const skillData = [
   { key: "speaking", label: "Speaking", icon: Mic, color: "from-primary to-primary/70", emoji: "🗣" },
@@ -41,24 +42,26 @@ export default function MyProgress() {
   const gamesPlayed = parseInt(localStorage.getItem('englishville_games_played') || '0');
   const tasksCompleted = parseInt(localStorage.getItem('englishville_tasks_completed') || '0');
 
-  // Skill progress (simulated based on activity)
+  // Calculate days since first use
+  const firstUseDate = localStorage.getItem('englishville_first_use');
+  if (!firstUseDate) localStorage.setItem('englishville_first_use', new Date().toISOString());
+  const daysSinceStart = firstUseDate 
+    ? Math.max(1, Math.floor((Date.now() - new Date(firstUseDate).getTime()) / (1000 * 60 * 60 * 24)))
+    : 1;
+
   const getSkillPercent = (key: string) => {
     const base = Math.min(completedModules * 12, 100);
     const offsets: Record<string, number> = { speaking: 5, listening: -5, vocabulary: 10, realLife: -10 };
     return Math.max(0, Math.min(100, base + (offsets[key] || 0)));
   };
 
-  // Unlocked abilities based on progress
   const unlockedAbilities = abilities.filter(a => {
     const moduleProgress = userData.completedLessons?.some((l: string) => l.startsWith(`${a.module}-`));
     return moduleProgress || completedModules >= a.module;
   });
 
-  const lastActivity = localStorage.getItem('englishville_last_activity') || 'Today';
-
   return (
     <div className="min-h-screen bg-gradient-hero">
-      {/* Header */}
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={() => navigate('/')} className="rounded-full">
@@ -69,23 +72,29 @@ export default function MyProgress() {
       </header>
 
       <main className="container max-w-4xl mx-auto px-4 py-6 space-y-6">
-        {/* Encouragement Banner */}
+        {/* Story-based encouragement */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-primary rounded-2xl p-5 text-primary-foreground text-center"
+          className="bg-gradient-primary rounded-2xl p-5 text-primary-foreground"
         >
-          <p className="font-fredoka text-lg font-semibold">🌟 You are doing great, {userName}!</p>
-          <p className="text-sm opacity-80 mt-1">Keep practicing every day</p>
+          <p className="font-fredoka text-lg font-semibold">🌟 Your Learning Story</p>
+          <div className="mt-2 space-y-1 text-sm opacity-90">
+            <p>📅 You started {daysSinceStart === 1 ? 'today' : `${daysSinceStart} days ago`}.</p>
+            {completedModules > 0 && <p>📘 You completed {completedModules} lesson{completedModules > 1 ? 's' : ''}.</p>}
+            {unlockedAbilities.length > 0 && <p>🗣️ Now, you can say {Math.max(unlockedAbilities.length * 3, 1)} sentences.</p>}
+            {streak > 0 && <p>🔥 You've been practicing for {streak} day{streak > 1 ? 's' : ''} in a row!</p>}
+            <p className="font-semibold mt-2">Keep going, {userName}! 💪</p>
+          </div>
         </motion.div>
 
         {/* Overview Cards */}
         <div className="grid grid-cols-2 gap-3">
           {[
-            { label: "Modules", value: `${completedModules} / ${totalModules}`, icon: "📘" },
-            { label: "Tasks", value: `${tasksCompleted} / 30`, icon: "🎯" },
-            { label: "Streak", value: `${streak} days`, icon: "🔥" },
-            { label: "Games", value: `${gamesPlayed}`, icon: "🎮" },
+            { label: "Lessons", value: `${completedModules}`, icon: "📘" },
+            { label: "Tasks", value: `${tasksCompleted}`, icon: "🎯" },
+            { label: "Streak", value: `${streak} day${streak !== 1 ? 's' : ''}`, icon: "🔥" },
+            { label: "Points", value: `${totalPoints}`, icon: "⭐" },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -101,20 +110,21 @@ export default function MyProgress() {
           ))}
         </div>
 
-        {/* Skill Progress */}
+        {/* Skill Progress with Meaning */}
         <div className="bg-card rounded-2xl p-5 shadow-soft border border-border">
-          <h2 className="font-fredoka text-lg font-semibold text-foreground mb-4">Skills</h2>
+          <h2 className="font-fredoka text-lg font-semibold text-foreground mb-4">Your Skills</h2>
           <div className="space-y-4">
             {skillData.map((skill) => {
               const percent = getSkillPercent(skill.key);
+              const storyMsg = microplay.progressStory[skill.key as keyof typeof microplay.progressStory] || '';
               return (
                 <div key={skill.key}>
-                  <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-2">
                       <span>{skill.emoji}</span>
                       <span className="text-sm font-medium text-foreground">{skill.label}</span>
                     </div>
-                    <span className="text-sm font-semibold text-primary">{percent}%</span>
+                    <span className="text-xs text-muted-foreground">{storyMsg}</span>
                   </div>
                   <Progress value={percent} className="h-2.5" />
                 </div>
@@ -129,12 +139,7 @@ export default function MyProgress() {
           {unlockedAbilities.length > 0 ? (
             <div className="space-y-2">
               {unlockedAbilities.map((ability) => (
-                <motion.div
-                  key={ability.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="flex items-center gap-2 text-sm"
-                >
+                <motion.div key={ability.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-2 text-sm">
                   <CheckCircle2 className="w-4 h-4 text-success flex-shrink-0" />
                   <span className="text-foreground">{ability.text}</span>
                 </motion.div>
@@ -143,25 +148,6 @@ export default function MyProgress() {
           ) : (
             <p className="text-sm text-muted-foreground">Complete lessons to unlock abilities!</p>
           )}
-        </div>
-
-        {/* Recent Activity */}
-        <div className="bg-card rounded-2xl p-5 shadow-soft border border-border">
-          <h2 className="font-fredoka text-lg font-semibold text-foreground mb-3">Recent Activity</h2>
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 text-sm">
-              <Calendar className="w-4 h-4 text-muted-foreground" />
-              <span className="text-foreground">Last activity: {lastActivity}</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm">
-              <Flame className="w-4 h-4 text-accent" />
-              <span className="text-foreground">Current streak: {streak} days</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm">
-              <Clock className="w-4 h-4 text-muted-foreground" />
-              <span className="text-foreground">Total points: {totalPoints}</span>
-            </div>
-          </div>
         </div>
 
         {/* Quick Actions */}
