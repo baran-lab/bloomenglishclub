@@ -19,6 +19,8 @@ const coinVideos = [
   { url: '/videos/module5/m5-five.mp4', title: 'Five Dollars', subtitle: '$5' },
   { url: '/videos/module5/m5-ten.mp4', title: 'Ten Dollars', subtitle: '$10' },
   { url: '/videos/module5/m5-twenty.mp4', title: 'Twenty Dollars', subtitle: '$20' },
+  { url: '/videos/module5/m5-fifty.mp4', title: 'Fifty Dollars', subtitle: '$50' },
+  { url: '/videos/module5/m5-one-hundred.mp4', title: 'One Hundred Dollars', subtitle: '$100' },
 ];
 
 const moneyItems = [
