@@ -55,6 +55,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
   const navigate = useNavigate();
   const { selectedLanguage, t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activatedWords, setActivatedWords] = useState<Set<number>>(new Set());
   const [hasRecorded, setHasRecorded] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<string>('');
   const [pronunciationFeedback, setPronunciationFeedback] = useState<string[]>([]);
@@ -230,6 +231,19 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
       
       const text = recognizedText.trim();
       
+      // Word activation
+      const questionWords = currentSlide.questionToAsk.replace(/[?.!]/g, '').split(/\s+/);
+      const normalizedRecognized = text.toLowerCase().replace(/[?.!,'"]/g, '');
+      const recognizedWords = normalizedRecognized.split(/\s+/);
+      const activated = new Set<number>();
+      questionWords.forEach((word, idx) => {
+        const normalizedWord = word.toLowerCase();
+        if (recognizedWords.some(rw => rw === normalizedWord || rw.includes(normalizedWord) || normalizedWord.includes(rw))) {
+          activated.add(idx);
+        }
+      });
+      setActivatedWords(activated);
+      
       // Check pronunciation errors
       const corrections = checkPronunciation(text);
       setPronunciationFeedback(corrections);
@@ -274,6 +288,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     setPronunciationFeedback([]);
     setMissingWords([]);
     setRecognizedText('');
+    setActivatedWords(new Set());
     if (audioUrl) {
       URL.revokeObjectURL(audioUrl);
     }
@@ -388,25 +403,32 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
         className="bg-card rounded-2xl border border-border overflow-hidden"
       >
         <div className="p-6 space-y-6">
-          {/* Task Instruction */}
+           {/* Task Instruction */}
           <div className="text-center space-y-3">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
               <Mic className="w-5 h-5 text-primary" />
               <span className="text-sm font-medium text-primary">Ask {characterName}:</span>
             </div>
             
-            {/* Show ONLY the hint */}
+            {/* Show the full question with word highlighting */}
             <div className="mt-4">
-              <div className="inline-block px-8 py-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border-2 border-amber-300 dark:border-amber-700">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Lightbulb className="w-5 h-5 text-amber-600" />
-                  <span className="text-sm font-medium text-amber-700 dark:text-amber-400">Hint</span>
-                </div>
-                <p className="text-2xl font-bold text-amber-700 dark:text-amber-400">
-                  {currentSlide.hint}
+              <div className="inline-block px-8 py-4 bg-card rounded-xl border-2 border-primary/30">
+                <p className="text-2xl font-bold flex flex-wrap justify-center gap-1.5">
+                  {currentSlide.questionToAsk.replace(/[?.!]/g, '').split(/\s+/).map((word, idx) => (
+                    <span
+                      key={idx}
+                      className={`transition-all duration-300 px-1 py-0.5 rounded ${
+                        activatedWords.has(idx)
+                          ? 'text-green-600 bg-green-100 dark:bg-green-900/30 scale-110'
+                          : 'text-foreground'
+                      }`}
+                    >
+                      {word}{idx === currentSlide.questionToAsk.replace(/[?.!]/g, '').split(/\s+/).length - 1 ? '?' : ''}
+                    </span>
+                  ))}
                 </p>
-                <p className="text-sm text-amber-600 dark:text-amber-500 mt-2">
-                  {translation.hint}
+                <p className="text-sm text-muted-foreground mt-2">
+                  {translation.question}
                 </p>
               </div>
             </div>
