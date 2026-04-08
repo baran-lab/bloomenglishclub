@@ -273,6 +273,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
       {/* Header */}
       <div className="text-center">
         <h3 className="font-fredoka text-xl font-bold text-foreground">{title}</h3>
+        <p className="text-sm text-primary font-medium mt-1">{t('listenAndRepeat') !== 'listenAndRepeat' ? t('listenAndRepeat') : 'Listen and Repeat'}</p>
         <p className="text-sm text-muted-foreground mt-1">
           Video {currentIndex + 1} of {videos.length}
         </p>
@@ -330,11 +331,14 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
         )}
       </div>
 
-      {/* Video Info - minimal, no subtitle prompts */}
+      {/* Video Info */}
       <div className="bg-card rounded-xl border border-border p-4">
         <div className="flex items-center justify-between">
           <div>
             <h4 className="font-semibold text-foreground">{currentVideo.title}</h4>
+            {getTranslation() && (
+              <p className="text-sm text-muted-foreground mt-1">{getTranslation()}</p>
+            )}
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="icon" onClick={togglePlay}>
@@ -357,7 +361,7 @@ export const VideoSeriesLesson: React.FC<VideoSeriesLessonProps> = ({
           className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl border border-primary/20 p-6 space-y-4"
         >
           <div className="text-center">
-            <p className="text-sm text-muted-foreground mb-2">Now say it yourself:</p>
+            <p className="text-sm text-muted-foreground mb-2">{t('nowSayItYourself') !== 'nowSayItYourself' ? t('nowSayItYourself') : 'Now say it yourself:'}</p>
             {/* Word-by-word activation display */}
             <p className="text-xl font-bold flex flex-wrap justify-center gap-1.5">
               {wordParts.map((word, idx) => (
