@@ -231,6 +231,19 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
       
       const text = recognizedText.trim();
       
+      // Word activation
+      const questionWords = currentSlide.questionToAsk.replace(/[?.!]/g, '').split(/\s+/);
+      const normalizedRecognized = text.toLowerCase().replace(/[?.!,'"]/g, '');
+      const recognizedWords = normalizedRecognized.split(/\s+/);
+      const activated = new Set<number>();
+      questionWords.forEach((word, idx) => {
+        const normalizedWord = word.toLowerCase();
+        if (recognizedWords.some(rw => rw === normalizedWord || rw.includes(normalizedWord) || normalizedWord.includes(rw))) {
+          activated.add(idx);
+        }
+      });
+      setActivatedWords(activated);
+      
       // Check pronunciation errors
       const corrections = checkPronunciation(text);
       setPronunciationFeedback(corrections);
