@@ -17,6 +17,7 @@ import { WhatDoWeNeedQuiz } from '@/components/module5/WhatDoWeNeedQuiz';
 import { GroceryListQuiz } from '@/components/module5/GroceryListQuiz';
 import { CoinsAndBills } from '@/components/module5/CoinsAndBills';
 import { HowMuchPriceQuiz } from '@/components/module5/HowMuchPriceQuiz';
+import { SupermarketFlyerQuiz } from '@/components/module5/SupermarketFlyerQuiz';
 
 import { module5Lessons, Module5Lesson, howMuchManySentences } from '@/data/module5Data';
 import { useToast } from '@/hooks/use-toast';
@@ -130,6 +131,8 @@ const Module5Content: React.FC = () => {
         return <CoinsAndBills onComplete={handleLessonComplete} />;
       case 'how-much-price':
         return <HowMuchPriceQuiz onComplete={handleLessonComplete} />;
+      case 'supermarket-flyer':
+        return <SupermarketFlyerQuiz onComplete={handleLessonComplete} />;
       default:
         return null;
     }
