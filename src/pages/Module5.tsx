@@ -131,6 +131,8 @@ const Module5Content: React.FC = () => {
         return <CoinsAndBills onComplete={handleLessonComplete} />;
       case 'how-much-price':
         return <HowMuchPriceQuiz onComplete={handleLessonComplete} />;
+      case 'supermarket-flyer':
+        return <SupermarketFlyerQuiz onComplete={handleLessonComplete} />;
       default:
         return null;
     }
