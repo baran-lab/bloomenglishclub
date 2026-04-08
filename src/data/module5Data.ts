@@ -262,6 +262,11 @@ export const groceryItemsTVideos = [
   { url: '/videos/module5/m5-t-juice.mp4', title: 'Juice', sentenceToRecord: 'Juice.' },
   { url: '/videos/module5/m5-t-rice.mp4', title: 'Rice', sentenceToRecord: 'Rice.' },
   { url: '/videos/module5/m5-t-water.mp4', title: 'Water', sentenceToRecord: 'Water.' },
+  { url: '/videos/module5/m5-t-tea.mp4', title: 'Tea', sentenceToRecord: 'Tea.' },
+  { url: '/videos/module5/m5-t-cheese.mp4', title: 'Cheese', sentenceToRecord: 'Cheese.' },
+  { url: '/videos/module5/m5-t-onions.mp4', title: 'Onions', sentenceToRecord: 'Onions.' },
+  { url: '/videos/module5/m5-t-oranges.mp4', title: 'Oranges', sentenceToRecord: 'Oranges.' },
+  { url: '/videos/module5/m5-t-bananas.mp4', title: 'Bananas', sentenceToRecord: 'Bananas.' },
 ];
 
 
