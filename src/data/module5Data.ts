@@ -457,4 +457,13 @@ export const module5Lessons: Module5Lesson[] = [
     isCompleted: false,
     duration: '10 min',
   },
+  // 21
+  {
+    id: 'm5-how-much-price',
+    title: 'How Much?',
+    description: 'Watch videos and identify the prices you hear',
+    type: 'how-much-price',
+    isCompleted: false,
+    duration: '8 min',
+  },
 ];
