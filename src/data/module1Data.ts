@@ -158,6 +158,8 @@ export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, st
     submit: 'إرسال',
     correct: 'صحيح!',
     tryAgainMessage: 'حاول مرة أخرى!',
+    listenAndRepeat: 'استمع وكرر',
+    nowSayItYourself: 'الآن قلها بنفسك:',
   },
   bengali: {
     showTranslation: 'অনুবাদ দেখান',
@@ -184,6 +186,8 @@ export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, st
     submit: 'জমা দিন',
     correct: 'সঠিক!',
     tryAgainMessage: 'আবার চেষ্টা করুন!',
+    listenAndRepeat: 'শুনুন এবং পুনরাবৃত্তি করুন',
+    nowSayItYourself: 'এবার নিজে বলুন:',
   },
   korean: {
     showTranslation: '번역 보기',
@@ -210,6 +214,8 @@ export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, st
     submit: '제출',
     correct: '정답!',
     tryAgainMessage: '다시 시도해보세요!',
+    listenAndRepeat: '듣고 따라하세요',
+    nowSayItYourself: '이제 직접 말해보세요:',
   },
   spanish: {
     showTranslation: 'Mostrar traducción',
@@ -236,6 +242,8 @@ export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, st
     submit: 'Enviar',
     correct: '¡Correcto!',
     tryAgainMessage: '¡Inténtalo de nuevo!',
+    listenAndRepeat: 'Escucha y repite',
+    nowSayItYourself: 'Ahora dilo tú:',
   },
   turkish: {
     showTranslation: 'Çeviriyi göster',
@@ -262,6 +270,8 @@ export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, st
     submit: 'Gönder',
     correct: 'Doğru!',
     tryAgainMessage: 'Tekrar dene!',
+    listenAndRepeat: 'Dinle ve tekrarla',
+    nowSayItYourself: 'Şimdi kendin söyle:',
   },
   chinese: {
     showTranslation: '显示翻译',
@@ -288,6 +298,8 @@ export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, st
     submit: '提交',
     correct: '正确！',
     tryAgainMessage: '再试一次！',
+    listenAndRepeat: '听并重复',
+    nowSayItYourself: '现在你来说：',
   },
   hebrew: {
     showTranslation: 'הצג תרגום',
@@ -314,6 +326,8 @@ export const uiTranslations: Partial<Record<SupportedLanguage, Record<string, st
     submit: 'שלח',
     correct: '!נכון',
     tryAgainMessage: '!נסה שוב',
+    listenAndRepeat: 'הקשיבו וחזרו',
+    nowSayItYourself: ':עכשיו אמרו בעצמכם',
   },
 };
 
