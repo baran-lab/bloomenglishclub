@@ -251,7 +251,20 @@ export const howMuchManyFillItems: ListeningFillItem[] = [
   },
 ];
 
-// Vocabulary Set 4 - Kitchen Items
+// Grocery Items T-Series Videos (Listen & Repeat)
+export const groceryItemsTVideos = [
+  { url: '/videos/module5/m5-t-sugar.mp4', title: 'Sugar', sentenceToRecord: 'Sugar.' },
+  { url: '/videos/module5/m5-t-soda.mp4', title: 'Soda', sentenceToRecord: 'Soda.' },
+  { url: '/videos/module5/m5-t-meat.mp4', title: 'Meat', sentenceToRecord: 'Meat.' },
+  { url: '/videos/module5/m5-t-flour.mp4', title: 'Flour', sentenceToRecord: 'Flour.' },
+  { url: '/videos/module5/m5-t-bread.mp4', title: 'Bread', sentenceToRecord: 'Bread.' },
+  { url: '/videos/module5/m5-t-milk.mp4', title: 'Milk', sentenceToRecord: 'Milk.' },
+  { url: '/videos/module5/m5-t-juice.mp4', title: 'Juice', sentenceToRecord: 'Juice.' },
+  { url: '/videos/module5/m5-t-rice.mp4', title: 'Rice', sentenceToRecord: 'Rice.' },
+  { url: '/videos/module5/m5-t-water.mp4', title: 'Water', sentenceToRecord: 'Water.' },
+];
+
+
 export const module5Vocabulary4: VocabularyItem[] = [
   { id: 'm5v4-blender', english: 'blender', pronunciation: 'BLEN-der', translations: { arabic: 'خلاط', bengali: 'ব্লেন্ডার', korean: '블렌더', spanish: 'licuadora', turkish: 'blender' } },
   { id: 'm5v4-bowl', english: 'bowl', pronunciation: 'bohl', translations: { arabic: 'وعاء', bengali: 'বাটি', korean: '그릇', spanish: 'tazón', turkish: 'kase' } },
@@ -472,6 +485,25 @@ export const module5Lessons: Module5Lesson[] = [
     title: 'Supermarket Flyer',
     description: 'Watch flyer videos and answer price questions by speaking',
     type: 'supermarket-flyer',
+    isCompleted: false,
+    duration: '8 min',
+  },
+  // 23
+  {
+    id: 'm5-receipt-quiz',
+    title: 'Receipt',
+    description: 'Watch the video and identify the total amount',
+    type: 'receipt-quiz',
+    isCompleted: false,
+    duration: '3 min',
+  },
+  // 24
+  {
+    id: 'm5-grocery-items-videos',
+    title: 'Grocery Items - Listen & Repeat',
+    description: 'Watch and repeat grocery item names',
+    type: 'grocery-items-videos',
+    videos: groceryItemsTVideos,
     isCompleted: false,
     duration: '8 min',
   },
