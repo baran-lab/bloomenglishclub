@@ -58,6 +58,42 @@ const questions = [
     options: ['thirty dollars', 'three dollars'],
     correct: 1,
   },
+  {
+    video: '/videos/module5/m5-how-much-rice.mp4',
+    item: 'Rice',
+    options: ['one dollar and eighty-nine cents', 'one eighty-nine'],
+    correct: 0,
+  },
+  {
+    video: '/videos/module5/m5-how-much-tea.mp4',
+    item: 'Tea',
+    options: ['four dollars and forty-nine', 'four forty-nine'],
+    correct: 1,
+  },
+  {
+    video: '/videos/module5/m5-how-much-water.mp4',
+    item: 'Water',
+    options: ['seven cents', 'seventy-nine cents'],
+    correct: 1,
+  },
+  {
+    video: '/videos/module5/m5-how-much-onions.mp4',
+    item: 'Onions',
+    options: ['ninety-nine cents', 'ninety cents'],
+    correct: 0,
+  },
+  {
+    video: '/videos/module5/m5-how-much-oranges.mp4',
+    item: 'Oranges',
+    options: ['one twenty-nine', 'one dollar and twenty-nine cents'],
+    correct: 1,
+  },
+  {
+    video: '/videos/module5/m5-how-much-bananas.mp4',
+    item: 'Bananas',
+    options: ['one twenty-nine', 'one dollar and twenty-nine cents'],
+    correct: 0,
+  },
 ];
 
 export const HowMuchPriceQuiz: React.FC<HowMuchPriceQuizProps> = ({ onComplete }) => {

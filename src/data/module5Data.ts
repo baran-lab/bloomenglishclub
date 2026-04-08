@@ -464,6 +464,15 @@ export const module5Lessons: Module5Lesson[] = [
     description: 'Watch videos and identify the prices you hear',
     type: 'how-much-price',
     isCompleted: false,
+    duration: '10 min',
+  },
+  // 22
+  {
+    id: 'm5-supermarket-flyer',
+    title: 'Supermarket Flyer',
+    description: 'Watch flyer videos and answer price questions by speaking',
+    type: 'supermarket-flyer',
+    isCompleted: false,
     duration: '8 min',
   },
 ];
