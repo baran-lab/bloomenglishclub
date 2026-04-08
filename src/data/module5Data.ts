@@ -270,7 +270,7 @@ export interface Module5Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'listening-fill-blank' | 'container-videos';
+  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'listening-fill-blank' | 'container-videos' | 'what-do-we-need' | 'grocery-list-quiz' | 'coins-and-bills';
   content?: VocabularyItem[];
   visualContent?: VisualVocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean; sentenceToRecord?: string }[];
@@ -427,6 +427,33 @@ export const module5Lessons: Module5Lesson[] = [
     description: 'Learn container phrases with video and voice practice',
     type: 'container-videos',
     videos: containerVideos,
+    isCompleted: false,
+    duration: '10 min',
+  },
+  // 18
+  {
+    id: 'm5-what-do-we-need',
+    title: 'What Do We Need?',
+    description: 'Watch and identify grocery items you hear',
+    type: 'what-do-we-need',
+    isCompleted: false,
+    duration: '5 min',
+  },
+  // 19
+  {
+    id: 'm5-grocery-list-quiz',
+    title: 'Grocery List',
+    description: 'Answer questions about a grocery list conversation',
+    type: 'grocery-list-quiz',
+    isCompleted: false,
+    duration: '8 min',
+  },
+  // 20
+  {
+    id: 'm5-coins-and-bills',
+    title: 'Coins & Bills',
+    description: 'Learn US coins and bills with videos and matching',
+    type: 'coins-and-bills',
     isCompleted: false,
     duration: '10 min',
   },
