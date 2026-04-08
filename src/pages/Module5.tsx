@@ -13,6 +13,9 @@ import { GroceryDragDrop } from '@/components/module5/GroceryDragDrop';
 import { HowMuchManyDragDrop } from '@/components/module5/HowMuchManyDragDrop';
 import { SentenceOrderPractice } from '@/components/module5/SentenceOrderPractice';
 import { ListeningFillInBlankM5 } from '@/components/module5/ListeningFillInBlankM5';
+import { WhatDoWeNeedQuiz } from '@/components/module5/WhatDoWeNeedQuiz';
+import { GroceryListQuiz } from '@/components/module5/GroceryListQuiz';
+import { CoinsAndBills } from '@/components/module5/CoinsAndBills';
 
 import { module5Lessons, Module5Lesson, howMuchManySentences } from '@/data/module5Data';
 import { useToast } from '@/hooks/use-toast';
@@ -118,6 +121,12 @@ const Module5Content: React.FC = () => {
         return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
       case 'container-videos':
         return <VideoSeriesLesson videos={lesson.videos || []} onComplete={handleLessonComplete} title={lesson.title} />;
+      case 'what-do-we-need':
+        return <WhatDoWeNeedQuiz onComplete={handleLessonComplete} />;
+      case 'grocery-list-quiz':
+        return <GroceryListQuiz onComplete={handleLessonComplete} />;
+      case 'coins-and-bills':
+        return <CoinsAndBills onComplete={handleLessonComplete} />;
       default:
         return null;
     }
