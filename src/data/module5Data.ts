@@ -270,7 +270,7 @@ export interface Module5Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'listening-fill-blank' | 'container-videos' | 'what-do-we-need' | 'grocery-list-quiz' | 'coins-and-bills';
+  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'listening-fill-blank' | 'container-videos' | 'what-do-we-need' | 'grocery-list-quiz' | 'coins-and-bills' | 'how-much-price';
   content?: VocabularyItem[];
   visualContent?: VisualVocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean; sentenceToRecord?: string }[];
@@ -456,5 +456,14 @@ export const module5Lessons: Module5Lesson[] = [
     type: 'coins-and-bills',
     isCompleted: false,
     duration: '10 min',
+  },
+  // 21
+  {
+    id: 'm5-how-much-price',
+    title: 'How Much?',
+    description: 'Watch videos and identify the prices you hear',
+    type: 'how-much-price',
+    isCompleted: false,
+    duration: '8 min',
   },
 ];

@@ -16,6 +16,7 @@ import { ListeningFillInBlankM5 } from '@/components/module5/ListeningFillInBlan
 import { WhatDoWeNeedQuiz } from '@/components/module5/WhatDoWeNeedQuiz';
 import { GroceryListQuiz } from '@/components/module5/GroceryListQuiz';
 import { CoinsAndBills } from '@/components/module5/CoinsAndBills';
+import { HowMuchPriceQuiz } from '@/components/module5/HowMuchPriceQuiz';
 
 import { module5Lessons, Module5Lesson, howMuchManySentences } from '@/data/module5Data';
 import { useToast } from '@/hooks/use-toast';
@@ -127,6 +128,8 @@ const Module5Content: React.FC = () => {
         return <GroceryListQuiz onComplete={handleLessonComplete} />;
       case 'coins-and-bills':
         return <CoinsAndBills onComplete={handleLessonComplete} />;
+      case 'how-much-price':
+        return <HowMuchPriceQuiz onComplete={handleLessonComplete} />;
       default:
         return null;
     }
