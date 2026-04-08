@@ -288,6 +288,7 @@ const SpeakingTestPractice: React.FC<SpeakingTestPracticeProps> = ({
     setPronunciationFeedback([]);
     setMissingWords([]);
     setRecognizedText('');
+    setActivatedWords(new Set());
     if (audioUrl) {
       URL.revokeObjectURL(audioUrl);
     }
