@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
 import { speakText } from '@/utils/speechUtils';
+import { useLanguage } from '@/components/LanguageContext';
 
 interface CoinsAndBillsProps {
   onComplete: () => void;
@@ -55,6 +56,7 @@ type Stage = 'videos' | 'matching';
 
 export const CoinsAndBills: React.FC<CoinsAndBillsProps> = ({ onComplete }) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Video stage
@@ -132,7 +134,7 @@ export const CoinsAndBills: React.FC<CoinsAndBillsProps> = ({ onComplete }) => {
 
         <div className="text-center space-y-2">
           <h2 className="font-fredoka text-2xl font-bold text-foreground">💰 Coins & Bills</h2>
-          <p className="text-muted-foreground text-sm">Listen and repeat: {video.title} ({video.subtitle})</p>
+          <p className="text-muted-foreground text-sm">{t('listenRepeatCoins')}: {video.title} ({video.subtitle})</p>
         </div>
 
         <div className="h-2 bg-muted rounded-full overflow-hidden">
@@ -182,7 +184,7 @@ export const CoinsAndBills: React.FC<CoinsAndBillsProps> = ({ onComplete }) => {
 
       <div className="text-center space-y-2">
         <h2 className="font-fredoka text-2xl font-bold text-foreground">💰 Tap What You Hear</h2>
-        <p className="text-muted-foreground text-sm">Listen to the audio and tap the correct coin or bill.</p>
+        <p className="text-muted-foreground text-sm">{t('tapWhatYouHear')}</p>
       </div>
 
       <div className="h-2 bg-muted rounded-full overflow-hidden">
