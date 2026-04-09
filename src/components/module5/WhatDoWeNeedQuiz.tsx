@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Home, Volume2 } from 'lucide-react';
+import { ArrowRight, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
+import { useLanguage } from '@/components/LanguageContext';
 
 interface WhatDoWeNeedQuizProps {
   onComplete: () => void;
@@ -19,6 +20,7 @@ const items = [
 
 export const WhatDoWeNeedQuiz: React.FC<WhatDoWeNeedQuizProps> = ({ onComplete }) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoEnded, setVideoEnded] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -66,7 +68,7 @@ export const WhatDoWeNeedQuiz: React.FC<WhatDoWeNeedQuizProps> = ({ onComplete }
 
       <div className="text-center space-y-2">
         <h2 className="font-fredoka text-2xl font-bold text-foreground">🛒 What Do We Need?</h2>
-        <p className="text-muted-foreground text-sm">Watch the video, then tap the 3 items you hear.</p>
+        <p className="text-muted-foreground text-sm">{t('watchVideoTapItems')}</p>
       </div>
 
       <div className="rounded-2xl overflow-hidden bg-black shadow-lg">
@@ -75,6 +77,7 @@ export const WhatDoWeNeedQuiz: React.FC<WhatDoWeNeedQuizProps> = ({ onComplete }
           ref={videoRef}
           src="/videos/module5/m5-what-do-we-need.mp4"
           controls
+          autoPlay
           className="w-full aspect-video"
           onEnded={() => setVideoEnded(true)}
         />
@@ -110,13 +113,13 @@ export const WhatDoWeNeedQuiz: React.FC<WhatDoWeNeedQuizProps> = ({ onComplete }
       </div>
 
       <div className="text-center text-sm text-muted-foreground">
-        {selected.size}/3 selected
+        {selected.size}/3 {t('selected')}
       </div>
 
       {!submitted ? (
         <div className="flex justify-center">
           <Button onClick={handleSubmit} disabled={selected.size !== 3} className="gap-2 px-8">
-            Check Answers
+            {t('checkAnswers')}
           </Button>
         </div>
       ) : (
@@ -130,14 +133,14 @@ export const WhatDoWeNeedQuiz: React.FC<WhatDoWeNeedQuizProps> = ({ onComplete }
           >
             <div className="text-3xl mb-2">{isCorrect ? '🎉' : '🤔'}</div>
             <h3 className="font-fredoka text-lg font-bold mb-2">
-              {isCorrect ? 'Great job! That was clear.' : 'Nice try! The correct items are highlighted in green.'}
+              {isCorrect ? t('goodJob') : 'Nice try! The correct items are highlighted in green.'}
             </h3>
             <div className="flex justify-center gap-3 mt-4">
               {!isCorrect && (
-                <Button variant="outline" onClick={handleRetry}>Try Again</Button>
+                <Button variant="outline" onClick={handleRetry}>{t('tryAgain')}</Button>
               )}
               <Button onClick={onComplete} className="gap-2">
-                Continue <ArrowRight className="w-4 h-4" />
+                {t('next')} <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
           </motion.div>

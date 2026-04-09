@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Home, CheckCircle, XCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
+import { useLanguage } from '@/components/LanguageContext';
 
 interface ReceiptQuizProps {
   onComplete: () => void;
@@ -11,12 +12,12 @@ interface ReceiptQuizProps {
 
 export const ReceiptQuiz: React.FC<ReceiptQuizProps> = ({ onComplete }) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
-  const [videoEnded, setVideoEnded] = useState(false);
 
-  const correctIndex = 1; // "One hundred eleven dollars and eight cents"
+  const correctIndex = 1;
   const options = [
     'One dollar eleven and eight cents',
     'One hundred eleven dollars and eight cents',
@@ -40,22 +41,14 @@ export const ReceiptQuiz: React.FC<ReceiptQuizProps> = ({ onComplete }) => {
       </Button>
 
       <h2 className="font-fredoka text-xl font-bold text-foreground">🧾 Receipt</h2>
-      <p className="text-muted-foreground text-sm">Watch the video, then choose the correct total.</p>
+      <p className="text-muted-foreground text-sm">{t('watchVideoChooseAnswer')}</p>
 
       <div className="rounded-xl overflow-hidden border border-border">
-        <video
-          ref={videoRef}
-          src="/videos/module5/m5-total.mp4"
-          controls
-          autoPlay
-          playsInline
-          onEnded={() => setVideoEnded(true)}
-          className="w-full"
-        />
+        <video ref={videoRef} src="/videos/module5/m5-total.mp4" controls autoPlay playsInline className="w-full" />
       </div>
 
       <div className="space-y-3 pt-2">
-        <p className="font-medium text-foreground">What is the total?</p>
+        <p className="font-medium text-foreground">{t('whatIsTheTotal')}</p>
         {options.map((opt, idx) => (
           <motion.button
             key={idx}
@@ -84,7 +77,7 @@ export const ReceiptQuiz: React.FC<ReceiptQuizProps> = ({ onComplete }) => {
       {showResult && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-center pt-4">
           <Button size="lg" onClick={onComplete} className="gap-2 rounded-xl bg-gradient-primary text-primary-foreground px-8">
-            {selected === correctIndex ? '✅ Continue' : 'Continue'}
+            {selected === correctIndex ? '✅ ' : ''}{t('next')}
           </Button>
         </motion.div>
       )}

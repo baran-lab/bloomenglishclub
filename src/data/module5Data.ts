@@ -253,20 +253,20 @@ export const howMuchManyFillItems: ListeningFillItem[] = [
 
 // Grocery Items T-Series Videos (Listen & Repeat)
 export const groceryItemsTVideos = [
-  { url: '/videos/module5/m5-t-sugar.mp4', title: 'Sugar', sentenceToRecord: 'Sugar.' },
-  { url: '/videos/module5/m5-t-soda.mp4', title: 'Soda', sentenceToRecord: 'Soda.' },
-  { url: '/videos/module5/m5-t-meat.mp4', title: 'Meat', sentenceToRecord: 'Meat.' },
-  { url: '/videos/module5/m5-t-flour.mp4', title: 'Flour', sentenceToRecord: 'Flour.' },
-  { url: '/videos/module5/m5-t-bread.mp4', title: 'Bread', sentenceToRecord: 'Bread.' },
-  { url: '/videos/module5/m5-t-milk.mp4', title: 'Milk', sentenceToRecord: 'Milk.' },
-  { url: '/videos/module5/m5-t-juice.mp4', title: 'Juice', sentenceToRecord: 'Juice.' },
-  { url: '/videos/module5/m5-t-rice.mp4', title: 'Rice', sentenceToRecord: 'Rice.' },
-  { url: '/videos/module5/m5-t-water.mp4', title: 'Water', sentenceToRecord: 'Water.' },
-  { url: '/videos/module5/m5-t-tea.mp4', title: 'Tea', sentenceToRecord: 'Tea.' },
-  { url: '/videos/module5/m5-t-cheese.mp4', title: 'Cheese', sentenceToRecord: 'Cheese.' },
-  { url: '/videos/module5/m5-t-onions.mp4', title: 'Onions', sentenceToRecord: 'Onions.' },
-  { url: '/videos/module5/m5-t-oranges.mp4', title: 'Oranges', sentenceToRecord: 'Oranges.' },
-  { url: '/videos/module5/m5-t-bananas.mp4', title: 'Bananas', sentenceToRecord: 'Bananas.' },
+  { url: '/videos/module5/m5-t-sugar.mp4', title: 'Sugar', sentenceToRecord: 'There are three bags of sugar.' },
+  { url: '/videos/module5/m5-t-soda.mp4', title: 'Soda', sentenceToRecord: 'There are two cans of soda.' },
+  { url: '/videos/module5/m5-t-meat.mp4', title: 'Meat', sentenceToRecord: 'There are three packages of meat.' },
+  { url: '/videos/module5/m5-t-flour.mp4', title: 'Flour', sentenceToRecord: 'There are two bags of flour.' },
+  { url: '/videos/module5/m5-t-bread.mp4', title: 'Bread', sentenceToRecord: 'There are four loaves of bread.' },
+  { url: '/videos/module5/m5-t-milk.mp4', title: 'Milk', sentenceToRecord: 'There are two gallons of milk.' },
+  { url: '/videos/module5/m5-t-juice.mp4', title: 'Juice', sentenceToRecord: 'There are three cartons of juice.' },
+  { url: '/videos/module5/m5-t-rice.mp4', title: 'Rice', sentenceToRecord: 'There are three bags of rice.' },
+  { url: '/videos/module5/m5-t-water.mp4', title: 'Water', sentenceToRecord: 'There are six bottles of water.' },
+  { url: '/videos/module5/m5-t-tea.mp4', title: 'Tea', sentenceToRecord: 'There are four boxes of tea.' },
+  { url: '/videos/module5/m5-t-cheese.mp4', title: 'Cheese', sentenceToRecord: 'There are two packages of cheese.' },
+  { url: '/videos/module5/m5-t-onions.mp4', title: 'Onions', sentenceToRecord: 'There are five onions.' },
+  { url: '/videos/module5/m5-t-oranges.mp4', title: 'Oranges', sentenceToRecord: 'There is a pound of oranges.' },
+  { url: '/videos/module5/m5-t-bananas.mp4', title: 'Bananas', sentenceToRecord: 'There are four bananas.' },
 ];
 
 
@@ -288,7 +288,7 @@ export interface Module5Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'listening-fill-blank' | 'container-videos' | 'what-do-we-need' | 'grocery-list-quiz' | 'coins-and-bills' | 'how-much-price' | 'supermarket-flyer' | 'receipt-quiz' | 'grocery-items-videos';
+  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'listening-fill-blank' | 'container-videos' | 'what-do-we-need' | 'grocery-list-quiz' | 'coins-and-bills' | 'how-much-price' | 'supermarket-flyer' | 'receipt-quiz' | 'grocery-items-videos' | 'module-complete';
   content?: VocabularyItem[];
   visualContent?: VisualVocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean; sentenceToRecord?: string }[];
@@ -511,5 +511,14 @@ export const module5Lessons: Module5Lesson[] = [
     videos: groceryItemsTVideos,
     isCompleted: false,
     duration: '8 min',
+  },
+  // 25
+  {
+    id: 'm5-complete',
+    title: 'Module 5 Complete',
+    description: 'Congratulations! You finished Module 5!',
+    type: 'module-complete',
+    isCompleted: false,
+    duration: '1 min',
   },
 ];

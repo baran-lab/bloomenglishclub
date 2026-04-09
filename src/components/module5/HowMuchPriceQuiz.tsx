@@ -4,100 +4,32 @@ import { ArrowRight, Home, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
+import { useLanguage } from '@/components/LanguageContext';
 
 interface HowMuchPriceQuizProps {
   onComplete: () => void;
 }
 
 const questions = [
-  {
-    video: '/videos/module5/m5-how-much-soda.mp4',
-    item: 'Soda',
-    options: ['one dollar and ninety-nine cents', 'one ninety-nine'],
-    correct: 0,
-  },
-  {
-    video: '/videos/module5/m5-how-much-juice.mp4',
-    item: 'Juice',
-    options: ['two forty-nine', 'two dollars and forty-nine cents'],
-    correct: 1,
-  },
-  {
-    video: '/videos/module5/m5-how-much-milk.mp4',
-    item: 'Milk',
-    options: ['one ninety-nine', 'one dollar and ninety-nine cents'],
-    correct: 1,
-  },
-  {
-    video: '/videos/module5/m5-how-much-meat.mp4',
-    item: 'Meat',
-    options: ['six forty-nine', 'six dollars and forty-nine cents'],
-    correct: 0,
-  },
-  {
-    video: '/videos/module5/m5-how-much-bread.mp4',
-    item: 'Bread',
-    options: ['one dollar and nine cents', 'one dollar and ninety cents'],
-    correct: 0,
-  },
-  {
-    video: '/videos/module5/m5-how-much-flour.mp4',
-    item: 'Flour',
-    options: ['one dollar and eighty-nine cents', 'one eighty-nine'],
-    correct: 1,
-  },
-  {
-    video: '/videos/module5/m5-how-much-sugar.mp4',
-    item: 'Sugar',
-    options: ['one seventy-nine', 'one dollar and seventy-nine cents'],
-    correct: 0,
-  },
-  {
-    video: '/videos/module5/m5-how-much-cheese.mp4',
-    item: 'Cheese',
-    options: ['thirty dollars', 'three dollars'],
-    correct: 1,
-  },
-  {
-    video: '/videos/module5/m5-how-much-rice.mp4',
-    item: 'Rice',
-    options: ['one dollar and eighty-nine cents', 'one eighty-nine'],
-    correct: 0,
-  },
-  {
-    video: '/videos/module5/m5-how-much-tea.mp4',
-    item: 'Tea',
-    options: ['four dollars and forty-nine', 'four forty-nine'],
-    correct: 1,
-  },
-  {
-    video: '/videos/module5/m5-how-much-water.mp4',
-    item: 'Water',
-    options: ['seven cents', 'seventy-nine cents'],
-    correct: 1,
-  },
-  {
-    video: '/videos/module5/m5-how-much-onions.mp4',
-    item: 'Onions',
-    options: ['ninety-nine cents', 'ninety cents'],
-    correct: 0,
-  },
-  {
-    video: '/videos/module5/m5-how-much-oranges.mp4',
-    item: 'Oranges',
-    options: ['one twenty-nine', 'one dollar and twenty-nine cents'],
-    correct: 1,
-  },
-  {
-    video: '/videos/module5/m5-how-much-bananas.mp4',
-    item: 'Bananas',
-    options: ['one twenty-nine', 'one dollar and twenty-nine cents'],
-    correct: 0,
-  },
+  { video: '/videos/module5/m5-how-much-soda.mp4', item: 'Soda', options: ['one dollar and ninety-nine cents', 'one ninety-nine'], correct: 0 },
+  { video: '/videos/module5/m5-how-much-juice.mp4', item: 'Juice', options: ['two forty-nine', 'two dollars and forty-nine cents'], correct: 1 },
+  { video: '/videos/module5/m5-how-much-milk.mp4', item: 'Milk', options: ['one ninety-nine', 'one dollar and ninety-nine cents'], correct: 1 },
+  { video: '/videos/module5/m5-how-much-meat.mp4', item: 'Meat', options: ['six forty-nine', 'six dollars and forty-nine cents'], correct: 0 },
+  { video: '/videos/module5/m5-how-much-bread.mp4', item: 'Bread', options: ['one dollar and nine cents', 'one dollar and ninety cents'], correct: 0 },
+  { video: '/videos/module5/m5-how-much-flour.mp4', item: 'Flour', options: ['one dollar and eighty-nine cents', 'one eighty-nine'], correct: 1 },
+  { video: '/videos/module5/m5-how-much-sugar.mp4', item: 'Sugar', options: ['one seventy-nine', 'one dollar and seventy-nine cents'], correct: 0 },
+  { video: '/videos/module5/m5-how-much-cheese.mp4', item: 'Cheese', options: ['thirty dollars', 'three dollars'], correct: 1 },
+  { video: '/videos/module5/m5-how-much-rice.mp4', item: 'Rice', options: ['one dollar and eighty-nine cents', 'one eighty-nine'], correct: 0 },
+  { video: '/videos/module5/m5-how-much-tea.mp4', item: 'Tea', options: ['four dollars and forty-nine', 'four forty-nine'], correct: 1 },
+  { video: '/videos/module5/m5-how-much-water.mp4', item: 'Water', options: ['seven cents', 'seventy-nine cents'], correct: 1 },
+  { video: '/videos/module5/m5-how-much-onions.mp4', item: 'Onions', options: ['ninety-nine cents', 'ninety cents'], correct: 0 },
+  { video: '/videos/module5/m5-how-much-oranges.mp4', item: 'Oranges', options: ['one twenty-nine', 'one dollar and twenty-nine cents'], correct: 1 },
+  { video: '/videos/module5/m5-how-much-bananas.mp4', item: 'Bananas', options: ['one twenty-nine', 'one dollar and twenty-nine cents'], correct: 0 },
 ];
 
 export const HowMuchPriceQuiz: React.FC<HowMuchPriceQuizProps> = ({ onComplete }) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -136,10 +68,10 @@ export const HowMuchPriceQuiz: React.FC<HowMuchPriceQuizProps> = ({ onComplete }
           className="text-center space-y-4 p-6 bg-accent rounded-xl border border-border">
           <div className="text-4xl">🎉</div>
           <h3 className="font-fredoka text-xl font-bold text-primary">
-            {correctCount}/{questions.length} correct!
+            {correctCount}/{questions.length} {t('correct')}
           </h3>
           <p className="text-muted-foreground">Great job learning prices!</p>
-          <Button onClick={onComplete} className="gap-2">Continue <ArrowRight className="w-4 h-4" /></Button>
+          <Button onClick={onComplete} className="gap-2">{t('next')} <ArrowRight className="w-4 h-4" /></Button>
         </motion.div>
       </div>
     );
@@ -156,7 +88,7 @@ export const HowMuchPriceQuiz: React.FC<HowMuchPriceQuizProps> = ({ onComplete }
 
       <div className="text-center space-y-2">
         <h2 className="font-fredoka text-2xl font-bold text-foreground">💲 How Much?</h2>
-        <p className="text-muted-foreground text-sm">Watch the video and tap the price you hear.</p>
+        <p className="text-muted-foreground text-sm">{t('listenAndTapPrice')}</p>
       </div>
 
       <div className="h-2 bg-muted rounded-full overflow-hidden">
@@ -197,7 +129,7 @@ export const HowMuchPriceQuiz: React.FC<HowMuchPriceQuizProps> = ({ onComplete }
       {showResult && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-center">
           <Button onClick={handleNext} className="gap-2 px-8">
-            {currentIdx < questions.length - 1 ? 'Next' : 'See Results'} <ArrowRight className="w-4 h-4" />
+            {currentIdx < questions.length - 1 ? t('next') : 'See Results'} <ArrowRight className="w-4 h-4" />
           </Button>
         </motion.div>
       )}
