@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Home, CheckCircle2, Mic, Square, Play, RotateCcw, SkipForward } from 'lucide-react';
+import { ArrowRight, Home, Mic, Square, RotateCcw, SkipForward } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
 import { speakText } from '@/utils/speechUtils';
+import { useLanguage } from '@/components/LanguageContext';
 
 interface SupermarketFlyerQuizProps {
   onComplete: () => void;
@@ -66,7 +67,7 @@ function isCloseEnough(input: string, target: string): boolean {
   const a = normalize(input);
   const b = normalize(target);
   if (a === b) return true;
-  if (Math.abs(a.length - b.length) > 2) return false;
+  if (Math.abs(a.length - b.length) > 3) return false;
   let diff = 0;
   const longer = a.length >= b.length ? a : b;
   const shorter = a.length < b.length ? a : b;
@@ -79,11 +80,12 @@ function isCloseEnough(input: string, target: string): boolean {
     j++;
   }
   diff += longer.length - j;
-  return diff <= 2;
+  return diff <= 3;
 }
 
 export const SupermarketFlyerQuiz: React.FC<SupermarketFlyerQuizProps> = ({ onComplete }) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
@@ -115,7 +117,7 @@ export const SupermarketFlyerQuiz: React.FC<SupermarketFlyerQuizProps> = ({ onCo
     const recognition = new SpeechRecognition();
     recognition.lang = 'en-US';
     recognition.interimResults = false;
-    recognition.maxAlternatives = 3;
+    recognition.maxAlternatives = 5;
     recognitionRef.current = recognition;
 
     recognition.onresult = (event: any) => {
@@ -137,7 +139,7 @@ export const SupermarketFlyerQuiz: React.FC<SupermarketFlyerQuizProps> = ({ onCo
         setTranscript(results[0] || '');
         setFeedback({
           correct: false,
-          message: "Nice try! Let's try one more time. You're getting closer! 💪",
+          message: "You're doing great! Keep practicing — you're getting closer! 💪",
         });
         playErrorSound();
       }
@@ -183,7 +185,7 @@ export const SupermarketFlyerQuiz: React.FC<SupermarketFlyerQuizProps> = ({ onCo
           <p className="text-muted-foreground">
             You answered {correctCount}/{questions.length} correctly on the first try!
           </p>
-          <Button onClick={onComplete} className="gap-2">Continue <ArrowRight className="w-4 h-4" /></Button>
+          <Button onClick={onComplete} className="gap-2">{t('next')} <ArrowRight className="w-4 h-4" /></Button>
         </motion.div>
       </div>
     );
@@ -200,7 +202,7 @@ export const SupermarketFlyerQuiz: React.FC<SupermarketFlyerQuizProps> = ({ onCo
 
       <div className="text-center space-y-2">
         <h2 className="font-fredoka text-2xl font-bold text-foreground">🛒 Supermarket Flyer</h2>
-        <p className="text-muted-foreground text-sm">Watch the video, listen to the question, then record your answer.</p>
+        <p className="text-muted-foreground text-sm">{t('watchVideoRecordAnswer')}</p>
       </div>
 
       <div className="h-2 bg-muted rounded-full overflow-hidden">
@@ -214,7 +216,7 @@ export const SupermarketFlyerQuiz: React.FC<SupermarketFlyerQuizProps> = ({ onCo
 
       <div className="text-center space-y-3">
         <Button variant="outline" onClick={handleListen} className="gap-2">
-          🔊 Hear the question
+          🔊 {t('hearQuestion')}
         </Button>
         <p className="font-medium text-foreground text-lg">"{q.question}"</p>
       </div>
@@ -256,12 +258,12 @@ export const SupermarketFlyerQuiz: React.FC<SupermarketFlyerQuizProps> = ({ onCo
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-center gap-3">
           {!feedback.correct && (
             <Button variant="outline" onClick={handleRetry} className="gap-2">
-              <RotateCcw className="w-4 h-4" /> Try Again
+              <RotateCcw className="w-4 h-4" /> {t('tryAgain')}
             </Button>
           )}
           <Button onClick={handleNext} className="gap-2">
             {feedback.correct ? (
-              <>{currentIdx < questions.length - 1 ? 'Next' : 'See Results'} <ArrowRight className="w-4 h-4" /></>
+              <>{currentIdx < questions.length - 1 ? t('next') : 'See Results'} <ArrowRight className="w-4 h-4" /></>
             ) : (
               <><SkipForward className="w-4 h-4" /> Skip</>
             )}

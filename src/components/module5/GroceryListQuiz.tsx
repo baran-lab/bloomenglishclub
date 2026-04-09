@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, Home, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { playSuccessSound, playErrorSound } from '@/utils/soundEffects';
 import { speakText } from '@/utils/speechUtils';
+import { useLanguage } from '@/components/LanguageContext';
 
 interface QuizQuestion {
   question: string;
@@ -17,7 +18,7 @@ const questions: QuizQuestion[] = [
   { question: 'Do they need carrots?', options: ['Yes', 'No'], correctIndex: 1 },
   { question: 'How much milk do they need?', options: ['One gallon', 'Two gallons'], correctIndex: 1 },
   { question: 'How many bananas do they need?', options: ['1 banana', '4 bananas'], correctIndex: 1 },
-  { question: 'Do they need coffee?', options: ['Yes', 'No'], correctIndex: 0 },
+  { question: 'Do they need coffee?', options: ['Yes', 'No'], correctIndex: 1 },
   { question: 'How many onions do they need?', options: ['3 onions', '5 onions'], correctIndex: 1 },
   { question: 'Do they need sugar?', options: ['Yes', 'No'], correctIndex: 0 },
   { question: 'Do they need apples?', options: ['Yes', 'No'], correctIndex: 1 },
@@ -29,6 +30,7 @@ interface GroceryListQuizProps {
 
 export const GroceryListQuiz: React.FC<GroceryListQuizProps> = ({ onComplete }) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoEnded, setVideoEnded] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
@@ -79,11 +81,11 @@ export const GroceryListQuiz: React.FC<GroceryListQuizProps> = ({ onComplete }) 
           className="text-center space-y-4 p-6 bg-accent rounded-xl border border-border">
           <div className="text-4xl">🎉</div>
           <h3 className="font-fredoka text-xl font-bold text-primary">
-            Quiz Complete! {correctCount}/{questions.length} correct
+            Quiz Complete! {correctCount}/{questions.length} {t('correct')}
           </h3>
           <p className="text-muted-foreground">Great job understanding the grocery list!</p>
           <Button onClick={onComplete} className="gap-2">
-            Continue <ArrowRight className="w-4 h-4" />
+            {t('next')} <ArrowRight className="w-4 h-4" />
           </Button>
         </motion.div>
       </div>
@@ -104,7 +106,7 @@ export const GroceryListQuiz: React.FC<GroceryListQuizProps> = ({ onComplete }) 
       <div className="text-center space-y-2">
         <h2 className="font-fredoka text-2xl font-bold text-foreground">📝 Grocery List</h2>
         <p className="text-muted-foreground text-sm">
-          {quizStarted ? 'Listen to the question and choose the correct answer.' : 'Watch the video, then answer questions about the grocery list.'}
+          {quizStarted ? t('listenQuestionChooseAnswer') : t('watchVideoAnswerQuestions')}
         </p>
       </div>
 
@@ -112,11 +114,11 @@ export const GroceryListQuiz: React.FC<GroceryListQuizProps> = ({ onComplete }) 
         <>
           <div className="rounded-2xl overflow-hidden bg-black shadow-lg">
             <video preload="metadata" ref={videoRef} src="/videos/module5/m5-grocery-list.mp4"
-              controls className="w-full aspect-video" onEnded={() => setVideoEnded(true)} />
+              controls autoPlay className="w-full aspect-video" onEnded={() => setVideoEnded(true)} />
           </div>
           <div className="flex justify-center">
             <Button onClick={handleStartQuiz} className="gap-2 px-8">
-              Start Quiz <ArrowRight className="w-4 h-4" />
+              {t('startQuiz')} <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
         </>
@@ -125,23 +127,20 @@ export const GroceryListQuiz: React.FC<GroceryListQuizProps> = ({ onComplete }) 
       {quizStarted && (
         <motion.div key={currentQ} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}
           className="space-y-6">
-          {/* Progress */}
           <div className="h-2 bg-muted rounded-full overflow-hidden">
             <motion.div className="h-full bg-primary rounded-full"
               animate={{ width: `${((currentQ + 1) / questions.length) * 100}%` }} />
           </div>
 
-          {/* Question */}
           <div className="bg-card rounded-xl border border-border p-6 text-center space-y-4">
             <Button variant="ghost" size="sm" onClick={playQuestion} className="gap-2">
-              <Volume2 className="w-5 h-5" /> Listen Again
+              <Volume2 className="w-5 h-5" /> {t('listenAgain')}
             </Button>
             <h3 className="font-fredoka text-xl font-semibold text-foreground">
               {questions[currentQ].question}
             </h3>
           </div>
 
-          {/* Options */}
           <div className="grid grid-cols-2 gap-3">
             {questions[currentQ].options.map((opt, idx) => {
               const isSelected = selectedAnswer === idx;
@@ -168,7 +167,7 @@ export const GroceryListQuiz: React.FC<GroceryListQuizProps> = ({ onComplete }) 
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               className="flex justify-center">
               <Button onClick={handleNext} className="gap-2 px-8">
-                {currentQ < questions.length - 1 ? 'Next Question' : 'See Results'} <ArrowRight className="w-4 h-4" />
+                {currentQ < questions.length - 1 ? t('next') : 'See Results'} <ArrowRight className="w-4 h-4" />
               </Button>
             </motion.div>
           )}
