@@ -288,7 +288,7 @@ export interface Module5Lesson {
   id: string;
   title: string;
   description: string;
-  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'listening-fill-blank' | 'container-videos' | 'what-do-we-need' | 'grocery-list-quiz' | 'coins-and-bills' | 'how-much-price' | 'supermarket-flyer' | 'receipt-quiz' | 'grocery-items-videos';
+  type: 'vocabulary' | 'vocabulary-matching' | 'grocery-drag-drop' | 'video-series' | 'how-much-many' | 'sentence-order' | 'listening-fill-blank' | 'container-videos' | 'what-do-we-need' | 'grocery-list-quiz' | 'coins-and-bills' | 'how-much-price' | 'supermarket-flyer' | 'receipt-quiz' | 'grocery-items-videos' | 'module-complete';
   content?: VocabularyItem[];
   visualContent?: VisualVocabularyItem[];
   videos?: { url: string; title: string; subtitle?: string; listenOnly?: boolean; sentenceToRecord?: string }[];
@@ -511,5 +511,14 @@ export const module5Lessons: Module5Lesson[] = [
     videos: groceryItemsTVideos,
     isCompleted: false,
     duration: '8 min',
+  },
+  // 25
+  {
+    id: 'm5-complete',
+    title: 'Module 5 Complete',
+    description: 'Congratulations! You finished Module 5!',
+    type: 'module-complete',
+    isCompleted: false,
+    duration: '1 min',
   },
 ];
