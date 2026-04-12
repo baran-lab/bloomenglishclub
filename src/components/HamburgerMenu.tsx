@@ -61,6 +61,15 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
       onClose();
       return;
     }
+    if (itemId === 'addToHome') {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const message = isIOS
+        ? "Tap the Share button (↑) at the bottom of Safari, then tap 'Add to Home Screen'."
+        : "Tap the menu (⋮) in your browser, then tap 'Add to Home Screen' or 'Install App'.";
+      alert(message);
+      onClose();
+      return;
+    }
     onNavigate?.(itemId);
     onClose();
   };
