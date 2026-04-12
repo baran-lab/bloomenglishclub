@@ -27,7 +27,7 @@ export function CommunitySection() {
         <Button
           size="sm"
           className="gap-1.5"
-          onClick={() => window.open('https://www.facebook.com/groups/', '_blank')}
+          onClick={() => window.open('https://www.facebook.com/share/g/1DtJ9vP9va/', '_blank')}
         >
           <ExternalLink className="w-4 h-4" /> Join our Facebook Group
         </Button>

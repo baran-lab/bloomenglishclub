@@ -199,7 +199,7 @@ const Index = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <Button
                 className="w-full gap-2 h-auto py-4"
-                onClick={() => window.open('https://www.facebook.com/groups/', '_blank')}
+                onClick={() => window.open('https://www.facebook.com/share/g/1DtJ9vP9va/', '_blank')}
               >
                 <ExternalLink className="w-5 h-5" />
                 <div className="text-left">
