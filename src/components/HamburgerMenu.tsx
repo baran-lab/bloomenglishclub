@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Settings, BarChart2, BookOpen, Heart, Share2, Shield, Mic } from 'lucide-react';
+import { X, Settings, BarChart2, BookOpen, Heart, Share2, Shield, Mic, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,6 +28,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     { id: 'practice', label: 'Practice Skills', icon: BookOpen },
     { id: 'pronunciation', label: 'Pronunciation', icon: Mic },
     { id: 'share', label: 'Share Progress', icon: Share2 },
+    { id: 'addToHome', label: 'Add to Home Screen', icon: Smartphone },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'admin', label: 'Admin Facility', icon: Shield },
   ];
@@ -57,6 +58,15 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     }
     if (itemId === 'pronunciation') {
       navigate('/pronunciation');
+      onClose();
+      return;
+    }
+    if (itemId === 'addToHome') {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const message = isIOS
+        ? "Tap the Share button (↑) at the bottom of Safari, then tap 'Add to Home Screen'."
+        : "Tap the menu (⋮) in your browser, then tap 'Add to Home Screen' or 'Install App'.";
+      alert(message);
       onClose();
       return;
     }
