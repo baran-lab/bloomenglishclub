@@ -28,6 +28,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
     { id: 'practice', label: 'Practice Skills', icon: BookOpen },
     { id: 'pronunciation', label: 'Pronunciation', icon: Mic },
     { id: 'share', label: 'Share Progress', icon: Share2 },
+    { id: 'addToHome', label: 'Add to Home Screen', icon: Smartphone },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'admin', label: 'Admin Facility', icon: Shield },
   ];
